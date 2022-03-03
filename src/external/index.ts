@@ -167,6 +167,22 @@ export const getAssets = async (url: string, type: AssetType, id: string): Promi
   return assets;
 };
 
+export const getAsset = async (url: string, type: AssetType, id: string): Promise<any> => {
+  if (!url) {
+    return new Promise<Asset[]>((resolve, reject) => resolve([]));
+  }
+
+  return new Promise<any>((resolve, reject) => {
+    axios
+      .get(url + '/' + id)
+      .then((response: AxiosResponse) => {
+        console.log(response);
+        resolve(response.data);
+      })
+      .catch(error => reject(error));
+  });
+};
+
 export const getFlowType = (flow: any) => {
   switch (flow.type) {
     case 'message':
@@ -352,6 +368,7 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
       },
       interactives: {
         items: {},
+        id: 'id',
         type: AssetType.Interactives,
         endpoint: getURL(endpoints.interactives)
       }

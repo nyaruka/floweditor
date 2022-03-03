@@ -120,7 +120,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
       if (
         this.props.action.type === Types.send_msg ||
         this.props.action.type === Types.send_broadcast ||
-        this.props.action.type === Types.say_msg
+        this.props.action.type === Types.say_msg ||
+        this.props.action.type === Types.send_interactive_msg
       ) {
         localizedKeys.push('text');
       }
@@ -135,6 +136,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
           this.props.localization,
           this.props.language
         );
+
+        console.log(localization);
 
         if (localization.isLocalized()) {
           for (const key of localizedKeys) {
@@ -178,9 +181,12 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
       titleBarClass = shared.missing;
     }
 
-    const events = this.context.config.mutable
-      ? createClickHandler(this.handleActionClicked, () => this.props.selected)
-      : {};
+    const isInteractive =
+      this.props.translating && this.props.action.type === Types.send_interactive_msg;
+    const events =
+      this.context.config.mutable && !isInteractive
+        ? createClickHandler(this.handleActionClicked, () => this.props.selected)
+        : {};
 
     const body = (
       <>

@@ -21,6 +21,7 @@ import i18n from 'config/i18n';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import { Asset } from 'store/flowContext';
 import { AddLabelsFormState } from '../addlabels/AddLabelsForm';
+import { getAsset } from 'external';
 
 export interface SendInteractiveMsgFormState extends FormState {
   interactives: FormEntry;
@@ -151,6 +152,22 @@ export default class SendMsgForm extends React.Component<
         />
       </div>
     );
+  }
+  async componentDidMount(): Promise<any> {
+    const { endpoint, type } = this.props.assetStore.interactives;
+
+    let content = await getAsset(endpoint, type, this.state.interactives.value.id);
+
+    if (content.interactive_content) {
+      this.setState({
+        interactives: {
+          value: {
+            ...this.state.interactives.value,
+            interactive_content: content.interactive_content
+          }
+        }
+      });
+    }
   }
 
   public render(): JSX.Element {

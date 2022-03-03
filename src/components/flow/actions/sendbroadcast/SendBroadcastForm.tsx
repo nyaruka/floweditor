@@ -458,6 +458,7 @@ export default class SendBroadcastForm extends React.Component<
         headerClass={typeConfig.type}
         buttons={this.getButtons()}
         tabs={[templates, attachments]}
+        defaultTab={0}
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <AssetSelector
