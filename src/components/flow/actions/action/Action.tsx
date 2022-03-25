@@ -137,8 +137,6 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
           this.props.language
         );
 
-        console.log(localization);
-
         if (localization.isLocalized()) {
           for (const key of localizedKeys) {
             if (!(key in localization.localizedKeys)) {

@@ -31,7 +31,7 @@ const languageToId: any = {
 
 export const PLACEHOLDER = i18n.t(
   'actions.send_interactive_msg.placeholder',
-  'The interactive message in not available'
+  'The interactive message is not available'
 );
 
 const SendInteractiveMsgComp: React.SFC<SendInteractiveMsg> = (
