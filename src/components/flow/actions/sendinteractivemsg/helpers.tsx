@@ -16,8 +16,8 @@ export const initializeForm = (
 ): SendInteractiveMsgFormState => {
   if (settings.originalAction && settings.originalAction.type === Types.send_interactive_msg) {
     const action = settings.originalAction as SendInteractiveMsg;
-    let { id, text, name } = action;
-    text = JSON.parse(text);
+    let { id, name } = action;
+
     const labels = action.labels
       ? action.labels.map((label: Label) => {
           if (label.name_match) {

@@ -11,24 +11,6 @@ import { connect } from 'react-redux';
 import { getAsset } from 'external';
 import Loading from 'components/loading/Loading';
 
-const languageToId: any = {
-  en: 1,
-  hi: 2,
-  ta: 3,
-  kn: 4,
-  ml: 5,
-  te: 6,
-  or: 7,
-  as: 8,
-  gu: 9,
-  bn: 10,
-  pa: 11,
-  mr: 12,
-  ur: 13,
-  es: 14,
-  isl: 15
-};
-
 export const PLACEHOLDER = i18n.t(
   'actions.send_interactive_msg.placeholder',
   'The interactive message is not available'
@@ -49,10 +31,10 @@ const SendInteractiveMsgComp: React.SFC<SendInteractiveMsg> = (
       if (res.error) {
         setBody(PLACEHOLDER);
       } else {
-        let languageId = languageToId[action.language.id];
+        let languageId = action.language.id;
 
         if (action.language.id === 'base') {
-          languageId = 1;
+          languageId = 'en';
         }
 
         let message = res.translations[languageId];

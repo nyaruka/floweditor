@@ -43,7 +43,6 @@ import { hasFeature } from 'config/typeConfigs';
 import { FeatureFilter } from 'config/interfaces';
 
 import i18n from 'config/i18n';
-import { Trans } from 'react-i18next';
 import { Attachment, renderAttachments, validateURL } from './attachments';
 import { AddLabelsFormState } from '../addlabels/AddLabelsForm';
 
