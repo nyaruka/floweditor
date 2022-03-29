@@ -509,8 +509,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.split_by_groups,
-    name: i18n.t('actions.split_by_groups.name', 'Split by Collection Membership'),
-    description: i18n.t('actions.split_by_groups.description', 'Split by Collection Membership'),
+    name: i18n.t('actions.split_by_groups.name', 'Split by collection Membership'),
+    description: i18n.t('actions.split_by_groups.description', 'Split by collection Membership'),
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     form: GroupsRouterForm

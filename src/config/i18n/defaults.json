@@ -74,8 +74,8 @@
       "name": "Split by Expression"
     },
     "split_by_groups": {
-      "description": "Split by Collection Membership",
-      "name": "Split by Collection Membership"
+      "description": "Split by collection Membership",
+      "name": "Split by collection Membership"
     },
     "split_by_intent": {
       "description": "Split by intent",
