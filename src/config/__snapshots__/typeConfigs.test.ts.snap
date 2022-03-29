@@ -414,13 +414,13 @@ Array [
     "type": "split_by_random",
   },
   Object {
-    "description": "Split by Collection Membership",
+    "description": "Split by collection Membership",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
       "exits",
     ],
-    "name": "Split by Collection Membership",
+    "name": "Split by collection Membership",
     "type": "split_by_groups",
   },
   Object {
@@ -755,13 +755,13 @@ Object {
     "type": "split_by_expression",
   },
   "split_by_groups": Object {
-    "description": "Split by Collection Membership",
+    "description": "Split by collection Membership",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
       "exits",
     ],
-    "name": "Split by Collection Membership",
+    "name": "Split by collection Membership",
     "type": "split_by_groups",
   },
   "split_by_intent": Object {

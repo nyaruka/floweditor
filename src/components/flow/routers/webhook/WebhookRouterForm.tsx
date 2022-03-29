@@ -20,7 +20,6 @@ import * as React from 'react';
 import { FormEntry, FormState, mergeForm, StringEntry, ValidationFailure } from 'store/nodeEditor';
 import {
   LowerCaseAlphaNumeric,
-  Required,
   shouldRequireIf,
   StartIsNonNumeric,
   validate,

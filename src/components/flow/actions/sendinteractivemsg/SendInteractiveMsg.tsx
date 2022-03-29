@@ -1,28 +1,73 @@
 import { SendInteractiveMsg } from 'flowTypes';
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import i18n from 'config/i18n';
-import { getMsgBody } from './helpers';
+import { getHeader, getMsgBody } from './helpers';
 import { renderAssetList } from '../helpers';
 import { AssetType } from 'store/flowContext';
 import { MAX_TO_SHOW } from '../addlabels/AddLabels';
+import AppState from 'store/state';
+import { connect } from 'react-redux';
+import { getAsset } from 'external';
+import Loading from 'components/loading/Loading';
+import { addAsset, DispatchWithState } from 'store/thunks';
+import { bindActionCreators } from 'redux';
 
 export const PLACEHOLDER = i18n.t(
-  'actions.send_msg.placeholder',
-  'Send interactive message to the contact'
+  'actions.send_interactive_msg.placeholder',
+  'The interactive message is not available'
 );
 
-const SendInteractiveMsgComp: React.SFC<SendInteractiveMsg> = (
-  action: SendInteractiveMsg
-): JSX.Element => {
-  const message = JSON.parse(action.text);
-  const body = getMsgBody(message);
-  const endpoints: any = {};
-  let labels = null;
+const SendInteractiveMsgComp: React.SFC<SendInteractiveMsg> = ({
+  assetStore,
+  labels,
+  language,
+  id,
+  addAsset
+}: SendInteractiveMsg): JSX.Element => {
+  const [body, setBody] = useState(null);
+  const [header, setHeader] = useState(null);
+  const { endpoint, type, items } = assetStore.interactives;
 
-  if (action.labels) {
-    labels = renderAssetList(
-      action.labels.map((label: any) => {
+  let languageId = language.id;
+
+  if (language.id === 'base') {
+    languageId = 'en';
+  }
+
+  const interactive: any = items[id];
+
+  useEffect(() => {
+    setHeader(null);
+    setBody(null);
+
+    const setNode = (content: any) => {
+      let message = content.translations[languageId];
+      message = message ? message : content.interactive_content;
+      setBody(getMsgBody(message));
+      setHeader(getHeader(message));
+    };
+
+    if (interactive) {
+      setNode(interactive);
+    } else {
+      getAsset(endpoint, type, id.toString()).then(response => {
+        if (response.error) {
+          setBody(PLACEHOLDER);
+        } else {
+          addAsset('interactives', response);
+          setNode(response);
+        }
+      });
+    }
+  }, [language, id]);
+
+  const endpoints: any = {};
+  let labelsList = null;
+
+  if (labels) {
+    labelsList = renderAssetList(
+      labels.map((label: any) => {
         if (label.name_match) {
           return {
             id: label.name_match,
@@ -40,19 +85,32 @@ const SendInteractiveMsgComp: React.SFC<SendInteractiveMsg> = (
       endpoints
     );
   }
-  if (action.name) {
-    return (
+  return (
+    <div>
       <div>
-        <div>
-          <strong>{action.name}</strong>
-        </div>
-        <div>{body}</div>
-        {labels}
+        <strong>{header}</strong>
       </div>
-    );
-  }
-
-  return <div className="placeholder">{PLACEHOLDER}</div>;
+      <div>{body ? body : <Loading units={5} color="#3498db" size={7} />}</div>
+      {labelsList}
+    </div>
+  );
 };
 
-export default SendInteractiveMsgComp;
+const mapStateToProps = ({ flowContext: { assetStore }, editorState: { language } }: AppState) => ({
+  assetStore,
+  language
+});
+
+/* istanbul ignore next */
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+  bindActionCreators(
+    {
+      addAsset
+    },
+    dispatch
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SendInteractiveMsgComp);

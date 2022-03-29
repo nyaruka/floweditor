@@ -16,8 +16,8 @@ export const initializeForm = (
 ): SendInteractiveMsgFormState => {
   if (settings.originalAction && settings.originalAction.type === Types.send_interactive_msg) {
     const action = settings.originalAction as SendInteractiveMsg;
-    let { id, text, name } = action;
-    text = JSON.parse(text);
+    let { id, name } = action;
+
     const labels = action.labels
       ? action.labels.map((label: Label) => {
           if (label.name_match) {
@@ -26,8 +26,9 @@ export const initializeForm = (
           return label;
         })
       : [];
+
     return {
-      interactives: { value: { id, interactive_content: text, name } },
+      interactives: { value: { id, interactive_content: {}, name } },
       labels: {
         value: labels
       },
@@ -65,6 +66,22 @@ export const stateToAction = (
   return result;
 };
 
+export const getHeader = (message: any) => {
+  let header;
+  if (message) {
+    if (message.type === 'list') {
+      header = message.title;
+    } else if (message.type === 'quick_reply') {
+      if (message.content.type === 'text') {
+        header = message.content.header;
+      } else if (['image', 'video', 'file'].includes(message.content.type)) {
+        header = '';
+      }
+    }
+  }
+  return header;
+};
+
 export const getMsgBody = (message: any) => {
   let body;
   if (message) {
@@ -94,7 +111,9 @@ export const getMsgBody = (message: any) => {
         <div>
           <div>{body}</div>
           {message.options.map((option: any) => (
-            <div className={styles.listButton}>{option.title}</div>
+            <div className={styles.listButton} key={option.title}>
+              {option.title}
+            </div>
           ))}
         </div>
       );

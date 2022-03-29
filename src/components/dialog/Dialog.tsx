@@ -41,6 +41,7 @@ export interface DialogProps {
   noPadding?: boolean;
   tabs?: Tab[];
   className?: string;
+  defaultTab?: number;
 }
 
 export interface DialogState {
@@ -57,7 +58,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
   constructor(props: DialogProps) {
     super(props);
     this.state = {
-      activeTab: -1
+      activeTab: this.props.defaultTab !== null ? this.props.defaultTab : -1
     };
 
     bindCallbacks(this, {

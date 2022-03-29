@@ -1,5 +1,6 @@
 import { Methods } from 'components/flow/routers/webhook/helpers';
 import { FlowTypes, Operators, Types, ContactStatus } from 'config/interfaces';
+import { AssetStore } from 'store/flowContext';
 
 // we don't concern ourselves with patch versions
 export const SPEC_VERSION = '13.1';
@@ -54,7 +55,7 @@ export interface FlowEditorConfig {
   endpoints: Endpoints;
   flow: string;
   flowType: FlowTypes;
-  showNodeUUIDs?: boolean;
+  showNodeLabel?: boolean;
   showTemplates?: boolean;
   showDownload?: boolean;
   mutable?: boolean;
@@ -380,6 +381,9 @@ export interface SendInteractiveMsg extends Action {
   id: number;
   name: string;
   labels?: Label[];
+  assetStore?: AssetStore;
+  language?: any;
+  addAsset?: any;
 }
 
 export interface Delay extends Action {
@@ -531,6 +535,7 @@ export type AnyAction =
   | SetContactName
   | SetRunResult
   | SendMsg
+  | SendInteractiveMsg
   | SetPreferredChannel
   | SendEmail
   | CallClassifier

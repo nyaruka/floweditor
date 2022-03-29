@@ -227,6 +227,7 @@ export default class RouterLocalizationForm extends React.Component<
         headerClass={typeConfig.type}
         buttons={this.getButtons()}
         tabs={tabs}
+        defaultTab={0}
       >
         <p data-spec="instructions">
           When category names are referenced later in the flow, the appropriate language for the

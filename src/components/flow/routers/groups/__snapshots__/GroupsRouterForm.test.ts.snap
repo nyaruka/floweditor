@@ -57,19 +57,19 @@ exports[`GroupsRouterForm render should render 1`] = `
     }
   }
   headerClass="split_by_groups"
-  title="Split by Collection Membership"
+  title="Split by collection Membership"
 >
   <TypeList
     __className=""
     initialType={
       Object {
-        "description": "Split by Collection Membership",
+        "description": "Split by collection Membership",
         "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "exits",
         ],
-        "name": "Split by Collection Membership",
+        "name": "Split by collection Membership",
         "type": "split_by_groups",
       }
     }
