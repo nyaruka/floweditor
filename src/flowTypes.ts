@@ -383,6 +383,7 @@ export interface SendInteractiveMsg extends Action {
   labels?: Label[];
   assetStore?: AssetStore;
   language?: any;
+  addAsset?: any;
 }
 
 export interface Delay extends Action {

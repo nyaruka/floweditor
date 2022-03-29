@@ -176,7 +176,6 @@ export const getAsset = async (url: string, type: AssetType, id: string): Promis
     axios
       .get(url + '/' + id)
       .then((response: AxiosResponse) => {
-        console.log(response);
         resolve(response.data);
       })
       .catch(error => reject(error));

@@ -154,19 +154,36 @@ export default class SendMsgForm extends React.Component<
     );
   }
   async componentDidMount(): Promise<any> {
-    const { endpoint, type } = this.props.assetStore.interactives;
+    const id = this.state.interactives.value.id;
 
-    let content = await getAsset(endpoint, type, this.state.interactives.value.id);
+    if (!id) {
+      return;
+    }
+    const { endpoint, type, items } = this.props.assetStore.interactives;
+    const interactive: any = items[id];
 
-    if (content.interactive_content) {
+    if (interactive) {
       this.setState({
         interactives: {
           value: {
             ...this.state.interactives.value,
-            interactive_content: content.interactive_content
+            interactive_content: interactive.interactive_content
           }
         }
       });
+    } else {
+      let content = await getAsset(endpoint, type, id);
+
+      if (content.interactive_content) {
+        this.setState({
+          interactives: {
+            value: {
+              ...this.state.interactives.value,
+              interactive_content: content.interactive_content
+            }
+          }
+        });
+      }
     }
   }
 
