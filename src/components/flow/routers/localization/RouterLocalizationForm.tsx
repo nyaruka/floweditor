@@ -197,6 +197,8 @@ export default class RouterLocalizationForm extends React.Component<
       return orginalCase.arguments && orginalCase.arguments.length > 0;
     });
 
+    let defaultTab;
+
     if (hasCasesWithArguments) {
       tabs.push({
         name: 'Rule Translations',
@@ -219,6 +221,7 @@ export default class RouterLocalizationForm extends React.Component<
           </>
         )
       });
+      defaultTab = 0;
     }
 
     const categories = (
@@ -227,7 +230,7 @@ export default class RouterLocalizationForm extends React.Component<
         headerClass={typeConfig.type}
         buttons={this.getButtons()}
         tabs={tabs}
-        defaultTab={0}
+        defaultTab={defaultTab}
       >
         <p data-spec="instructions">
           When category names are referenced later in the flow, the appropriate language for the
