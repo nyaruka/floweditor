@@ -458,7 +458,6 @@ export default class SendBroadcastForm extends React.Component<
         headerClass={typeConfig.type}
         buttons={this.getButtons()}
         tabs={[templates, attachments]}
-        defaultTab={0}
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <AssetSelector
@@ -472,16 +471,8 @@ export default class SendBroadcastForm extends React.Component<
           onChange={this.handleRecipientsChanged}
         />
         <p />
-        <TextInputElement
-          name={i18n.t('forms.message', 'Message')}
-          showLabel={false}
-          count={Count.SMS}
-          onChange={this.handleMessageUpdate}
-          entry={this.state.message}
-          autocomplete={true}
-          focus={true}
-          textarea={true}
-        />
+        <p className={styles.message}>Please select a template on the WhatsApp tab</p>
+
         {renderIssues(this.props)}
       </Dialog>
     );
