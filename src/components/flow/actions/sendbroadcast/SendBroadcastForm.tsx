@@ -471,7 +471,16 @@ export default class SendBroadcastForm extends React.Component<
           onChange={this.handleRecipientsChanged}
         />
         <p />
-        <p className={styles.message}>Please select a template on the WhatsApp tab</p>
+        <TextInputElement
+          name={i18n.t('forms.message', 'Message')}
+          showLabel={false}
+          count={Count.SMS}
+          onChange={this.handleMessageUpdate}
+          entry={this.state.message}
+          autocomplete={true}
+          focus={true}
+          textarea={true}
+        />
 
         {renderIssues(this.props)}
       </Dialog>
