@@ -10,6 +10,7 @@ import TembaSelect from 'temba/TembaSelect';
 export interface TypeListProps {
   __className: string;
   initialType: Type;
+  customTitle?: string;
   onChange(config: Type): void;
 }
 
@@ -46,9 +47,14 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
   }
 
   public render(): JSX.Element {
+    let title = i18n.t('forms.type_label', 'When a contact arrives at this point in your flow...');
+
+    if (this.props.customTitle) {
+      title = this.props.customTitle;
+    }
     return (
       <div className={`${this.props.__className} ${styles.type_list}`}>
-        <p>{i18n.t('forms.type_label', 'When a contact arrives at this point in your flow...')}</p>
+        <p>{title}</p>
         <div>
           <TembaSelect
             key="type_select"

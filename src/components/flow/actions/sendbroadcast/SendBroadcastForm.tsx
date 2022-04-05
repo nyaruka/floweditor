@@ -3,10 +3,7 @@ import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { initializeForm, stateToAction } from 'components/flow/actions/sendbroadcast/helpers';
 import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
-import TextInputElement, {
-  Count,
-  TextInputStyle
-} from 'components/form/textinput/TextInputElement';
+import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 
 import TypeList from 'components/nodeeditor/TypeList';
 import { hasUseableTranslation } from 'components/form/assetselector/helpers';
@@ -459,7 +456,13 @@ export default class SendBroadcastForm extends React.Component<
         buttons={this.getButtons()}
         tabs={[templates, attachments]}
       >
-        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
+        <TypeList
+          __className=""
+          initialType={typeConfig}
+          onChange={this.props.onTypeChange}
+          customTitle={'Step 1: When a contact arrives at this point in your flow...'}
+        />
+
         <AssetSelector
           name={i18n.t('forms.recipients', 'Recipients')}
           placeholder={i18n.t('forms.select_contacts', 'Select Contacts')}
@@ -471,16 +474,7 @@ export default class SendBroadcastForm extends React.Component<
           onChange={this.handleRecipientsChanged}
         />
         <p />
-        <TextInputElement
-          name={i18n.t('forms.message', 'Message')}
-          showLabel={false}
-          count={Count.SMS}
-          onChange={this.handleMessageUpdate}
-          entry={this.state.message}
-          autocomplete={true}
-          focus={true}
-          textarea={true}
-        />
+        <p>Step 2: Select a template on the WhatsApp tab</p>
 
         {renderIssues(this.props)}
       </Dialog>

@@ -368,14 +368,16 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
   private handleAttachmentUploaded(response: AxiosResponse) {
     const attachments: any = mutate(this.state.attachments, {
-      $push: [{ type: 'document', url: response.data.url, uploaded: true }]
+      0: {
+        $set: { type: 'document', url: response.data.url, uploaded: true }
+      }
     });
     this.setState({ attachments });
   }
 
   private attachmentValidate(body: any, valid: boolean, validationFailures: any) {
     const attachments: any = mutate(this.state.attachments, {
-      [0]: {
+      0: {
         $set: { type: body.type, url: body.url, valid, validationFailures }
       }
     });
@@ -396,7 +398,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     if (index === -1) {
       attachments = mutate(attachments, {
-        $push: [{ type, url }]
+        $push: [{ type, url, uploaded: false }]
       });
     } else {
       attachments = mutate(attachments, {
