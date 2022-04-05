@@ -26,6 +26,7 @@ const TYPE_OPTIONS: SelectOption[] = [
   { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
   { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
   { value: 'video', name: i18n.t('forms.video_url', 'Video URL') },
+  { value: 'sticker', name: i18n.t('forms.sticker_url', 'Sticker URL') },
   { value: 'document', name: i18n.t('forms.pdf_url', 'PDF Document URL') },
   { value: 'expression', name: i18n.t('forms.expression', 'Expression') }
 ];
@@ -72,6 +73,9 @@ export const handleUploadFile = (
   // mark us as ajax
   headers['X-Requested-With'] = 'XMLHttpRequest';
 
+  headers['authorization'] =
+    'SFMyNTY.MWI1NWQyZmUtNjU0NS00Y2IyLWIwZjEtZWU3M2ZhNTFkYmQx.Va8IKNQ38V6RmHuEwEG2zGngFUMQubTaCdpFvX94ETM';
+
   const data = new FormData();
   data.append('media', files[0]);
   const mediaName = files[0].name;
@@ -95,7 +99,7 @@ export const renderAttachments = (
 ): JSX.Element => {
   const renderedAttachments = attachments.map((attachment, index: number) =>
     attachment.uploaded
-      ? renderUpload(index, attachment, onAttachmentRemoved)
+      ? renderUpload(index, attachment, onAttachmentRemoved, onAttachmentChanged)
       : renderAttachment(
           attachmentsEnabled,
           index,
@@ -144,27 +148,45 @@ export const renderAttachments = (
 export const renderUpload = (
   index: number,
   attachment: Attachment,
-  onAttachmentRemoved: (index: number) => void
+  onAttachmentRemoved: (index: number) => void,
+  onAttachmentChanged: any
 ): JSX.Element => {
   return (
     <div
       className={styles.url_attachment}
       key={index > -1 ? 'url_attachment_' + index : createUUID()}
     >
-      <div className={styles.type_choice}>
-        <SelectElement
-          key={'attachment_type_' + index}
-          name={i18n.t('forms.type', 'Type')}
-          style={TembaSelectStyle.small}
-          entry={{
-            value: {
-              name:
-                attachment.url.length > 20 ? `${attachment.url.slice(0, 20)}...` : attachment.url
-            }
-          }}
-          options={TYPE_OPTIONS}
-          disabled={true}
-        />
+      <div className={styles.attachment_container}>
+        <div className={styles.type}>
+          <SelectElement
+            key={'attachment_type_' + index}
+            style={TembaSelectStyle.small}
+            name={i18n.t('forms.type_options', 'Type Options')}
+            placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
+            entry={{
+              value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
+            }}
+            onChange={(option: any) => {
+              onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
+            }}
+            options={TYPE_OPTIONS}
+          />
+        </div>
+        <div className={styles.type_choice}>
+          <SelectElement
+            key={'attachment_type_' + index}
+            name={i18n.t('forms.type', 'Type')}
+            style={TembaSelectStyle.small}
+            entry={{
+              value: {
+                name:
+                  attachment.url.length > 20 ? `${attachment.url.slice(0, 20)}...` : attachment.url
+              }
+            }}
+            options={TYPE_OPTIONS}
+            disabled={true}
+          />
+        </div>
       </div>
       <div className={styles.url}>
         <span className={styles.upload}>

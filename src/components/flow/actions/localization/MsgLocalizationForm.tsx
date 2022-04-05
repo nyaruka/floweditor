@@ -173,7 +173,7 @@ export default class MsgLocalizationForm extends React.Component<
 
   private attachmentValidate(body: any, valid: boolean, validationFailures: any) {
     const attachments: any = mutate(this.state.attachments, {
-      [0]: {
+      0: {
         $set: { type: body.type, url: body.url, valid, validationFailures }
       }
     });
