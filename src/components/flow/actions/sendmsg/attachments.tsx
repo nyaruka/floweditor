@@ -73,9 +73,6 @@ export const handleUploadFile = (
   // mark us as ajax
   headers['X-Requested-With'] = 'XMLHttpRequest';
 
-  headers['authorization'] =
-    'SFMyNTY.MWI1NWQyZmUtNjU0NS00Y2IyLWIwZjEtZWU3M2ZhNTFkYmQx.Va8IKNQ38V6RmHuEwEG2zGngFUMQubTaCdpFvX94ETM';
-
   const data = new FormData();
   data.append('media', files[0]);
   const mediaName = files[0].name;
