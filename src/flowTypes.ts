@@ -381,9 +381,12 @@ export interface SendInteractiveMsg extends Action {
   id: number;
   name: string;
   labels?: Label[];
+  expression?: any;
   assetStore?: AssetStore;
   language?: any;
   addAsset?: any;
+  params?: any;
+  paramsCount?: any;
 }
 
 export interface Delay extends Action {

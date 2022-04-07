@@ -22,11 +22,22 @@ import AssetSelector from 'components/form/assetselector/AssetSelector';
 import { Asset } from 'store/flowContext';
 import { AddLabelsFormState } from '../addlabels/AddLabelsForm';
 import { getAsset } from 'external';
+import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
+import mutate from 'immutability-helper';
 
+// const MAX_ATTACHMENTS = 10;
 export interface SendInteractiveMsgFormState extends FormState {
   interactives: FormEntry;
   labels?: any;
+  expression?: null | FormEntry;
+  listValues?: Array<any>;
+  listValuesCount?: string;
 }
+
+const additionalOption = {
+  name: 'Expression',
+  text: 'Expression'
+};
 
 export default class SendMsgForm extends React.Component<
   ActionFormProps,
@@ -46,12 +57,21 @@ export default class SendMsgForm extends React.Component<
 
   private handleInteractivesChanged(selected: any[]): void {
     const interactiveMsg = selected ? selected[0] : null;
-
-    this.setState({
-      interactives: {
-        value: interactiveMsg
-      }
-    });
+    if (interactiveMsg.name === 'Expression') {
+      this.setState({
+        expression: { value: '' },
+        interactives: {
+          value: { name: 'Expression' }
+        }
+      });
+    } else {
+      this.setState({
+        expression: null,
+        interactives: {
+          value: interactiveMsg
+        }
+      });
+    }
   }
 
   private handleUpdate(
@@ -110,6 +130,10 @@ export default class SendMsgForm extends React.Component<
     // make sure we validate untouched text fields and contact fields
     let valid = this.handleMessageUpdate(this.state.interactives.value, null, true);
 
+    if (this.state.expression) {
+      valid = true;
+    }
+
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
       // notify our modal we are done
@@ -153,6 +177,60 @@ export default class SendMsgForm extends React.Component<
       </div>
     );
   }
+
+  private handleAttachmentChanged(index: number, value: string): void {
+    let { listValues }: any = this.state;
+    listValues = mutate(listValues, {
+      [index]: {
+        $set: { value }
+      }
+    });
+
+    this.setState({ listValues });
+  }
+
+  private renderListOptions(): JSX.Element {
+    const { listValues } = this.state;
+
+    const renderListOption = (value: any, index: number) => (
+      <div className={styles.listItem}>
+        <TextInputElement
+          placeholder={`variable ${index + 1}`}
+          name={i18n.t('forms.list_item', 'variable')}
+          style={TextInputStyle.normal}
+          onChange={(value: string) => {
+            this.handleAttachmentChanged(index, value);
+          }}
+          entry={value}
+          autocomplete={true}
+        />
+      </div>
+    );
+
+    const values = listValues.map((value, index) => renderListOption(value, index));
+
+    return (
+      <div>
+        <div className={styles.variables_title}>List variables</div>
+
+        <div className={styles.list_container}>
+          <div className={styles.variable_count}>
+            <TextInputElement
+              placeholder={`Number of variables`}
+              name={i18n.t('forms.list_item', '')}
+              style={TextInputStyle.normal}
+              onChange={(value: string) => {
+                this.setState({ listValuesCount: value });
+              }}
+              entry={{ value: this.state.listValuesCount }}
+              autocomplete={true}
+            />
+          </div>
+          {values}
+        </div>
+      </div>
+    );
+  }
   async componentDidMount(): Promise<any> {
     const id = this.state.interactives.value.id;
 
@@ -192,9 +270,11 @@ export default class SendMsgForm extends React.Component<
 
     const currentMessage = this.state.interactives.value;
     let body;
+    let isListType = false;
     if (currentMessage && currentMessage.interactive_content) {
       const message = currentMessage.interactive_content;
       body = getMsgBody(message);
+      isListType = message.type === 'list';
     }
     return (
       <Dialog
@@ -205,6 +285,7 @@ export default class SendMsgForm extends React.Component<
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <AssetSelector
+          additionalOptions={[additionalOption]}
           name={i18n.t('forms.interactive', 'interactive')}
           noOptionsMessage="No interactive messages found"
           placeholder={'Select interactive message'}
@@ -214,7 +295,23 @@ export default class SendMsgForm extends React.Component<
           searchable={true}
           formClearable={true}
         />
+        {this.state.expression && (
+          <div className={styles.expression}>
+            <TextInputElement
+              name="Expression"
+              showLabel={false}
+              placeholder="Expression"
+              onChange={(updatedText: string) => {
+                this.setState({ expression: { value: updatedText } });
+              }}
+              entry={this.state.expression}
+              autocomplete={true}
+            />
+          </div>
+        )}
         <div className={styles.body}> {body}</div>
+
+        {isListType && this.renderListOptions()}
         {this.renderLabelOption()}
       </Dialog>
     );

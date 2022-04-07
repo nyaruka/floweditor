@@ -23,12 +23,14 @@ const SendInteractiveMsgComp: React.SFC<SendInteractiveMsg> = ({
   labels,
   language,
   id,
-  addAsset
+  addAsset,
+  expression
 }: SendInteractiveMsg): JSX.Element => {
   const [body, setBody] = useState(null);
   const [header, setHeader] = useState(null);
   const { endpoint, type, items } = assetStore.interactives;
 
+  console.log(expression);
   let languageId = language.id;
 
   if (language.id === 'base') {
@@ -50,6 +52,8 @@ const SendInteractiveMsgComp: React.SFC<SendInteractiveMsg> = ({
 
     if (interactive) {
       setNode(interactive);
+    } else if (expression || expression === '') {
+      setBody('Expressions used here');
     } else {
       getAsset(endpoint, type, id.toString()).then(response => {
         if (response.error) {
