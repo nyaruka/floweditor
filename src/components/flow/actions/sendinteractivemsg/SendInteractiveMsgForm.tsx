@@ -71,7 +71,8 @@ export default class SendMsgForm extends React.Component<
         expression: null,
         interactives: {
           value: interactiveMsg
-        }
+        },
+        isChecked: false
       });
     }
   }
@@ -315,14 +316,14 @@ export default class SendMsgForm extends React.Component<
           <CheckboxElement
             name={i18n.t('forms.timeout', 'Timeout')}
             checked={this.state.isChecked}
-            description={'Use dynamic fields'}
+            description={'Use dynamic fields (BETA)'}
             onChange={value => {
               this.setState({ isChecked: value });
             }}
           />
         </div>
+        {this.state.isChecked && this.renderListOptions()}
 
-        {isListType && this.state.isChecked && this.renderListOptions()}
         {this.renderLabelOption()}
       </Dialog>
     );

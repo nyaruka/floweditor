@@ -30,7 +30,6 @@ const SendInteractiveMsgComp: React.SFC<SendInteractiveMsg> = ({
   const [header, setHeader] = useState(null);
   const { endpoint, type, items } = assetStore.interactives;
 
-  console.log(expression);
   let languageId = language.id;
 
   if (language.id === 'base') {
