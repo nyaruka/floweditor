@@ -24,6 +24,7 @@ import { AddLabelsFormState } from '../addlabels/AddLabelsForm';
 import { getAsset } from 'external';
 import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 import mutate from 'immutability-helper';
+import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 
 // const MAX_ATTACHMENTS = 10;
 export interface SendInteractiveMsgFormState extends FormState {
@@ -32,6 +33,7 @@ export interface SendInteractiveMsgFormState extends FormState {
   expression?: null | FormEntry;
   listValues?: Array<any>;
   listValuesCount?: string;
+  isChecked?: boolean;
 }
 
 const additionalOption = {
@@ -211,8 +213,6 @@ export default class SendMsgForm extends React.Component<
 
     return (
       <div>
-        <div className={styles.variables_title}>List variables</div>
-
         <div className={styles.list_container}>
           <div className={styles.variable_count}>
             <TextInputElement
@@ -311,7 +311,18 @@ export default class SendMsgForm extends React.Component<
         )}
         <div className={styles.body}> {body}</div>
 
-        {isListType && this.renderListOptions()}
+        <div className={styles.checkbox}>
+          <CheckboxElement
+            name={i18n.t('forms.timeout', 'Timeout')}
+            checked={this.state.isChecked}
+            description={'Use dynamic fields'}
+            onChange={value => {
+              this.setState({ isChecked: value });
+            }}
+          />
+        </div>
+
+        {isListType && this.state.isChecked && this.renderListOptions()}
         {this.renderLabelOption()}
       </Dialog>
     );

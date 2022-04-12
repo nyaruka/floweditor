@@ -27,9 +27,11 @@ export const initializeForm = (
         })
       : [];
 
-    const listValues = params.map((param: string) => {
-      return { value: param };
-    });
+    const listValues = params
+      ? params.map((param: string) => {
+          return { value: param };
+        })
+      : [];
 
     while (listValues.length < 10) {
       listValues.push({ value: '' });
@@ -45,6 +47,10 @@ export const initializeForm = (
       listValuesCount: paramsCount
     };
 
+    if (paramsCount) {
+      returnValue.isChecked = true;
+    }
+
     if (expression || expression === '') {
       returnValue.expression = {
         value: expression
@@ -55,6 +61,7 @@ export const initializeForm = (
   }
 
   return {
+    isChecked: false,
     expression: null,
     interactives: { value: '' },
     labels: {
@@ -92,8 +99,6 @@ export const stateToAction = (
 
   result = {
     id: state.interactives.value.id,
-    params,
-    paramsCount,
     text: JSON.stringify(state.interactives.value.interactive_content),
     name: state.interactives.value.name,
     labels: state.labels.value.map((label: any) => {
@@ -105,6 +110,11 @@ export const stateToAction = (
     type: Types.send_interactive_msg,
     uuid: getActionUUID(settings, Types.send_interactive_msg)
   };
+
+  if (state.isChecked) {
+    result.params = params;
+    result.paramsCount = paramsCount;
+  }
 
   return result;
 };
