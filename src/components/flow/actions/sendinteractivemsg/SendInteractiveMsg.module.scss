@@ -28,3 +28,29 @@
   align-items: center;
   margin-bottom: 6px;
 }
+
+.expression {
+  margin-top: 10px;
+}
+
+.listItem {
+  width: 48% !important;
+  margin: 4px 4px;
+}
+
+.list_container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.variable_count {
+  width: 100%;
+  margin: 4px 8px;
+}
+
+.checkbox {
+  margin: 20px 8px;
+  margin-bottom: 5px;
+}
