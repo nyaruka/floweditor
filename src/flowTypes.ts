@@ -430,6 +430,12 @@ export interface SetRunResult extends Action {
   category?: string;
 }
 
+export interface SetContactProfile extends Action {
+  profile_type: string;
+  value: any;
+  result_name: string;
+}
+
 export interface Headers {
   [name: string]: string;
 }

@@ -79,7 +79,8 @@ export enum AssetType {
   Ticketer = 'ticketer',
   URN = 'urn',
   ValidateMedia = 'validate',
-  Interactives = 'interactives'
+  Interactives = 'interactives',
+  ContactProfile = 'contact_profile'
 }
 
 export interface Reference {

@@ -1,0 +1,25 @@
+.title {
+  margin: 5px;
+  font-size: 9px;
+}
+
+.result_container {
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.input {
+  padding: 10px 20px;
+  display: block;
+}
+
+.error {
+  font-size: 12px;
+  margin-left: 20px;
+  color: red;
+}
+.name_field {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
