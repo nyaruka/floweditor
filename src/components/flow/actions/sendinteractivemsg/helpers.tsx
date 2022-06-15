@@ -16,7 +16,7 @@ export const initializeForm = (
 ): SendInteractiveMsgFormState => {
   if (settings.originalAction && settings.originalAction.type === Types.send_interactive_msg) {
     const action = settings.originalAction as SendInteractiveMsg;
-    let { id, name } = action;
+    let { id, name, expression, params, paramsCount } = action;
 
     const labels = action.labels
       ? action.labels.map((label: Label) => {
@@ -27,21 +27,49 @@ export const initializeForm = (
         })
       : [];
 
-    return {
+    const listValues = params
+      ? params.map((param: string) => {
+          return { value: param };
+        })
+      : [];
+
+    while (listValues.length < 10) {
+      listValues.push({ value: '' });
+    }
+
+    const returnValue: any = {
       interactives: { value: { id, interactive_content: {}, name } },
       labels: {
         value: labels
       },
-      valid: true
+      valid: true,
+      listValues,
+      listValuesCount: paramsCount
     };
+
+    if (paramsCount) {
+      returnValue.isChecked = true;
+    }
+
+    if (expression || expression === '') {
+      returnValue.expression = {
+        value: expression
+      };
+    }
+
+    return returnValue;
   }
 
   return {
+    isChecked: false,
+    expression: null,
     interactives: { value: '' },
     labels: {
       value: []
     },
-    valid: false
+    listValues: Array(10).fill({ value: '' }),
+    valid: false,
+    listValuesCount: ''
   };
 };
 
@@ -49,7 +77,27 @@ export const stateToAction = (
   settings: NodeEditorSettings,
   state: SendInteractiveMsgFormState
 ): SendInteractiveMsg => {
-  const result: SendInteractiveMsg = {
+  let result: any = {};
+
+  const params = state.listValues
+    .filter(listItem => listItem.value !== '')
+    .map(listItem => listItem.value);
+
+  const paramsCount = state.listValuesCount;
+
+  if (state.expression) {
+    result = {
+      params,
+      paramsCount,
+      name: state.interactives.value.name,
+      expression: state.expression.value,
+      type: Types.send_interactive_msg,
+      uuid: getActionUUID(settings, Types.send_interactive_msg)
+    };
+    return result;
+  }
+
+  result = {
     id: state.interactives.value.id,
     text: JSON.stringify(state.interactives.value.interactive_content),
     name: state.interactives.value.name,
@@ -62,6 +110,11 @@ export const stateToAction = (
     type: Types.send_interactive_msg,
     uuid: getActionUUID(settings, Types.send_interactive_msg)
   };
+
+  if (state.isChecked) {
+    result.params = params;
+    result.paramsCount = paramsCount;
+  }
 
   return result;
 };
