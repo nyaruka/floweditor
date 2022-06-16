@@ -353,6 +353,7 @@ export const typeConfigList: Type[] = [
     name: i18n.t('actions.set_contact_profile.name', 'Manage profile'),
     description: i18n.t('actions.set_contact_profile.description', 'Manage profile'),
     form: ContactProfileRouterForm,
+    filter: FeatureFilter.HAS_PROFILE,
     component: ContactProfileRouter
   },
 

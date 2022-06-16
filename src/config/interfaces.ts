@@ -109,6 +109,7 @@ export enum Operators {
 
 export enum FeatureFilter {
   HAS_RESTHOOK = 'resthook',
+  HAS_PROFILE = 'profile',
   HAS_WHATSAPP = 'whatsapp',
   HAS_AIRTIME = 'airtime',
   HAS_CLASSIFIER = 'classifier',
