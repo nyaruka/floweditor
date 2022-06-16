@@ -5,7 +5,7 @@ import { RouterFormProps } from 'components/flow/props';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { FormEntry, FormState, StringEntry } from 'store/nodeEditor';
-import { Numeric, Required, validate } from 'store/validators';
+import { Numeric, Required, shouldRequireIf, validate } from 'store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
 import styles from './ContactProfileRouterForm.module.scss';
@@ -53,6 +53,13 @@ export default class ContactProfileRouterForm extends React.Component<
 
   private handleSave(): void {
     let valid = true;
+
+    const validName = validate('Name', this.state.profileName.value, [shouldRequireIf(true)]);
+
+    if (validName.validationFailures.length > 0) {
+      valid = false;
+    }
+    this.setState({ profileName: validName });
 
     if (valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
