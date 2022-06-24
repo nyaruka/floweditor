@@ -25,6 +25,7 @@ export enum Types {
   set_contact_language = 'set_contact_language',
   set_contact_status = 'set_contact_status',
   set_run_result = 'set_run_result',
+  set_contact_profile = 'set_contact_profile',
   call_classifier = 'call_classifier',
   call_resthook = 'call_resthook',
   call_webhook = 'call_webhook',
@@ -108,6 +109,7 @@ export enum Operators {
 
 export enum FeatureFilter {
   HAS_RESTHOOK = 'resthook',
+  HAS_PROFILE = 'profile',
   HAS_WHATSAPP = 'whatsapp',
   HAS_AIRTIME = 'airtime',
   HAS_CLASSIFIER = 'classifier',

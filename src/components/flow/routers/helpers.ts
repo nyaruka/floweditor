@@ -17,7 +17,8 @@ import {
   WebhookExitNames,
   CallClassifier,
   OpenTicket,
-  Delay
+  Delay,
+  SetContactProfile
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { createUUID, snakify } from 'utils';
@@ -332,7 +333,7 @@ export const resolveRoutes = (
 };
 
 export const createWebhookBasedNode = (
-  action: CallWebhook | CallResthook | OpenTicket | TransferAirtime,
+  action: CallWebhook | CallResthook | OpenTicket | TransferAirtime | SetContactProfile,
   originalNode: RenderNode,
   useCategoryTest: boolean
 ): RenderNode => {
@@ -406,6 +407,8 @@ export const createWebhookBasedNode = (
     splitType = Types.split_by_ticket;
   } else if (action.type === Types.transfer_airtime) {
     splitType = Types.split_by_airtime;
+  } else if (action.type === Types.set_contact_profile) {
+    splitType = Types.set_contact_profile;
   }
 
   return createRenderNode(originalNode.node.uuid, router, exits, splitType, [action]);

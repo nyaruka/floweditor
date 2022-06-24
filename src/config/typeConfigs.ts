@@ -69,6 +69,8 @@ import Sequence from 'components/flow/routers/sequence/Sequence';
 import SendInteractiveMsgComp from 'components/flow/actions/sendinteractivemsg/SendInteractiveMsg';
 import WebhookResultRouterForm from 'components/flow/routers/webhookresult/WebhookResultRouterForm';
 import WebhookResultRouter from 'components/flow/routers/webhookresult/WebhookResultRouter';
+import ContactProfileRouterForm from 'components/flow/routers/contactprofile/ContactProfileRouterForm';
+import ContactProfileRouter from 'components/flow/routers/contactprofile/ContactProfileRouter';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -344,6 +346,15 @@ export const typeConfigList: Type[] = [
     description: i18n.t('actions.set_run_result.description', 'Save a result for this flow'),
     form: SetRunResultForm,
     component: SetRunResultComp
+  },
+
+  {
+    type: Types.set_contact_profile,
+    name: i18n.t('actions.set_contact_profile.name', 'Manage profile'),
+    description: i18n.t('actions.set_contact_profile.description', 'Manage profile'),
+    form: ContactProfileRouterForm,
+    filter: FeatureFilter.HAS_PROFILE,
+    component: ContactProfileRouter
   },
 
   {
