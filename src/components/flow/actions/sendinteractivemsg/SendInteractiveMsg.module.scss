@@ -39,6 +39,8 @@
 }
 
 .list_container {
+  max-height: 200px;
+  overflow: auto;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

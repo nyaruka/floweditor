@@ -1,16 +1,16 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { hasErrors } from 'components/flow/actions/helpers';
+
 import { RouterFormProps } from 'components/flow/props';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
-import { FormEntry, FormState, StringEntry } from 'store/nodeEditor';
-import { Numeric, Required, shouldRequireIf, validate } from 'store/validators';
+import { FormEntry, FormState } from 'store/nodeEditor';
+import { shouldRequireIf, validate } from 'store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
 import styles from './ContactProfileRouterForm.module.scss';
 import i18n from 'config/i18n';
-import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
+import TextInputElement from 'components/form/textinput/TextInputElement';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import { AssetType } from 'store/flowContext';
 

@@ -12,7 +12,7 @@ import { ActionFormProps } from 'components/flow/props';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
-import { FormEntry, FormState, mergeForm } from 'store/nodeEditor';
+import { FormEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
 import styles from './SendInteractiveMsg.module.scss';
 
@@ -34,6 +34,8 @@ export interface SendInteractiveMsgFormState extends FormState {
   listValues?: Array<any>;
   listValuesCount?: string;
   isChecked?: boolean;
+  attachment_type?: StringEntry;
+  attachment_url?: StringEntry;
 }
 
 const additionalOption = {
@@ -228,6 +230,30 @@ export default class SendMsgForm extends React.Component<
             />
           </div>
           {values}
+          <div className={styles.variable_count}>
+            <TextInputElement
+              placeholder={`Attachment type`}
+              name={i18n.t('forms.attachment_type', 'attachment_type')}
+              style={TextInputStyle.normal}
+              onChange={(value: string) => {
+                this.setState({ attachment_type: { value } });
+              }}
+              entry={this.state.attachment_type}
+              autocomplete={true}
+            />
+          </div>
+          <div className={styles.variable_count}>
+            <TextInputElement
+              placeholder={`Attachment url`}
+              name={i18n.t('forms.attachment_url', 'attachment_url')}
+              style={TextInputStyle.normal}
+              onChange={(value: string) => {
+                this.setState({ attachment_url: { value } });
+              }}
+              entry={this.state.attachment_url}
+              autocomplete={true}
+            />
+          </div>
         </div>
       </div>
     );

@@ -387,6 +387,8 @@ export interface SendInteractiveMsg extends Action {
   addAsset?: any;
   params?: any;
   paramsCount?: any;
+  attachment_url?: string;
+  attachment_type?: string;
 }
 
 export interface Delay extends Action {
