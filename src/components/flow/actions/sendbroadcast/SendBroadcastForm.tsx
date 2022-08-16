@@ -208,7 +208,6 @@ export default class SendBroadcastForm extends React.Component<
               };
             })
           : this.state.templateVariables;
-
       this.setState({
         template: { value: template },
         templateTranslation,
