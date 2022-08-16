@@ -37,14 +37,16 @@ export const initializeForm = (
       listValues.push({ value: '' });
     }
 
-    const returnValue: any = {
+    const returnValue: SendInteractiveMsgFormState = {
       interactives: { value: { id, interactive_content: {}, name } },
       labels: {
         value: labels
       },
       valid: true,
       listValues,
-      listValuesCount: paramsCount
+      listValuesCount: paramsCount,
+      attachment_url: { value: action.attachment_url || '' },
+      attachment_type: { value: action.attachment_type || '' }
     };
 
     if (paramsCount) {
@@ -69,7 +71,9 @@ export const initializeForm = (
     },
     listValues: Array(10).fill({ value: '' }),
     valid: false,
-    listValuesCount: ''
+    listValuesCount: '',
+    attachment_url: { value: '' },
+    attachment_type: { value: '' }
   };
 };
 
@@ -114,6 +118,13 @@ export const stateToAction = (
   if (state.isChecked) {
     result.params = params;
     result.paramsCount = paramsCount;
+  }
+
+  if (state.attachment_type) {
+    result.attachment_type = state.attachment_type.value;
+  }
+  if (state.attachment_url) {
+    result.attachment_url = state.attachment_url.value;
   }
 
   return result;
