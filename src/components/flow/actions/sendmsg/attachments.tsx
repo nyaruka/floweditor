@@ -22,16 +22,20 @@ export interface Attachment {
 
 const MAX_ATTACHMENTS = 1;
 
-const TYPE_OPTIONS: SelectOption[] = [
+export const TYPE_OPTIONS: SelectOption[] = [
   { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
   { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
   { value: 'video', name: i18n.t('forms.video_url', 'Video URL') },
   { value: 'sticker', name: i18n.t('forms.sticker_url', 'Sticker URL') },
-  { value: 'document', name: i18n.t('forms.pdf_url', 'PDF Document URL') },
+  { value: 'document', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
+];
+
+const EXTENDED_TYPE_OPTIONS: SelectOption[] = [
+  ...TYPE_OPTIONS,
   { value: 'expression', name: i18n.t('forms.expression', 'Expression') }
 ];
 
-const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([
+const NEW_TYPE_OPTIONS = EXTENDED_TYPE_OPTIONS.concat([
   { value: 'upload', name: i18n.t('forms.upload_attachment', 'Upload Attachment') }
 ]);
 
@@ -58,7 +62,7 @@ export const validateURL = (endpoint: any, body: any, msgForm: any) => {
 let filePicker: any;
 
 const getAttachmentTypeOption = (type: string): SelectOption => {
-  return TYPE_OPTIONS.find((option: SelectOption) => option.value === type);
+  return EXTENDED_TYPE_OPTIONS.find((option: SelectOption) => option.value === type);
 };
 
 export const handleUploadFile = (
@@ -166,7 +170,7 @@ export const renderUpload = (
             onChange={(option: any) => {
               onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
             }}
-            options={TYPE_OPTIONS}
+            options={EXTENDED_TYPE_OPTIONS}
           />
         </div>
         <div className={styles.type_choice}>
@@ -180,7 +184,7 @@ export const renderUpload = (
                   attachment.url.length > 20 ? `${attachment.url.slice(0, 20)}...` : attachment.url
               }
             }}
-            options={TYPE_OPTIONS}
+            options={EXTENDED_TYPE_OPTIONS}
             disabled={true}
           />
         </div>
@@ -242,7 +246,7 @@ export const renderAttachment = (
                 onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
               }
             }}
-            options={attachmentsEnabled ? NEW_TYPE_OPTIONS : TYPE_OPTIONS}
+            options={attachmentsEnabled ? NEW_TYPE_OPTIONS : EXTENDED_TYPE_OPTIONS}
           />
         </div>
         {index > -1 ? (

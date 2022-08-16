@@ -20,7 +20,7 @@ import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { Template, TemplateTranslation } from 'flowTypes';
 import { createUUID, range } from 'utils';
 import styles from './SendBroadcastForm.module.scss';
-import { Attachment } from '../sendmsg/attachments';
+import { Attachment, TYPE_OPTIONS } from '../sendmsg/attachments';
 import { TembaSelectStyle } from 'temba/TembaSelect';
 import Pill from 'components/pill/Pill';
 import Loading from 'components/loading/Loading';
@@ -40,13 +40,6 @@ export interface SendBroadcastFormState extends FormState {
 }
 
 const MAX_ATTACHMENTS = 1;
-
-const TYPE_OPTIONS: SelectOption[] = [
-  { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
-  { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
-  { value: 'video', name: i18n.t('forms.video_url', 'Video URL') },
-  { value: 'application', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
-];
 
 const getAttachmentTypeOption = (type: string): SelectOption => {
   return TYPE_OPTIONS.find((option: SelectOption) => option.value === type);
@@ -71,7 +64,7 @@ export default class SendBroadcastForm extends React.Component<
     if (this.state.template.value !== null) {
       fetchAsset(this.props.assetStore.templates, this.state.template.value.uuid).then(
         (asset: Asset) => {
-          if (asset !== null) {
+          if (asset && asset.content) {
             this.handleTemplateChanged([{ ...this.state.template.value, ...asset.content }]);
           }
         }
@@ -87,7 +80,10 @@ export default class SendBroadcastForm extends React.Component<
     return this.handleUpdate({ text });
   }
 
-  private handleUpdate(keys: { text?: string; recipients?: Asset[] }, submitting = false): boolean {
+  private handleUpdate(
+    keys: { text?: string; recipients?: Asset[]; template?: string },
+    submitting = false
+  ): boolean {
     const updates: Partial<SendBroadcastFormState> = {};
 
     if (keys.hasOwnProperty('recipients')) {
@@ -96,8 +92,8 @@ export default class SendBroadcastForm extends React.Component<
       ]);
     }
 
-    if (keys.hasOwnProperty('text')) {
-      updates.message = validate(i18n.t('forms.message', 'Message'), keys.text!, [
+    if (keys.hasOwnProperty('template')) {
+      updates.template = validate(i18n.t('forms.templates', 'Template'), keys.template!, [
         shouldRequireIf(submitting)
       ]);
     }
@@ -107,25 +103,22 @@ export default class SendBroadcastForm extends React.Component<
     return updated.valid;
   }
 
-  public handleAxios(body: any, type: any) {
+  public handleAxios(body: any) {
     axios
       .get(`${this.props.assetStore.validateMedia.endpoint}?url=${body.url}&type=${body.type}`)
       .then(response => {
         if (response.data.is_valid) {
           // make sure we validate untouched text fields and contact fields
           let valid = true;
-          // check if the recipient is added or not
-          // if not, throw required validation
-          if (this.state.recipients.value!.length <= 0 && !this.state.message.value) {
-            valid = this.handleUpdate(
-              {
-                recipients: this.state.recipients.value!
-              },
-              true
-            );
-          } else if (this.state.recipients.value!.length > 0 && !this.state.message.value) {
-            valid = true;
-          }
+
+          valid = this.handleUpdate(
+            {
+              text: this.state.message.value,
+              recipients: this.state.recipients.value,
+              template: this.state.template.value
+            },
+            true
+          );
 
           if (valid) {
             // this.setState({ validAttachment: false });
@@ -146,41 +139,20 @@ export default class SendBroadcastForm extends React.Component<
 
   private handleSave(): void {
     if (this.state.attachments.length > 0) {
-      const type = this.state.attachments[0].type;
-      const url = this.state.attachments[0].url;
+      this.handleAxios(this.state.attachments[0]);
 
-      let body = {
-        type,
-        url
-      };
-
-      if (type === 'application') {
-        body.type = 'document';
-      }
-      switch (type) {
-        case 'image':
-          this.handleAxios(body, 'image');
-          break;
-        case 'video':
-          this.handleAxios(body, 'video');
-          break;
-        case 'audio':
-          this.handleAxios(body, 'audio');
-          break;
-        case 'application':
-          this.handleAxios(body, 'document');
-          break;
-      }
       this.setState({ validAttachment: true, attachmentError: null });
     } else {
       // validate in case they never updated an empty field
       let valid = this.handleUpdate(
         {
           text: this.state.message.value,
-          recipients: this.state.recipients.value!
+          recipients: this.state.recipients.value,
+          template: this.state.template.value
         },
         true
       );
+
       let templateVariables = this.state.templateVariables;
       // make sure we don't have untouched template variables
       this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
@@ -190,20 +162,7 @@ export default class SendBroadcastForm extends React.Component<
         }) as StringEntry[];
         valid = valid && !hasErrors(updated);
       });
-      // check if the template and recipient are added or not
-      // if not, throw required validation
-      if (templateVariables.length > 0) {
-        if (this.state.recipients.value!.length <= 0 && !this.state.message.value) {
-          valid = this.handleUpdate(
-            {
-              recipients: this.state.recipients.value!
-            },
-            true
-          );
-        } else if (this.state.recipients.value!.length > 0 && !this.state.message.value) {
-          valid = true;
-        }
-      }
+
       if (valid) {
         this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
         // notify our modal we are done
@@ -242,13 +201,14 @@ export default class SendBroadcastForm extends React.Component<
 
       const templateVariables =
         this.state.templateVariables.length === 0 ||
-        (this.state.template.value && this.state.template.value.id !== template.id)
+        (this.state.template.value && this.state.template.value.uuid !== template.uuid)
           ? range(0, templateTranslation.variable_count).map(() => {
               return {
                 value: ''
               };
             })
           : this.state.templateVariables;
+
       this.setState({
         template: { value: template },
         templateTranslation,
