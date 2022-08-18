@@ -24,9 +24,9 @@ const TYPE_OPTIONS: SelectOption[] = [
   { value: 'application', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
 ];
 
-const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([
+const NEW_TYPE_OPTIONS = [
   { value: 'upload', name: i18n.t('forms.upload_attachment', 'Upload Attachment') }
-]);
+].concat(TYPE_OPTIONS);
 
 // we would prefer that attachmetns be entirely stateless, but we have this
 // tiny bit of state for simplicity with the reasonable assumption that only

@@ -93,6 +93,10 @@ exports[`SendMsgForm render should render 1`] = `
                 options={
                   Array [
                     Object {
+                      "name": "Upload Attachment",
+                      "value": "upload",
+                    },
+                    Object {
                       "name": "Image URL",
                       "value": "image",
                     },
@@ -107,10 +111,6 @@ exports[`SendMsgForm render should render 1`] = `
                     Object {
                       "name": "PDF Document URL",
                       "value": "application",
-                    },
-                    Object {
-                      "name": "Upload Attachment",
-                      "value": "upload",
                     },
                   ]
                 }
