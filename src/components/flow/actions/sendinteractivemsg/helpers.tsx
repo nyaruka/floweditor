@@ -10,10 +10,7 @@ import { ReactComponent as ButtonIcon } from './icons/button.svg';
 
 import { SendInteractiveMsgFormState } from './SendInteractiveMsgForm';
 
-export const initializeForm = (
-  settings: NodeEditorSettings,
-  assetStore: AssetStore
-): SendInteractiveMsgFormState => {
+export const initializeForm = (settings: NodeEditorSettings): SendInteractiveMsgFormState => {
   if (settings.originalAction && settings.originalAction.type === Types.send_interactive_msg) {
     const action = settings.originalAction as SendInteractiveMsg;
     let { id, name, expression, params, paramsCount } = action;
@@ -34,7 +31,7 @@ export const initializeForm = (
       : [];
 
     while (listValues.length < 10) {
-      listValues.push({ value: '' });
+      listValues.push({ id: '', value: '' });
     }
 
     const returnValue: SendInteractiveMsgFormState = {
@@ -69,7 +66,7 @@ export const initializeForm = (
     labels: {
       value: []
     },
-    listValues: Array(10).fill({ value: '' }),
+    listValues: Array(10).fill({ value: { id: '', label: '' } }),
     valid: false,
     listValuesCount: '',
     attachment_url: { value: '' },
@@ -84,7 +81,7 @@ export const stateToAction = (
   let result: any = {};
 
   const params = state.listValues
-    .filter(listItem => listItem.value !== '')
+    .filter(listItem => listItem.value.label !== '')
     .map(listItem => listItem.value);
 
   const paramsCount = state.listValuesCount;
