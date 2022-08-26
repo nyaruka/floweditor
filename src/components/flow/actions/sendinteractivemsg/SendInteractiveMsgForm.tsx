@@ -31,7 +31,7 @@ export interface SendInteractiveMsgFormState extends FormState {
   interactives: FormEntry;
   labels?: any;
   expression?: null | FormEntry;
-  listValues?: Array<any>;
+  listValues?: any[];
   listValuesCount?: string;
   isChecked?: boolean;
   attachment_type?: StringEntry;
@@ -49,7 +49,7 @@ export default class SendMsgForm extends React.Component<
 > {
   constructor(props: ActionFormProps) {
     super(props);
-    this.state = stateToForm(this.props.nodeSettings, this.props.assetStore);
+    this.state = stateToForm(this.props.nodeSettings);
     bindCallbacks(this, {
       include: [/^handle/, /^on/]
     });
@@ -183,11 +183,11 @@ export default class SendMsgForm extends React.Component<
     );
   }
 
-  private handleAttachmentChanged(index: number, value: string): void {
+  private handleAttachmentChanged(index: number, id: string, label: string): void {
     let { listValues }: any = this.state;
     listValues = mutate(listValues, {
       [index]: {
-        $set: { value }
+        $set: { value: { id, label } }
       }
     });
 
@@ -197,16 +197,28 @@ export default class SendMsgForm extends React.Component<
   private renderListOptions(): JSX.Element {
     const { listValues } = this.state;
 
-    const renderListOption = (value: any, index: number) => (
+    const renderListOption = ({ value }: any, index: number) => (
       <div className={styles.listItem}>
+        <div className={styles.id}>
+          <TextInputElement
+            placeholder={`id ${index + 1}`}
+            name={i18n.t('forms.list_item_id', 'id')}
+            style={TextInputStyle.normal}
+            onChange={(id: string) => {
+              this.handleAttachmentChanged(index, id, value.label);
+            }}
+            entry={{ value: value.id }}
+            autocomplete={true}
+          />
+        </div>
         <TextInputElement
           placeholder={`variable ${index + 1}`}
-          name={i18n.t('forms.list_item', 'variable')}
+          name={i18n.t('forms.list_item_variable', 'variable')}
           style={TextInputStyle.normal}
-          onChange={(value: string) => {
-            this.handleAttachmentChanged(index, value);
+          onChange={(label: string) => {
+            this.handleAttachmentChanged(index, value.id, label);
           }}
-          entry={value}
+          entry={{ value: value.label }}
           autocomplete={true}
         />
       </div>
