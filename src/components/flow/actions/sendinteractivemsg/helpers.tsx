@@ -31,7 +31,7 @@ export const initializeForm = (settings: NodeEditorSettings): SendInteractiveMsg
       : [];
 
     while (listValues.length < 10) {
-      listValues.push({ id: '', value: '' });
+      listValues.push({ value: { id: '', label: '' } });
     }
 
     const returnValue: SendInteractiveMsgFormState = {

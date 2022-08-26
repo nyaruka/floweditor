@@ -202,7 +202,7 @@ export default class SendMsgForm extends React.Component<
         <div className={styles.id}>
           <TextInputElement
             placeholder={`id ${index + 1}`}
-            name={i18n.t('forms.list_item', 'variable')}
+            name={i18n.t('forms.list_item_id', 'id')}
             style={TextInputStyle.normal}
             onChange={(id: string) => {
               this.handleAttachmentChanged(index, id, value.label);
@@ -213,7 +213,7 @@ export default class SendMsgForm extends React.Component<
         </div>
         <TextInputElement
           placeholder={`variable ${index + 1}`}
-          name={i18n.t('forms.list_item', 'variable')}
+          name={i18n.t('forms.list_item_variable', 'variable')}
           style={TextInputStyle.normal}
           onChange={(label: string) => {
             this.handleAttachmentChanged(index, value.id, label);
