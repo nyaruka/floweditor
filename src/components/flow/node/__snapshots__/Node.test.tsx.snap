@@ -8,7 +8,7 @@ exports[`NodeComp renders 1`] = `
       id="061fc171-8b79-4636-b892-bd0ea5aa9b42"
     >
       <div
-        class="node"
+        class="flow_node node"
       >
         <div
           class="flow_start_message"
@@ -91,7 +91,7 @@ exports[`NodeComp renders a named random split 1`] = `
       id="2dc85899-0577-4f1b-a620-f12094e34b5e"
     >
       <div
-        class="node"
+        class="flow_node node"
       >
         <div
           class="flow_start_message"
