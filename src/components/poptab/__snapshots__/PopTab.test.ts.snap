@@ -2,7 +2,7 @@
 
 exports[`PopTab render should render base component 1`] = `
 <div
-  className="pop_wrapper pop_wrapper visible"
+  className="pop_wrapper pop_wrapper pop_visible visible"
   style={
     Object {
       "right": -260,
