@@ -21,6 +21,6 @@ jobs:
           path-to-signatures: 'signatures/version1/cla.json'
           path-to-document: 'https://github.com/nyaruka/legal/blob/main/TextIt%20CLA.md' # e.g. a CLA or a DCO document
           branch: 'main'
-          allowlist: dependabot
+          allowlist: bot*
           remote-organization-name: 'nyaruka'
           remote-repository-name: 'legal'
