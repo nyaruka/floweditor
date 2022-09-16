@@ -54,7 +54,10 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
     return (
       <div
         className={
-          'pop_wrapper ' + styles.pop_wrapper + ' ' + (this.props.visible ? styles.visible : '')
+          'pop_wrapper ' +
+          styles.pop_wrapper +
+          ' ' +
+          (this.props.visible ? 'pop_visible ' + styles.visible : 'pop_invisible')
         }
         style={{
           right: -this.state.width,
