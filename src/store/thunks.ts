@@ -398,9 +398,10 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string, forceSave = false)
   getFlowDetails(assetStore.revisions)
     .then((response: any) => {
       // backwards compatibitly for during deployment
-      const details: FlowDetails = response.definition
-        ? response
-        : { definition: response as FlowDefinition, metadata: { issues: [] } };
+      const obj = JSON.parse(response);
+      const details: FlowDetails = obj.definition
+        ? obj
+        : { definition: obj as FlowDefinition, metadata: { issues: [] } };
 
       dispatch(loadFlowDefinition(details, assetStore));
       dispatch(
