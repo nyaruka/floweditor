@@ -1059,18 +1059,6 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
   if (translating) {
     let actionToTranslate = action;
 
-    // TODO: this is a hack, would be nice to find how to make that area respond differently
-    // if they clicked just below the actions, treat it as the last action
-    if (!actionToTranslate && node.actions.length > 0) {
-      actionToTranslate = node.actions[node.actions.length - 1];
-      if (
-        actionToTranslate.type !== Types.send_msg &&
-        actionToTranslate.type !== Types.send_broadcast
-      ) {
-        return;
-      }
-    }
-
     const translations = localization[language.id];
     settings.localizations.push(
       ...getLocalizations(node, actionToTranslate, language, translations)
