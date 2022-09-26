@@ -26,6 +26,9 @@ window.showFlowEditor = (ele, config) => {
   ReactDOM.render(<FlowEditor config={config} />, ele);
 };
 
+// let our document know we are ready to go
+document.dispatchEvent(new CustomEvent('temba-floweditor-loaded'));
+
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
