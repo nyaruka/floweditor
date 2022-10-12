@@ -164,7 +164,7 @@ export const renderAttachment = (
   return (
     <div
       className={styles.url_attachment}
-      key={index > -1 ? 'url_attachment_' + index : createUUID()}
+      key={index > -1 ? 'url_attachment_' + index : 'new_attachment'}
     >
       <div className={styles.type_choice}>
         <SelectElement
