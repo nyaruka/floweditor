@@ -23,7 +23,13 @@ import {
 } from 'flowTypes';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'redux';
-import { CanvasPositions, EditorState, EMPTY_DRAG_STATE, updateEditorState } from 'store/editor';
+import {
+  CanvasPositions,
+  EditorState,
+  EMPTY_DRAG_STATE,
+  initialState,
+  updateEditorState
+} from 'store/editor';
 import {
   Asset,
   AssetStore,
@@ -36,7 +42,8 @@ import {
   updateDefinition,
   updateNodes,
   updateMetadata,
-  updateIssues
+  updateIssues,
+  initialState as flowContext
 } from 'store/flowContext';
 import {
   createEmptyNode,
@@ -101,6 +108,8 @@ export type FetchFlow = (
 ) => Thunk<Promise<void>>;
 
 export type LoadFlowDefinition = (details: FlowDetails, assetStore: AssetStore) => Thunk<void>;
+
+export type Reset = () => Thunk<void>;
 
 export type CreateNewRevision = () => Thunk<void>;
 
@@ -292,12 +301,17 @@ export const createNewRevision = () => (dispatch: DispatchWithState, getState: G
   markDirty(0);
 };
 
+export const reset = () => (dispatch: DispatchWithState): void => {
+  dispatch(updateDefinition(flowContext.definition));
+  dispatch(updateNodes(flowContext.nodes));
+  dispatch(updateMetadata(flowContext.metadata));
+};
+
 export const loadFlowDefinition = (details: FlowDetails, assetStore: AssetStore) => (
   dispatch: DispatchWithState,
   getState: GetState
 ): void => {
   // first see if we need our asset store initialized
-
   const definition = details.definition;
 
   const {
@@ -378,17 +392,18 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string, forceSave = false)
   dispatch: DispatchWithState,
   getState: GetState
 ) => {
+  const state = initialState;
+  state.fetchingFlow = true;
+
   // mark us as underway
-  dispatch(mergeEditorState({ fetchingFlow: true }));
+  dispatch(mergeEditorState(state));
 
   // first see if we need our asset store initialized
   let {
     flowContext: { assetStore }
   } = getState();
 
-  if (!Object.keys(assetStore).length) {
-    assetStore = await createAssetStore(endpoints);
-  }
+  assetStore = await createAssetStore(endpoints);
 
   fetchFlowActivity(endpoints.activity, dispatch, getState, uuid);
   (window as any).triggerActivityUpdate = () => {

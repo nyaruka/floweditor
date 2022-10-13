@@ -34,7 +34,9 @@ import {
   handleLanguageChange,
   HandleLanguageChange,
   UpdateTranslationFilters,
-  updateTranslationFilters
+  updateTranslationFilters,
+  reset,
+  Reset
 } from 'store/thunks';
 import { ACTIVITY_INTERVAL, downloadJSON, renderIf, onNextRender } from 'utils';
 import { PopTabType } from 'config/interfaces';
@@ -63,6 +65,7 @@ export interface FlowEditorStoreProps {
   mergeEditorState: MergeEditorState;
   onOpenNodeEditor: OnOpenNodeEditor;
   handleLanguageChange: HandleLanguageChange;
+  reset: Reset;
   nodes: RenderNodeMap;
   modalMessage: ModalMessage;
   saving: boolean;
@@ -112,6 +115,12 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
   public componentDidMount(): void {
     const { endpoints, flow, forceSaveOnLoad } = this.context.config;
     this.props.fetchFlow(endpoints, flow, forceSaveOnLoad);
+
+    (window as any).editor = this;
+  }
+
+  public reset(): void {
+    this.props.reset();
   }
 
   private handleDownloadClicked(): void {
@@ -363,7 +372,8 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
       mergeEditorState,
       onOpenNodeEditor,
       handleLanguageChange,
-      updateTranslationFilters
+      updateTranslationFilters,
+      reset
     },
     dispatch
   );
