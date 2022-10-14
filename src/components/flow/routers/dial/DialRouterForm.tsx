@@ -8,13 +8,16 @@ import { createResultNameInput } from 'components/flow/routers/widgets';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import { FormState, StringEntry } from 'store/nodeEditor';
-import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
+import { Alphanumeric, Numeric, Required, StartIsNonNumeric, validate } from 'store/validators';
 import i18n from 'config/i18n';
-import CheckboxElement from 'components/form/checkbox/CheckboxElement';
+import styles from './DialRouterForm.module.scss';
 
 export interface DialRouterFormState extends FormState {
   phone: StringEntry;
   resultName: StringEntry;
+  //todo confirm if these should be string vs number entry
+  dialLimit: StringEntry;
+  callLimit: StringEntry;
 }
 
 export default class DialRouterForm extends React.Component<RouterFormProps, DialRouterFormState> {
@@ -33,6 +36,22 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
     this.setState({
       phone: phone,
       valid: this.state.valid && !hasErrors(phone)
+    });
+  }
+
+  private handleDialLimitUpdated(value: string): void {
+    const dialLimit = validate(i18n.t('forms.dial_limit', 'Dial Limit'), value, [Numeric]);
+    this.setState({
+      dialLimit: dialLimit,
+      valid: this.state.valid && !hasErrors(dialLimit)
+    });
+  }
+
+  private handleCallLimitUpdated(value: string): void {
+    const callLimit = validate(i18n.t('forms.call_limit', 'Dial Limit'), value, [Numeric]);
+    this.setState({
+      callLimit: callLimit,
+      valid: this.state.valid && !hasErrors(callLimit)
     });
   }
 
@@ -68,21 +87,31 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
     const typeConfig = this.props.typeConfig;
 
     const advanced: Tab = {
-      name: i18n.t('forms.advanced', 'Advanced'),
+      name: i18n.t('advanced', 'Advanced'),
       body: (
-        <CheckboxElement
-          name={i18n.t('forms.all_destinations', 'All Destinations')}
-          title={i18n.t('forms.all_destinations', 'All Destinations')}
-          // todo labelClassName={styles.checkbox}
-          checked={false} // todo checked={this.state.sendAll}
-          description={i18n.t(
-            'forms.all_destinations_description',
-            "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
-          )}
-          // todo onChange={this.handleSendAllUpdate}
-        />
+        <>
+          <div className={styles.form}>
+            <TextInputElement
+              __className={styles.dial_limit}
+              // todo confirm if we should be localizing the element name
+              name={i18n.t('dial_limit', 'Dial Limit (sec)')}
+              showLabel={true}
+              maxLength={2} //max 99s = 1.65min
+              onChange={this.handleDialLimitUpdated}
+              entry={this.state.dialLimit}
+            ></TextInputElement>
+            <TextInputElement
+              __className={styles.call_limit}
+              // todo confirm if we should be localizing the element name
+              name={i18n.t('call_limit', 'Call Limit (sec)')}
+              showLabel={true}
+              maxLength={4} //max 9999s = 166.65min = 2.7775hrs
+              onChange={this.handleCallLimitUpdated}
+              entry={this.state.callLimit}
+            ></TextInputElement>
+          </div>
+        </>
       )
-      // todo checked: this.state.sendAll
     };
 
     const tabs = [advanced];
