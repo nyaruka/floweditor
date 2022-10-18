@@ -18,11 +18,21 @@ if (!componentsExist) {
   });
 }
 
+window.unmountEditor = ele => {
+  if (ele) {
+    ReactDOM.unmountComponentAtNode(ele);
+    if (window.editor) {
+      window.editor.reset();
+    }
+  }
+};
+
 window.showFlowEditor = (ele, config) => {
   if (config.httpTimeout) {
     setHTTPTimeout(config.httpTimeout);
   }
 
+  ReactDOM.unmountComponentAtNode(ele);
   ReactDOM.render(<FlowEditor config={config} />, ele);
 };
 
