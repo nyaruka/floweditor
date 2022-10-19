@@ -36,7 +36,8 @@ export const config: FlowEditorConfig = {
     simulateStart: '',
     completion: '',
     simulateResume: '',
-    interactives: ''
+    interactives: '',
+    sheets: ''
   },
   onChangeLanguage: (code: string, name: string) => {}
 };

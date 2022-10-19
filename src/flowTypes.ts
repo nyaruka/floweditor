@@ -47,6 +47,7 @@ export interface Endpoints {
   editor: string;
   validateMedia: string;
   interactives: string;
+  sheets: string;
 }
 
 export interface FlowEditorConfig {
@@ -438,6 +439,14 @@ export interface SetRunResult extends Action {
 export interface SetContactProfile extends Action {
   profile_type: string;
   value: any;
+  result_name: string;
+}
+
+export interface CallSheets extends Action {
+  url: string;
+  row: string;
+  sheet_id: any;
+  name: string;
   result_name: string;
 }
 

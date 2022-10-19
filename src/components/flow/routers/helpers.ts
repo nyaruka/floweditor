@@ -18,7 +18,8 @@ import {
   CallClassifier,
   OpenTicket,
   Delay,
-  SetContactProfile
+  SetContactProfile,
+  CallSheets
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { createUUID, snakify } from 'utils';
@@ -333,7 +334,13 @@ export const resolveRoutes = (
 };
 
 export const createWebhookBasedNode = (
-  action: CallWebhook | CallResthook | OpenTicket | TransferAirtime | SetContactProfile,
+  action:
+    | CallWebhook
+    | CallResthook
+    | OpenTicket
+    | TransferAirtime
+    | SetContactProfile
+    | CallSheets,
   originalNode: RenderNode,
   useCategoryTest: boolean
 ): RenderNode => {

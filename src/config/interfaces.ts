@@ -29,6 +29,7 @@ export enum Types {
   call_classifier = 'call_classifier',
   call_resthook = 'call_resthook',
   call_webhook = 'call_webhook',
+  call_sheet = 'link_google_sheet',
   open_ticket = 'open_ticket',
   send_msg = 'send_msg',
   send_interactive_msg = 'send_interactive_msg',

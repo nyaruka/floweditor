@@ -80,7 +80,8 @@ export enum AssetType {
   URN = 'urn',
   ValidateMedia = 'validate',
   Interactives = 'interactives',
-  ContactProfile = 'contact_profile'
+  ContactProfile = 'contact_profile',
+  Sheets = 'sheets'
 }
 
 export interface Reference {

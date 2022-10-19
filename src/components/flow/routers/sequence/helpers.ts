@@ -56,7 +56,7 @@ export const stateToNode = (settings: NodeEditorSettings, state: SequenceFormSta
     [
       {
         type: Types.wait_for_time,
-        uuid: getActionUUID(settings, Types.send_msg),
+        uuid: getActionUUID(settings, Types.wait_for_time),
         delay: delayInSeconds.toString()
       }
     ],

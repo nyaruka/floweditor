@@ -37,6 +37,7 @@ export const getCategoriesForExit = (renderNode: RenderNode, exit: Exit): Catego
 
 export const getResultName = (node: FlowNode) => {
   const switchRouter = getSwitchRouter(node);
+
   if (switchRouter && switchRouter.result_name) {
     return switchRouter.result_name;
   }
@@ -51,7 +52,8 @@ export const getResultName = (node: FlowNode) => {
       action.type === Types.call_webhook ||
       action.type === Types.call_resthook ||
       action.type === Types.open_ticket ||
-      action.type === Types.transfer_airtime
+      action.type === Types.transfer_airtime ||
+      action.type === Types.call_sheet
     ) {
       const resultAction = action as CallWebhook | CallResthook | TransferAirtime;
       return resultAction.result_name;

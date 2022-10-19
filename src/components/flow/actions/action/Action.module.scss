@@ -56,6 +56,11 @@
     padding: $action_padding;
   }
 
+  &.call_sheet {
+    width: $node_min_width - $action_padding * 2;
+    padding: $action_padding;
+  }
+
   &.call_classifier {
     padding: $action_padding;
     width: inherit;

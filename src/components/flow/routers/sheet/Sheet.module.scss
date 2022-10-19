@@ -1,0 +1,15 @@
+@import 'variables.module.scss';
+.sheet {
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $borders;
+}
+
+.sheet_link {
+  margin-left: 10px;
+}
+
+.row {
+  margin-top: 10px;
+}
