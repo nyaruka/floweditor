@@ -42,4 +42,28 @@ describe(DialRouterForm.name, () => {
     expect(router.wait.phone).toBe('@fields.supervisor_phone');
     expect(routerProps.updateRouter).toMatchCallSnapshot();
   });
+
+  // it('should update wait when dial limit is changed', () => {
+  //   const { getByTestId, getByText } = render(<DialRouterForm {...routerProps} />);
+
+  //   fireChangeText(getByTestId('phone'), '@fields.supervisor_phone');
+  //   fireEvent.click(getByText('Ok'));
+
+  //   const router = getSwitchRouter(getUpdatedNode(routerProps).node);
+  //   expect(router.wait.type).toBe(WaitTypes.dial);
+  //   expect(router.wait.phone).toBe('@fields.supervisor_phone');
+  //   expect(routerProps.updateRouter).toMatchCallSnapshot();
+  // });
+
+  // it('should update wait when call limit is changed', () => {
+  //   const { getByTestId, getByText } = render(<DialRouterForm {...routerProps} />);
+
+  //   fireChangeText(getByTestId('phone'), '@fields.supervisor_phone');
+  //   fireEvent.click(getByText('Ok'));
+
+  //   const router = getSwitchRouter(getUpdatedNode(routerProps).node);
+  //   expect(router.wait.type).toBe(WaitTypes.dial);
+  //   expect(router.wait.phone).toBe('@fields.supervisor_phone');
+  //   expect(routerProps.updateRouter).toMatchCallSnapshot();
+  // });
 });

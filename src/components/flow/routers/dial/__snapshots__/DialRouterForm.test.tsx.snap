@@ -221,6 +221,8 @@ Array [
         "result_name": "Dial Result",
         "type": "switch",
         "wait": Object {
+          "call_limit": "",
+          "dial_limit": "",
           "phone": "0979123456",
           "type": "dial",
         },
