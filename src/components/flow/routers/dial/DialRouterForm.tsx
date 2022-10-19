@@ -48,7 +48,7 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
   }
 
   private handleCallLimitUpdated(value: string): void {
-    const callLimit = validate(i18n.t('forms.call_limit', 'Dial Limit'), value, [Numeric]);
+    const callLimit = validate(i18n.t('forms.call_limit', 'Call Limit'), value, [Numeric]);
     this.setState({
       callLimit: callLimit,
       valid: this.state.valid && !hasErrors(callLimit)
@@ -92,18 +92,20 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
         <>
           <div className={styles.form}>
             <TextInputElement
-              __className={styles.dial_limit}
               // todo confirm if we should be localizing the element name
               name={i18n.t('dial_limit', 'Dial Limit (sec)')}
+              __className={styles.dial_limit}
+              placeholder={'60'}
               showLabel={true}
               maxLength={2} //max 99s = 1.65min
               onChange={this.handleDialLimitUpdated}
               entry={this.state.dialLimit}
             ></TextInputElement>
             <TextInputElement
-              __className={styles.call_limit}
               // todo confirm if we should be localizing the element name
               name={i18n.t('call_limit', 'Call Limit (sec)')}
+              __className={styles.call_limit}
+              placeholder={'7200'}
               showLabel={true}
               maxLength={4} //max 9999s = 166.65min = 2.7775hrs
               onChange={this.handleCallLimitUpdated}
