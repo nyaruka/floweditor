@@ -380,9 +380,9 @@ export const typeConfigList: Type[] = [
     visibility: VISIBILITY_ONLINE
   },
   {
-    type: Types.call_sheet,
-    name: i18n.t('actions.call_sheet.name', 'Link Google sheet'),
-    description: i18n.t('actions.call_sheet.description', 'Link Google sheet'),
+    type: Types.link_google_sheet,
+    name: i18n.t('actions.link_google_sheet.name', 'Link Google sheet'),
+    description: i18n.t('actions.link_google_sheet.description', 'Link Google sheet'),
     form: SheetForm,
     component: Sheet
   },

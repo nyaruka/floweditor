@@ -53,7 +53,7 @@ export const getResultName = (node: FlowNode) => {
       action.type === Types.call_resthook ||
       action.type === Types.open_ticket ||
       action.type === Types.transfer_airtime ||
-      action.type === Types.call_sheet
+      action.type === Types.link_google_sheet
     ) {
       const resultAction = action as CallWebhook | CallResthook | TransferAirtime;
       return resultAction.result_name;

@@ -15,14 +15,14 @@ export const nodeToState = (settings: NodeEditorSettings): SheetFormState => {
 
   let sheet: FormEntry = { value: null };
   if (
-    getType(settings.originalNode) === Types.call_sheet ||
-    (settings.originalAction && settings.originalAction.type === Types.call_sheet)
+    getType(settings.originalNode) === Types.link_google_sheet ||
+    (settings.originalAction && settings.originalAction.type === Types.link_google_sheet)
   ) {
     let action = settings.originalAction as CallSheets;
 
     console.log(action);
     // look for any run result actions
-    if (action.type === Types.call_sheet) {
+    if (action.type === Types.link_google_sheet) {
       const callSheet = action as CallSheets;
       row.value = callSheet.row;
       result_name.value = callSheet.result_name;
@@ -50,8 +50,8 @@ export const stateToNode = (settings: NodeEditorSettings, state: SheetFormState)
     result_name: result_name.value,
     sheet_id: sheet.value.id,
     name: sheet.value.name,
-    type: Types.call_sheet,
-    uuid: getActionUUID(settings, Types.call_sheet)
+    type: Types.link_google_sheet,
+    uuid: getActionUUID(settings, Types.link_google_sheet)
   };
 
   return createWebhookBasedNode(newAction, settings.originalNode, false);
