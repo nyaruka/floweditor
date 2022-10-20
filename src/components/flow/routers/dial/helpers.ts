@@ -30,6 +30,8 @@ export const nodeToState = (settings: NodeEditorSettings): DialRouterFormState =
     if (router) {
       phone = router.wait.phone;
       resultName = { value: router.result_name || '' };
+      dialLimit = { value: router.wait.dialLimit || '' };
+      callLimit = { value: router.wait.callLimit || '' };
     }
   }
 

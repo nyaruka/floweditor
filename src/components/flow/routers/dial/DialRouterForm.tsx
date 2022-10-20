@@ -15,7 +15,6 @@ import styles from './DialRouterForm.module.scss';
 export interface DialRouterFormState extends FormState {
   phone: StringEntry;
   resultName: StringEntry;
-  //todo confirm if these should be string vs number entry
   dialLimit: StringEntry;
   callLimit: StringEntry;
 }
@@ -39,18 +38,20 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
     });
   }
 
+  //todo figure out why this isn't saving
   private handleDialLimitUpdated(value: string): void {
     const dialLimit = validate(i18n.t('forms.dial_limit', 'Dial Limit'), value, [Numeric]);
     this.setState({
-      dialLimit: dialLimit,
+      dialLimit,
       valid: this.state.valid && !hasErrors(dialLimit)
     });
   }
 
+  //todo figure out why this isn't saving
   private handleCallLimitUpdated(value: string): void {
     const callLimit = validate(i18n.t('forms.call_limit', 'Call Limit'), value, [Numeric]);
     this.setState({
-      callLimit: callLimit,
+      callLimit,
       valid: this.state.valid && !hasErrors(callLimit)
     });
   }
@@ -91,22 +92,18 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
       body: (
         <>
           <div className={styles.form}>
+            <p>{i18n.t('forms.dial_limit', 'Dial Limit (sec)')}</p>
             <TextInputElement
-              // todo confirm if we should be localizing the element name
-              name={i18n.t('dial_limit', 'Dial Limit (sec)')}
-              __className={styles.dial_limit}
+              name={i18n.t('forms.dial_limit', 'Dial Limit (sec)')}
               placeholder={'60'}
-              showLabel={true}
               maxLength={2} //max 99s = 1.65min
               onChange={this.handleDialLimitUpdated}
               entry={this.state.dialLimit}
             ></TextInputElement>
+            <p>{i18n.t('forms.call_limit', 'Call Limit (sec)')}</p>
             <TextInputElement
-              // todo confirm if we should be localizing the element name
-              name={i18n.t('call_limit', 'Call Limit (sec)')}
-              __className={styles.call_limit}
+              name={i18n.t('forms.call_limit', 'Call Limit (sec)')}
               placeholder={'7200'}
-              showLabel={true}
               maxLength={4} //max 9999s = 166.65min = 2.7775hrs
               onChange={this.handleCallLimitUpdated}
               entry={this.state.callLimit}
