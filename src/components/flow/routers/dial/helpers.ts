@@ -22,24 +22,24 @@ import { createUUID } from 'utils';
 export const nodeToState = (settings: NodeEditorSettings): DialRouterFormState => {
   let phone = '';
   let resultName: StringEntry = { value: '' };
-  let dialLimit: StringEntry = { value: '' };
-  let callLimit: StringEntry = { value: '' };
+  let dialLimit = '';
+  let callLimit = '';
 
   if (settings.originalNode && getType(settings.originalNode) === Types.wait_for_dial) {
     const router = settings.originalNode.node.router as SwitchRouter;
     if (router) {
       phone = router.wait.phone;
       resultName = { value: router.result_name || '' };
-      dialLimit = { value: router.wait.dialLimit || '' };
-      callLimit = { value: router.wait.callLimit || '' };
+      dialLimit = router.wait.dial_limit;
+      callLimit = router.wait.call_limit;
     }
   }
 
   return {
     phone: { value: phone },
     resultName,
-    dialLimit,
-    callLimit,
+    dialLimit: { value: dialLimit },
+    callLimit: { value: callLimit },
     valid: true
   };
 };

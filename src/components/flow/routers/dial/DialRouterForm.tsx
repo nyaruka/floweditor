@@ -38,20 +38,18 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
     });
   }
 
-  //todo figure out why this isn't saving
   private handleDialLimitUpdated(value: string): void {
     const dialLimit = validate(i18n.t('forms.dial_limit', 'Dial Limit'), value, [Numeric]);
     this.setState({
-      dialLimit,
+      dialLimit: dialLimit,
       valid: this.state.valid && !hasErrors(dialLimit)
     });
   }
 
-  //todo figure out why this isn't saving
   private handleCallLimitUpdated(value: string): void {
     const callLimit = validate(i18n.t('forms.call_limit', 'Call Limit'), value, [Numeric]);
     this.setState({
-      callLimit,
+      callLimit: callLimit,
       valid: this.state.valid && !hasErrors(callLimit)
     });
   }
