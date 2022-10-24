@@ -133,8 +133,8 @@ export const stateToNode = (
   const wait = {
     type: WaitTypes.dial,
     phone: state.phone.value,
-    dial_limit: (state.dialLimit.value as any) as String,
-    call_limit: (state.callLimit.value as any) as String
+    dial_limit: state.dialLimit.value,
+    call_limit: state.callLimit.value
   } as Wait;
 
   const router: SwitchRouter = {
