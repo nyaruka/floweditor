@@ -94,7 +94,7 @@ exports.handler = (request, context, callback) => {
   const match = regex.exec(request.path);
 
   if (match && match.length > 1) {
-    respond(callback, JSON.stringify(assetContent[match[1]], null, 1));
+    respond(callback, assetContent[match[1]]);
   } else {
     respond(callback, { results: assetList });
   }
