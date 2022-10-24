@@ -7,7 +7,7 @@ import { nodeToState, stateToNode } from 'components/flow/routers/dial/helpers';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
-import { FormState, StringEntry } from 'store/nodeEditor';
+import { FormState, NumberEntry, StringEntry } from 'store/nodeEditor';
 import { Alphanumeric, Numeric, Required, StartIsNonNumeric, validate } from 'store/validators';
 import i18n from 'config/i18n';
 import styles from './DialRouterForm.module.scss';
@@ -15,8 +15,8 @@ import styles from './DialRouterForm.module.scss';
 export interface DialRouterFormState extends FormState {
   phone: StringEntry;
   resultName: StringEntry;
-  dialLimit: StringEntry;
-  callLimit: StringEntry;
+  dialLimit: NumberEntry;
+  callLimit: NumberEntry;
 }
 
 export default class DialRouterForm extends React.Component<RouterFormProps, DialRouterFormState> {
@@ -96,7 +96,7 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
               placeholder={'60'}
               maxLength={2} //max 99s = 1.65min
               onChange={this.handleDialLimitUpdated}
-              entry={this.state.dialLimit}
+              entry={(this.state.dialLimit as any) as StringEntry}
             ></TextInputElement>
             <p>{i18n.t('forms.call_limit', 'Call Limit (sec)')}</p>
             <TextInputElement
@@ -104,7 +104,7 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
               placeholder={'7200'}
               maxLength={4} //max 9999s = 166.65min = 2.7775hrs
               onChange={this.handleCallLimitUpdated}
-              entry={this.state.callLimit}
+              entry={(this.state.callLimit as any) as StringEntry}
             ></TextInputElement>
           </div>
         </>

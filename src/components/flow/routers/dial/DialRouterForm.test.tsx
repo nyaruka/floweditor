@@ -43,27 +43,31 @@ describe(DialRouterForm.name, () => {
     expect(routerProps.updateRouter).toMatchCallSnapshot();
   });
 
-  // it('should update wait when dial limit is changed', () => {
-  //   const { getByTestId, getByText } = render(<DialRouterForm {...routerProps} />);
+  it('should update wait when dial limit is changed', () => {
+    const { getByTestId, getByText } = render(<DialRouterForm {...routerProps} />);
 
-  //   fireChangeText(getByTestId('phone'), '@fields.supervisor_phone');
-  //   fireEvent.click(getByText('Ok'));
+    fireEvent.click(getByText('Advanced'));
 
-  //   const router = getSwitchRouter(getUpdatedNode(routerProps).node);
-  //   expect(router.wait.type).toBe(WaitTypes.dial);
-  //   expect(router.wait.phone).toBe('@fields.supervisor_phone');
-  //   expect(routerProps.updateRouter).toMatchCallSnapshot();
-  // });
+    fireChangeText(getByTestId('dial_limit'), '62');
+    fireEvent.click(getByText('Ok'));
 
-  // it('should update wait when call limit is changed', () => {
-  //   const { getByTestId, getByText } = render(<DialRouterForm {...routerProps} />);
+    const router = getSwitchRouter(getUpdatedNode(routerProps).node);
+    expect(router.wait.type).toBe(WaitTypes.dial);
+    expect(router.wait.dial_limit).toBe('62');
+    expect(routerProps.updateRouter).toMatchCallSnapshot();
+  });
 
-  //   fireChangeText(getByTestId('phone'), '@fields.supervisor_phone');
-  //   fireEvent.click(getByText('Ok'));
+  it('should update wait when call limit is changed', () => {
+    const { getByTestId, getByText } = render(<DialRouterForm {...routerProps} />);
 
-  //   const router = getSwitchRouter(getUpdatedNode(routerProps).node);
-  //   expect(router.wait.type).toBe(WaitTypes.dial);
-  //   expect(router.wait.phone).toBe('@fields.supervisor_phone');
-  //   expect(routerProps.updateRouter).toMatchCallSnapshot();
-  // });
+    fireEvent.click(getByText('Advanced'));
+
+    fireChangeText(getByTestId('call_limit'), '7198');
+    fireEvent.click(getByText('Ok'));
+
+    const router = getSwitchRouter(getUpdatedNode(routerProps).node);
+    expect(router.wait.type).toBe(WaitTypes.dial);
+    expect(router.wait.call_limit).toBe('7198');
+    expect(routerProps.updateRouter).toMatchCallSnapshot();
+  });
 });
