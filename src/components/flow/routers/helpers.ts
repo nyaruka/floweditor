@@ -19,7 +19,7 @@ import {
   OpenTicket,
   Delay,
   SetContactProfile,
-  CallSheets
+  LinkSheets
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { createUUID, snakify } from 'utils';
@@ -340,7 +340,7 @@ export const createWebhookBasedNode = (
     | OpenTicket
     | TransferAirtime
     | SetContactProfile
-    | CallSheets,
+    | LinkSheets,
   originalNode: RenderNode,
   useCategoryTest: boolean
 ): RenderNode => {

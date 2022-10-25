@@ -442,7 +442,7 @@ export interface SetContactProfile extends Action {
   result_name: string;
 }
 
-export interface CallSheets extends Action {
+export interface LinkSheets extends Action {
   url: string;
   row: string;
   sheet_id: any;

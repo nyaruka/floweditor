@@ -309,11 +309,10 @@ export default class SendMsgForm extends React.Component<
 
     const currentMessage = this.state.interactives.value;
     let body;
-    let isListType = false;
+
     if (currentMessage && currentMessage.interactive_content) {
       const message = currentMessage.interactive_content;
       body = getMsgBody(message);
-      isListType = message.type === 'list';
     }
     return (
       <Dialog

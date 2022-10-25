@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { CallSheets } from 'flowTypes';
+import { LinkSheets } from 'flowTypes';
 import { ReactComponent as SheetIcon } from './icons/sheet.svg';
 import styles from 'components/flow/routers/sheet/Sheet.module.scss';
 
-const Sheet: React.SFC<CallSheets> = (action: CallSheets): JSX.Element => {
+const Sheet: React.SFC<LinkSheets> = (action: LinkSheets): JSX.Element => {
   console.log(action);
 
   return (

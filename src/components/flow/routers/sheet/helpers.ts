@@ -1,11 +1,10 @@
 import { getActionUUID } from 'components/flow/actions/helpers';
 import { Types } from 'config/interfaces';
-import { AnyAction, CallSheets, Delay } from 'flowTypes';
+import { LinkSheets } from 'flowTypes';
 import { FormEntry, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
-import { RouterTypes, SwitchRouter } from 'flowTypes';
-import { createRenderNode, createWebhookBasedNode, resolveRoutes } from '../helpers';
+import {} from 'flowTypes';
+import { createWebhookBasedNode } from '../helpers';
 
-import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
 import { SheetFormState } from '../sheet/SheetForm';
 import { getType } from 'config/typeConfigs';
 
@@ -18,12 +17,11 @@ export const nodeToState = (settings: NodeEditorSettings): SheetFormState => {
     getType(settings.originalNode) === Types.link_google_sheet ||
     (settings.originalAction && settings.originalAction.type === Types.link_google_sheet)
   ) {
-    let action = settings.originalAction as CallSheets;
+    let action = settings.originalAction as LinkSheets;
 
-    console.log(action);
     // look for any run result actions
     if (action.type === Types.link_google_sheet) {
-      const callSheet = action as CallSheets;
+      const callSheet = action as LinkSheets;
       row.value = callSheet.row;
       result_name.value = callSheet.result_name;
       sheet.value = {};
@@ -44,7 +42,7 @@ export const nodeToState = (settings: NodeEditorSettings): SheetFormState => {
 export const stateToNode = (settings: NodeEditorSettings, state: SheetFormState): any => {
   const { sheet, result_name, row } = state;
 
-  const newAction: CallSheets = {
+  const newAction: LinkSheets = {
     url: sheet.value.url,
     row: row.value,
     result_name: result_name.value,

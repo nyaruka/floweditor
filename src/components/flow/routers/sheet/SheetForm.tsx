@@ -5,18 +5,11 @@ import { RouterFormProps } from 'components/flow/props';
 import TypeList from 'components/nodeeditor/TypeList';
 import { FormEntry, FormState, mergeForm } from 'store/nodeEditor';
 import i18n from 'config/i18n';
-import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
+import TextInputElement from 'components/form/textinput/TextInputElement';
 import styles from 'components/flow/routers/sheet/SheetForm.module.scss';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import { nodeToState, stateToNode } from './helpers';
-import { createResultNameInput } from '../widgets';
-import {
-  LowerCaseAlphaNumeric,
-  Required,
-  shouldRequireIf,
-  StartIsNonNumeric,
-  validate
-} from 'store/validators';
+import { LowerCaseAlphaNumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
 import { hasErrors } from 'components/flow/actions/helpers';
 import { Trans } from 'react-i18next';
 import { snakify } from 'utils';
