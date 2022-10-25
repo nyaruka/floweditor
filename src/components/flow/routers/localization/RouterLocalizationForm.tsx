@@ -119,7 +119,9 @@ export default class RouterLocalizationForm extends React.Component<
       const { verboseName } = getOperatorConfig(originalCase.type);
 
       if (originalCase.arguments) {
-        const [orginalArgument] = originalCase.arguments;
+        const cat_uuid = originalCase.category_uuid;
+        const originalCategory = getOriginalCategory(this.props.nodeSettings, cat_uuid);
+        const originalArgument = originalCategory.name;
 
         let argument = '';
         if (kase.arguments && kase.arguments.length > 0) {
@@ -137,7 +139,7 @@ export default class RouterLocalizationForm extends React.Component<
               {verboseName}
             </div>
             <div data-spec="argument-to-translate" className={styles.translating_from}>
-              {orginalArgument}
+              {originalArgument}
             </div>
             <div className={styles.translating_to}>
               <TextInputElement

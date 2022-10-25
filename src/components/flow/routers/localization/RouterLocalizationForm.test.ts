@@ -72,4 +72,8 @@ describe(RouterLocalizationForm.name, () => {
       expect(props.updateLocalizations).toMatchCallSnapshot();
     });
   });
+
+  // it('should display rules translation tab ', () => {
+  //   // todo
+  // });
 });
