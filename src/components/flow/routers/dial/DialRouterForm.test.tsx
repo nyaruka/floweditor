@@ -52,7 +52,6 @@ describe(DialRouterForm.name, () => {
     fireEvent.click(getByText('Ok'));
 
     const router = getSwitchRouter(getUpdatedNode(routerProps).node);
-    expect(router.wait.type).toBe(WaitTypes.dial);
     expect(router.wait.dial_limit).toBe('62');
     expect(routerProps.updateRouter).toMatchCallSnapshot();
   });
@@ -66,7 +65,6 @@ describe(DialRouterForm.name, () => {
     fireEvent.click(getByText('Ok'));
 
     const router = getSwitchRouter(getUpdatedNode(routerProps).node);
-    expect(router.wait.type).toBe(WaitTypes.dial);
     expect(router.wait.call_limit).toBe('7198');
     expect(routerProps.updateRouter).toMatchCallSnapshot();
   });
