@@ -8,7 +8,7 @@ import { createDialRouter, getRouterFormProps } from 'testUtils/assetCreators';
 import * as utils from 'utils';
 import { getSwitchRouter } from '../helpers';
 
-const routerNode = createDialRouter('0979123456', 'Dial Result');
+const routerNode = createDialRouter('0979123456', 'Dial Result', 60, 7200);
 routerNode.ui = {
   position: { left: 0, top: 0 },
   type: Types.wait_for_dial

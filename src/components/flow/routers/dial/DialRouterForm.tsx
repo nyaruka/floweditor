@@ -92,7 +92,7 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
           <div className={styles.form}>
             <p>{i18n.t('forms.dial_limit', 'Dial Limit (sec)')}</p>
             <TextInputElement
-              name={i18n.t('forms.dial_limit', 'Dial Limit (sec)')}
+              name="dial_limit"
               placeholder={'60'}
               maxLength={2} //max 99s = 1.65min
               onChange={this.handleDialLimitUpdated}
@@ -100,7 +100,7 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
             ></TextInputElement>
             <p>{i18n.t('forms.call_limit', 'Call Limit (sec)')}</p>
             <TextInputElement
-              name={i18n.t('forms.call_limit', 'Call Limit (sec)')}
+              name="call_limit"
               placeholder={'7200'}
               maxLength={4} //max 9999s = 166.65min = 2.7775hrs
               onChange={this.handleCallLimitUpdated}
