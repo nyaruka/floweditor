@@ -73,7 +73,7 @@ describe(RouterLocalizationForm.name, () => {
     });
   });
 
-  // it('should display rules translation tab ', () => {
+  // it('should display category name in second column of "rule translations" tab ', () => {
   //   // todo
   // });
 });
