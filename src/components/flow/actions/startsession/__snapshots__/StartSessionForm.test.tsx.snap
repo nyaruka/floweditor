@@ -117,6 +117,11 @@ exports[`StartSessionForm render should render 1`] = `
             </div>
           </div>
         </div>
+        <temba-checkbox
+          help_text="Avoid interrupting a contact who is already in a flow."
+          label="Skip contacts currently in a flow"
+          name="forms.skip_contacts_in_a_flow"
+        />
       </div>
       <div
         class="footer"
@@ -158,6 +163,7 @@ Object {
   "recipients": Object {
     "value": Array [],
   },
+  "skipContactsInFlow": false,
   "startType": Object {
     "value": Object {
       "name": "Select recipients manually",
@@ -282,6 +288,12 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
       searchable={true}
     />
   </div>
+  <temba-checkbox
+    help_text="Avoid interrupting a contact who is already in a flow."
+    label="Skip contacts currently in a flow"
+    name="forms.skip_contacts_in_a_flow"
+    onChange={[Function]}
+  />
 </Dialog>
 `;
 
@@ -398,6 +410,11 @@ exports[`StartSessionForm render should render contact query 1`] = `
             </div>
           </div>
         </div>
+        <temba-checkbox
+          help_text="Avoid interrupting a contact who is already in a flow."
+          label="Skip contacts currently in a flow"
+          name="forms.skip_contacts_in_a_flow"
+        />
       </div>
       <div
         class="footer"
@@ -536,6 +553,11 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
             </div>
           </div>
         </div>
+        <temba-checkbox
+          help_text="Avoid interrupting a contact who is already in a flow."
+          label="Skip contacts currently in a flow"
+          name="forms.skip_contacts_in_a_flow"
+        />
       </div>
       <div
         class="footer"
@@ -701,6 +723,12 @@ exports[`StartSessionForm render should render self, children with base props 1`
       searchable={true}
     />
   </div>
+  <temba-checkbox
+    help_text="Avoid interrupting a contact who is already in a flow."
+    label="Skip contacts currently in a flow"
+    name="forms.skip_contacts_in_a_flow"
+    onChange={[Function]}
+  />
 </Dialog>
 `;
 
@@ -817,6 +845,11 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
             </div>
           </div>
         </div>
+        <temba-checkbox
+          help_text="Avoid interrupting a contact who is already in a flow."
+          label="Skip contacts currently in a flow"
+          name="forms.skip_contacts_in_a_flow"
+        />
       </div>
       <div
         class="footer"
@@ -886,6 +919,7 @@ Object {
       },
     ],
   },
+  "skipContactsInFlow": false,
   "startType": Object {
     "value": Object {
       "name": "Select recipients manually",
