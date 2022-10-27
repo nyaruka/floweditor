@@ -123,7 +123,7 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
             helpText={
               <Trans i18nKey="forms.row_name_help">
                 Select row based on the values in the first column of the sheet. You can either use
-                a static value or a variabble from the first column. Get more help here
+                a static value or a variable from the first column.
               </Trans>
             }
             autocomplete={true}
