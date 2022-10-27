@@ -92,7 +92,6 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
     const typeConfig = this.props.typeConfig;
 
     const { result_name, sheet, row } = this.state;
-    console.log(this.state);
 
     const snaked =
       !hasErrors(result_name) && result_name.value ? '.' + snakify(result_name.value) : '';
