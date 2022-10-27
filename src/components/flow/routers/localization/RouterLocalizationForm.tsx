@@ -85,8 +85,8 @@ export default class RouterLocalizationForm extends React.Component<
     // same thing for any cases
     translations.push(
       ...this.state.cases.map((kase: Case) => {
-        const kaseArguments = kase.arguments.filter(Boolean);
-        return kaseArguments
+        const kaseArguments = kase.arguments ? kase.arguments.filter(Boolean) : [];
+        return kaseArguments.length > 0
           ? {
               uuid: kase.uuid,
               translations: {
