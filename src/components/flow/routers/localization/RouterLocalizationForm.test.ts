@@ -72,8 +72,4 @@ describe(RouterLocalizationForm.name, () => {
       expect(props.updateLocalizations).toMatchCallSnapshot();
     });
   });
-
-  // it('should display category name in second column of "rule translations" tab ', () => {
-  //   // todo
-  // });
 });
