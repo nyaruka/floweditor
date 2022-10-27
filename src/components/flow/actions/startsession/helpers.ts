@@ -34,6 +34,7 @@ export const initializeForm = (settings: NodeEditorSettings): StartSessionFormSt
           : START_TYPE_ASSETS
       },
       contactQuery: { value: action.contact_query || '' },
+      skipContactsInFlow: false,
       valid: true
     };
 
@@ -45,6 +46,7 @@ export const initializeForm = (settings: NodeEditorSettings): StartSessionFormSt
     flow: { value: null },
     startType: { value: START_TYPE_ASSETS },
     contactQuery: { value: '' },
+    skipContactsInFlow: false,
     valid: false
   };
 };

@@ -21,6 +21,7 @@ import TextInputElement from 'components/form/textinput/TextInputElement';
 import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
 import styles from './StartSessionForm.module.scss';
+import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 
 export const START_TYPE_ASSETS: SelectOption = {
   name: i18n.t('forms.start_type_manual', 'Select recipients manually'),
@@ -42,6 +43,7 @@ export interface StartSessionFormState extends FormState {
   flow: FormEntry;
   startType: SelectOptionEntry;
   contactQuery: StringEntry;
+  skipContactsInFlow: boolean;
 }
 
 export class StartSessionForm extends React.Component<ActionFormProps, StartSessionFormState> {
@@ -75,8 +77,18 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
     return this.handleUpdate({ contactQuery });
   }
 
+  public handleSkipContactsInFlow(skipContactsInFlow: boolean): boolean {
+    return this.handleUpdate({ skipContactsInFlow });
+  }
+
   private handleUpdate(
-    keys: { flow?: Asset; recipients?: Asset[]; startType?: SelectOption; contactQuery?: string },
+    keys: {
+      flow?: Asset;
+      recipients?: Asset[];
+      startType?: SelectOption;
+      contactQuery?: string;
+      skipContactsInFlow?: boolean;
+    },
     submitting = false
   ): boolean {
     const updates: Partial<StartSessionFormState> = {};
@@ -110,6 +122,9 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
       updates.flow = validate(i18n.t('forms.flow', 'Flow'), keys.flow, [
         shouldRequireIf(submitting)
       ]);
+    }
+
+    if (keys.hasOwnProperty('skipContactsInFlow')) {
     }
 
     const updated = mergeForm(this.state, updates);
@@ -207,6 +222,15 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
             onChange={this.handleFlowChanged}
           />
         </div>
+        <temba-checkbox
+          name="forms.skip_contacts_in_a_flow"
+          label={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
+          help_text={i18n.t(
+            'forms.skip_contacts_in_a_flow_description',
+            'Avoid interrupting a contact who is already in a flow.'
+          )}
+          onChange={this.handleSkipContactsInFlow}
+        ></temba-checkbox>
         {renderIssues(this.props)}
       </Dialog>
     );
