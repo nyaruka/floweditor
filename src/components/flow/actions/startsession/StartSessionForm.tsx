@@ -125,6 +125,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
     }
 
     if (keys.hasOwnProperty('skipContactsInFlow')) {
+      updates.skipContactsInFlow = keys.skipContactsInFlow;
     }
 
     const updated = mergeForm(this.state, updates);
@@ -222,15 +223,17 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
             onChange={this.handleFlowChanged}
           />
         </div>
-        <temba-checkbox
-          name="forms.skip_contacts_in_a_flow"
-          label={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
-          help_text={i18n.t(
+        <CheckboxElement
+          name={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
+          title={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
+          labelClassName={styles.checkbox}
+          checked={this.state.skipContactsInFlow}
+          description={i18n.t(
             'forms.skip_contacts_in_a_flow_description',
             'Avoid interrupting a contact who is already in a flow.'
           )}
           onChange={this.handleSkipContactsInFlow}
-        ></temba-checkbox>
+        />
         {renderIssues(this.props)}
       </Dialog>
     );

@@ -181,19 +181,22 @@ export const createStartSessionAction = ({
     uuid: 'flow_uuid',
     name: 'Flow to Start'
   },
-  create_contact = false
+  create_contact = false,
+  skipContactsInFlow = false
 }: {
   uuid?: string;
   groups?: Group[];
   contacts?: Contact[];
   flow?: Flow;
   create_contact?: boolean;
+  skipContactsInFlow?: boolean;
 } = {}): StartSession => ({
   uuid,
   groups,
   contacts,
   flow,
   create_contact,
+  skipContactsInFlow,
   type: Types.start_session
 });
 

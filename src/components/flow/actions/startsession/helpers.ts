@@ -34,7 +34,7 @@ export const initializeForm = (settings: NodeEditorSettings): StartSessionFormSt
           : START_TYPE_ASSETS
       },
       contactQuery: { value: action.contact_query || '' },
-      skipContactsInFlow: false,
+      skipContactsInFlow: action.skipContactsInFlow,
       valid: true
     };
 
@@ -64,7 +64,8 @@ export const stateToAction = (
     create_contact: state.startType.value === START_TYPE_CREATE,
     flow: { name: flow.name, uuid: flow.uuid },
     type: Types.start_session,
-    uuid: getActionUUID(settings, Types.start_session)
+    uuid: getActionUUID(settings, Types.start_session),
+    skipContactsInFlow: state.skipContactsInFlow
   };
 
   // only include contact query if it is set
