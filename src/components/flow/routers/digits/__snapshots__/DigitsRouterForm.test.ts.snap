@@ -54,6 +54,12 @@ exports[`DigitsRouterForm initializes 1`] = `
           "verboseName": "starts with",
         },
         Object {
+          "categoryName": "Has Text",
+          "operands": 0,
+          "type": "has_text",
+          "verboseName": "has some text",
+        },
+        Object {
           "categoryName": "Has Number",
           "operands": 0,
           "type": "has_number",
@@ -88,6 +94,11 @@ exports[`DigitsRouterForm initializes 1`] = `
           "operands": 1,
           "type": "has_number_gt",
           "verboseName": "has a number above",
+        },
+        Object {
+          "operands": 1,
+          "type": "has_pattern",
+          "verboseName": "matches regex",
         },
       ]
     }
@@ -172,6 +183,12 @@ exports[`DigitsRouterForm should render 1`] = `
           "verboseName": "starts with",
         },
         Object {
+          "categoryName": "Has Text",
+          "operands": 0,
+          "type": "has_text",
+          "verboseName": "has some text",
+        },
+        Object {
           "categoryName": "Has Number",
           "operands": 0,
           "type": "has_number",
@@ -206,6 +223,11 @@ exports[`DigitsRouterForm should render 1`] = `
           "operands": 1,
           "type": "has_number_gt",
           "verboseName": "has a number above",
+        },
+        Object {
+          "operands": 1,
+          "type": "has_pattern",
+          "verboseName": "matches regex",
         },
       ]
     }
