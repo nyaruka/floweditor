@@ -655,8 +655,8 @@ export const createDialRouter = (
   router.wait = {
     type: WaitTypes.dial,
     phone: phone,
-    dial_limit: dialLimit,
-    call_limit: callLimit
+    dial_limit_seconds: dialLimit,
+    call_limit_seconds: callLimit
   };
 
   matchRouter.ui.type = Types.wait_for_dial;

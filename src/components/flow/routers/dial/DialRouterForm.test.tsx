@@ -48,11 +48,11 @@ describe(DialRouterForm.name, () => {
 
     fireEvent.click(getByText('Advanced'));
 
-    fireChangeText(getByTestId('dial_limit'), '62');
+    fireChangeText(getByTestId('dial_limit_seconds'), '62');
     fireEvent.click(getByText('Ok'));
 
     const router = getSwitchRouter(getUpdatedNode(routerProps).node);
-    expect(router.wait.dial_limit).toBe('62');
+    expect(router.wait.dial_limit_seconds).toBe('62');
     expect(routerProps.updateRouter).toMatchCallSnapshot();
   });
 
@@ -61,11 +61,11 @@ describe(DialRouterForm.name, () => {
 
     fireEvent.click(getByText('Advanced'));
 
-    fireChangeText(getByTestId('call_limit'), '7198');
+    fireChangeText(getByTestId('call_limit_seconds'), '7198');
     fireEvent.click(getByText('Ok'));
 
     const router = getSwitchRouter(getUpdatedNode(routerProps).node);
-    expect(router.wait.call_limit).toBe('7198');
+    expect(router.wait.call_limit_seconds).toBe('7198');
     expect(routerProps.updateRouter).toMatchCallSnapshot();
   });
 });

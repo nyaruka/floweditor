@@ -30,8 +30,8 @@ export const nodeToState = (settings: NodeEditorSettings): DialRouterFormState =
     if (router) {
       phone = router.wait.phone;
       resultName = { value: router.result_name || '' };
-      dialLimit = Number(router.wait.dial_limit);
-      callLimit = Number(router.wait.call_limit);
+      dialLimit = router.wait.dial_limit_seconds;
+      callLimit = router.wait.call_limit_seconds;
     }
   }
 
@@ -133,8 +133,8 @@ export const stateToNode = (
   const wait = {
     type: WaitTypes.dial,
     phone: state.phone.value,
-    dial_limit: state.dialLimit.value,
-    call_limit: state.callLimit.value
+    dial_limit_seconds: state.dialLimit.value,
+    call_limit_seconds: state.callLimit.value
   } as Wait;
 
   const router: SwitchRouter = {

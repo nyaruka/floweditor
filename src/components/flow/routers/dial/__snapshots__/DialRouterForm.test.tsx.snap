@@ -231,8 +231,8 @@ Array [
         "result_name": "Dial Result",
         "type": "switch",
         "wait": Object {
-          "call_limit": 7200,
-          "dial_limit": 60,
+          "call_limit_seconds": 7200,
+          "dial_limit_seconds": 60,
           "phone": "0979123456",
           "type": "dial",
         },
@@ -346,8 +346,8 @@ Array [
         "result_name": "Dial Result",
         "type": "switch",
         "wait": Object {
-          "call_limit": 7200,
-          "dial_limit": 60,
+          "call_limit_seconds": 7200,
+          "dial_limit_seconds": 60,
           "phone": "0979123456",
           "type": "dial",
         },
@@ -461,8 +461,8 @@ Array [
         "result_name": "Dial Result",
         "type": "switch",
         "wait": Object {
-          "call_limit": 7200,
-          "dial_limit": 60,
+          "call_limit_seconds": 7200,
+          "dial_limit_seconds": 60,
           "phone": "0979123456",
           "type": "dial",
         },

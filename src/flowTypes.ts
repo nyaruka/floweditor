@@ -246,8 +246,8 @@ export interface Wait {
   timeout?: Timeout;
   hint?: Hint;
   phone?: string;
-  dial_limit?: number;
-  call_limit?: number;
+  dial_limit_seconds?: number;
+  call_limit_seconds?: number;
 }
 
 export interface Group {
