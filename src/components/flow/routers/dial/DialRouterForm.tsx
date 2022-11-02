@@ -39,9 +39,11 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
   }
 
   private handleDialLimitUpdated(value: string): void {
-    const dialLimit = validate(i18n.t('forms.dial_limit_seconds', 'Dial Limit (sec)'), value, [
-      Numeric
-    ]);
+    const dialLimit = validate(
+      i18n.t('forms.dial_limit_seconds', 'Dialing time limit (seconds)'),
+      value,
+      [Numeric]
+    );
     this.setState({
       dialLimit: dialLimit,
       valid: this.state.valid && !hasErrors(dialLimit)
@@ -49,9 +51,11 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
   }
 
   private handleCallLimitUpdated(value: string): void {
-    const callLimit = validate(i18n.t('forms.call_limit_seconds', 'Call Limit (sec)'), value, [
-      Numeric
-    ]);
+    const callLimit = validate(
+      i18n.t('forms.call_limit_seconds', 'Dialing time limit (seconds)'),
+      value,
+      [Numeric]
+    );
     this.setState({
       callLimit: callLimit,
       valid: this.state.valid && !hasErrors(callLimit)
