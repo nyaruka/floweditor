@@ -37,7 +37,10 @@ export default class DigitsRouterForm extends React.Component<
   private getOperators(): Operator[] {
     return operatorConfigList.filter(
       operator =>
-        operator.type === Operators.has_beginning || operator.type.indexOf('has_number') === 0
+        operator.type === Operators.has_text ||
+        operator.type === Operators.has_beginning ||
+        operator.type === Operators.has_pattern ||
+        operator.type.indexOf('has_number') === 0
     );
   }
 
