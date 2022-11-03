@@ -142,7 +142,7 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
               i18nKey="forms.sheet_result_help"
               values={{
                 resultFormat: `@results${snaked}`,
-                columnFormat: `@results${snaked}.{columntitle}`
+                columnFormat: `@results${snaked}.column_title`
               }}
             >
               You can reference this row as [[resultFormat]] and a specific column can be referenced

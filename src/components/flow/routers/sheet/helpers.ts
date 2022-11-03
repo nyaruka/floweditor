@@ -8,16 +8,26 @@ import { createWebhookBasedNode } from '../helpers';
 import { SheetFormState } from '../sheet/SheetForm';
 import { getType } from 'config/typeConfigs';
 
+export const getOriginalAction = (settings: NodeEditorSettings): LinkSheets => {
+  const action =
+    settings.originalAction ||
+    (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
+
+  if (action.type === Types.link_google_sheet) {
+    return action as LinkSheets;
+  }
+};
+
 export const nodeToState = (settings: NodeEditorSettings): SheetFormState => {
   let result_name: StringEntry = { value: 'sheet' };
   let row: StringEntry = { value: '' };
 
   let sheet: FormEntry = { value: null };
   if (
-    getType(settings.originalNode) === Types.link_google_sheet ||
+    getType(settings.originalNode) === Types.split_by_webhook ||
     (settings.originalAction && settings.originalAction.type === Types.link_google_sheet)
   ) {
-    let action = settings.originalAction as LinkSheets;
+    let action = getOriginalAction(settings);
 
     // look for any run result actions
     if (action.type === Types.link_google_sheet) {
