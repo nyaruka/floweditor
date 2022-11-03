@@ -1,5 +1,5 @@
 import { react as bindCallbacks } from 'auto-bind';
-import Dialog, { ButtonSet } from 'components/dialog/Dialog';
+import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TypeList from 'components/nodeeditor/TypeList';
@@ -165,8 +165,33 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
+    const advanced: Tab = {
+      name: i18n.t('forms.advanced', 'Advanced'),
+      body: (
+        <CheckboxElement
+          name={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
+          title={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
+          labelClassName={styles.checkbox}
+          checked={this.state.skipContactsInFlow}
+          description={i18n.t(
+            'forms.skip_contacts_in_a_flow_description',
+            'Avoid interrupting a contact who is already in a flow.'
+          )}
+          onChange={this.handleSkipContactsInFlow}
+        />
+      ),
+      checked: this.state.skipContactsInFlow
+    };
+
+    const tabs = [advanced];
+
     return (
-      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+      <Dialog
+        title={typeConfig.name}
+        headerClass={typeConfig.type}
+        buttons={this.getButtons()}
+        tabs={tabs}
+      >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div>
           <SelectElement
@@ -223,17 +248,6 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
             onChange={this.handleFlowChanged}
           />
         </div>
-        <CheckboxElement
-          name={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
-          title={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
-          labelClassName={styles.checkbox}
-          checked={this.state.skipContactsInFlow}
-          description={i18n.t(
-            'forms.skip_contacts_in_a_flow_description',
-            'Avoid interrupting a contact who is already in a flow.'
-          )}
-          onChange={this.handleSkipContactsInFlow}
-        />
         {renderIssues(this.props)}
       </Dialog>
     );

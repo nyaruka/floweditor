@@ -455,7 +455,7 @@ export interface StartSession extends RecipientsAction {
   flow: Flow;
   create_contact?: boolean;
   contact_query?: string;
-  skipContactsInFlow: boolean;
+  skipContactsInFlow?: boolean;
 }
 
 export interface UIMetaData {
