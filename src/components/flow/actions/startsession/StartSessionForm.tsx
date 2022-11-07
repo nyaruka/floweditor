@@ -11,7 +11,8 @@ import {
   mergeForm,
   StringEntry,
   SelectOptionEntry,
-  FormEntry
+  FormEntry,
+  ExclusionsCheckboxEntry
 } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
 import { renderIf } from 'utils';
@@ -43,7 +44,7 @@ export interface StartSessionFormState extends FormState {
   flow: FormEntry;
   startType: SelectOptionEntry;
   contactQuery: StringEntry;
-  skipContactsInFlow: boolean;
+  exclusions: ExclusionsCheckboxEntry;
 }
 
 export class StartSessionForm extends React.Component<ActionFormProps, StartSessionFormState> {
@@ -77,8 +78,9 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
     return this.handleUpdate({ contactQuery });
   }
 
-  public handleSkipContactsInFlow(skipContactsInFlow: boolean): boolean {
-    return this.handleUpdate({ skipContactsInFlow });
+  public handleExclusions(skipContactsInAFlow: boolean): boolean {
+    let exclusions = { in_a_flow: skipContactsInAFlow };
+    return this.handleUpdate({ exclusions });
   }
 
   private handleUpdate(
@@ -87,7 +89,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
       recipients?: Asset[];
       startType?: SelectOption;
       contactQuery?: string;
-      skipContactsInFlow?: boolean;
+      exclusions?: ExclusionsCheckboxEntry;
     },
     submitting = false
   ): boolean {
@@ -124,8 +126,8 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
       ]);
     }
 
-    if (keys.hasOwnProperty('skipContactsInFlow')) {
-      updates.skipContactsInFlow = keys.skipContactsInFlow;
+    if (keys.hasOwnProperty('exclusions')) {
+      updates.exclusions = keys.exclusions;
     }
 
     const updated = mergeForm(this.state, updates);
@@ -172,15 +174,15 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
           name={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
           title={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
           labelClassName={styles.checkbox}
-          checked={this.state.skipContactsInFlow}
+          checked={this.state.exclusions.in_a_flow}
           description={i18n.t(
             'forms.skip_contacts_in_a_flow_description',
             'Avoid interrupting a contact who is already in a flow.'
           )}
-          onChange={this.handleSkipContactsInFlow}
+          onChange={this.handleExclusions}
         />
       ),
-      checked: this.state.skipContactsInFlow
+      checked: this.state.exclusions.in_a_flow
     };
 
     const tabs = [advanced];

@@ -7,6 +7,16 @@ exports[`StartSessionForm render should render 1`] = `
       class="dialog"
     >
       <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Advanced
+           
+        </div>
+      </div>
+      <div
         class="header start_session"
       >
         <div
@@ -117,11 +127,6 @@ exports[`StartSessionForm render should render 1`] = `
             </div>
           </div>
         </div>
-        <temba-checkbox
-          help_text="Avoid interrupting a contact who is already in a flow."
-          label="Skip contacts currently in a flow"
-          name="forms.skip_contacts_in_a_flow"
-        />
       </div>
       <div
         class="footer"
@@ -157,13 +162,15 @@ Object {
   "contactQuery": Object {
     "value": "",
   },
+  "exclusions": Object {
+    "in_a_flow": false,
+  },
   "flow": Object {
     "value": null,
   },
   "recipients": Object {
     "value": Array [],
   },
-  "skipContactsInFlow": false,
   "startType": Object {
     "value": Object {
       "name": "Select recipients manually",
@@ -189,6 +196,22 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
     }
   }
   headerClass="start_session"
+  tabs={
+    Array [
+      Object {
+        "body": <CheckboxElement
+          checked={false}
+          description="Avoid interrupting a contact who is already in a flow."
+          labelClassName="checkbox"
+          name="Skip contacts currently in a flow"
+          onChange={[Function]}
+          title="Skip contacts currently in a flow"
+        />,
+        "checked": false,
+        "name": "Advanced",
+      },
+    ]
+  }
   title="Start Somebody Else"
 >
   <TypeList
@@ -288,12 +311,6 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
       searchable={true}
     />
   </div>
-  <temba-checkbox
-    help_text="Avoid interrupting a contact who is already in a flow."
-    label="Skip contacts currently in a flow"
-    name="forms.skip_contacts_in_a_flow"
-    onChange={[Function]}
-  />
 </Dialog>
 `;
 
@@ -303,6 +320,16 @@ exports[`StartSessionForm render should render contact query 1`] = `
     <div
       class="dialog"
     >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Advanced
+           
+        </div>
+      </div>
       <div
         class="header start_session"
       >
@@ -410,11 +437,6 @@ exports[`StartSessionForm render should render contact query 1`] = `
             </div>
           </div>
         </div>
-        <temba-checkbox
-          help_text="Avoid interrupting a contact who is already in a flow."
-          label="Skip contacts currently in a flow"
-          name="forms.skip_contacts_in_a_flow"
-        />
       </div>
       <div
         class="footer"
@@ -451,6 +473,9 @@ Array [
     "contact_query": "my_field > 6",
     "contacts": Array [],
     "create_contact": false,
+    "exclusions": Object {
+      "in_a_flow": false,
+    },
     "flow": Object {
       "name": "Flow to Start",
       "uuid": "flow_uuid",
@@ -469,6 +494,16 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
     <div
       class="dialog"
     >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Advanced
+           
+        </div>
+      </div>
       <div
         class="header start_session"
       >
@@ -553,11 +588,6 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
             </div>
           </div>
         </div>
-        <temba-checkbox
-          help_text="Avoid interrupting a contact who is already in a flow."
-          label="Skip contacts currently in a flow"
-          name="forms.skip_contacts_in_a_flow"
-        />
       </div>
       <div
         class="footer"
@@ -603,6 +633,22 @@ exports[`StartSessionForm render should render self, children with base props 1`
     }
   }
   headerClass="start_session"
+  tabs={
+    Array [
+      Object {
+        "body": <CheckboxElement
+          checked={false}
+          description="Avoid interrupting a contact who is already in a flow."
+          labelClassName="checkbox"
+          name="Skip contacts currently in a flow"
+          onChange={[Function]}
+          title="Skip contacts currently in a flow"
+        />,
+        "checked": false,
+        "name": "Advanced",
+      },
+    ]
+  }
   title="Start Somebody Else"
 >
   <TypeList
@@ -723,12 +769,6 @@ exports[`StartSessionForm render should render self, children with base props 1`
       searchable={true}
     />
   </div>
-  <temba-checkbox
-    help_text="Avoid interrupting a contact who is already in a flow."
-    label="Skip contacts currently in a flow"
-    name="forms.skip_contacts_in_a_flow"
-    onChange={[Function]}
-  />
 </Dialog>
 `;
 
@@ -738,6 +778,16 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
     <div
       class="dialog"
     >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Advanced
+           
+        </div>
+      </div>
       <div
         class="header start_session"
       >
@@ -845,11 +895,6 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
             </div>
           </div>
         </div>
-        <temba-checkbox
-          help_text="Avoid interrupting a contact who is already in a flow."
-          label="Skip contacts currently in a flow"
-          name="forms.skip_contacts_in_a_flow"
-        />
       </div>
       <div
         class="footer"
@@ -885,6 +930,9 @@ Array [
   Object {
     "contacts": Array [],
     "create_contact": false,
+    "exclusions": Object {
+      "in_a_flow": false,
+    },
     "flow": Object {
       "name": "My Flow",
       "uuid": undefined,
@@ -901,6 +949,9 @@ exports[`StartSessionForm updates should save changes 1`] = `
 Object {
   "contactQuery": Object {
     "value": "",
+  },
+  "exclusions": Object {
+    "in_a_flow": false,
   },
   "flow": Object {
     "validationFailures": Array [],
@@ -919,7 +970,6 @@ Object {
       },
     ],
   },
-  "skipContactsInFlow": false,
   "startType": Object {
     "value": Object {
       "name": "Select recipients manually",
@@ -935,6 +985,9 @@ Array [
   Object {
     "contacts": Array [],
     "create_contact": false,
+    "exclusions": Object {
+      "in_a_flow": false,
+    },
     "flow": Object {
       "name": "My Flow",
       "uuid": undefined,

@@ -56,6 +56,10 @@ export interface SelectOptionArrayEntry extends FormEntry {
   value: SelectOption[] | null;
 }
 
+export interface ExclusionsCheckboxEntry {
+  in_a_flow: boolean;
+}
+
 export const mergeForm = (
   form: FormState,
   toMerge: Partial<FormState>,
