@@ -1,5 +1,6 @@
 import { Methods } from 'components/flow/routers/webhook/helpers';
 import { FlowTypes, Operators, Types, ContactStatus } from 'config/interfaces';
+import { ExclusionsCheckboxEntry } from 'store/nodeEditor';
 
 // we don't concern ourselves with patch versions
 export const SPEC_VERSION = '13.1';
@@ -457,6 +458,7 @@ export interface StartSession extends RecipientsAction {
   flow: Flow;
   create_contact?: boolean;
   contact_query?: string;
+  exclusions?: ExclusionsCheckboxEntry;
 }
 
 export interface UIMetaData {

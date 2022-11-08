@@ -17,6 +17,7 @@ import {
 import styles from './RouterLocalizationForm.module.scss';
 import i18n from 'config/i18n';
 import { renderIssues } from 'components/flow/actions/helpers';
+import { Operators } from 'config/interfaces';
 
 export interface RouterLocalizationFormState extends FormState {
   categories: Category[];
@@ -85,7 +86,8 @@ export default class RouterLocalizationForm extends React.Component<
     // same thing for any cases
     translations.push(
       ...this.state.cases.map((kase: Case) => {
-        return kase.arguments
+        const kaseArguments = kase.arguments ? kase.arguments.filter(Boolean) : [];
+        return kaseArguments.length > 0
           ? {
               uuid: kase.uuid,
               translations: {
@@ -118,8 +120,10 @@ export default class RouterLocalizationForm extends React.Component<
 
       const { verboseName } = getOperatorConfig(originalCase.type);
 
-      if (originalCase.arguments) {
-        const [orginalArgument] = originalCase.arguments;
+      if (originalCase.arguments && originalCase.type !== Operators.has_number_between) {
+        const cat_uuid = originalCase.category_uuid;
+        const originalCategory = getOriginalCategory(this.props.nodeSettings, cat_uuid);
+        const originalArgument = originalCategory.name;
 
         let argument = '';
         if (kase.arguments && kase.arguments.length > 0) {
@@ -137,7 +141,7 @@ export default class RouterLocalizationForm extends React.Component<
               {verboseName}
             </div>
             <div data-spec="argument-to-translate" className={styles.translating_from}>
-              {orginalArgument}
+              {originalArgument}
             </div>
             <div className={styles.translating_to}>
               <TextInputElement
@@ -194,7 +198,11 @@ export default class RouterLocalizationForm extends React.Component<
 
     const hasCasesWithArguments = !!this.state.cases.find((kase: Case) => {
       const orginalCase = getOriginalCase(this.props.nodeSettings, kase.uuid) as Case;
-      return orginalCase.arguments && orginalCase.arguments.length > 0;
+      return (
+        orginalCase.arguments &&
+        orginalCase.arguments.length > 0 &&
+        orginalCase.type !== Operators.has_number_between
+      );
     });
 
     if (hasCasesWithArguments) {
