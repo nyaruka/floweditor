@@ -37,7 +37,9 @@ const baseProps: LocalizationFormProps = {
     originalNode: responseRenderNode,
     originalAction: null,
     localizations
-  }
+  },
+  helpArticles: {},
+  issues: []
 };
 
 const { setup } = composeComponentTestUtils<LocalizationFormProps>(

@@ -45,7 +45,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
                   className="translating_from"
                   data-spec="argument-to-translate"
                 >
-                  red
+                  Red
                 </div>
                 <div
                   className="translating_to"
@@ -78,7 +78,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
                   className="translating_from"
                   data-spec="argument-to-translate"
                 >
-                  blue
+                  Blue
                 </div>
                 <div
                   className="translating_to"
@@ -249,7 +249,7 @@ exports[`RouterLocalizationForm should render 1`] = `
                   className="translating_from"
                   data-spec="argument-to-translate"
                 >
-                  red
+                  Red
                 </div>
                 <div
                   className="translating_to"
@@ -282,7 +282,7 @@ exports[`RouterLocalizationForm should render 1`] = `
                   className="translating_from"
                   data-spec="argument-to-translate"
                 >
-                  blue
+                  Blue
                 </div>
                 <div
                   className="translating_to"
