@@ -97,23 +97,29 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
       name: i18n.t('advanced', 'Advanced'),
       body: (
         <>
-          <div className={styles.form}>
-            <p>{i18n.t('forms.dial_limit_seconds', 'Dialing time limit (seconds)')}</p>
-            <TextInputElement
-              name="dial_limit_seconds"
-              placeholder={'60'}
-              maxLength={2} //max 99s = 1.65min
-              onChange={this.handleDialLimitUpdated}
-              entry={(this.state.dialLimit as any) as StringEntry}
-            ></TextInputElement>
-            <p>{i18n.t('forms.call_limit_seconds', 'Call time limit (seconds)')}</p>
-            <TextInputElement
-              name="call_limit_seconds"
-              placeholder={'7200'}
-              maxLength={4} //max 9999s = 166.65min = 2.7775hrs
-              onChange={this.handleCallLimitUpdated}
-              entry={(this.state.callLimit as any) as StringEntry}
-            ></TextInputElement>
+          <div className="flex-container">
+            <div>1</div>
+            <div>2</div>
+            {/* <div>
+              <p>{i18n.t('forms.dial_limit_seconds', 'Dialing time limit (seconds)')}</p>
+              <TextInputElement
+                name="dial_limit_seconds"
+                placeholder={'60'}
+                maxLength={2} //max 99s = 1.65min
+                onChange={this.handleDialLimitUpdated}
+                entry={(this.state.dialLimit as any) as StringEntry}
+              ></TextInputElement>
+            </div>
+            <div>
+              <p>{i18n.t('forms.call_limit_seconds', 'Call time limit (seconds)')}</p>
+              <TextInputElement
+                name="call_limit_seconds"
+                placeholder={'7200'}
+                maxLength={4} //max 9999s = 166.65min = 2.7775hrs
+                onChange={this.handleCallLimitUpdated}
+                entry={(this.state.callLimit as any) as StringEntry}
+              ></TextInputElement>
+            </div> */}
           </div>
         </>
       )
