@@ -97,7 +97,7 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
       name: i18n.t('advanced', 'Advanced'),
       body: (
         <>
-          <div className="flex-container">
+          <div className={styles.flex_container}>
             <div>1</div>
             <div>2</div>
             {/* <div>
