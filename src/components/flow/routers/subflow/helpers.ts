@@ -78,10 +78,6 @@ export const stateToNode = (
       {
         uuid: createUUID(),
         destination_uuid: null
-      },
-      {
-        uuid: createUUID(),
-        destination_uuid: null
       }
     ];
 
@@ -90,11 +86,6 @@ export const stateToNode = (
         uuid: createUUID(),
         name: StartFlowExitNames.Complete,
         exit_uuid: exits[0].uuid
-      },
-      {
-        uuid: createUUID(),
-        name: StartFlowExitNames.Expired,
-        exit_uuid: exits[1].uuid
       }
     ];
 
@@ -104,12 +95,6 @@ export const stateToNode = (
         type: Operators.has_only_text,
         arguments: ['completed'],
         category_uuid: categories[0].uuid
-      },
-      {
-        uuid: createUUID(),
-        arguments: ['expired'],
-        type: Operators.has_only_text,
-        category_uuid: categories[1].uuid
       }
     ];
   }
