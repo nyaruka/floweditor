@@ -5,13 +5,14 @@
 }
 
 .flex_items {
-    width: 100%;
+    flex-grow: 1;
+    margin: 0 5px 0 5px;
 }
 
 .flex_items:first-child{
-    margin-right: 5px;
+    margin: 0 5px 0 0;
 }
 
 .flex_items:last-child{
-    margin-left: 5px;
+    margin: 0 0 0 5px;
 }
