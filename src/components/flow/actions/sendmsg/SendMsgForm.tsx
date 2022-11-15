@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { react as bindCallbacks } from 'auto-bind';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import {
@@ -48,6 +48,8 @@ export interface SendMsgFormState extends FormState {
   quickReplyEntry: StringEntry;
   sendAll: boolean;
   attachments: Attachment[];
+  uploadInProgress: boolean;
+  mostRecentUploadError: string;
   template: FormEntry;
   topic: SelectOptionEntry;
   templateVariables: StringEntry[];
@@ -285,10 +287,27 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleAttachmentUploaded(response: AxiosResponse) {
+    console.log(response);
+
     const attachments: any = mutate(this.state.attachments, {
       $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
     });
+    console.log(attachments);
     this.setState({ attachments });
+
+    const uploadInProgress: boolean = false;
+    this.setState({ uploadInProgress });
+  }
+
+  private handleAttachmentUploadFailed(error: AxiosError) {
+    console.log(error);
+
+    const mostRecentUploadError: string = error.response.statusText;
+    console.log(mostRecentUploadError);
+    this.setState({ mostRecentUploadError });
+
+    const uploadInProgress: boolean = false;
+    this.setState({ uploadInProgress });
   }
 
   private handleAttachmentChanged(index: number, type: string, url: string) {
@@ -349,7 +368,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       body: renderAttachments(
         this.context.config.endpoints.attachments,
         this.state.attachments,
+        this.state.uploadInProgress,
+        this.state.mostRecentUploadError,
         this.handleAttachmentUploaded,
+        this.handleAttachmentUploadFailed,
         this.handleAttachmentChanged,
         this.handleAttachmentRemoved
       ),

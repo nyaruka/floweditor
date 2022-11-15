@@ -1,11 +1,11 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import Pill from 'components/pill/Pill';
 import i18n from 'config/i18n';
 import { getCookie } from 'external';
 import React from 'react';
 import { TembaSelectStyle } from 'temba/TembaSelect';
-import { createUUID } from 'utils';
+import { createUUID, renderIf } from 'utils';
 import styles from './attachments.module.scss';
 import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 
@@ -40,7 +40,8 @@ const getAttachmentTypeOption = (type: string): SelectOption => {
 export const handleUploadFile = (
   endpoint: string,
   files: FileList,
-  onSuccess: (response: AxiosResponse) => void
+  onSuccess: (response: AxiosResponse) => void,
+  onFailure: (error: AxiosError) => void
 ): void => {
   // if we have a csrf in our cookie, pass it along as a header
   const csrf = getCookie('csrftoken');
@@ -53,16 +54,23 @@ export const handleUploadFile = (
   data.append('file', files[0]);
   axios
     .post(endpoint, data, { headers })
-    .then(onSuccess)
+    .then(response => {
+      console.log(response);
+      onSuccess(response);
+    })
     .catch(error => {
       console.log(error);
+      onFailure(error);
     });
 };
 
 export const renderAttachments = (
   endpoint: string,
   attachments: Attachment[],
+  uploadInProgress: boolean,
+  mostRecentUploadError: string,
   onUploaded: (response: AxiosResponse) => void,
+  onUploadFailed: (error: AxiosError) => void,
   onAttachmentChanged: (index: number, value: string, url: string) => void,
   onAttachmentRemoved: (index: number) => void
 ): JSX.Element => {
@@ -74,14 +82,9 @@ export const renderAttachments = (
 
   const emptyOption =
     attachments.length < MAX_ATTACHMENTS
-      ? renderAttachment(
-          -1,
-          { url: '', type: '' },
-
-          onAttachmentChanged,
-          onAttachmentRemoved
-        )
+      ? renderAttachment(-1, { url: '', type: '' }, onAttachmentChanged, onAttachmentRemoved)
       : null;
+
   return (
     <>
       <p>
@@ -101,8 +104,15 @@ export const renderAttachments = (
           filePicker = ele;
         }}
         type="file"
-        onChange={e => handleUploadFile(endpoint, e.target.files, onUploaded)}
+        onChange={e => handleUploadFile(endpoint, e.target.files, onUploaded, onUploadFailed)}
       />
+      {renderIf(uploadInProgress)(
+        <span className={styles.upload_error}>{mostRecentUploadError}</span>
+        // todo temba loading
+      )}
+      {renderIf(mostRecentUploadError && mostRecentUploadError.length > 0)(
+        <span className={styles.upload_error}>{mostRecentUploadError}</span>
+      )}
     </>
   );
 };
@@ -161,6 +171,10 @@ export const renderAttachment = (
   onAttachmentChanged: (index: number, type: string, url: string) => void,
   onAttachmentRemoved: (index: number) => void
 ): JSX.Element => {
+  // if(this.state.loading){
+  //   return
+  // }
+
   return (
     <div
       className={styles.url_attachment}

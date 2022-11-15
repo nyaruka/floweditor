@@ -19,7 +19,7 @@ import { Trans } from 'react-i18next';
 import { range } from 'utils';
 import { renderIssues } from '../helpers';
 import { Attachment, renderAttachments } from '../sendmsg/attachments';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
 export interface MsgLocalizationFormState extends FormState {
   message: StringEntry;
@@ -28,6 +28,8 @@ export interface MsgLocalizationFormState extends FormState {
   templateVariables: StringEntry[];
   templating: MsgTemplating;
   attachments: Attachment[];
+  uploadInProgress: boolean;
+  mostRecentUploadError: string;
 }
 
 export default class MsgLocalizationForm extends React.Component<
@@ -172,6 +174,13 @@ export default class MsgLocalizationForm extends React.Component<
     this.setState({ attachments });
   }
 
+  private handleAttachmentUploadFailed(error: AxiosError) {
+    console.log(error);
+    const mostRecentUploadError: string = error.response.statusText;
+    console.log(mostRecentUploadError);
+    this.setState({ mostRecentUploadError });
+  }
+
   private handleAttachmentChanged(index: number, type: string, url: string) {
     let attachments: any = this.state.attachments;
     if (index === -1) {
@@ -253,7 +262,10 @@ export default class MsgLocalizationForm extends React.Component<
         body: renderAttachments(
           this.context.config.endpoints.attachments,
           this.state.attachments,
+          this.state.uploadInProgress,
+          this.state.mostRecentUploadError,
           this.handleAttachmentUploaded,
+          this.handleAttachmentUploadFailed,
           this.handleAttachmentChanged,
           this.handleAttachmentRemoved
         ),
