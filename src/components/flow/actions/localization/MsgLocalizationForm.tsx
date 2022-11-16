@@ -29,7 +29,7 @@ export interface MsgLocalizationFormState extends FormState {
   templating: MsgTemplating;
   attachments: Attachment[];
   uploadInProgress: boolean;
-  mostRecentUploadError: string;
+  uploadError: string;
 }
 
 export default class MsgLocalizationForm extends React.Component<
@@ -167,18 +167,40 @@ export default class MsgLocalizationForm extends React.Component<
     this.setState({ templateVariables });
   }
 
+  private handleAttachmentUploading() {
+    const uploadError: string = '';
+    console.log(uploadError);
+    this.setState({ uploadError });
+
+    const uploadInProgress: boolean = true;
+    this.setState({ uploadInProgress });
+  }
+
   private handleAttachmentUploaded(response: AxiosResponse) {
+    console.log(response);
+
     const attachments: any = mutate(this.state.attachments, {
       $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
     });
     this.setState({ attachments });
+
+    const uploadError: string = '';
+    console.log(uploadError);
+    this.setState({ uploadError });
+
+    const uploadInProgress: boolean = false;
+    this.setState({ uploadInProgress });
   }
 
   private handleAttachmentUploadFailed(error: AxiosError) {
     console.log(error);
-    const mostRecentUploadError: string = error.response.statusText;
-    console.log(mostRecentUploadError);
-    this.setState({ mostRecentUploadError });
+
+    const uploadError: string = error.response.statusText;
+    console.log(uploadError);
+    this.setState({ uploadError });
+
+    const uploadInProgress: boolean = false;
+    this.setState({ uploadInProgress });
   }
 
   private handleAttachmentChanged(index: number, type: string, url: string) {
@@ -263,7 +285,8 @@ export default class MsgLocalizationForm extends React.Component<
           this.context.config.endpoints.attachments,
           this.state.attachments,
           this.state.uploadInProgress,
-          this.state.mostRecentUploadError,
+          this.state.uploadError,
+          this.handleAttachmentUploading,
           this.handleAttachmentUploaded,
           this.handleAttachmentUploadFailed,
           this.handleAttachmentChanged,

@@ -49,7 +49,7 @@ export interface SendMsgFormState extends FormState {
   sendAll: boolean;
   attachments: Attachment[];
   uploadInProgress: boolean;
-  mostRecentUploadError: string;
+  uploadError: string;
   template: FormEntry;
   topic: SelectOptionEntry;
   templateVariables: StringEntry[];
@@ -286,6 +286,15 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     );
   }
 
+  private handleAttachmentUploading() {
+    const uploadError: string = '';
+    console.log(uploadError);
+    this.setState({ uploadError });
+
+    const uploadInProgress: boolean = true;
+    this.setState({ uploadInProgress });
+  }
+
   private handleAttachmentUploaded(response: AxiosResponse) {
     console.log(response);
 
@@ -295,6 +304,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     console.log(attachments);
     this.setState({ attachments });
 
+    const uploadError: string = '';
+    console.log(uploadError);
+    this.setState({ uploadError });
+
     const uploadInProgress: boolean = false;
     this.setState({ uploadInProgress });
   }
@@ -302,9 +315,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   private handleAttachmentUploadFailed(error: AxiosError) {
     console.log(error);
 
-    const mostRecentUploadError: string = error.response.statusText;
-    console.log(mostRecentUploadError);
-    this.setState({ mostRecentUploadError });
+    const uploadError: string = error.response.statusText;
+    console.log(uploadError);
+    this.setState({ uploadError });
 
     const uploadInProgress: boolean = false;
     this.setState({ uploadInProgress });
@@ -369,7 +382,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         this.context.config.endpoints.attachments,
         this.state.attachments,
         this.state.uploadInProgress,
-        this.state.mostRecentUploadError,
+        this.state.uploadError,
+        this.handleAttachmentUploading,
         this.handleAttachmentUploaded,
         this.handleAttachmentUploadFailed,
         this.handleAttachmentChanged,

@@ -40,9 +40,12 @@ const getAttachmentTypeOption = (type: string): SelectOption => {
 export const handleUploadFile = (
   endpoint: string,
   files: FileList,
+  onLoading: () => void,
   onSuccess: (response: AxiosResponse) => void,
   onFailure: (error: AxiosError) => void
 ): void => {
+  onLoading();
+
   // if we have a csrf in our cookie, pass it along as a header
   const csrf = getCookie('csrftoken');
   const headers: any = csrf ? { 'X-CSRFToken': csrf } : {};
@@ -55,11 +58,9 @@ export const handleUploadFile = (
   axios
     .post(endpoint, data, { headers })
     .then(response => {
-      console.log(response);
       onSuccess(response);
     })
     .catch(error => {
-      console.log(error);
       onFailure(error);
     });
 };
@@ -68,7 +69,8 @@ export const renderAttachments = (
   endpoint: string,
   attachments: Attachment[],
   uploadInProgress: boolean,
-  mostRecentUploadError: string,
+  uploadError: string,
+  onUploading: () => void,
   onUploaded: (response: AxiosResponse) => void,
   onUploadFailed: (error: AxiosError) => void,
   onAttachmentChanged: (index: number, value: string, url: string) => void,
@@ -77,12 +79,26 @@ export const renderAttachments = (
   const renderedAttachments = attachments.map((attachment, index: number) =>
     attachment.uploaded
       ? renderUpload(index, attachment, onAttachmentRemoved)
-      : renderAttachment(index, attachment, onAttachmentChanged, onAttachmentRemoved)
+      : renderAttachment(
+          index,
+          attachment,
+          uploadInProgress,
+          uploadError,
+          onAttachmentChanged,
+          onAttachmentRemoved
+        )
   );
 
   const emptyOption =
     attachments.length < MAX_ATTACHMENTS
-      ? renderAttachment(-1, { url: '', type: '' }, onAttachmentChanged, onAttachmentRemoved)
+      ? renderAttachment(
+          -1,
+          { url: '', type: '' },
+          uploadInProgress,
+          uploadError,
+          onAttachmentChanged,
+          onAttachmentRemoved
+        )
       : null;
 
   return (
@@ -104,15 +120,10 @@ export const renderAttachments = (
           filePicker = ele;
         }}
         type="file"
-        onChange={e => handleUploadFile(endpoint, e.target.files, onUploaded, onUploadFailed)}
+        onChange={e => {
+          handleUploadFile(endpoint, e.target.files, onUploading, onUploaded, onUploadFailed);
+        }}
       />
-      {renderIf(uploadInProgress)(
-        <span className={styles.upload_error}>{mostRecentUploadError}</span>
-        // todo temba loading
-      )}
-      {renderIf(mostRecentUploadError && mostRecentUploadError.length > 0)(
-        <span className={styles.upload_error}>{mostRecentUploadError}</span>
-      )}
     </>
   );
 };
@@ -168,13 +179,11 @@ export const renderUpload = (
 export const renderAttachment = (
   index: number,
   attachment: Attachment,
+  uploadInProgress: boolean,
+  uploadError: string,
   onAttachmentChanged: (index: number, type: string, url: string) => void,
   onAttachmentRemoved: (index: number) => void
 ): JSX.Element => {
-  // if(this.state.loading){
-  //   return
-  // }
-
   return (
     <div
       className={styles.url_attachment}
@@ -201,6 +210,12 @@ export const renderAttachment = (
           options={index > -1 ? TYPE_OPTIONS : NEW_TYPE_OPTIONS}
         />
       </div>
+      {renderIf(uploadInProgress)(
+        <temba-loading id={styles.upload_in_progress} units="3" size="8"></temba-loading>
+      )}
+      {renderIf(uploadError && uploadError.length > 0)(
+        <div className={styles.upload_error}>{uploadError}</div>
+      )}
       {index > -1 ? (
         <>
           <div className={styles.url}>
