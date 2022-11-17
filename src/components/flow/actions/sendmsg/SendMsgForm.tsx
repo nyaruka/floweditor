@@ -298,15 +298,22 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   private handleAttachmentUploaded(response: AxiosResponse) {
     console.log(response);
 
-    const attachments: any = mutate(this.state.attachments, {
-      $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
-    });
-    console.log(attachments);
-    this.setState({ attachments });
+    //django returns a 200 even when there's an error
+    if (response.data && response.data.error) {
+      const uploadError: string = response.data.error;
+      console.log(uploadError);
+      this.setState({ uploadError });
+    } else {
+      const attachments: any = mutate(this.state.attachments, {
+        $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
+      });
+      console.log(attachments);
+      this.setState({ attachments });
 
-    const uploadError: string = '';
-    console.log(uploadError);
-    this.setState({ uploadError });
+      const uploadError: string = '';
+      console.log(uploadError);
+      this.setState({ uploadError });
+    }
 
     const uploadInProgress: boolean = false;
     this.setState({ uploadInProgress });
@@ -315,8 +322,18 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   private handleAttachmentUploadFailed(error: AxiosError) {
     console.log(error);
 
-    const uploadError: string = error.response.statusText;
-    console.log(uploadError);
+    //nginx returns a 299+ if there's an error
+    let uploadError: string = '';
+    const status = error.response.status;
+    if (status >= 500) {
+      uploadError = i18n.t('file_upload_failed', 'File upload failed, please try again');
+    } else if (status === 413) {
+      uploadError = i18n.t('file_upload_max_limit', 'Limit for file uploads is 25 MB');
+    } else if (status >= 400 || status >= 300 || status >= 200) {
+      uploadError = error.response.statusText;
+    } else {
+      uploadError = error.response.statusText;
+    }
     this.setState({ uploadError });
 
     const uploadInProgress: boolean = false;
