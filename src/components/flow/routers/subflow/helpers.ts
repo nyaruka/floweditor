@@ -96,8 +96,8 @@ export const stateToNode = (
       }
     ];
 
-    const ivrflowType = FlowTypes.VOICE;
-    if (state.flow.value.type !== ivrflowType) {
+    const ivrFlowType = FlowTypes.VOICE;
+    if (state.flow.value.type !== ivrFlowType) {
       exits.push({
         uuid: createUUID(),
         destination_uuid: null
