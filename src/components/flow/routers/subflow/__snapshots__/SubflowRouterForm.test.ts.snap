@@ -63,6 +63,69 @@ exports[`SubflowRouterForm render should render 1`] = `
 </Dialog>
 `;
 
+exports[`SubflowRouterForm render should render 2`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="enter_flow"
+  tabs={Array []}
+  title="Enter a Flow"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "aliases": Array [
+          "split_by_subflow",
+        ],
+        "component": [Function],
+        "description": "Enter another flow",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
+        "name": "Enter a Flow",
+        "type": "enter_flow",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <AssetSelector
+    assets={
+      Object {
+        "items": Object {},
+        "type": "flow",
+      }
+    }
+    entry={
+      Object {
+        "value": Object {
+          "name": "Sounds",
+          "type": "voice",
+          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+        },
+      }
+    }
+    name="Flow"
+    onChange={[Function]}
+    placeholder="Select the flow to start"
+    searchable={true}
+    shouldExclude={[Function]}
+  />
+</Dialog>
+`;
+
 exports[`SubflowRouterForm updates converts from other node types 1`] = `
 Array [
   Object {
@@ -135,6 +198,61 @@ Array [
 ]
 `;
 
+exports[`SubflowRouterForm updates converts from other node types 2`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow": Object {
+            "name": "Favorite Sound",
+            "type": "voice",
+            "uuid": "80b0a850-6973-11ed-9c42-ad7d71773e93",
+          },
+          "type": "enter_flow",
+          "uuid": "2d1284d0-6972-11ed-9ca7-8f291517c832",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_uuid": null,
+          "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "completed",
+            ],
+            "category_uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+            "type": "has_only_text",
+            "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+            "name": "Complete",
+            "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+          },
+        ],
+        "default_category_uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+        "operand": "@child.status",
+        "type": "switch",
+      },
+      "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+    },
+    "ui": Object {
+      "config": Object {},
+      "position": null,
+      "type": "split_by_subflow",
+    },
+  },
+]
+`;
+
 exports[`SubflowRouterForm updates creates its own action uuid if necessary 1`] = `
 Array [
   Object {
@@ -193,6 +311,61 @@ Array [
           },
         ],
         "default_category_uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+        "operand": "@child.status",
+        "type": "switch",
+      },
+      "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+    },
+    "ui": Object {
+      "config": Object {},
+      "position": null,
+      "type": "split_by_subflow",
+    },
+  },
+]
+`;
+
+exports[`SubflowRouterForm updates creates its own action uuid if necessary 2`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow": Object {
+            "name": "Favorite Sound",
+            "type": "voice",
+            "uuid": "80b0a850-6973-11ed-9c42-ad7d71773e93",
+          },
+          "type": "enter_flow",
+          "uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_uuid": null,
+          "uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "completed",
+            ],
+            "category_uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+            "type": "has_only_text",
+            "uuid": "f05fa107-03db-4315-a211-53da63603e6f",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+            "name": "Complete",
+            "uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+          },
+        ],
+        "default_category_uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
         "operand": "@child.status",
         "type": "switch",
       },
@@ -287,6 +460,83 @@ Array [
           },
         ],
         "default_category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "operand": "@child.status",
+        "type": "switch",
+      },
+      "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+    },
+    "ui": Object {
+      "config": Object {},
+      "position": null,
+      "type": "split_by_subflow",
+    },
+  },
+]
+`;
+
+exports[`SubflowRouterForm updates should update and save 3`] = `
+Object {
+  "flow": Object {
+    "validationFailures": Array [],
+    "value": Object {
+      "name": "Favorite Sound",
+      "parent_refs": Array [
+        "sounds",
+      ],
+      "type": "voice",
+      "uuid": "80b0a850-6973-11ed-9c42-ad7d71773e93",
+    },
+  },
+  "params": Object {
+    "sounds": Object {
+      "value": "",
+    },
+  },
+  "valid": true,
+}
+`;
+
+exports[`SubflowRouterForm updates should update and save 4`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow": Object {
+            "name": "Favorite Sound",
+            "type": "voice",
+            "uuid": "80b0a850-6973-11ed-9c42-ad7d71773e93",
+          },
+          "type": "enter_flow",
+          "uuid": "2d1284d0-6972-11ed-9ca7-8f291517c832",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_uuid": null,
+          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "C",
+            ],
+            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "type": "has_run_status",
+            "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+            "name": "Complete",
+            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+          },
+        ],
+        "default_category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
         "operand": "@child.status",
         "type": "switch",
       },
