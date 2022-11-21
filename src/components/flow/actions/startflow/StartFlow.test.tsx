@@ -1,9 +1,9 @@
 import StartFlowComp from 'components/flow/actions/startflow/StartFlow';
 import * as React from 'react';
 import { render } from 'test/utils';
-import { createStartFlowAction } from 'testUtils/assetCreators';
+import { createMsgStartFlowAction } from 'testUtils/assetCreators';
 
-const startFlowAction = createStartFlowAction();
+const startFlowAction = createMsgStartFlowAction();
 
 describe(StartFlowComp.name, () => {
   describe('render', () => {

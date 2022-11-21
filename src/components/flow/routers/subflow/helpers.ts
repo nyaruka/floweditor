@@ -61,7 +61,7 @@ export const stateToNode = (
   const startFlowAction: StartFlow = {
     uuid: action.uuid || createUUID(),
     type: Types.enter_flow,
-    flow: { uuid: state.flow.value.uuid, name: state.flow.value.name }
+    flow: { uuid: state.flow.value.uuid, name: state.flow.value.name, type: state.flow.value.type }
   };
 
   // If we're already a subflow, lean on those exits and cases

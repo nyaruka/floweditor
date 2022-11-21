@@ -17,7 +17,7 @@ import {
   createMatchRouter,
   createRandomNode,
   createResthookNode,
-  createStartFlowAction,
+  createMsgStartFlowAction,
   createSubflowNode,
   createTransferAirtimeAction,
   createWebhookNode,
@@ -62,7 +62,7 @@ describe('helpers', () => {
       ).toBe(Types.execute_actions);
 
       // guess a subflow
-      expect(guessNodeType(createSubflowNode(createStartFlowAction()).node)).toBe(
+      expect(guessNodeType(createSubflowNode(createMsgStartFlowAction()).node)).toBe(
         Types.split_by_subflow
       );
 

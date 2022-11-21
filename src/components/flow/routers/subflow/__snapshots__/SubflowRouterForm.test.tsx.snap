@@ -21,6 +21,7 @@ Array [
         Object {
           "flow": Object {
             "name": "My Subflow Flow",
+            "type": undefined,
             "uuid": "my-subflow",
           },
           "type": "enter_flow",
@@ -255,7 +256,7 @@ exports[`SubflowRouterForm should render 1`] = `
               placeholder="Select the flow to start"
               searchable="true"
               valuekey="uuid"
-              values="[{\\"name\\":\\"Colors\\",\\"uuid\\":\\"b1f332f3-bdd3-4891-aec5-1843a712dbf1\\"}]"
+              values="[{\\"name\\":\\"Colors\\",\\"uuid\\":\\"b1f332f3-bdd3-4891-aec5-1843a712dbf1\\",\\"type\\":\\"messaging\\"}]"
             />
           </div>
         </div>

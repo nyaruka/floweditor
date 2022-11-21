@@ -12,7 +12,7 @@ import {
   createExit,
   createRenderNode,
   createSendMsgAction,
-  createStartFlowAction,
+  createMsgStartFlowAction,
   createSubflowNode,
   English
 } from 'testUtils/assetCreators';
@@ -27,7 +27,7 @@ const sendMsgNode = createRenderNode({
   actions: [sendMsgAction],
   exits: [createExit()]
 });
-const startFlowAction = createStartFlowAction();
+const startFlowAction = createMsgStartFlowAction();
 const subflowNode = createSubflowNode(startFlowAction);
 const localization = {
   spa: {

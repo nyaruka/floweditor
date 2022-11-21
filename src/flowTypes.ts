@@ -282,6 +282,7 @@ export interface Label {
 export interface Flow {
   uuid: string;
   name: string;
+  type: FlowTypes;
 }
 
 export interface Action {

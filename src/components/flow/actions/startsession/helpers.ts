@@ -62,7 +62,7 @@ export const stateToAction = (
     contacts: getRecipientsByAsset(state.recipients.value, AssetType.Contact),
     groups: getRecipientsByAsset(state.recipients.value, AssetType.Group),
     create_contact: state.startType.value === START_TYPE_CREATE,
-    flow: { name: flow.name, uuid: flow.uuid },
+    flow: { name: flow.name, uuid: flow.uuid, type: flow.type },
     type: Types.start_session,
     uuid: getActionUUID(settings, Types.start_session),
     exclusions: state.exclusions
