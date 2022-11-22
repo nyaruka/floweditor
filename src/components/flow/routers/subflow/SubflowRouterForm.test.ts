@@ -11,7 +11,7 @@ import {
 } from 'testUtils/assetCreators';
 import * as utils from 'utils';
 
-const msgRouterNode = createSubflowNode(createStartFlowAction(), null, FlowTypes.MESSAGING);
+const msgRouterNode = createSubflowNode(createStartFlowAction(), FlowTypes.MESSAGING);
 const { setup: msgSetup } = composeComponentTestUtils(
   SubflowRouterForm,
   getRouterFormProps(msgRouterNode)
@@ -80,7 +80,7 @@ describe(SubflowRouterForm.name, () => {
   });
 });
 
-const voiceRouterNode = createSubflowNode(createVoiceStartFlowAction(), null, FlowTypes.VOICE);
+const voiceRouterNode = createSubflowNode(createVoiceStartFlowAction(), FlowTypes.VOICE);
 const { setup: voiceSetup } = composeComponentTestUtils(
   SubflowRouterForm,
   getRouterFormProps(voiceRouterNode)

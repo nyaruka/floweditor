@@ -29,7 +29,7 @@ const sendMsgNode = createRenderNode({
   exits: [createExit()]
 });
 const startFlowAction = createStartFlowAction();
-const subflowNode = createSubflowNode(startFlowAction, null, FlowTypes.MESSAGING);
+const subflowNode = createSubflowNode(startFlowAction, FlowTypes.MESSAGING);
 const localization = {
   spa: {
     [sendMsgAction.uuid]: {

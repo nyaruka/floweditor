@@ -64,7 +64,7 @@ describe('helpers', () => {
 
       // guess a subflow
       expect(
-        guessNodeType(createSubflowNode(createStartFlowAction(), null, FlowTypes.MESSAGING).node)
+        guessNodeType(createSubflowNode(createStartFlowAction(), FlowTypes.MESSAGING).node)
       ).toBe(Types.split_by_subflow);
 
       // guess a resthook

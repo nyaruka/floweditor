@@ -787,8 +787,8 @@ export const createRandomNode = (buckets: number): RenderNode => {
 
 export const createSubflowNode = (
   startFlowAction: StartFlow,
-  uuid: string = utils.createUUID(),
-  parentFlowType: string
+  parentFlowType: string,
+  uuid: string = utils.createUUID()
 ): RenderNode => {
   const { categories, exits } =
     parentFlowType == FlowTypes.VOICE
