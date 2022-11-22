@@ -120,7 +120,15 @@ export default class RouterLocalizationForm extends React.Component<
 
       const { verboseName } = getOperatorConfig(originalCase.type);
 
-      if (originalCase.arguments && originalCase.type !== Operators.has_number_between) {
+      const numericOperators = Object.values(Operators).filter(operator => {
+        return (
+          operator.startsWith(Operators.has_date) ||
+          operator.startsWith(Operators.has_time) ||
+          operator.startsWith(Operators.has_number)
+        );
+      });
+
+      if (originalCase.arguments && !numericOperators.includes(originalCase.type)) {
         const cat_uuid = originalCase.category_uuid;
         const originalCategory = getOriginalCategory(this.props.nodeSettings, cat_uuid);
         const originalArgument = originalCategory.name;
