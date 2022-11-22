@@ -791,12 +791,12 @@ export const createSubflowNode = (
   uuid: string = utils.createUUID()
 ): RenderNode => {
   const { categories, exits } =
-    parentFlowType == FlowTypes.VOICE
+    parentFlowType === FlowTypes.VOICE
       ? createCategories([StartFlowExitNames.Complete])
       : createCategories([StartFlowExitNames.Complete, StartFlowExitNames.Expired]);
 
   const cases =
-    parentFlowType == FlowTypes.VOICE
+    parentFlowType === FlowTypes.VOICE
       ? [
           createCase({
             uuid: utils.createUUID(),
