@@ -180,8 +180,7 @@ export const createStartSessionAction = ({
   ],
   flow = {
     uuid: 'flow_uuid',
-    name: 'Flow to Start',
-    type: FlowTypes.MESSAGING
+    name: 'Flow to Start'
   },
   create_contact = false,
   exclusions = { in_a_flow: false }
@@ -246,27 +245,24 @@ export const createRemoveGroupsAction = ({
   groups
 });
 
-export const createMsgStartFlowAction = ({
+export const createStartFlowAction = ({
   uuid = utils.createUUID(),
   flow = {
     name: 'Colors',
-    uuid: 'd4a3a01c-1dee-4324-b107-4ac7a21d836f',
-    type: FlowTypes.MESSAGING
+    uuid: 'd4a3a01c-1dee-4324-b107-4ac7a21d836f'
   }
 }: {
   uuid?: string;
   flow?: {
     name: string;
     uuid: string;
-    type: FlowTypes;
   };
 } = {}): StartFlow => ({
   type: Types.enter_flow,
   uuid: 'd4a3a01c-1dee-4324-b107-4ac7a21d836f',
   flow: {
     name: utils.capitalize(flow.name.trim()),
-    uuid,
-    type: FlowTypes.MESSAGING
+    uuid
   }
 });
 
@@ -274,23 +270,20 @@ export const createVoiceStartFlowAction = ({
   uuid = utils.createUUID(),
   flow = {
     name: 'Sounds',
-    uuid: '2d1284d0-6972-11ed-9ca7-8f291517c832',
-    type: FlowTypes.VOICE
+    uuid: '2d1284d0-6972-11ed-9ca7-8f291517c832'
   }
 }: {
   uuid?: string;
   flow?: {
     name: string;
     uuid: string;
-    type: FlowTypes;
   };
 } = {}): StartFlow => ({
   type: Types.enter_flow,
   uuid: '2d1284d0-6972-11ed-9ca7-8f291517c832',
   flow: {
     name: utils.capitalize(flow.name.trim()),
-    uuid,
-    type: FlowTypes.VOICE
+    uuid
   }
 });
 
@@ -794,15 +787,16 @@ export const createRandomNode = (buckets: number): RenderNode => {
 
 export const createSubflowNode = (
   startFlowAction: StartFlow,
-  uuid: string = utils.createUUID()
+  uuid: string = utils.createUUID(),
+  parentFlowType: string
 ): RenderNode => {
   const { categories, exits } =
-    startFlowAction.flow.type == FlowTypes.VOICE
+    parentFlowType == FlowTypes.VOICE
       ? createCategories([StartFlowExitNames.Complete])
       : createCategories([StartFlowExitNames.Complete, StartFlowExitNames.Expired]);
 
   const cases =
-    startFlowAction.flow.type == FlowTypes.VOICE
+    parentFlowType == FlowTypes.VOICE
       ? [
           createCase({
             uuid: utils.createUUID(),

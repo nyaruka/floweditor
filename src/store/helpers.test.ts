@@ -1,3 +1,4 @@
+import Flow from 'components/flow/Flow';
 import { FlowTypes, Types } from 'config/interfaces';
 import { Case, Category, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from 'flowTypes';
 import {
@@ -17,7 +18,7 @@ import {
   createMatchRouter,
   createRandomNode,
   createResthookNode,
-  createMsgStartFlowAction,
+  createStartFlowAction,
   createSubflowNode,
   createTransferAirtimeAction,
   createWebhookNode,
@@ -62,9 +63,9 @@ describe('helpers', () => {
       ).toBe(Types.execute_actions);
 
       // guess a subflow
-      expect(guessNodeType(createSubflowNode(createMsgStartFlowAction()).node)).toBe(
-        Types.split_by_subflow
-      );
+      expect(
+        guessNodeType(createSubflowNode(createStartFlowAction(), null, FlowTypes.MESSAGING).node)
+      ).toBe(Types.split_by_subflow);
 
       // guess a resthook
       expect(guessNodeType(createResthookNode(createCallResthookAction()).node)).toBe(

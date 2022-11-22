@@ -49,7 +49,6 @@ exports[`SubflowRouterForm render should render 1`] = `
       Object {
         "value": Object {
           "name": "Colors",
-          "type": "messaging",
           "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
         },
       }
@@ -112,7 +111,6 @@ exports[`SubflowRouterForm render should render 2`] = `
       Object {
         "value": Object {
           "name": "Sounds",
-          "type": "voice",
           "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
         },
       }
@@ -135,7 +133,6 @@ Array [
         Object {
           "flow": Object {
             "name": "Favorite Color",
-            "type": "messaging",
             "uuid": "9a93ede6-078f-44c9-ad0a-133793be5d56",
           },
           "type": "enter_flow",
@@ -207,7 +204,6 @@ Array [
         Object {
           "flow": Object {
             "name": "Favorite Sound",
-            "type": "voice",
             "uuid": "80b0a850-6973-11ed-9c42-ad7d71773e93",
           },
           "type": "enter_flow",
@@ -218,6 +214,10 @@ Array [
         Object {
           "destination_uuid": null,
           "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+        },
+        Object {
+          "destination_uuid": null,
+          "uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
         },
       ],
       "router": Object {
@@ -230,6 +230,14 @@ Array [
             "type": "has_only_text",
             "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
           },
+          Object {
+            "arguments": Array [
+              "expired",
+            ],
+            "category_uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+            "type": "has_only_text",
+            "uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+          },
         ],
         "categories": Array [
           Object {
@@ -237,8 +245,13 @@ Array [
             "name": "Complete",
             "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
           },
+          Object {
+            "exit_uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
+            "name": "Expired",
+            "uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+          },
         ],
-        "default_category_uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+        "default_category_uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
         "operand": "@child.status",
         "type": "switch",
       },
@@ -262,7 +275,6 @@ Array [
         Object {
           "flow": Object {
             "name": "Favorite Color",
-            "type": "messaging",
             "uuid": "9a93ede6-078f-44c9-ad0a-133793be5d56",
           },
           "type": "enter_flow",
@@ -334,17 +346,20 @@ Array [
         Object {
           "flow": Object {
             "name": "Favorite Sound",
-            "type": "voice",
             "uuid": "80b0a850-6973-11ed-9c42-ad7d71773e93",
           },
           "type": "enter_flow",
-          "uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
+          "uuid": "f05fa107-03db-4315-a211-53da63603e6f",
         },
       ],
       "exits": Array [
         Object {
           "destination_uuid": null,
-          "uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+          "uuid": "141e0356-9fdd-47d3-a12d-16efc5b45276",
+        },
+        Object {
+          "destination_uuid": null,
+          "uuid": "dd57500e-a8e8-4a98-8b5b-a33637523a8d",
         },
       ],
       "router": Object {
@@ -353,19 +368,32 @@ Array [
             "arguments": Array [
               "completed",
             ],
-            "category_uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+            "category_uuid": "e81b3f1a-0863-4418-8a72-9c9f8aa72b7c",
             "type": "has_only_text",
-            "uuid": "f05fa107-03db-4315-a211-53da63603e6f",
+            "uuid": "1888ae1f-2518-4727-98e2-731674e1760e",
+          },
+          Object {
+            "arguments": Array [
+              "expired",
+            ],
+            "category_uuid": "431978dd-6b18-4e25-86f1-11835491a9c9",
+            "type": "has_only_text",
+            "uuid": "3d8db86c-7279-4106-a388-3f143bd5623f",
           },
         ],
         "categories": Array [
           Object {
-            "exit_uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+            "exit_uuid": "141e0356-9fdd-47d3-a12d-16efc5b45276",
             "name": "Complete",
-            "uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+            "uuid": "e81b3f1a-0863-4418-8a72-9c9f8aa72b7c",
+          },
+          Object {
+            "exit_uuid": "dd57500e-a8e8-4a98-8b5b-a33637523a8d",
+            "name": "Expired",
+            "uuid": "431978dd-6b18-4e25-86f1-11835491a9c9",
           },
         ],
-        "default_category_uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+        "default_category_uuid": "431978dd-6b18-4e25-86f1-11835491a9c9",
         "operand": "@child.status",
         "type": "switch",
       },
@@ -411,7 +439,6 @@ Array [
         Object {
           "flow": Object {
             "name": "Favorite Color",
-            "type": "messaging",
             "uuid": "9a93ede6-078f-44c9-ad0a-133793be5d56",
           },
           "type": "enter_flow",
@@ -505,7 +532,6 @@ Array [
         Object {
           "flow": Object {
             "name": "Favorite Sound",
-            "type": "voice",
             "uuid": "80b0a850-6973-11ed-9c42-ad7d71773e93",
           },
           "type": "enter_flow",
@@ -517,6 +543,10 @@ Array [
           "destination_uuid": null,
           "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
         },
+        Object {
+          "destination_uuid": null,
+          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+        },
       ],
       "router": Object {
         "cases": Array [
@@ -524,19 +554,32 @@ Array [
             "arguments": Array [
               "C",
             ],
-            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
             "type": "has_run_status",
-            "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+          },
+          Object {
+            "arguments": Array [
+              "E",
+            ],
+            "category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "type": "has_run_status",
+            "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
           },
         ],
         "categories": Array [
           Object {
             "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
             "name": "Complete",
-            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+          },
+          Object {
+            "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "name": "Expired",
+            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
           },
         ],
-        "default_category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+        "default_category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
         "operand": "@child.status",
         "type": "switch",
       },

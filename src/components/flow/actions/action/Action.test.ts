@@ -6,13 +6,14 @@ import {
   ActionWrapper,
   ActionWrapperProps
 } from 'components/flow/actions/action/Action';
+import { FlowTypes } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from 'testUtils';
 import {
   createExit,
   createRenderNode,
   createSendMsgAction,
-  createMsgStartFlowAction,
+  createStartFlowAction,
   createSubflowNode,
   English
 } from 'testUtils/assetCreators';
@@ -27,8 +28,8 @@ const sendMsgNode = createRenderNode({
   actions: [sendMsgAction],
   exits: [createExit()]
 });
-const startFlowAction = createMsgStartFlowAction();
-const subflowNode = createSubflowNode(startFlowAction);
+const startFlowAction = createStartFlowAction();
+const subflowNode = createSubflowNode(startFlowAction, null, FlowTypes.MESSAGING);
 const localization = {
   spa: {
     [sendMsgAction.uuid]: {
