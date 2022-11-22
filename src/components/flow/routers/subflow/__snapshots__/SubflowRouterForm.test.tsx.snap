@@ -21,7 +21,6 @@ Array [
         Object {
           "flow": Object {
             "name": "My Subflow Flow",
-            "type": undefined,
             "uuid": "my-subflow",
           },
           "type": "enter_flow",

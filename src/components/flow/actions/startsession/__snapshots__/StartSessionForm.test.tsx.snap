@@ -478,7 +478,6 @@ Array [
     },
     "flow": Object {
       "name": "Flow to Start",
-      "type": "messaging",
       "uuid": "flow_uuid",
     },
     "groups": Array [],
@@ -937,7 +936,6 @@ Array [
     },
     "flow": Object {
       "name": "My Flow",
-      "type": "flow",
       "uuid": undefined,
     },
     "groups": Array [],
@@ -993,7 +991,6 @@ Array [
     },
     "flow": Object {
       "name": "My Flow",
-      "type": "flow",
       "uuid": undefined,
     },
     "groups": Array [],
