@@ -40,12 +40,10 @@ const getAttachmentTypeOption = (type: string): SelectOption => {
 export const handleUploadFile = (
   endpoint: string,
   files: FileList,
-  onLoading: () => void,
+  onLoading: (isUploading: boolean) => void,
   onSuccess: (response: AxiosResponse) => void,
   onFailure: (error: AxiosError) => void
 ): void => {
-  onLoading();
-
   // if we have a csrf in our cookie, pass it along as a header
   const csrf = getCookie('csrftoken');
   const headers: any = csrf ? { 'X-CSRFToken': csrf } : {};
@@ -53,16 +51,21 @@ export const handleUploadFile = (
   // mark us as ajax
   headers['X-Requested-With'] = 'XMLHttpRequest';
 
-  const data = new FormData();
-  data.append('file', files[0]);
-  axios
-    .post(endpoint, data, { headers })
-    .then(response => {
-      onSuccess(response);
-    })
-    .catch(error => {
-      onFailure(error);
-    });
+  if (files && files.length > 0) {
+    onLoading(true);
+    const data = new FormData();
+    data.append('file', files[0]);
+    axios
+      .post(endpoint, data, { headers })
+      .then(response => {
+        onSuccess(response);
+      })
+      .catch(error => {
+        onFailure(error);
+      });
+  } else {
+    onLoading(false);
+  }
 };
 
 export const renderAttachments = (
@@ -70,7 +73,7 @@ export const renderAttachments = (
   attachments: Attachment[],
   uploadInProgress: boolean,
   uploadError: string,
-  onUploading: () => void,
+  onUploading: (isUploading: boolean) => void,
   onUploaded: (response: AxiosResponse) => void,
   onUploadFailed: (error: AxiosError) => void,
   onAttachmentChanged: (index: number, value: string, url: string) => void,

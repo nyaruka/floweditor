@@ -167,13 +167,18 @@ export default class MsgLocalizationForm extends React.Component<
     this.setState({ templateVariables });
   }
 
-  private handleAttachmentUploading() {
+  private handleAttachmentUploading(isUploading: boolean) {
     const uploadError: string = '';
     console.log(uploadError);
     this.setState({ uploadError });
 
-    const uploadInProgress: boolean = true;
-    this.setState({ uploadInProgress });
+    if (isUploading) {
+      const uploadInProgress: boolean = true;
+      this.setState({ uploadInProgress });
+    } else {
+      const uploadInProgress: boolean = false;
+      this.setState({ uploadInProgress });
+    }
   }
 
   private handleAttachmentUploaded(response: AxiosResponse) {
