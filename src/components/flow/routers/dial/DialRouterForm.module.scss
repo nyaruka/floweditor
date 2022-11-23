@@ -1,0 +1,18 @@
+@import 'variables.module.scss';
+
+.flex_container {
+    display: flex;
+}
+
+.flex_items {
+    flex-grow: 1;
+    margin: 0 5px 0 5px;
+}
+
+.flex_items:first-child{
+    margin: 0 5px 0 0;
+}
+
+.flex_items:last-child{
+    margin: 0 0 0 5px;
+}
