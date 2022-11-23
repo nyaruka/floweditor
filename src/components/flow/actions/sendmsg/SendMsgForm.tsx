@@ -323,7 +323,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleAttachmentUploadFailed(error: AxiosError) {
-    //nginx returns a 299+ if there's an error
+    //nginx returns a 300+ if there's an error
     let uploadError: string = '';
     const status = error.response.status;
     if (status >= 500) {
