@@ -76,9 +76,13 @@ describe(SendMsgForm.name, () => {
     it('should allow attachment upload in progress', () => {
       const { instance } = setup(true);
 
-      instance.handleAttachmentUploading();
+      instance.handleAttachmentUploading(true);
       expect(instance.state.uploadError).toEqual('');
       expect(instance.state.uploadInProgress).toEqual(true);
+
+      instance.handleAttachmentUploading(false);
+      expect(instance.state.uploadError).toEqual('');
+      expect(instance.state.uploadInProgress).toEqual(false);
     });
 
     it('should allow attachment upload success', () => {
