@@ -149,11 +149,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleSave(): void {
-    // don't continue if our message already has errors
-    if (hasErrors(this.state.message)) {
-      return;
-    }
-
     if (this.state.attachments.length > 0 && this.state.attachments[0].valid) {
       return;
     }
@@ -176,7 +171,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
 
     if (templateVariables.length === 0) {
-      valid = valid && this.handleMessageUpdate(this.state.message.value, null, true);
+      // message box can be empty if the attachments are present
+      valid =
+        (valid && this.handleMessageUpdate(this.state.message.value, null, true)) ||
+        this.state.attachments.length > 0;
     }
 
     valid = valid && !hasErrors(this.state.quickReplyEntry);
