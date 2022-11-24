@@ -370,6 +370,12 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         id: 'id',
         type: AssetType.Interactives,
         endpoint: getURL(endpoints.interactives)
+      },
+      sheets: {
+        items: {},
+        id: 'id',
+        type: AssetType.Sheets,
+        endpoint: getURL(endpoints.sheets)
       }
     };
 

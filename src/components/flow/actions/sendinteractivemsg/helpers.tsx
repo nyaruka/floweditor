@@ -3,7 +3,6 @@ import { getActionUUID } from 'components/flow/actions/helpers';
 import { Types } from 'config/interfaces';
 import * as React from 'react';
 import { Label, SendInteractiveMsg } from 'flowTypes';
-import { AssetStore } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
 import styles from './SendInteractiveMsg.module.scss';
 import { ReactComponent as ButtonIcon } from './icons/button.svg';

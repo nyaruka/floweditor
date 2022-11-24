@@ -71,6 +71,8 @@ import WebhookResultRouterForm from 'components/flow/routers/webhookresult/Webho
 import WebhookResultRouter from 'components/flow/routers/webhookresult/WebhookResultRouter';
 import ContactProfileRouterForm from 'components/flow/routers/contactprofile/ContactProfileRouterForm';
 import ContactProfileRouter from 'components/flow/routers/contactprofile/ContactProfileRouter';
+import SheetForm from 'components/flow/routers/sheet/SheetForm';
+import Sheet from 'components/flow/routers/sheet/Sheet';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -376,6 +378,13 @@ export const typeConfigList: Type[] = [
     component: CallWebhookComp,
     aliases: [Types.split_by_webhook],
     visibility: VISIBILITY_ONLINE
+  },
+  {
+    type: Types.link_google_sheet,
+    name: i18n.t('actions.link_google_sheet.name', 'Link Google sheet'),
+    description: i18n.t('actions.link_google_sheet.description', 'Link Google sheet'),
+    form: SheetForm,
+    component: Sheet
   },
   {
     type: Types.call_resthook,

@@ -51,7 +51,8 @@
   &.wait_for_time,
   &.send_interactive_msg,
   &.wait_for_result,
-  &.enter_flow {
+  &.enter_flow,
+  &.link_google_sheet {
     width: $node_min_width - $action_padding * 2;
     padding: $action_padding;
   }

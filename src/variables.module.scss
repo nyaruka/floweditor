@@ -34,6 +34,7 @@ $light_gray_2: lighten($light_gray, 5%);
 $dark_gray: #aaa;
 $med_gray: #ccc;
 $hawaiian-tan: #a05b18;
+$jade: RGB(0, 177, 89);
 
 // specific color styling
 $node_shadow: 4px 4px 0px 0px;
@@ -61,6 +62,8 @@ $sticky_blue: rgb(230, 247, 255);
 $sticky_purple: rgb(251, 205, 255);
 $sticky_gray: rgb(243, 243, 243);
 $sticky_green: rgb(219, 255, 173);
+
+
 
 // properties
 $node_min_width: $grid_size * 10;
