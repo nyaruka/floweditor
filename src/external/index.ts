@@ -321,6 +321,12 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         items: {},
         id: 'id'
       },
+      contacts: {
+        endpoint: getURL(endpoints.contacts),
+        type: AssetType.Contact || AssetType.URN,
+        items: {},
+        id: 'id'
+      },
       resthooks: {
         endpoint: getURL(endpoints.resthooks),
         type: AssetType.Resthook,

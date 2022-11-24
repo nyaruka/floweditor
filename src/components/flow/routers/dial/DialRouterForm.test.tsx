@@ -8,7 +8,7 @@ import { createDialRouter, getRouterFormProps } from 'testUtils/assetCreators';
 import * as utils from 'utils';
 import { getSwitchRouter } from '../helpers';
 
-const routerNode = createDialRouter('0979123456', 'Dial Result');
+const routerNode = createDialRouter('0979123456', 'Dial Result', 60, 7200);
 routerNode.ui = {
   position: { left: 0, top: 0 },
   type: Types.wait_for_dial
@@ -40,6 +40,32 @@ describe(DialRouterForm.name, () => {
     const router = getSwitchRouter(getUpdatedNode(routerProps).node);
     expect(router.wait.type).toBe(WaitTypes.dial);
     expect(router.wait.phone).toBe('@fields.supervisor_phone');
+    expect(routerProps.updateRouter).toMatchCallSnapshot();
+  });
+
+  it('should update wait when dial limit is changed', () => {
+    const { getByTestId, getByText } = render(<DialRouterForm {...routerProps} />);
+
+    fireEvent.click(getByText('Advanced'));
+
+    fireChangeText(getByTestId('dial_limit_seconds'), '62');
+    fireEvent.click(getByText('Ok'));
+
+    const router = getSwitchRouter(getUpdatedNode(routerProps).node);
+    expect(router.wait.dial_limit_seconds).toBe('62');
+    expect(routerProps.updateRouter).toMatchCallSnapshot();
+  });
+
+  it('should update wait when call limit is changed', () => {
+    const { getByTestId, getByText } = render(<DialRouterForm {...routerProps} />);
+
+    fireEvent.click(getByText('Advanced'));
+
+    fireChangeText(getByTestId('call_limit_seconds'), '7198');
+    fireEvent.click(getByText('Ok'));
+
+    const router = getSwitchRouter(getUpdatedNode(routerProps).node);
+    expect(router.wait.call_limit_seconds).toBe('7198');
     expect(routerProps.updateRouter).toMatchCallSnapshot();
   });
 });
