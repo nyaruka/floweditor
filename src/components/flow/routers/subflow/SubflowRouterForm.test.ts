@@ -1,5 +1,6 @@
 import SubflowRouterForm from 'components/flow/routers/subflow/SubflowRouterForm';
 import { FlowTypes } from 'config/interfaces';
+import { getFlowEditorConfig } from 'test/config';
 import { composeComponentTestUtils, mock, setMock } from 'testUtils';
 import {
   ColorFlowAsset,
@@ -83,7 +84,8 @@ describe(SubflowRouterForm.name, () => {
 const voiceRouterNode = createSubflowNode(createVoiceStartFlowAction(), FlowTypes.VOICE);
 const { setup: voiceSetup } = composeComponentTestUtils(
   SubflowRouterForm,
-  getRouterFormProps(voiceRouterNode)
+  getRouterFormProps(voiceRouterNode),
+  FlowTypes.VOICE
 );
 mock(utils, 'createUUID', utils.seededUUIDs());
 

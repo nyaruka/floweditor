@@ -1,6 +1,7 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
 import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';
+import { FlowTypes } from 'config/interfaces';
 import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import { FlowDefinition, FlowEditorConfig } from 'flowTypes';
 import mutate, { Query } from 'immutability-helper';
@@ -11,7 +12,7 @@ import createStore from 'store/createStore';
 import { RenderNodeMap } from 'store/flowContext';
 import { getFlowComponents } from 'store/helpers';
 import AppState, { initialState } from 'store/state';
-import config from 'test/config';
+import { getFlowEditorConfig } from 'test/config';
 import * as matchers from 'testUtils/matchers';
 import { merge, set } from 'utils';
 
@@ -44,10 +45,18 @@ export const baseState: AppState = mutate(initialState, {
   })
 });
 
-const flowEditorConfig: FlowEditorConfig = config;
+// const flowEditorConfig: FlowEditorConfig = config;
+// export const getFlowEditorConfig(flowType: FlowTypes) : FlowEditorConfig => {
+//   const config = getFlowEditorConfig(flowType);
+//   return config;
+// }
 
-export const configProviderContext: ConfigProviderContext = {
-  config: flowEditorConfig
+// export const configProviderContext: ConfigProviderContext = {
+//   config: flowEditorConfig
+// };
+export const getConfigProviderContext = (flowType: FlowTypes): ConfigProviderContext => {
+  const configProviderContext = { config: getFlowEditorConfig(flowType) };
+  return configProviderContext;
 };
 
 export const setMock = (implementation?: (...args: any[]) => any): Query<jest.Mock> =>
@@ -59,8 +68,9 @@ export const setMock = (implementation?: (...args: any[]) => any): Query<jest.Mo
 export const composeSetup = <P extends {}>(
   Component: React.ComponentClass | React.SFC,
   baseProps: P = {} as any,
+  flowType: FlowTypes = FlowTypes.MESSAGING,
   baseDuxState: AppState | Partial<AppState> = baseState,
-  baseContext: ConfigProviderContext = configProviderContext
+  baseContext: ConfigProviderContext = getConfigProviderContext(flowType)
 ) => (
   shallowRender: boolean = true,
   propOverrides: Query<P | Partial<P>> = {},
@@ -142,10 +152,11 @@ export const composeDuxState = (
 export const composeComponentTestUtils = <P extends {}>(
   Component: React.ComponentClass | React.SFC | any,
   baseProps: P = {} as any,
+  flowType: FlowTypes = FlowTypes.MESSAGING,
   baseDuxState: AppState | Partial<AppState> = baseState,
-  baseContext: ConfigProviderContext = configProviderContext
+  baseContext: ConfigProviderContext = getConfigProviderContext(flowType)
 ) => ({
-  setup: composeSetup<P>(Component, baseProps, baseDuxState, baseContext),
+  setup: composeSetup<P>(Component, baseProps, flowType, baseDuxState, baseContext),
   spyOn: composeSpy(Component)
 });
 

@@ -144,10 +144,6 @@ Array [
           "destination_uuid": null,
           "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
         },
-        Object {
-          "destination_uuid": null,
-          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-        },
       ],
       "router": Object {
         "cases": Array [
@@ -159,14 +155,6 @@ Array [
             "type": "has_only_text",
             "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
           },
-          Object {
-            "arguments": Array [
-              "expired",
-            ],
-            "category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-            "type": "has_only_text",
-            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
-          },
         ],
         "categories": Array [
           Object {
@@ -174,13 +162,8 @@ Array [
             "name": "Complete",
             "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
           },
-          Object {
-            "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-            "name": "Expired",
-            "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-          },
         ],
-        "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        "default_category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         "operand": "@child.status",
         "type": "switch",
       },
@@ -213,8 +196,8 @@ Array [
       "exits": Array [
         Object {
           "destination_uuid": null,
-          "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
-        }
+          "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+        },
       ],
       "router": Object {
         "cases": Array [
@@ -222,19 +205,19 @@ Array [
             "arguments": Array [
               "completed",
             ],
-            "category_uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+            "category_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
             "type": "has_only_text",
-            "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
-          }
+            "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+          },
         ],
         "categories": Array [
           Object {
-            "exit_uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+            "exit_uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
             "name": "Complete",
-            "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
-          }
+            "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+          },
         ],
-        "default_category_uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+        "default_category_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
         "operand": "@child.status",
         "type": "switch",
       },
@@ -261,17 +244,13 @@ Array [
             "uuid": "9a93ede6-078f-44c9-ad0a-133793be5d56",
           },
           "type": "enter_flow",
-          "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
         },
       ],
       "exits": Array [
         Object {
           "destination_uuid": null,
-          "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
-        },
-        Object {
-          "destination_uuid": null,
-          "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         },
       ],
       "router": Object {
@@ -280,32 +259,19 @@ Array [
             "arguments": Array [
               "completed",
             ],
-            "category_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+            "category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
             "type": "has_only_text",
-            "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
-          },
-          Object {
-            "arguments": Array [
-              "expired",
-            ],
-            "category_uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
-            "type": "has_only_text",
-            "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+            "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
           },
         ],
         "categories": Array [
           Object {
-            "exit_uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+            "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
             "name": "Complete",
-            "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
-          },
-          Object {
-            "exit_uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
-            "name": "Expired",
-            "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
           },
         ],
-        "default_category_uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+        "default_category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
         "operand": "@child.status",
         "type": "switch",
       },
@@ -332,14 +298,14 @@ Array [
             "uuid": "80b0a850-6973-11ed-9c42-ad7d71773e93",
           },
           "type": "enter_flow",
-          "uuid": "f05fa107-03db-4315-a211-53da63603e6f",
+          "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
         },
       ],
       "exits": Array [
         Object {
           "destination_uuid": null,
-          "uuid": "141e0356-9fdd-47d3-a12d-16efc5b45276",
-        }
+          "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+        },
       ],
       "router": Object {
         "cases": Array [
@@ -347,19 +313,19 @@ Array [
             "arguments": Array [
               "completed",
             ],
-            "category_uuid": "e81b3f1a-0863-4418-8a72-9c9f8aa72b7c",
+            "category_uuid": "6c22884b-0e35-4206-982e-18320691eda9",
             "type": "has_only_text",
-            "uuid": "1888ae1f-2518-4727-98e2-731674e1760e",
-          }
+            "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+          },
         ],
         "categories": Array [
           Object {
-            "exit_uuid": "141e0356-9fdd-47d3-a12d-16efc5b45276",
+            "exit_uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
             "name": "Complete",
-            "uuid": "e81b3f1a-0863-4418-8a72-9c9f8aa72b7c",
-          }
+            "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+          },
         ],
-        "default_category_uuid": "431978dd-6b18-4e25-86f1-11835491a9c9",
+        "default_category_uuid": "6c22884b-0e35-4206-982e-18320691eda9",
         "operand": "@child.status",
         "type": "switch",
       },
