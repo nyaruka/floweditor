@@ -660,7 +660,12 @@ export const createSchemeRouter = (schemes: Scheme[]): RenderNode => {
   return matchRouter;
 };
 
-export const createDialRouter = (phone: string, resultName: string): RenderNode => {
+export const createDialRouter = (
+  phone: string,
+  resultName: string,
+  dialLimit: number,
+  callLimit: number
+): RenderNode => {
   const matchRouter = createMatchRouter(
     ['Answered', 'No Answer', 'Busy', 'Failed'],
     DIAL_OPERAND,
@@ -672,7 +677,12 @@ export const createDialRouter = (phone: string, resultName: string): RenderNode 
   const router = matchRouter.node.router as SwitchRouter;
 
   // switch our wait to match a dial router
-  router.wait = { type: WaitTypes.dial, phone: phone };
+  router.wait = {
+    type: WaitTypes.dial,
+    phone: phone,
+    dial_limit_seconds: dialLimit,
+    call_limit_seconds: callLimit
+  };
 
   matchRouter.ui.type = Types.wait_for_dial;
 

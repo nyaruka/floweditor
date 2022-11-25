@@ -25,6 +25,7 @@ const config: FlowEditorConfig = {
     groups: '/assets/groups.json',
     fields: '/assets/fields.json',
     recipients: '/assets/recipients.json',
+    contacts: '/assets/recipients.json',
     labels: '/assets/labels.json',
     languages: '/assets/languages.json',
     channels: '/assets/channels.json',
