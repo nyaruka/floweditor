@@ -1,35 +1,13 @@
 import SendMsgForm from 'components/flow/actions/sendmsg/SendMsgForm';
 import { ActionFormProps } from 'components/flow/props';
 import { composeComponentTestUtils, mock } from 'testUtils';
-import { createSendMsgAction, getActionFormProps } from 'testUtils/assetCreators';
+import {
+  createAxiosError,
+  createAxiosResponse,
+  createSendMsgAction,
+  getActionFormProps
+} from 'testUtils/assetCreators';
 import * as utils from 'utils';
-import axios, { AxiosError, AxiosResponse } from 'axios';
-
-const createAxiosResponse = (data: {}, status: number, statusText: string): AxiosResponse => {
-  return {
-    config: {},
-    headers: {},
-    data: data,
-    status: status,
-    statusText: statusText
-  };
-};
-
-const createAxiosError = (status: number): AxiosError => {
-  return {
-    isAxiosError: true,
-    name: '',
-    message: '',
-    toJSON: () => ({}),
-    config: {},
-    request: {},
-    response: {
-      data: {},
-      status: status,
-      statusText: ''
-    } as AxiosResponse
-  };
-};
 
 const { setup } = composeComponentTestUtils<ActionFormProps>(
   SendMsgForm,

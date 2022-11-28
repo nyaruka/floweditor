@@ -182,26 +182,38 @@ export default class MsgLocalizationForm extends React.Component<
   }
 
   private handleAttachmentUploaded(response: AxiosResponse) {
-    console.log(response);
+    //django returns a 200 even when there's an error
+    if (response.data && response.data.error) {
+      const uploadError: string = response.data.error;
+      console.log(uploadError);
+      this.setState({ uploadError });
+    } else {
+      const attachments: any = mutate(this.state.attachments, {
+        $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
+      });
+      console.log(attachments);
+      this.setState({ attachments });
 
-    const attachments: any = mutate(this.state.attachments, {
-      $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
-    });
-    this.setState({ attachments });
-
-    const uploadError: string = '';
-    console.log(uploadError);
-    this.setState({ uploadError });
+      const uploadError: string = '';
+      console.log(uploadError);
+      this.setState({ uploadError });
+    }
 
     const uploadInProgress: boolean = false;
     this.setState({ uploadInProgress });
   }
 
   private handleAttachmentUploadFailed(error: AxiosError) {
-    console.log(error);
-
-    const uploadError: string = error.response.statusText;
-    console.log(uploadError);
+    //nginx returns a 300+ if there's an error
+    let uploadError: string = '';
+    const status = error.response.status;
+    if (status >= 500) {
+      uploadError = i18n.t('file_upload_failed_generic', 'File upload failed, please try again');
+    } else if (status === 413) {
+      uploadError = i18n.t('file_upload_failed_max_limit', 'Limit for file uploads is 25 MB');
+    } else {
+      uploadError = error.response.statusText;
+    }
     this.setState({ uploadError });
 
     const uploadInProgress: boolean = false;

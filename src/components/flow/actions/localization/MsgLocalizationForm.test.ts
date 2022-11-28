@@ -4,7 +4,12 @@ import { getTypeConfig } from 'config';
 import { Types } from 'config/interfaces';
 import { LocalizedObject } from 'services/Localization';
 import { composeComponentTestUtils } from 'testUtils';
-import { createSendMsgAction, Spanish } from 'testUtils/assetCreators';
+import {
+  createAxiosError,
+  createAxiosResponse,
+  createSendMsgAction,
+  Spanish
+} from 'testUtils/assetCreators';
 
 const action = createSendMsgAction();
 const sendConfig = getTypeConfig(Types.send_broadcast);
@@ -72,6 +77,61 @@ describe(SendMsgLocalizationForm.name, () => {
       expect(props.onClose).toHaveBeenCalled();
       expect(props.updateLocalizations).toHaveBeenCalled();
       expect(props.updateLocalizations).toMatchCallSnapshot();
+    });
+
+    it('should allow attachment upload in progress', () => {
+      const { instance } = setup(true);
+
+      instance.handleAttachmentUploading(true);
+      expect(instance.state.uploadError).toEqual('');
+      expect(instance.state.uploadInProgress).toEqual(true);
+
+      instance.handleAttachmentUploading(false);
+      expect(instance.state.uploadError).toEqual('');
+      expect(instance.state.uploadInProgress).toEqual(false);
+    });
+
+    it('should allow attachment upload success', () => {
+      const { instance } = setup(true);
+      const data = {};
+      const axiosResponse = createAxiosResponse(data, 200, '');
+      instance.handleAttachmentUploaded(axiosResponse);
+      expect(instance.state.uploadError).toEqual('');
+      expect(instance.state.uploadInProgress).toEqual(false);
+    });
+
+    it('should allow attachment upload failed - django error - unsupported file type', () => {
+      const { instance } = setup(true);
+      const data = { error: 'Unsupported file type' };
+      const axiosResponse = createAxiosResponse(data, 200, 'OK');
+      instance.handleAttachmentUploaded(axiosResponse);
+      expect(instance.state.uploadError).toEqual('Unsupported file type');
+      expect(instance.state.uploadInProgress).toEqual(false);
+    });
+
+    it('should allow attachment upload failed - django error - max file size', () => {
+      const { instance } = setup(true);
+      const data = { error: 'Limit for file uploads is 25 MB' };
+      const axiosResponse = createAxiosResponse(data, 200, 'OK');
+      instance.handleAttachmentUploaded(axiosResponse);
+      expect(instance.state.uploadError).toEqual('Limit for file uploads is 25 MB');
+      expect(instance.state.uploadInProgress).toEqual(false);
+    });
+
+    it('should allow attachment upload failed - nginx error - 500 - unexpected error', () => {
+      const { instance } = setup(true);
+      const axiosError = createAxiosError(500);
+      instance.handleAttachmentUploadFailed(axiosError);
+      expect(instance.state.uploadError).toEqual('File upload failed, please try again');
+      expect(instance.state.uploadInProgress).toEqual(false);
+    });
+
+    it('should allow attachment upload failed - nginx error - 413 - max file size', () => {
+      const { instance, props } = setup(true);
+      const axiosError = createAxiosError(413);
+      instance.handleAttachmentUploadFailed(axiosError);
+      expect(instance.state.uploadError).toEqual('Limit for file uploads is 25 MB');
+      expect(instance.state.uploadInProgress).toEqual(false);
     });
   });
 
