@@ -29,6 +29,7 @@ export interface Endpoints {
   globals: string;
   groups: string;
   recipients: string;
+  contacts: string;
   flows: string;
   revisions: string;
   activity: string;

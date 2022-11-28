@@ -214,7 +214,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
                   'forms.select_who_to_start',
                   'Select who should be started in the flow'
                 )}
-                assets={this.props.assetStore.recipients}
+                assets={this.props.assetStore.contacts}
                 entry={this.state.recipients}
                 searchable={true}
                 multi={true}
