@@ -45,17 +45,11 @@ export const baseState: AppState = mutate(initialState, {
   })
 });
 
-// const flowEditorConfig: FlowEditorConfig = config;
-// export const getFlowEditorConfig(flowType: FlowTypes) : FlowEditorConfig => {
-//   const config = getFlowEditorConfig(flowType);
-//   return config;
-// }
-
-// export const configProviderContext: ConfigProviderContext = {
-//   config: flowEditorConfig
-// };
-export const getConfigProviderContext = (flowType: FlowTypes): ConfigProviderContext => {
-  const configProviderContext = { config: getFlowEditorConfig(flowType) };
+export const getConfigProviderContext = (
+  flowType: FlowTypes = FlowTypes.MESSAGING
+): ConfigProviderContext => {
+  const flowEditorConfig = getFlowEditorConfig(flowType);
+  const configProviderContext = { config: flowEditorConfig };
   return configProviderContext;
 };
 
