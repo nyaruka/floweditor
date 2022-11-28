@@ -21,7 +21,9 @@ const baseProps: LocalizationFormProps = {
   nodeSettings: {
     originalNode: null,
     originalAction: action
-  }
+  },
+  helpArticles: {},
+  issues: []
 };
 
 const { setup } = composeComponentTestUtils<LocalizationFormProps>(
