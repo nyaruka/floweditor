@@ -34,7 +34,7 @@ export const initializeForm = (settings: NodeEditorSettings): StartSessionFormSt
           : START_TYPE_ASSETS
       },
       contactQuery: { value: action.contact_query || '' },
-      exclusions: action.exclusions,
+      exclusions: action.exclusions || { in_a_flow: false },
       valid: true
     };
 
