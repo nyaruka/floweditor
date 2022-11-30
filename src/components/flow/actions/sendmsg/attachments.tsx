@@ -95,7 +95,7 @@ export const renderAttachments = (
   const emptyOption =
     attachments.length < MAX_ATTACHMENTS
       ? renderAttachment(
-          -1,
+          attachments.length,
           { url: '', type: '' },
           uploadInProgress,
           uploadError,
@@ -187,11 +187,10 @@ export const renderAttachment = (
   onAttachmentChanged: (index: number, type: string, url: string) => void,
   onAttachmentRemoved: (index: number) => void
 ): JSX.Element => {
+  const isEmptyOption = attachment.type === '';
+
   return (
-    <div
-      className={styles.url_attachment}
-      key={index > -1 ? 'url_attachment_' + index : 'new_attachment'}
-    >
+    <div className={styles.url_attachment} key={'url_attachment_' + index}>
       <div className={styles.type_choice}>
         <SelectElement
           key={'attachment_type_' + index}
@@ -199,7 +198,7 @@ export const renderAttachment = (
           name={i18n.t('forms.type_options', 'Type Options')}
           placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
           entry={{
-            value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
+            value: isEmptyOption ? null : getAttachmentTypeOption(attachment.type)
           }}
           onChange={(option: any) => {
             if (option.value === 'upload') {
@@ -210,7 +209,7 @@ export const renderAttachment = (
               onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
             }
           }}
-          options={index > -1 ? TYPE_OPTIONS : NEW_TYPE_OPTIONS}
+          options={isEmptyOption ? NEW_TYPE_OPTIONS : TYPE_OPTIONS}
         />
       </div>
       {renderIf(uploadInProgress)(
@@ -219,7 +218,7 @@ export const renderAttachment = (
       {renderIf(uploadError && uploadError.length > 0)(
         <div className={styles.upload_error}>{uploadError}</div>
       )}
-      {index > -1 ? (
+      {isEmptyOption ? null : (
         <>
           <div className={styles.url}>
             <TextInputElement
@@ -244,7 +243,7 @@ export const renderAttachment = (
             />
           </div>
         </>
-      ) : null}
+      )}
     </div>
   );
 };
