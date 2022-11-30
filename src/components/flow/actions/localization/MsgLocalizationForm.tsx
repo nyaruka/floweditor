@@ -221,6 +221,8 @@ export default class MsgLocalizationForm extends React.Component<
   }
 
   private handleAttachmentChanged(index: number, type: string, url: string) {
+    this.handleAttachmentUploading(false);
+
     let attachments: any = this.state.attachments;
     if (index === -1) {
       attachments = mutate(attachments, {
