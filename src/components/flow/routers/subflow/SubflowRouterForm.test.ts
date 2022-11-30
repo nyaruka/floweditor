@@ -10,25 +10,32 @@ import {
   getRouterFormProps
 } from 'testUtils/assetCreators';
 import * as utils from 'utils';
-
-const msgRouterNode = createSubflowNode(createStartFlowAction(), FlowTypes.MESSAGING);
-const { setup: msgSetup } = composeComponentTestUtils(
-  SubflowRouterForm,
-  getRouterFormProps(msgRouterNode)
-);
 mock(utils, 'createUUID', utils.seededUUIDs());
 
+// map this to the proper setup before each
+let setupTest;
+
 describe(SubflowRouterForm.name, () => {
+  beforeAll(() => {
+    mock(utils, 'createUUID', utils.seededUUIDs());
+    const msgRouterNode = createSubflowNode(createStartFlowAction(), FlowTypes.MESSAGING);
+    const composed = composeComponentTestUtils(
+      SubflowRouterForm,
+      getRouterFormProps(msgRouterNode)
+    );
+    setupTest = composed.setup;
+  });
+
   describe('msg render', () => {
     it('should render', () => {
-      const { wrapper } = msgSetup();
+      const { wrapper } = setupTest();
       expect(wrapper).toMatchSnapshot();
     });
   });
 
   describe('msg updates', () => {
     it('should update and save', () => {
-      const { instance, props } = msgSetup(true, { updateRouter: setMock() });
+      const { instance, props } = setupTest(true, { updateRouter: setMock() });
       expect(instance.context.config.flowType).toEqual(FlowTypes.MESSAGING);
       instance.handleFlowChanged([ColorFlowAsset]);
       expect(instance.state).toMatchSnapshot();
@@ -37,7 +44,7 @@ describe(SubflowRouterForm.name, () => {
     });
 
     it('should cancel changes', () => {
-      const { instance, props } = msgSetup(true, { updateRouter: setMock() });
+      const { instance, props } = setupTest(true, { updateRouter: setMock() });
       expect(instance.context.config.flowType).toEqual(FlowTypes.MESSAGING);
       instance.handleFlowChanged([ColorFlowAsset]);
       instance.getButtons().secondary.onClick();
@@ -45,7 +52,7 @@ describe(SubflowRouterForm.name, () => {
     });
 
     it('converts from other node types', () => {
-      const { instance, props } = msgSetup(true, {
+      const { instance, props } = setupTest(true, {
         updateRouter: setMock(),
         nodeSettings: {
           originalNode: { ui: { $merge: { type: null } } }
@@ -59,7 +66,7 @@ describe(SubflowRouterForm.name, () => {
     });
 
     it('creates its own action uuid if necessary', () => {
-      const { instance, props } = msgSetup(true, {
+      const { instance, props } = setupTest(true, {
         updateRouter: setMock(),
         nodeSettings: {
           originalNode: {
@@ -76,7 +83,7 @@ describe(SubflowRouterForm.name, () => {
     });
 
     it('validates before saving', () => {
-      const { instance, props } = msgSetup(true, { updateRouter: setMock() });
+      const { instance, props } = setupTest(true, { updateRouter: setMock() });
       expect(instance.context.config.flowType).toEqual(FlowTypes.MESSAGING);
       instance.handleFlowChanged([]);
       instance.getButtons().primary.onClick();
@@ -85,25 +92,27 @@ describe(SubflowRouterForm.name, () => {
   });
 });
 
-const voiceRouterNode = createSubflowNode(createVoiceStartFlowAction(), FlowTypes.VOICE);
-const { setup: voiceSetup } = composeComponentTestUtils(
-  SubflowRouterForm,
-  getRouterFormProps(voiceRouterNode),
-  FlowTypes.VOICE
-);
-mock(utils, 'createUUID', utils.seededUUIDs());
-
 describe(SubflowRouterForm.name, () => {
+  beforeAll(() => {
+    const voiceRouterNode = createSubflowNode(createVoiceStartFlowAction(), FlowTypes.VOICE);
+    const composed = composeComponentTestUtils(
+      SubflowRouterForm,
+      getRouterFormProps(voiceRouterNode),
+      FlowTypes.VOICE
+    );
+    setupTest = composed.setup;
+  });
+
   describe('ivr render', () => {
     it('should render', () => {
-      const { wrapper } = voiceSetup();
+      const { wrapper } = setupTest();
       expect(wrapper).toMatchSnapshot();
     });
   });
 
   describe('ivr updates', () => {
     it('should update and save', () => {
-      const { instance, props } = voiceSetup(true, { updateRouter: setMock() });
+      const { instance, props } = setupTest(true, { updateRouter: setMock() });
       expect(instance.context.config.flowType).toEqual(FlowTypes.VOICE);
       instance.handleFlowChanged([SoundFlowAsset]);
       expect(instance.state).toMatchSnapshot();
@@ -112,7 +121,7 @@ describe(SubflowRouterForm.name, () => {
     });
 
     it('should cancel changes', () => {
-      const { instance, props } = voiceSetup(true, { updateRouter: setMock() });
+      const { instance, props } = setupTest(true, { updateRouter: setMock() });
       expect(instance.context.config.flowType).toEqual(FlowTypes.VOICE);
       instance.handleFlowChanged([SoundFlowAsset]);
       instance.getButtons().secondary.onClick();
@@ -120,7 +129,7 @@ describe(SubflowRouterForm.name, () => {
     });
 
     it('converts from other node types', () => {
-      const { instance, props } = voiceSetup(true, {
+      const { instance, props } = setupTest(true, {
         updateRouter: setMock(),
         nodeSettings: {
           originalNode: { ui: { $merge: { type: null } } }
@@ -134,7 +143,7 @@ describe(SubflowRouterForm.name, () => {
     });
 
     it('creates its own action uuid if necessary', () => {
-      const { instance, props } = voiceSetup(true, {
+      const { instance, props } = setupTest(true, {
         updateRouter: setMock(),
         nodeSettings: {
           originalNode: {
@@ -151,7 +160,7 @@ describe(SubflowRouterForm.name, () => {
     });
 
     it('validates before saving', () => {
-      const { instance, props } = voiceSetup(true, { updateRouter: setMock() });
+      const { instance, props } = setupTest(true, { updateRouter: setMock() });
       expect(instance.context.config.flowType).toEqual(FlowTypes.VOICE);
       instance.handleFlowChanged([]);
       instance.getButtons().primary.onClick();
