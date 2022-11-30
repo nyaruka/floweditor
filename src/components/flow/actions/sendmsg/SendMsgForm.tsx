@@ -340,6 +340,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleAttachmentChanged(index: number, type: string, url: string) {
+    this.handleAttachmentUploading(false);
+
     let attachments: any = this.state.attachments;
     if (index === -1) {
       attachments = mutate(attachments, {

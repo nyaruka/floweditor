@@ -188,7 +188,7 @@ export const renderAttachment = (
   onAttachmentRemoved: (index: number) => void
 ): JSX.Element => {
   const isEmptyOption = attachment.type === '';
-
+  const isUploadError = uploadError && uploadError.length > 0;
   return (
     <div className={styles.url_attachment} key={'url_attachment_' + index}>
       <div className={styles.type_choice}>
@@ -212,10 +212,10 @@ export const renderAttachment = (
           options={isEmptyOption ? NEW_TYPE_OPTIONS : TYPE_OPTIONS}
         />
       </div>
-      {renderIf(uploadInProgress)(
+      {renderIf(isEmptyOption && uploadInProgress)(
         <temba-loading id={styles.upload_in_progress} units="3" size="8"></temba-loading>
       )}
-      {renderIf(uploadError && uploadError.length > 0)(
+      {renderIf(isEmptyOption && isUploadError)(
         <div className={styles.upload_error}>{uploadError}</div>
       )}
       {isEmptyOption ? null : (
