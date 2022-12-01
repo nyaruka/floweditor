@@ -26,121 +26,237 @@
     -->
     <title>Nyaruka Flow Editor</title>
     <style>
-        html input {
-          font-weight: 300;
-        }
+      html input {
+        font-weight: 300;
+      }
 
-        html {
+      html.dragging * {
+        user-select: none;  
+        pointer-events: none;
+      }
 
-  
-          --font-family: 'Roboto', Helvetica, Arial, sans-serif;
-          --primary-rgb: 35, 135, 202;
-          --secondary-rgb: 140, 51, 140;
-          --tertiary-rgb: 135, 202, 35;
+      html {
 
-          --focus-rgb: 82, 168, 236;
-          --error-rgb: 255, 99, 71;
-          --success-rgb: 102, 186, 104;
+        --font-family: 'Roboto', Helvetica, Arial, sans-serif;
+        --primary-rgb: 35, 135, 202;
+        --secondary-rgb: 140, 51, 140;
+        --tertiary-rgb: 135, 202, 35;
 
-          --selection-light-rgb: 240, 240, 240;
-          --selection-dark-rgb: 180, 180, 180;
+        --focus-rgb: 82, 168, 236;
+        --error-rgb: 255, 99, 71;
+        --success-rgb: 102, 186, 104;
 
-          --select-input-height: inherit;
+        --selection-light-rgb: 240, 240, 240;
+        --selection-dark-rgb: 180, 180, 180;
 
-          --curvature: 6px;
-          --curvature-widget: 6px;
-          --color-focus: #a4cafe;
-          --color-widget-bg: #fff;
-          --color-widget-bg-focused: #fff;
-          --color-widget-border: rgb(225, 225, 225);
+        --select-input-height: inherit;
 
-          /* primary colors, should be dark */
-          --color-selection: #f0f6ff;
+        --curvature: 6px;
+        --curvature-widget: 6px;
+        --color-focus: #a4cafe;
+        --color-widget-bg: #fff;
+        --color-widget-bg-focused: #fff;
+        --color-widget-border: rgb(225, 225, 225);
 
-          --widget-box-shadow-focused: 0 0 0 3px rgba(164, 202, 254, .45);
-          --widget-box-shadow-focused-error: 0 0 0 3px rgba(var(--error-rgb), 0.3);
+        --color-options-bg: var(--color-widget-bg);
 
-          --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        /* primary colors, should be dark */
+        --color-selection: #f0f6ff;
+        --color-row-hover: rgba(var(--selection-light-rgb), .4);
 
-          /* page text, borders, widgets */
-          --color-text: #555;
-          --color-widget-text: #555;
-          --color-borders: rgba(0, 0, 0, 0.07);
-          --color-placeholder: #ccc;
+        --widget-box-shadow-focused: 0 0 0 3px rgba(164, 202, 254, .45);
+        --widget-box-shadow-focused-error: 0 0 0 3px rgba(var(--error-rgb), 0.3);
 
-          /* light colors, panel backgrounds, selection, etc */
-          --color-primary-light: #eee;
-          --color-secondary-light: #ccc;
+        --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        --shadow-widget: 0 3px 20px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
 
-          /* dark colors, nav bar, buttons, etc */
-          --color-primary-dark: rgb(var(--primary-rgb));
-          --color-secondary-dark: rgb(var(--secondary-rgb));
+        /* page text, borders, widgets */
+        --color-text: #555;
+        --color-widget-text: #555;
+        --color-borders: rgba(0, 0, 0, 0.07);
+        --color-placeholder: #ccc;
 
-          /* light text goes over dark, dark over lights */
-          --color-text-light: rgba(255, 255, 255, 1);
-          --color-text-dark: rgba(0, 0, 0, 0.5);
-          --color-text-dark-secondary: rgba(0, 0, 0, 0.25);
-          --color-text-help: rgba(0, 0, 0, 0.35);
+        /* light colors, panel backgrounds, selection, etc */
+        --color-primary-light: #eee;
+        --color-secondary-light: #ccc;
 
-          /* solid overlays with text */
-          --color-overlay-dark: rgba(0, 0, 0, 0.2);
-          --color-overlay-dark-text: rgba(255, 255, 255, 0.9);
-          --color-overlay-light: rgba(0, 0, 0, 0.05);
-          --color-overlay-light-text: rgba(0, 0, 0, 0.6);
+        /* dark colors, nav bar, buttons, etc */
+        --color-primary-dark: rgb(var(--primary-rgb));
+        --color-secondary-dark: rgb(var(--secondary-rgb));
 
-          /* links, buttons, and label badges */
-          --color-link-primary: rgba(var(--primary-rgb), 0.8);
-          --color-link-primary-hover: rgba(var(--primary-rgb), 0.9);
-          --color-link-secondary: rgba(var(--secondary-rgb), 0.8);
-          --color-link-secondary-hover: rgba(var(--secondary-rgb), 0.9);
-          --color-button-primary: var(--color-primary-dark);
-          --color-button-primary-text: var(--color-text-light);
-          --color-button-secondary: var(--color-secondary-light);
-          --color-button-secondary-text: var(--color-text-dark);
+        --color-available: #00f100;
 
-          --color-button-destructive: rgb(var(--error-rgb));
-          --color-button-destructive-text: var(--color-text-light);
+        --color-tertiary: rgb(var(--tertiary-rgb));
 
-          --color-button-attention: #2ecc71;
+        /* light text goes over dark, dark over lights */
+        --color-text-light: rgba(255, 255, 255, 1);
+        --color-text-dark: rgba(0, 0, 0, 0.5);
+        --color-text-dark-secondary: rgba(0, 0, 0, 0.25);
 
-          --color-label-primary: var(--color-primary-dark);
-          --color-label-primary-text: var(--color-text-light);
-          --color-label-secondary: rgba(0, 0, 0, 0.2);
-          --color-label-secondary-text: rgba(255, 255, 255, 0.9);
+        /* solid overlays with text */
+        --color-overlay-dark: rgba(0, 0, 0, 0.2);
+        --color-overlay-dark-text: rgba(255, 255, 255, 0.9);
+        --color-overlay-light: rgba(0, 0, 0, 0.035);
+        --color-overlay-light-text: rgba(0, 0, 0, 0.6);
 
-          --color-nav-unselected: #fff;
-          --color-nav-selected-bg: #fff;
-          --color-nav-selected-text: var(--color-primary-dark);
+        /* links, buttons, and label badges */
+        --color-link-primary: rgba(var(--primary-rgb), 0.8);
+        --color-link-primary-hover: rgba(var(--primary-rgb), 0.9);
+        --color-link-secondary: rgba(var(--secondary-rgb), 0.8);
+        --color-link-secondary-hover: rgba(var(--secondary-rgb), 0.9);
+        --color-button-primary: var(--color-primary-dark);
+        --color-button-primary-text: var(--color-text-light);
+        --color-button-light: rgb(246, 248, 250);
+        --color-button-light-text: rgb(36, 41, 47);
+        --color-button-secondary: var(--color-secondary-light);
+        --color-button-secondary-text: var(--color-text-dark);
 
-          --color-info: #c0d9eb;
-          --color-warning: #fff6c0;
-          --color-error: rgb(var(--error-rgb));
-          --font-size: 14px;
-          --button-font-size: 1.125rem;
+        --color-button-destructive: rgb(var(--error-rgb));
+        --color-button-destructive-text: var(--color-text-light);
 
-          --header-bg: var(--color-primary-dark);
+        --color-button-attention: #2ecc71;
 
-          --temba-textinput-padding: 9px;
-          --temba-textinput-font-size: var(--font-size);
+        --color-label-primary: var(--color-primary-dark);
+        --color-label-primary-text: var(--color-text-light);
+        --color-label-secondary: var(--color-secondary-dark);
+        --color-label-secondary-text: var(--color-text-light);
+        --color-label-tertiary: var(--color-tertiary);
+        --color-label-tertiary-text: var(--color-text-light);
 
-          font-size: var(--font-size);
-          font-weight: 300;
-          font-family: var(--font-family);
+        --color-nav-unselected: #fff;
+        --color-nav-selected-bg: #fff;
+        --color-nav-selected-text: var(--color-primary-dark);
 
-          --button-y: 6px;  
-          --button-x: 14px;
-        }
+        --color-info: rgb(238, 246, 255);
+        --color-info-border: rgb(74, 163, 223);
 
-        temba-select:focus {
-          outline: none;
-          box-shadow: none;
-        }
+        --color-warning: rgb(255, 253, 218);
+        --color-warning-border: rgb(251, 246, 176);
 
-        .flatpickr-calendar {
-          margin-top: 28px;
-          margin-bottom: 28px;
-          margin-left: -13px;
-        }
+        --color-error: rgb(var(--error-rgb));
+        --color-alert: rgb(var(--error-rgb));
+
+        --font-size: 14px;
+        --button-font-size: 1.125rem;
+
+        --icon-color: var(--text-color);
+        --icon-color-circle-hover: rgba(245, 245, 245, .8);
+        
+        --transition-speed: 250ms;
+        --event-padding: 0.5em 1em;
+        --temba-select-selected-padding: 9px;
+        --temba-select-selected-line-height: 16px;
+        --temba-select-selected-font-size: 13px;
+
+        --help-text-margin-top: 0px;
+        --help-text-margin-left: 0.3em;
+        --help-text-size: 0.85em;
+        --color-text-help: rgb(120,120,120);
+        --label-size: 14px;
+        
+        --header-bg: var(--color-primary-dark);
+        --header-text: var(--color-text-light);
+        
+        --temba-textinput-padding: 9px;
+        --temba-textinput-font-size: 13px;
+
+        --options-block-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+        --options-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --dropdown-shadow: rgb(0 0 0 / 30%) 0px 0px 60px, rgb(0 0 0 / 12%) 0px 6px 12px;
+
+        font-size: var(--font-size);
+        font-weight: 300;
+        font-family: var(--font-family);
+
+        --button-y: 6px;  
+        --button-x: 14px;
+
+        --control-margin-bottom: 15px;
+
+        --menu-padding: 1em;
+        --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+      }
+
+      temba-button {
+        --button-bg: var(--color-primary-dark);
+        --button-text: var(--color-text-light);
+        --button-border: none;
+        --button-shadow: var(--widget-box-shadow);
+      }
+
+      temba-button:hover {
+        --button-bg-img: linear-gradient(to bottom, rgba(var(--primary-rgb),.1), transparent, transparent);
+      }
+
+      temba-button.active {
+        --button-bg-img: linear-gradient(to bottom, transparent, rgba(0,0,0,.05));
+      }
+
+      temba-button.light {
+        --button-bg: #fff;
+        --button-text: #999;
+        --button-border: none;
+        --button-shadow: var(--widget-box-shadow);
+
+      }
+
+      temba-button.light:hover {
+        --button-bg-img: linear-gradient(to bottom, transparent, rgba(0,0,0,.001));
+      }
+
+      temba-button.light.active {
+        --button-bg-img: linear-gradient(to bottom, transparent, rgba(0,0,0,.02));
+      }
+
+
+      temba-select:focus {
+        outline: none;
+        box-shadow: none;
+      }
+
+      .flatpickr-calendar {
+        margin-top: 28px;
+        margin-bottom: 28px;
+        margin-left: -13px;
+      }
+
+      .input {
+        border-radius: var(--curvature-widget);
+        cursor: text;
+        background: var(--color-widget-bg);
+        border: 1px solid var(--color-widget-border);
+        transition: all ease-in-out 200ms;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        box-shadow: var(--widget-box-shadow);
+        caret-color: var(--input-caret);
+        padding: var(--temba-textinput-padding);
+      }
+
+      .input:focus {
+        outline: none;
+        border-color: var(--color-focus);
+        background: var(--color-widget-bg-focused);
+        box-shadow: var(--widget-box-shadow-focused);
+      }
+
+      temba-dropdown {
+        opacity: 0;
+      }
+
+      temba-dropdown:defined {
+        opacity: 1;
+      }
+
+      temba-menu {
+        display: none;
+      }
+
+      temba-menu:defined{
+        display: block;
+      }
     </style>
   </head>
 
@@ -188,6 +304,7 @@
         languages: base + 'languages',
         environment: base + 'environment',
         recipients: base + 'recipients',
+        contacts: base + 'recipients',
         functions: base + 'functions',
         completion: base + 'completion',
         attachments: base + 'attachments',

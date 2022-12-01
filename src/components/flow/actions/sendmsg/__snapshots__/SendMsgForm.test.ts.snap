@@ -227,6 +227,8 @@ Object {
   "topic": Object {
     "value": undefined,
   },
+  "uploadError": "",
+  "uploadInProgress": false,
   "valid": true,
 }
 `;

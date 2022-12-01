@@ -1,3 +1,4 @@
+import { AxiosError, AxiosResponse } from 'axios';
 import { determineTypeConfig } from 'components/flow/helpers';
 import { ActionFormProps, LocalizationFormProps, RouterFormProps } from 'components/flow/props';
 import { CaseProps } from 'components/flow/routers/caselist/CaseList';
@@ -927,6 +928,36 @@ export const createGroupsRouterNode = (
       position: { left: 0, top: 0 }
     }
   });
+};
+
+export const createAxiosResponse = (
+  data: {},
+  status: number,
+  statusText: string
+): AxiosResponse => {
+  return {
+    config: {},
+    headers: {},
+    data: data,
+    status: status,
+    statusText: statusText
+  };
+};
+
+export const createAxiosError = (status: number): AxiosError => {
+  return {
+    isAxiosError: true,
+    name: '',
+    message: '',
+    toJSON: () => ({}),
+    config: {},
+    request: {},
+    response: {
+      data: {},
+      status: status,
+      statusText: ''
+    } as AxiosResponse
+  };
 };
 
 export const getGroupOptions = (groups: Group[] = groupsResults) =>

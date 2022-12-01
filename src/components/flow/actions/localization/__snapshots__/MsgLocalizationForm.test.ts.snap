@@ -287,6 +287,8 @@ Object {
   },
   "templateVariables": Array [],
   "templating": null,
+  "uploadError": "",
+  "uploadInProgress": false,
   "valid": true,
 }
 `;
@@ -325,6 +327,8 @@ Object {
   },
   "templateVariables": Array [],
   "templating": null,
+  "uploadError": "",
+  "uploadInProgress": false,
   "valid": true,
 }
 `;

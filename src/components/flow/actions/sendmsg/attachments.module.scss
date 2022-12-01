@@ -1,39 +1,47 @@
+@import 'variables.module.scss';
+
 .type_choice {
     display: inline-block;
     width: 180px;
   }
   
-  .url_attachment {
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-  
-    .upload {
-      
-    }
-  
-    .remove_upload {
-      margin-left: 8px;
-      margin-top: 4px;
-      display: inline-block;
-    }
-  
-    .url {
-      display: inline-block;
-      margin-left: 8px;
-      width: 329px;
-      margin-right: 10px;
-      input {
-        vertical-align: top;
-        height: 28px !important;
-        margin-top: -11px;
-        width: 100%;
-        font-size: 12px;
-      }
-    }
-  
-    .remove {
-      margin-top: 4px;
+.url_attachment {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+
+  .remove_upload {
+    margin-left: 8px;
+    margin-top: 4px;
+    display: inline-block;
+  }
+
+  .url {
+    display: inline-block;
+    margin-left: 8px;
+    width: 329px;
+    margin-right: 10px;
+    input {
+      vertical-align: top;
+      height: 28px !important;
+      margin-top: -11px;
+      width: 100%;
+      font-size: 12px;
     }
   }
-  
+
+  .remove {
+    margin-top: 4px;
+  }
+}
+
+#upload_in_progress {
+  margin-left: 10px;
+  padding-top: 0px
+}
+
+.upload_error {
+  color: red;
+  font-size: 12px;
+  margin-left: 10px
+}
