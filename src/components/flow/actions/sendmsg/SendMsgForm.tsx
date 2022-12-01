@@ -157,6 +157,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     let valid = true;
 
     let templateVariables = this.state.templateVariables;
+    let template = this.state.template;
+
     // make sure we don't have untouched template variables
     this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
       const updated = validate(`Variable ${num + 1}`, variable.value, [Required]);
@@ -166,11 +168,11 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       valid = valid && !hasErrors(updated);
     });
 
-    if (valid && templateVariables.length > 0 && !this.state.message.value) {
+    if (valid && template.value && !this.state.message.value) {
       valid = true;
     }
 
-    if (templateVariables.length === 0) {
+    if (!template.value) {
       // message box can be empty if the attachments are present
       valid =
         (valid && this.handleMessageUpdate(this.state.message.value, null, true)) ||
