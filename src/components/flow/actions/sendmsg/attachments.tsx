@@ -1,11 +1,11 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import Pill from 'components/pill/Pill';
 import i18n from 'config/i18n';
 import { getCookie } from 'external';
 import React from 'react';
 import { TembaSelectStyle } from 'temba/TembaSelect';
-import { createUUID } from 'utils';
+import { createUUID, renderIf } from 'utils';
 import styles from './attachments.module.scss';
 import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 
@@ -40,7 +40,9 @@ const getAttachmentTypeOption = (type: string): SelectOption => {
 export const handleUploadFile = (
   endpoint: string,
   files: FileList,
-  onSuccess: (response: AxiosResponse) => void
+  onLoading: (isUploading: boolean) => void,
+  onSuccess: (response: AxiosResponse) => void,
+  onFailure: (error: AxiosError) => void
 ): void => {
   // if we have a csrf in our cookie, pass it along as a header
   const csrf = getCookie('csrftoken');
@@ -49,39 +51,59 @@ export const handleUploadFile = (
   // mark us as ajax
   headers['X-Requested-With'] = 'XMLHttpRequest';
 
-  const data = new FormData();
-  data.append('file', files[0]);
-  axios
-    .post(endpoint, data, { headers })
-    .then(onSuccess)
-    .catch(error => {
-      console.log(error);
-    });
+  if (files && files.length > 0) {
+    onLoading(true);
+    const data = new FormData();
+    data.append('file', files[0]);
+    axios
+      .post(endpoint, data, { headers })
+      .then(response => {
+        onSuccess(response);
+      })
+      .catch(error => {
+        onFailure(error);
+      });
+  } else {
+    onLoading(false);
+  }
 };
 
 export const renderAttachments = (
   endpoint: string,
   attachments: Attachment[],
+  uploadInProgress: boolean,
+  uploadError: string,
+  onUploading: (isUploading: boolean) => void,
   onUploaded: (response: AxiosResponse) => void,
+  onUploadFailed: (error: AxiosError) => void,
   onAttachmentChanged: (index: number, value: string, url: string) => void,
   onAttachmentRemoved: (index: number) => void
 ): JSX.Element => {
   const renderedAttachments = attachments.map((attachment, index: number) =>
     attachment.uploaded
       ? renderUpload(index, attachment, onAttachmentRemoved)
-      : renderAttachment(index, attachment, onAttachmentChanged, onAttachmentRemoved)
+      : renderAttachment(
+          index,
+          attachment,
+          uploadInProgress,
+          uploadError,
+          onAttachmentChanged,
+          onAttachmentRemoved
+        )
   );
 
   const emptyOption =
     attachments.length < MAX_ATTACHMENTS
       ? renderAttachment(
-          -1,
+          attachments.length,
           { url: '', type: '' },
-
+          uploadInProgress,
+          uploadError,
           onAttachmentChanged,
           onAttachmentRemoved
         )
       : null;
+
   return (
     <>
       <p>
@@ -101,7 +123,9 @@ export const renderAttachments = (
           filePicker = ele;
         }}
         type="file"
-        onChange={e => handleUploadFile(endpoint, e.target.files, onUploaded)}
+        onChange={e => {
+          handleUploadFile(endpoint, e.target.files, onUploading, onUploaded, onUploadFailed);
+        }}
       />
     </>
   );
@@ -158,14 +182,15 @@ export const renderUpload = (
 export const renderAttachment = (
   index: number,
   attachment: Attachment,
+  uploadInProgress: boolean,
+  uploadError: string,
   onAttachmentChanged: (index: number, type: string, url: string) => void,
   onAttachmentRemoved: (index: number) => void
 ): JSX.Element => {
+  const isEmptyOption = attachment.type === '';
+  const isUploadError = uploadError && uploadError.length > 0;
   return (
-    <div
-      className={styles.url_attachment}
-      key={index > -1 ? 'url_attachment_' + index : 'new_attachment'}
-    >
+    <div className={styles.url_attachment} key={'url_attachment_' + index}>
       <div className={styles.type_choice}>
         <SelectElement
           key={'attachment_type_' + index}
@@ -173,7 +198,7 @@ export const renderAttachment = (
           name={i18n.t('forms.type_options', 'Type Options')}
           placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
           entry={{
-            value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
+            value: isEmptyOption ? null : getAttachmentTypeOption(attachment.type)
           }}
           onChange={(option: any) => {
             if (option.value === 'upload') {
@@ -184,10 +209,16 @@ export const renderAttachment = (
               onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
             }
           }}
-          options={index > -1 ? TYPE_OPTIONS : NEW_TYPE_OPTIONS}
+          options={isEmptyOption ? NEW_TYPE_OPTIONS : TYPE_OPTIONS}
         />
       </div>
-      {index > -1 ? (
+      {renderIf(isEmptyOption && uploadInProgress)(
+        <temba-loading id={styles.upload_in_progress} units="3" size="8"></temba-loading>
+      )}
+      {renderIf(isEmptyOption && isUploadError)(
+        <div className={styles.upload_error}>{uploadError}</div>
+      )}
+      {isEmptyOption ? null : (
         <>
           <div className={styles.url}>
             <TextInputElement
@@ -212,7 +243,7 @@ export const renderAttachment = (
             />
           </div>
         </>
-      ) : null}
+      )}
     </div>
   );
 };
