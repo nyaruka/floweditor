@@ -11,7 +11,7 @@ You can view and interact with the component [here](https://floweditor.nyaruka.c
 
 ```
 yarn
-Node.js >= 10.x
+Node.js >= 16.x
 ```
 
 ### Installation
