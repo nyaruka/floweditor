@@ -128,7 +128,6 @@ export class Flow extends React.PureComponent<FlowStoreProps, {}> {
     super(props, context);
 
     this.nodeContainerUUID = createUUID();
-
     this.Plumber = new Plumber();
 
     /* istanbul ignore next */

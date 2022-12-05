@@ -80,6 +80,11 @@ exports[`FieldRouterForm initializes 1`] = `
               "type": "scheme",
             },
             Object {
+              "id": "instagram",
+              "name": "Instagram ID",
+              "type": "scheme",
+            },
+            Object {
               "id": "twitterid",
               "name": "Twitter ID",
               "type": "scheme",
@@ -127,6 +132,26 @@ exports[`FieldRouterForm initializes 1`] = `
             Object {
               "id": "twitter",
               "name": "Twitter Handle",
+              "type": "scheme",
+            },
+            Object {
+              "id": "vk",
+              "name": "VK ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "discord",
+              "name": "Discord ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "webchat",
+              "name": "WebChat ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "rocketchat",
+              "name": "RocketChat ID",
               "type": "scheme",
             },
             Object {
@@ -288,6 +313,11 @@ exports[`FieldRouterForm should render 1`] = `
               "type": "scheme",
             },
             Object {
+              "id": "instagram",
+              "name": "Instagram ID",
+              "type": "scheme",
+            },
+            Object {
               "id": "twitterid",
               "name": "Twitter ID",
               "type": "scheme",
@@ -335,6 +365,26 @@ exports[`FieldRouterForm should render 1`] = `
             Object {
               "id": "twitter",
               "name": "Twitter Handle",
+              "type": "scheme",
+            },
+            Object {
+              "id": "vk",
+              "name": "VK ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "discord",
+              "name": "Discord ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "webchat",
+              "name": "WebChat ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "rocketchat",
+              "name": "RocketChat ID",
               "type": "scheme",
             },
             Object {

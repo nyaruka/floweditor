@@ -115,6 +115,11 @@ export const SCHEMES: Scheme[] = [
     path: i18n.t('schemes.facebook.path', 'Facebook ID')
   },
   {
+    scheme: 'instagram',
+    name: i18n.t('schemes.instagram.name', 'Instagram'),
+    path: i18n.t('schemes.instagram.path', 'Instagram ID')
+  },
+  {
     scheme: 'twitterid',
     name: i18n.t('schemes.twitterid.name', 'Twitter'),
     path: i18n.t('schemes.twitterid.path', 'Twitter ID')
@@ -165,6 +170,27 @@ export const SCHEMES: Scheme[] = [
     name: i18n.t('schemes.twitter.name', 'Twitter'),
     path: i18n.t('schemes.twitter.path', 'Twitter Handle'),
     excludeFromSplit: true
+  },
+  {
+    scheme: 'vk',
+    name: i18n.t('schemes.vk.name', 'VK'),
+    path: i18n.t('schemes.vk.path', 'VK ID')
+  },
+  {
+    scheme: 'discord',
+    name: i18n.t('schemes.discord.name', 'Discord'),
+    path: i18n.t('schemes.discord.path', 'Discord ID')
+  },
+  {
+    scheme: 'webchat',
+    name: i18n.t('schemes.webchat.name', 'Webchat'),
+    path: i18n.t('schemes.webchat.path', 'WebChat ID'),
+    excludeFromSplit: true
+  },
+  {
+    scheme: 'rocketchat',
+    name: i18n.t('schemes.rocketchat.name', 'RocketChat'),
+    path: i18n.t('schemes.rocketchat.path', 'RocketChat ID')
   },
   {
     scheme: 'ext',
@@ -415,8 +441,7 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     form: StartSessionForm,
-    component: StartSessionComp,
-    visibility: VISIBILITY_ONLINE
+    component: StartSessionComp
   },
   {
     type: Types.open_ticket,

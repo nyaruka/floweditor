@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { react as bindCallbacks } from 'auto-bind';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import {
@@ -52,6 +52,8 @@ export interface SendMsgFormState extends FormState {
   quickReplyEntry: StringEntry;
   sendAll: boolean;
   attachments: Attachment[];
+  uploadInProgress: boolean;
+  uploadError: string;
   template: FormEntry;
   topic: SelectOptionEntry;
   templateVariables: StringEntry[];
@@ -366,25 +368,62 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     );
   }
 
-  private handleAttachmentUploaded(response: AxiosResponse) {
-    const attachments: any = mutate(this.state.attachments, {
-      0: {
-        $set: { type: 'document', url: response.data.url, uploaded: true }
-      }
-    });
-    this.setState({ attachments });
+  private handleAttachmentUploading(isUploading: boolean) {
+    const uploadError: string = '';
+    console.log(uploadError);
+    this.setState({ uploadError });
+
+    if (isUploading) {
+      const uploadInProgress: boolean = true;
+      this.setState({ uploadInProgress });
+    } else {
+      const uploadInProgress: boolean = false;
+      this.setState({ uploadInProgress });
+    }
   }
 
-  private attachmentValidate(body: any, valid: boolean, validationFailures: any) {
-    const attachments: any = mutate(this.state.attachments, {
-      0: {
-        $set: { type: body.type, url: body.url, valid, validationFailures }
-      }
-    });
-    this.setState({ attachments });
+  private handleAttachmentUploaded(response: AxiosResponse) {
+    //django returns a 200 even when there's an error
+    if (response.data && response.data.error) {
+      const uploadError: string = response.data.error;
+      console.log(uploadError);
+      this.setState({ uploadError });
+    } else {
+      const attachments: any = mutate(this.state.attachments, {
+        $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
+      });
+      console.log(attachments);
+      this.setState({ attachments });
+
+      const uploadError: string = '';
+      console.log(uploadError);
+      this.setState({ uploadError });
+    }
+
+    const uploadInProgress: boolean = false;
+    this.setState({ uploadInProgress });
+  }
+
+  private handleAttachmentUploadFailed(error: AxiosError) {
+    //nginx returns a 300+ if there's an error
+    let uploadError: string = '';
+    const status = error.response.status;
+    if (status >= 500) {
+      uploadError = i18n.t('file_upload_failed_generic', 'File upload failed, please try again');
+    } else if (status === 413) {
+      uploadError = i18n.t('file_upload_failed_max_limit', 'Limit for file uploads is 25 MB');
+    } else {
+      uploadError = error.response.statusText;
+    }
+    this.setState({ uploadError });
+
+    const uploadInProgress: boolean = false;
+    this.setState({ uploadInProgress });
   }
 
   private handleAttachmentChanged(index: number, type: string, url: string) {
+    this.handleAttachmentUploading(false);
+
     let attachments: any = this.state.attachments;
 
     const isExpression = type === 'expression';
@@ -448,7 +487,11 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         this.context.config.endpoints.attachments,
         this.context.config.attachmentsEnabled,
         this.state.attachments,
+        this.state.uploadInProgress,
+        this.state.uploadError,
+        this.handleAttachmentUploading,
         this.handleAttachmentUploaded,
+        this.handleAttachmentUploadFailed,
         this.handleAttachmentChanged,
         this.handleAttachmentRemoved
       ),

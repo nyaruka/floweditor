@@ -39,6 +39,10 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
                 options={
                   Array [
                     Object {
+                      "name": "Upload Attachment",
+                      "value": "upload",
+                    },
+                    Object {
                       "name": "Image URL",
                       "value": "image",
                     },
@@ -53,10 +57,6 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
                     Object {
                       "name": "PDF Document URL",
                       "value": "application",
-                    },
-                    Object {
-                      "name": "Upload Attachment",
-                      "value": "upload",
                     },
                   ]
                 }
@@ -175,6 +175,10 @@ exports[`MsgLocalizationForm render should render 1`] = `
                 options={
                   Array [
                     Object {
+                      "name": "Upload Attachment",
+                      "value": "upload",
+                    },
+                    Object {
                       "name": "Image URL",
                       "value": "image",
                     },
@@ -189,10 +193,6 @@ exports[`MsgLocalizationForm render should render 1`] = `
                     Object {
                       "name": "PDF Document URL",
                       "value": "application",
-                    },
-                    Object {
-                      "name": "Upload Attachment",
-                      "value": "upload",
                     },
                   ]
                 }
@@ -287,6 +287,8 @@ Object {
   },
   "templateVariables": Array [],
   "templating": null,
+  "uploadError": "",
+  "uploadInProgress": false,
   "valid": true,
 }
 `;
@@ -325,6 +327,8 @@ Object {
   },
   "templateVariables": Array [],
   "templating": null,
+  "uploadError": "",
+  "uploadInProgress": false,
   "valid": true,
 }
 `;

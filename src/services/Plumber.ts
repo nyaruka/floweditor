@@ -3,9 +3,6 @@ import { GRID_SIZE, timeStart, timeEnd, debounce } from 'utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
-const {
-  jsPlumb: { importDefaults }
-} = require('../../node_modules/jsplumb/dist/js/jsplumb');
 export interface DragEvent {
   el: Element;
   pos: number[];
@@ -95,6 +92,14 @@ export default class Plumber {
   private onLoadFunction: () => void = null;
 
   constructor() {
+    if ((window as any).jsPlumb) {
+      (window as any).jsPlumb.reset();
+    }
+
+    const {
+      jsPlumb: { importDefaults }
+    } = require('../../node_modules/jsplumb/dist/js/jsplumb');
+
     this.jsPlumb = importDefaults({
       DragOptions: { cursor: 'pointer', zIndex: 1000 },
       DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
@@ -365,6 +370,7 @@ export default class Plumber {
 
   public reset(): void {
     this.jsPlumb.reset();
+    this.pendingConnections = {};
   }
 
   public getPlumb(): any {

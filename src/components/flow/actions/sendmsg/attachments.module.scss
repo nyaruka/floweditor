@@ -1,3 +1,5 @@
+@import 'variables.module.scss';
+
 .type_choice {
   display: inline-block;
   width: 180px;
@@ -19,6 +21,8 @@
   margin-top: 10px;
   color: red;
   font-weight: 500;
+  display: inline-block;
+  width: 180px;
 }
 
 .url_attachment {
@@ -26,12 +30,12 @@
   display: flex;
   align-items: center;
 
-  .attachment_container{
+  .attachment_container {
     display: flex;
     width: 100%;
   }
 
-  .type{
+  .type {
     margin-right: 8px;
   }
 
@@ -58,4 +62,15 @@
   .remove {
     margin-top: 4px;
   }
+}
+
+#upload_in_progress {
+  margin-left: 10px;
+  padding-top: 0px;
+}
+
+.upload_error {
+  color: red;
+  font-size: 12px;
+  margin-left: 10px;
 }

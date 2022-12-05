@@ -90,7 +90,6 @@ export enum Operators {
   has_group = 'has_group',
   has_phone = 'has_phone',
   has_email = 'has_email',
-  has_value = 'has_value',
   has_district = 'has_district',
   has_state = 'has_state',
   has_ward = 'has_ward',
@@ -105,7 +104,8 @@ export enum Operators {
   has_video = 'has_video',
   has_file = 'has_file',
   has_location = 'has_location',
-  has_multiple = 'has_multiple'
+  has_multiple = 'has_multiple',
+  has_value = 'has_value' // deprecated, use has_text
 }
 
 export enum FeatureFilter {

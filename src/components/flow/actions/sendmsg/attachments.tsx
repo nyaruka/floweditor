@@ -1,11 +1,11 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import Pill from 'components/pill/Pill';
 import i18n from 'config/i18n';
 import { getCookie } from 'external';
 import React from 'react';
 import { TembaSelectStyle } from 'temba/TembaSelect';
-import { createUUID } from 'utils';
+import { createUUID, renderIf } from 'utils';
 import styles from './attachments.module.scss';
 import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 import { ValidationFailure } from 'store/nodeEditor';
@@ -35,9 +35,9 @@ const EXTENDED_TYPE_OPTIONS: SelectOption[] = [
   { value: 'expression', name: i18n.t('forms.expression', 'Expression') }
 ];
 
-const NEW_TYPE_OPTIONS = EXTENDED_TYPE_OPTIONS.concat([
+const NEW_TYPE_OPTIONS = [
   { value: 'upload', name: i18n.t('forms.upload_attachment', 'Upload Attachment') }
-]);
+].concat(EXTENDED_TYPE_OPTIONS);
 
 export const validateURL = (endpoint: any, body: any, msgForm: any) => {
   axios
@@ -68,7 +68,9 @@ const getAttachmentTypeOption = (type: string): SelectOption => {
 export const handleUploadFile = (
   endpoint: string,
   files: FileList,
-  onSuccess: (response: AxiosResponse) => void
+  onLoading: (isUploading: boolean) => void,
+  onSuccess: (response: AxiosResponse) => void,
+  onFailure: (error: AxiosError) => void
 ): void => {
   // if we have a csrf in our cookie, pass it along as a header
   const csrf = getCookie('csrftoken');
@@ -77,34 +79,44 @@ export const handleUploadFile = (
   // mark us as ajax
   headers['X-Requested-With'] = 'XMLHttpRequest';
 
-  const data = new FormData();
-  data.append('media', files[0]);
-  const mediaName = files[0].name;
-  const extension = mediaName.slice((Math.max(0, mediaName.lastIndexOf('.')) || Infinity) + 1);
-  data.append('extension', extension);
-  axios
-    .post(endpoint, data, { headers })
-    .then(onSuccess)
-    .catch(error => {
-      console.log(error);
-    });
+  if (files && files.length > 0) {
+    onLoading(true);
+    const data = new FormData();
+    data.append('file', files[0]);
+    axios
+      .post(endpoint, data, { headers })
+      .then(response => {
+        onSuccess(response);
+      })
+      .catch(error => {
+        onFailure(error);
+      });
+  } else {
+    onLoading(false);
+  }
 };
 
 export const renderAttachments = (
   endpoint: string,
   attachmentsEnabled: boolean,
   attachments: Attachment[],
+  uploadInProgress: boolean,
+  uploadError: string,
+  onUploading: (isUploading: boolean) => void,
   onUploaded: (response: AxiosResponse) => void,
+  onUploadFailed: (error: AxiosError) => void,
   onAttachmentChanged: (index: number, value: string, url: string) => void,
   onAttachmentRemoved: (index: number) => void
 ): JSX.Element => {
   const renderedAttachments = attachments.map((attachment, index: number) =>
     attachment.uploaded
-      ? renderUpload(index, attachment, onAttachmentRemoved, onAttachmentChanged)
+      ? renderUpload(index, attachment, onAttachmentRemoved, () => {})
       : renderAttachment(
-          attachmentsEnabled,
+          false,
           index,
           attachment,
+          uploadInProgress,
+          uploadError,
           onAttachmentChanged,
           onAttachmentRemoved
         )
@@ -113,14 +125,16 @@ export const renderAttachments = (
   const emptyOption =
     attachments.length < MAX_ATTACHMENTS
       ? renderAttachment(
-          attachmentsEnabled,
-          -1,
+          false,
+          attachments.length,
           { url: '', type: '' },
-
+          uploadInProgress,
+          uploadError,
           onAttachmentChanged,
           onAttachmentRemoved
         )
       : null;
+
   return (
     <>
       <p>
@@ -140,7 +154,9 @@ export const renderAttachments = (
           filePicker = ele;
         }}
         type="file"
-        onChange={e => handleUploadFile(endpoint, e.target.files, onUploaded)}
+        onChange={e => {
+          handleUploadFile(endpoint, e.target.files, onUploading, onUploaded, onUploadFailed);
+        }}
       />
     </>
   );
@@ -219,77 +235,62 @@ export const renderAttachment = (
   attachmentsEnabled: boolean,
   index: number,
   attachment: Attachment,
+  uploadInProgress: boolean,
+  uploadError: string,
   onAttachmentChanged: (index: number, type: string, url: string) => void,
   onAttachmentRemoved: (index: number) => void
 ): JSX.Element => {
+  const isEmptyOption = attachment.type === '';
+  const isUploadError = uploadError && uploadError.length > 0;
   return (
-    <>
-      <div
-        className={styles.url_attachment}
-        key={index > -1 ? 'url_attachment_' + index : createUUID()}
-      >
-        <div className={styles.type_choice}>
-          <SelectElement
-            key={'attachment_type_' + index}
-            style={TembaSelectStyle.small}
-            name={i18n.t('forms.type_options', 'Type Options')}
-            placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
-            entry={{
-              value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
+    <div className={styles.url_attachment} key={'url_attachment_' + index}>
+      <div className={styles.type_choice}>
+        <SelectElement
+          key={'attachment_type_' + index}
+          style={TembaSelectStyle.small}
+          name={i18n.t('forms.type_options', 'Type Options')}
+          placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
+          entry={{
+            value: isEmptyOption ? null : getAttachmentTypeOption(attachment.type)
+          }}
+          onChange={(option: any) => {
+            if (option.value === 'upload') {
+              window.setTimeout(() => {
+                filePicker.click();
+              }, 0);
+            } else {
+              onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
+            }
+          }}
+          options={isEmptyOption ? NEW_TYPE_OPTIONS : TYPE_OPTIONS}
+        />
+      </div>
+      {renderIf(isEmptyOption && uploadInProgress)(
+        <temba-loading id={styles.upload_in_progress} units="3" size="8"></temba-loading>
+      )}
+      {renderIf(isEmptyOption && isUploadError)(
+        <div className={styles.upload_error}>{uploadError}</div>
+      )}
+      {isEmptyOption ? null : (
+        <div className={styles.url}>
+          <TextInputElement
+            placeholder="URL"
+            name={i18n.t('forms.url', 'URL')}
+            style={TextInputStyle.small}
+            onChange={(value: string) => {
+              onAttachmentChanged(index, attachment.type, value);
             }}
-            onChange={(option: any) => {
-              if (option.value === 'upload') {
-                window.setTimeout(() => {
-                  filePicker.click();
-                }, 0);
-              } else {
-                onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
-              }
-            }}
-            options={attachmentsEnabled ? NEW_TYPE_OPTIONS : EXTENDED_TYPE_OPTIONS}
+            entry={{ value: attachment.url }}
+            autocomplete={true}
           />
         </div>
-        {index > -1 ? (
-          <>
-            <div className={styles.url}>
-              <TextInputElement
-                placeholder="URL"
-                name={i18n.t('forms.url', 'URL')}
-                style={TextInputStyle.small}
-                onChange={(value: string) => {
-                  onAttachmentChanged(index, attachment.type, value);
-                }}
-                entry={{ value: attachment.url }}
-                autocomplete={true}
-              />
-            </div>
-            <div className={styles.remove}>
-              <Pill
-                icon="fe-x"
-                text=" Remove"
-                large={true}
-                onClick={() => {
-                  onAttachmentRemoved(index);
-                }}
-              />
-            </div>
-          </>
-        ) : null}
-      </div>
-      <div>
-        {attachment.valid && !attachment.validationFailures ? (
-          <div className={styles.loading}>
-            Checking URL validity
-            <Loading size={10} units={6} color="#999999" />
-          </div>
-        ) : null}
-        {attachment.validationFailures && attachment.validationFailures.length > 0 ? (
-          <div className={styles.error}>
-            <ImCross className={styles.crossIcon} />
-            {attachment.validationFailures[0].message}
-          </div>
-        ) : null}
-      </div>
-    </>
+      )}
+      {attachment.validationFailures && attachment.validationFailures.length > 0 ? (
+        <div className={styles.error}>
+          <ImCross className={styles.crossIcon} />
+          {attachment.validationFailures[0].message}
+        </div>
+      ) : null}
+    </div>
   );
 };

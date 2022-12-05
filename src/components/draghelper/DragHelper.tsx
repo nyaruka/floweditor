@@ -8,6 +8,8 @@ interface DragHelperState {
 }
 
 export default class DragHelper extends React.Component<{}, DragHelperState> {
+  private timeout = 0;
+
   constructor(props: {}) {
     super(props);
     this.state = {
@@ -16,11 +18,15 @@ export default class DragHelper extends React.Component<{}, DragHelperState> {
   }
 
   public componentDidMount(): void {
-    window.setTimeout(() => {
+    this.timeout = window.setTimeout(() => {
       if (!this.state.visible) {
         this.setState({ visible: true });
       }
     }, 100);
+  }
+
+  public componentWillUnmount(): void {
+    window.clearTimeout(this.timeout);
   }
 
   public render(): JSX.Element {
