@@ -194,7 +194,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
   }
 
   private handleEdit(id: number): void {
-    window.open(`https://glific.test:3000/interactive-message/${id}/edit`);
+    window.open(`${window.location.origin}/interactive-message/${id}/edit`);
   }
 
   // Applies only to router nodes;
