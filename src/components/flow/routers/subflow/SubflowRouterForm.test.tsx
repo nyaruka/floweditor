@@ -1,5 +1,5 @@
 import { RouterFormProps } from 'components/flow/props';
-import { Types } from 'config/interfaces';
+import { Types, FlowTypes } from 'config/interfaces';
 import { createSubflowNode, createStartFlowAction } from 'testUtils/assetCreators';
 import { getTypeConfig } from 'config';
 import {
@@ -34,7 +34,7 @@ const getRouterFormProps = (type: Types, originalNode: RenderNode): RouterFormPr
 
 const subflowProps = getRouterFormProps(
   Types.split_by_subflow,
-  createSubflowNode(createStartFlowAction())
+  createSubflowNode(createStartFlowAction(), FlowTypes.MESSAGING)
 );
 
 mock(

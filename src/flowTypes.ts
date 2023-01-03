@@ -154,6 +154,7 @@ export interface FlowDefinition {
   name: string;
   nodes: FlowNode[];
   uuid: string;
+  type: FlowTypes;
   revision: number;
   spec_version: string;
   _ui: UIMetaData;

@@ -11,7 +11,7 @@ import {
   GROUPS_OPERAND,
   SCHEMES_OPERAND
 } from 'components/nodeeditor/constants';
-import { Operators, Types, ContactStatus } from 'config/interfaces';
+import { Operators, Types, ContactStatus, FlowTypes } from 'config/interfaces';
 import { getTypeConfig, Scheme } from 'config/typeConfigs';
 import {
   AnyAction,
@@ -261,6 +261,27 @@ export const createStartFlowAction = ({
 } = {}): StartFlow => ({
   type: Types.enter_flow,
   uuid: 'd4a3a01c-1dee-4324-b107-4ac7a21d836f',
+  flow: {
+    name: utils.capitalize(flow.name.trim()),
+    uuid
+  }
+});
+
+export const createVoiceStartFlowAction = ({
+  uuid = utils.createUUID(),
+  flow = {
+    name: 'Sounds',
+    uuid: '2d1284d0-6972-11ed-9ca7-8f291517c832'
+  }
+}: {
+  uuid?: string;
+  flow?: {
+    name: string;
+    uuid: string;
+  };
+} = {}): StartFlow => ({
+  type: Types.enter_flow,
+  uuid: '2d1284d0-6972-11ed-9ca7-8f291517c832',
   flow: {
     name: utils.capitalize(flow.name.trim()),
     uuid
@@ -777,12 +798,38 @@ export const createRandomNode = (buckets: number): RenderNode => {
 
 export const createSubflowNode = (
   startFlowAction: StartFlow,
+  parentFlowType: string,
   uuid: string = utils.createUUID()
 ): RenderNode => {
-  const { categories, exits } = createCategories([
-    StartFlowExitNames.Complete,
-    StartFlowExitNames.Expired
-  ]);
+  const { categories, exits } =
+    parentFlowType === FlowTypes.VOICE
+      ? createCategories([StartFlowExitNames.Complete])
+      : createCategories([StartFlowExitNames.Complete, StartFlowExitNames.Expired]);
+
+  const cases =
+    parentFlowType === FlowTypes.VOICE
+      ? [
+          createCase({
+            uuid: utils.createUUID(),
+            type: Operators.has_run_status,
+            category_uuid: categories[0].uuid,
+            args: [StartFlowArgs.Complete]
+          })
+        ]
+      : [
+          createCase({
+            uuid: utils.createUUID(),
+            type: Operators.has_run_status,
+            category_uuid: categories[0].uuid,
+            args: [StartFlowArgs.Complete]
+          }),
+          createCase({
+            uuid: utils.createUUID(),
+            type: Operators.has_run_status,
+            category_uuid: categories[1].uuid,
+            args: [StartFlowArgs.Expired]
+          })
+        ];
 
   return createRenderNode({
     actions: [startFlowAction],
@@ -790,20 +837,7 @@ export const createSubflowNode = (
     uuid,
     router: createSwitchRouter({
       categories,
-      cases: [
-        createCase({
-          uuid: utils.createUUID(),
-          type: Operators.has_run_status,
-          category_uuid: categories[0].uuid,
-          args: [StartFlowArgs.Complete]
-        }),
-        createCase({
-          uuid: utils.createUUID(),
-          type: Operators.has_run_status,
-          category_uuid: categories[1].uuid,
-          args: [StartFlowArgs.Expired]
-        })
-      ],
+      cases,
       operand: '@child',
       default_category_uuid: null
     }),
@@ -958,7 +992,15 @@ export const SubscribersGroup = {
 export const ColorFlowAsset = {
   name: 'Favorite Color',
   uuid: '9a93ede6-078f-44c9-ad0a-133793be5d56',
+  type: FlowTypes.MESSAGING,
   parent_refs: ['colors']
+};
+
+export const SoundFlowAsset = {
+  name: 'Favorite Sound',
+  uuid: '80b0a850-6973-11ed-9c42-ad7d71773e93',
+  type: FlowTypes.VOICE,
+  parent_refs: ['sounds']
 };
 
 export const ResthookAsset = {

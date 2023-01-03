@@ -89,7 +89,9 @@ export default class SubflowRouterForm extends React.PureComponent<
     );
 
     if (this.state.valid && !hasFieldErrors) {
-      this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
+      this.props.updateRouter(
+        stateToNode(this.props.nodeSettings, this.state, this.context.config.flowType)
+      );
       this.props.onClose(false);
     }
   }
