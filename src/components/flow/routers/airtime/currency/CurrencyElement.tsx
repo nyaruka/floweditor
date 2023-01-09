@@ -103,6 +103,10 @@ export default class CurrencyElement extends React.Component<CurrencyElementProp
       );
     };
 
+    const getCurrencyName = (asset: any): string => {
+      return asset.name + ' (' + asset.id + ')';
+    };
+
     return (
       <FormElement
         name={i18n.t('forms.currency', 'Currency')}
@@ -118,6 +122,7 @@ export default class CurrencyElement extends React.Component<CurrencyElementProp
               entry={{ value: currency }}
               nameKey="id"
               valueKey="id"
+              getName={getCurrencyName}
               onChange={this.handleCurrencyChanged}
               assets={this.props.currencies}
               placeholder={i18n.t('forms.currency', 'Select a Currency')}
