@@ -7,7 +7,6 @@ import { Flow, Group, Label, Topic, Hint } from 'flowTypes';
 import * as React from 'react';
 import { createUUID, getURNPath } from 'utils';
 import i18n from 'config/i18n';
-// import { Trans } from 'react-i18next';
 
 const MAP_THUMB = require('static/images/map.jpg');
 
