@@ -123,8 +123,24 @@
       line-height: 8px;
       font-size: 14px;
     }
+
+    .edit {
+      position: absolute;
+      left: $node_padding / 2 + px;
+      bottom: $node_padding / 2 + px;
+      visibility: hidden;
+      text-decoration: none;
+      background: #fff;
+      border-radius: 5px;
+      line-height: 8px;
+      font-size: 14px;
+    }
+    
     &:hover {
       .add {
+        visibility: visible;
+      }
+      .edit {
         visibility: visible;
       }
       .drag_group {

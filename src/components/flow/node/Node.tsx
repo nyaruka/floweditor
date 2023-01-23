@@ -14,8 +14,9 @@ import shared from 'components/shared.module.scss';
 import TitleBar from 'components/titlebar/TitleBar';
 import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
+import { ReactComponent as EditIcon } from 'components/flow/actions/sendinteractivemsg/icons/edit.svg';
 import { getType, getTypeConfig } from 'config/typeConfigs';
-import { AnyAction, Exit, FlowNode, FlowIssue } from 'flowTypes';
+import { AnyAction, Exit, FlowNode, FlowIssue, SendInteractiveMsg } from 'flowTypes';
 import * as React from 'react';
 import FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
@@ -190,6 +191,10 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
   private handleAddToNode(): void {
     this.props.onAddToNode(this.props.renderNode.node);
+  }
+
+  private handleEdit(id: number): void {
+    window.open(`${window.location.origin}/interactive-message/${id}/edit`);
   }
 
   // Applies only to router nodes;
@@ -373,15 +378,35 @@ export class NodeComp extends React.PureComponent<NodeProps> {
         );
       }
     } else {
+      const actions = this.props.renderNode.node.actions;
+      let editableNode = false;
+      let action: SendInteractiveMsg;
+      if (actions && actions.length > 0) {
+        editableNode = actions[0].type === 'send_interactive_msg';
+        action = actions[0] as SendInteractiveMsg;
+      }
       // Don't show add actions option if we are translating
       if (!this.props.translating && this.context.config.mutable) {
         addActions = (
-          <div
-            className={styles.add}
-            {...createClickHandler(this.handleAddToNode, this.handleShouldCancelClick)}
-          >
-            <span className="fe-add" />
-          </div>
+          <>
+            {editableNode && (
+              <div
+                className={styles.edit}
+                {...createClickHandler(
+                  () => this.handleEdit(action.id),
+                  this.handleShouldCancelClick
+                )}
+              >
+                <EditIcon />
+              </div>
+            )}
+            <div
+              className={styles.add}
+              {...createClickHandler(this.handleAddToNode, this.handleShouldCancelClick)}
+            >
+              <span className="fe-add" />
+            </div>
+          </>
         );
       }
     }
