@@ -525,7 +525,6 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
       text += `${delim}"${value}"`;
       delim = ', ';
     });
-    console.log('text', text);
     return text;
   }
   private renderValue(value: string): string {
