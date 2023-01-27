@@ -159,7 +159,9 @@ exports[`LogEvent should render email_sent event 1`] = `
           <div
             class="info email"
           >
-            Sent email to &quot;fun@temba.io&quot;, &quot;events@temba.io&quot; with subject "Party time"
+            <span>
+              Sent email to "fun@temba.io", "events@temba.io" with subject "Party time"
+            </span>
           </div>
         </div>
       </div>
