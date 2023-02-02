@@ -2,6 +2,7 @@
 
 exports[`UpdateContactForm should render channel 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -122,6 +123,7 @@ exports[`UpdateContactForm should render channel 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -241,11 +243,15 @@ exports[`UpdateContactForm should render field 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`UpdateContactForm should render language 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -365,11 +371,14 @@ exports[`UpdateContactForm should render language 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`UpdateContactForm should render name 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -435,7 +444,7 @@ exports[`UpdateContactForm should render name 1`] = `
               placeholder="Select existing contact field or enter a new one"
               searchable="true"
               valuekey="uuid"
-              values="[{\\"name\\":\\"Name\\",\\"id\\":\\"name\\",\\"type\\":\\"property\\"}]"
+              values="[{\\"name\\":\\"Language\\",\\"id\\":\\"language\\",\\"type\\":\\"property\\"}]"
             />
           </div>
         </div>
@@ -484,5 +493,6 @@ exports[`UpdateContactForm should render name 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

@@ -2,6 +2,7 @@
 
 exports[`StartSessionComp render should render a long list of both contacts and proups 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="node"
@@ -58,6 +59,7 @@ exports[`StartSessionComp render should render a long list of both contacts and 
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -109,11 +111,14 @@ exports[`StartSessionComp render should render all props 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`StartSessionComp render should render creating a new contact 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="node"
@@ -143,5 +148,6 @@ exports[`StartSessionComp render should render creating a new contact 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

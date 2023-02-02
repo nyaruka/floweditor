@@ -92,11 +92,13 @@ exports[`CaseList render should render empty list 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`CaseList render should render list of cases 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="case_list_container "
@@ -345,11 +347,16 @@ exports[`CaseList render should render list of cases 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`CaseList updates changes default operator on add 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="case_list_container "
@@ -519,11 +526,14 @@ exports[`CaseList updates changes default operator on add 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`CaseList updates should remove cases 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="case_list_container "
@@ -693,11 +703,15 @@ exports[`CaseList updates should remove cases 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`CaseList updates should update cases 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="case_list_container "
@@ -946,5 +960,6 @@ exports[`CaseList updates should update cases 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

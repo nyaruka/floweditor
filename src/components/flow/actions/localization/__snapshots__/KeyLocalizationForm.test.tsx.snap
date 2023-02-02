@@ -17,6 +17,8 @@ Array [
 
 exports[`KeyLocalizationForm removes translations 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -103,6 +105,7 @@ exports[`KeyLocalizationForm removes translations 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -206,5 +209,6 @@ exports[`KeyLocalizationForm renders send email 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

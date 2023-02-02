@@ -39,6 +39,15 @@ exports[`SubflowRouterForm ivr render should render 1`] = `
     onChange={[MockFunction]}
   />
   <AssetSelector
+    additionalOptions={
+      Array [
+        Object {
+          "id": "expression",
+          "name": "Expression",
+          "type": "message",
+        },
+      ]
+    }
     assets={
       Object {
         "items": Object {},
@@ -172,6 +181,7 @@ Array [
 
 exports[`SubflowRouterForm ivr updates should update and save 1`] = `
 Object {
+  "expression": "",
   "flow": Object {
     "validationFailures": Array [],
     "value": Object {
@@ -285,6 +295,15 @@ exports[`SubflowRouterForm msg render should render 1`] = `
     onChange={[MockFunction]}
   />
   <AssetSelector
+    additionalOptions={
+      Array [
+        Object {
+          "id": "expression",
+          "name": "Expression",
+          "type": "message",
+        },
+      ]
+    }
     assets={
       Object {
         "items": Object {},
@@ -452,6 +471,7 @@ Array [
 
 exports[`SubflowRouterForm msg updates should update and save 1`] = `
 Object {
+  "expression": "",
   "flow": Object {
     "validationFailures": Array [],
     "value": Object {

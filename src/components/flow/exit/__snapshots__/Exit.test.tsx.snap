@@ -32,6 +32,7 @@ exports[`ExitComp renders 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -40,6 +41,7 @@ Object {
   Symbol(SameObject caches): Object {
     "attributes": NamedNodeMap {},
     "childNodes": NodeList [
+      <temba-store />,
       <div>
         <div
           class="exit plumb-exit"
@@ -70,6 +72,7 @@ Object {
           </div>
         </div>
       </div>,
+      <temba-store />,
     ],
   },
 }
@@ -77,6 +80,10 @@ Object {
 
 exports[`ExitComp shows localization 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="exit plumb-exit translating"
@@ -107,11 +114,15 @@ exports[`ExitComp shows localization 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`ExitComp shows missing localization 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="exit plumb-exit translating missing_localization"
@@ -142,11 +153,14 @@ exports[`ExitComp shows missing localization 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`ExitComp shows recent contacts on mouse over 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
   <div>
     <div
       id="activity_recent_contacts"
@@ -262,5 +276,6 @@ exports[`ExitComp shows recent contacts on mouse over 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

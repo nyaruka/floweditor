@@ -2,6 +2,7 @@
 
 exports[`Flipper should flip 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="flipper flipped"
@@ -29,6 +30,7 @@ exports[`Flipper should flip 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -61,5 +63,6 @@ exports[`Flipper should render 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

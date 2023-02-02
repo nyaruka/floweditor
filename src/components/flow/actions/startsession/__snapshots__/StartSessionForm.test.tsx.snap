@@ -53,7 +53,7 @@ exports[`StartSessionForm render should render 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
               />
             </div>
           </div>
@@ -153,6 +153,7 @@ exports[`StartSessionForm render should render 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -226,11 +227,6 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
         ],
         "name": "Start Somebody Else",
         "type": "start_session",
-        "visibility": Array [
-          "messaging",
-          "messaging_background",
-          "voice",
-        ],
       }
     }
     onChange={[MockFunction]}
@@ -309,6 +305,8 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
 
 exports[`StartSessionForm render should render contact query 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -360,7 +358,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
               />
             </div>
           </div>
@@ -457,6 +455,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -483,6 +482,7 @@ Array [
 
 exports[`StartSessionForm render should render create new contacts 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -534,7 +534,7 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
               />
             </div>
           </div>
@@ -608,6 +608,7 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -657,11 +658,6 @@ exports[`StartSessionForm render should render self, children with base props 1`
         ],
         "name": "Start Somebody Else",
         "type": "start_session",
-        "visibility": Array [
-          "messaging",
-          "messaging_background",
-          "voice",
-        ],
       }
     }
     onChange={[MockFunction]}
@@ -761,6 +757,9 @@ exports[`StartSessionForm render should render self, children with base props 1`
 
 exports[`StartSessionForm render should warn about invalid fields in contact queries 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -812,7 +811,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
               />
             </div>
           </div>
@@ -909,6 +908,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 

@@ -2,6 +2,7 @@
 
 exports[`ClassifyRouterForm defaults to correct result name: initial result name 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -269,6 +270,7 @@ exports[`ClassifyRouterForm defaults to correct result name: initial result name
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -541,11 +543,14 @@ exports[`ClassifyRouterForm should render: default render 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`ClassifyRouterForm updates the result name: updated result name 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -813,5 +818,6 @@ exports[`ClassifyRouterForm updates the result name: updated result name 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

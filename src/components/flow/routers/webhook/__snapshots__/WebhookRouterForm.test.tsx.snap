@@ -111,6 +111,7 @@ exports[`WebhookRouterForm should render 1`] = `
           />
         </div>,
         "checked": false,
+        "hasErrors": false,
         "name": "GET Body",
       },
     ]
@@ -176,20 +177,12 @@ exports[`WebhookRouterForm should render 1`] = `
               "value": "POST",
             },
             Object {
-              "name": "PUT",
-              "value": "PUT",
-            },
-            Object {
-              "name": "DELETE",
-              "value": "DELETE",
-            },
-            Object {
-              "name": "HEAD",
-              "value": "HEAD",
-            },
-            Object {
               "name": "PATCH",
               "value": "PATCH",
+            },
+            Object {
+              "name": "FUNCTION",
+              "value": "FUNCTION",
             },
           ]
         }
@@ -266,7 +259,7 @@ exports[`WebhookRouterForm should render 1`] = `
     toggleText="Save as.."
     value={
       Object {
-        "value": "Result",
+        "value": "result",
       }
     }
   />
@@ -282,14 +275,14 @@ Object {
     Object {
       "value": Object {
         "name": "Accept",
-        "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+        "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
         "value": "application/json",
       },
     },
     Object {
       "value": Object {
         "name": "",
-        "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
+        "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
         "value": "",
       },
     },
@@ -300,7 +293,7 @@ Object {
     },
   },
   "resultName": Object {
-    "value": "Result",
+    "value": "result",
   },
   "url": Object {
     "validationFailures": Array [],
@@ -313,24 +306,17 @@ Object {
 exports[`WebhookRouterForm updates should repopulate post body 2`] = `
 Object {
   "body": Object {
-    "value": "@(json(object(
-  \\"contact\\", object(
-    \\"uuid\\", contact.uuid, 
-    \\"name\\", contact.name, 
-    \\"urn\\", contact.urn
-  ),
-  \\"flow\\", object(
-    \\"uuid\\", run.flow.uuid, 
-    \\"name\\", run.flow.name
-  ),
-  \\"results\\", foreach_value(results, extract_object, \\"value\\", \\"category\\")
-)))",
+    "value": "{
+  \\"contact\\": \\"@contact\\",
+  \\"results\\": \\"@results\\",
+  \\"custom_key\\": \\"custom_value\\"
+}",
   },
   "headers": Array [
     Object {
       "value": Object {
         "name": "Accept",
-        "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+        "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
         "value": "application/json",
       },
     },
@@ -338,7 +324,7 @@ Object {
       "validationFailures": undefined,
       "value": Object {
         "name": "Content-Type",
-        "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
+        "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
         "value": "application/json",
       },
     },
@@ -346,7 +332,7 @@ Object {
       "validationFailures": undefined,
       "value": Object {
         "name": "",
-        "uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+        "uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
         "value": "",
       },
     },
@@ -355,7 +341,7 @@ Object {
     "value": "POST",
   },
   "resultName": Object {
-    "value": "Result",
+    "value": "result",
   },
   "url": Object {
     "validationFailures": Array [],
@@ -519,7 +505,7 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
               <input
                 data-testid="Result Name"
                 name="Result Name"
-                value="Result"
+                value="result"
               />
             </div>
             <div
@@ -557,6 +543,7 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 

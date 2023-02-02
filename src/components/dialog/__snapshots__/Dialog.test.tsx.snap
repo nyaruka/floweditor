@@ -73,5 +73,6 @@ exports[`Dialog should render 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

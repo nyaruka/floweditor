@@ -9,6 +9,11 @@ Array [
   },
   Object {
     "operands": 1,
+    "type": "has_multiple",
+    "verboseName": "has multiple values",
+  },
+  Object {
+    "operands": 1,
     "type": "has_all_words",
     "verboseName": "has all of the words",
   },
@@ -168,6 +173,42 @@ Array [
     "type": "has_pattern",
     "verboseName": "matches regex",
   },
+  Object {
+    "categoryName": "Has Media",
+    "operands": 0,
+    "type": "has_media",
+    "verboseName": "has media",
+  },
+  Object {
+    "categoryName": "Has Audio",
+    "operands": 0,
+    "type": "has_audio",
+    "verboseName": "has audio",
+  },
+  Object {
+    "categoryName": "Has Image",
+    "operands": 0,
+    "type": "has_image",
+    "verboseName": "has image",
+  },
+  Object {
+    "categoryName": "Has Video",
+    "operands": 0,
+    "type": "has_video",
+    "verboseName": "has video",
+  },
+  Object {
+    "categoryName": "Has File",
+    "operands": 0,
+    "type": "has_file",
+    "verboseName": "has file",
+  },
+  Object {
+    "categoryName": "Has Location",
+    "operands": 0,
+    "type": "has_location",
+    "verboseName": "has location",
+  },
 ]
 `;
 
@@ -182,6 +223,12 @@ Object {
     "operands": 1,
     "type": "has_any_word",
     "verboseName": "has any of the words",
+  },
+  "has_audio": Object {
+    "categoryName": "Has Audio",
+    "operands": 0,
+    "type": "has_audio",
+    "verboseName": "has audio",
   },
   "has_beginning": Object {
     "operands": 1,
@@ -239,6 +286,12 @@ Object {
       "-",
     ],
   },
+  "has_file": Object {
+    "categoryName": "Has File",
+    "operands": 0,
+    "type": "has_file",
+    "verboseName": "has file",
+  },
   "has_group": Object {
     "operands": 1,
     "type": "has_group",
@@ -246,6 +299,12 @@ Object {
     "visibility": Array [
       "-",
     ],
+  },
+  "has_image": Object {
+    "categoryName": "Has Image",
+    "operands": 0,
+    "type": "has_image",
+    "verboseName": "has image",
   },
   "has_intent": Object {
     "operands": 2,
@@ -256,6 +315,23 @@ Object {
       "messaging_background",
       "voice",
     ],
+  },
+  "has_location": Object {
+    "categoryName": "Has Location",
+    "operands": 0,
+    "type": "has_location",
+    "verboseName": "has location",
+  },
+  "has_media": Object {
+    "categoryName": "Has Media",
+    "operands": 0,
+    "type": "has_media",
+    "verboseName": "has media",
+  },
+  "has_multiple": Object {
+    "operands": 1,
+    "type": "has_multiple",
+    "verboseName": "has multiple values",
   },
   "has_number": Object {
     "categoryName": "Has Number",
@@ -351,6 +427,12 @@ Object {
     "visibility": Array [
       "-",
     ],
+  },
+  "has_video": Object {
+    "categoryName": "Has Video",
+    "operands": 0,
+    "type": "has_video",
+    "verboseName": "has video",
   },
   "has_ward": Object {
     "categoryName": "Has Ward",

@@ -34,7 +34,19 @@ exports[`helpers prefix should prefix "has an error" operator appropriately 1`] 
 
 exports[`helpers prefix should prefix "has any of the words" operator appropriately 1`] = `""`;
 
+exports[`helpers prefix should prefix "has audio" operator appropriately 1`] = `""`;
+
 exports[`helpers prefix should prefix "has district" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has file" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has image" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has location" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has media" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has multiple values" operator appropriately 1`] = `""`;
 
 exports[`helpers prefix should prefix "has only the phrase" operator appropriately 1`] = `""`;
 
@@ -45,6 +57,8 @@ exports[`helpers prefix should prefix "has state" operator appropriately 1`] = `
 exports[`helpers prefix should prefix "has the category" operator appropriately 1`] = `""`;
 
 exports[`helpers prefix should prefix "has the phrase" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has video" operator appropriately 1`] = `""`;
 
 exports[`helpers prefix should prefix "has ward" operator appropriately 1`] = `""`;
 

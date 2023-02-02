@@ -200,7 +200,9 @@ export const renderUpload = (
             entry={{
               value: {
                 name:
-                  attachment.url.length > 20 ? `${attachment.url.slice(0, 20)}...` : attachment.url
+                  attachment.url && attachment.url.length > 20
+                    ? `${attachment.url.slice(0, 20)}...`
+                    : attachment.url
               }
             }}
             options={EXTENDED_TYPE_OPTIONS}

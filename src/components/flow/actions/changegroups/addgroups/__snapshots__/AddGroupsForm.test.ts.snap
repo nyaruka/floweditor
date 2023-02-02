@@ -15,16 +15,16 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
     }
   }
   headerClass="add_contact_groups"
-  title="Add to Group"
+  title="Add to Collection"
 >
   <TypeList
     __className=""
     initialType={
       Object {
         "component": [Function],
-        "description": "Add the contact to a group",
+        "description": "Add the contact to a collection",
         "form": [Function],
-        "name": "Add to Group",
+        "name": "Add to Collection",
         "type": "add_contact_groups",
       }
     }
@@ -36,12 +36,11 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
     <Trans
       i18nKey="forms.add_groups_summary"
     >
-      Select the groups to add the contact to.
+      Select the collections to add the contact to.
     </Trans>
   </p>
   <AssetSelector
     createAssetFromInput={[Function]}
-    createPrefix="Create Group: "
     entry={
       Object {
         "value": Array [
@@ -78,7 +77,7 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
     noOptionsMessage="Enter a name to create a new group"
     onAssetCreated={[Function]}
     onChange={[Function]}
-    placeholder="Select Groups"
+    placeholder="Select Collection"
     searchable={true}
     shouldExclude={[Function]}
   />

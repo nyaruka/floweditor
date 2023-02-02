@@ -52,7 +52,7 @@ Array [
   <div
     data-spec="remove_from_all"
   >
-    Remove from all groups
+    Remove from all collections
   </div>,
 ]
 `;
@@ -106,7 +106,7 @@ exports[`ChangeGroupsComp helpers getRemoveAllMarkup should return remove-all ma
 <div
   data-spec="remove_from_all"
 >
-  Remove from all groups
+  Remove from all collections
 </div>
 `;
 
@@ -168,7 +168,7 @@ exports[`ChangeGroupsComp render should render 'remove from all' markup when pas
     data-spec="remove_from_all"
     key="remove_from_all"
   >
-    Remove from all groups
+    Remove from all collections
   </div>
 </div>
 `;

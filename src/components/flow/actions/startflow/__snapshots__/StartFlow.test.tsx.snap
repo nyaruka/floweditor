@@ -18,5 +18,6 @@ exports[`StartFlowComp render should render flow name 1`] = `
       </a>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

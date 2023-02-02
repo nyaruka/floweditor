@@ -93,16 +93,6 @@ exports[`ResultRouterForm should render 1`] = `
       class="dialog"
     >
       <div
-        class="tabs"
-      >
-        <div
-          class="tab "
-        >
-          Advanced
-           
-        </div>
-      </div>
-      <div
         class="header split_by_run_result"
       >
         <div
@@ -302,6 +292,7 @@ exports[`ResultRouterForm should render 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 

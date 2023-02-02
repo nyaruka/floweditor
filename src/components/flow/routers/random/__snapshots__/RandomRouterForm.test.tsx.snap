@@ -410,11 +410,13 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`RandomRouterForm should remove exits when shrinking 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -572,6 +574,7 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 

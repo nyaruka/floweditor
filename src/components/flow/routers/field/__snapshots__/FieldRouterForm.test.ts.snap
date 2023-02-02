@@ -45,11 +45,6 @@ exports[`FieldRouterForm initializes 1`] = `
         additionalOptions={
           Array [
             Object {
-              "id": "name",
-              "name": "Name",
-              "type": "property",
-            },
-            Object {
               "id": "language",
               "name": "Language",
               "type": "property",
@@ -277,11 +272,6 @@ exports[`FieldRouterForm should render 1`] = `
       <AssetSelector
         additionalOptions={
           Array [
-            Object {
-              "id": "name",
-              "name": "Name",
-              "type": "property",
-            },
             Object {
               "id": "language",
               "name": "Language",

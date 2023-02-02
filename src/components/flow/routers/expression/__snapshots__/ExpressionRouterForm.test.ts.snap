@@ -117,10 +117,14 @@ Object {
     "value": "@input.text",
   },
   "resultName": Object {
-    "validationFailures": Array [],
+    "validationFailures": Array [
+      Object {
+        "message": "Result Name must be a lowercase alphanumeric character with no spaces",
+      },
+    ],
     "value": "Favorite Color",
   },
-  "valid": true,
+  "valid": false,
 }
 `;
 

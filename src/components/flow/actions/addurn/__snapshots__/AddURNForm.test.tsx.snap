@@ -123,5 +123,6 @@ exports[`AddURNForm renders 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

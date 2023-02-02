@@ -131,6 +131,7 @@ exports[`ActionWrapper render should display translating style 1`] = `
 exports[`ActionWrapper render should render self, children with base props 1`] = `
 Object {
   "__className": "send_msg",
+  "nodeUUID": undefined,
   "onMoveUp": [Function],
   "onRemoval": [Function],
   "shouldCancelClick": [Function],

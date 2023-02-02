@@ -43,11 +43,6 @@ exports[`UpdateContactForm render should render an empty form with different act
     additionalOptions={
       Array [
         Object {
-          "id": "name",
-          "name": "Name",
-          "type": "property",
-        },
-        Object {
           "id": "language",
           "name": "Language",
           "type": "property",
@@ -75,8 +70,8 @@ exports[`UpdateContactForm render should render an empty form with different act
     entry={
       Object {
         "value": Object {
-          "id": "name",
-          "name": "Name",
+          "id": "language",
+          "name": "Language",
           "type": "property",
         },
       }
@@ -150,11 +145,6 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
     additionalOptions={
       Array [
         Object {
-          "id": "name",
-          "name": "Name",
-          "type": "property",
-        },
-        Object {
           "id": "language",
           "name": "Language",
           "type": "property",
@@ -182,8 +172,8 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
     entry={
       Object {
         "value": Object {
-          "id": "name",
-          "name": "Name",
+          "id": "language",
+          "name": "Language",
           "type": "property",
         },
       }

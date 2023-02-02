@@ -2,13 +2,20 @@
 
 exports[`SendBroadcastForm render should render an empty form with no action 1`] = `
 Object {
+  "attachmentError": "",
+  "attachments": Array [],
   "message": Object {
     "value": "",
   },
   "recipients": Object {
     "value": Array [],
   },
+  "template": Object {
+    "value": null,
+  },
+  "templateVariables": Array [],
   "valid": false,
+  "validAttachment": false,
 }
 `;
 
@@ -27,14 +34,97 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     }
   }
   headerClass="send_broadcast"
+  tabs={
+    Array [
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
+          </p>
+          <AssetSelector
+            entry={
+              Object {
+                "value": null,
+              }
+            }
+            formClearable={true}
+            name="template"
+            noOptionsMessage="No templates found"
+            onChange={[Function]}
+            searchable={true}
+            shouldExclude={[Function]}
+          />
+        </React.Fragment>,
+        "checked": false,
+        "hasErrors": false,
+        "name": "WhatsApp",
+      },
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
+          </p>
+          <React.Fragment>
+            <div
+              className="url_attachment"
+            >
+              <div
+                className="type_choice"
+              >
+                <SelectElement
+                  entry={
+                    Object {
+                      "value": null,
+                    }
+                  }
+                  name="Type Options"
+                  onChange={[Function]}
+                  options={
+                    Array [
+                      Object {
+                        "name": "Image URL",
+                        "value": "image",
+                      },
+                      Object {
+                        "name": "Audio URL",
+                        "value": "audio",
+                      },
+                      Object {
+                        "name": "Video URL",
+                        "value": "video",
+                      },
+                      Object {
+                        "name": "Sticker URL",
+                        "value": "sticker",
+                      },
+                      Object {
+                        "name": "PDF Document URL",
+                        "value": "document",
+                      },
+                    ]
+                  }
+                  placeholder="Add Attachment"
+                  style="small"
+                />
+              </div>
+            </div>
+          </React.Fragment>
+        </React.Fragment>,
+        "checked": false,
+        "hasErrors": false,
+        "name": "Attachments",
+      },
+    ]
+  }
   title="Send Broadcast"
 >
   <TypeList
     __className=""
+    customTitle="Step 1: When a contact arrives at this point in your flow..."
     initialType={
       Object {
         "component": [Function],
-        "description": "Send somebody else a message",
+        "description": "Send a staff member a message",
         "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
@@ -66,20 +156,9 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     searchable={true}
   />
   <p />
-  <TextInputElement
-    autocomplete={true}
-    count="SMS"
-    entry={
-      Object {
-        "value": "",
-      }
-    }
-    focus={true}
-    name="Message"
-    onChange={[Function]}
-    showLabel={false}
-    textarea={true}
-  />
+  <p>
+    Step 2: Select a template on the WhatsApp tab
+  </p>
 </Dialog>
 `;
 
@@ -98,14 +177,97 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     }
   }
   headerClass="send_broadcast"
+  tabs={
+    Array [
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
+          </p>
+          <AssetSelector
+            entry={
+              Object {
+                "value": null,
+              }
+            }
+            formClearable={true}
+            name="template"
+            noOptionsMessage="No templates found"
+            onChange={[Function]}
+            searchable={true}
+            shouldExclude={[Function]}
+          />
+        </React.Fragment>,
+        "checked": false,
+        "hasErrors": false,
+        "name": "WhatsApp",
+      },
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
+          </p>
+          <React.Fragment>
+            <div
+              className="url_attachment"
+            >
+              <div
+                className="type_choice"
+              >
+                <SelectElement
+                  entry={
+                    Object {
+                      "value": null,
+                    }
+                  }
+                  name="Type Options"
+                  onChange={[Function]}
+                  options={
+                    Array [
+                      Object {
+                        "name": "Image URL",
+                        "value": "image",
+                      },
+                      Object {
+                        "name": "Audio URL",
+                        "value": "audio",
+                      },
+                      Object {
+                        "name": "Video URL",
+                        "value": "video",
+                      },
+                      Object {
+                        "name": "Sticker URL",
+                        "value": "sticker",
+                      },
+                      Object {
+                        "name": "PDF Document URL",
+                        "value": "document",
+                      },
+                    ]
+                  }
+                  placeholder="Add Attachment"
+                  style="small"
+                />
+              </div>
+            </div>
+          </React.Fragment>
+        </React.Fragment>,
+        "checked": false,
+        "hasErrors": false,
+        "name": "Attachments",
+      },
+    ]
+  }
   title="Send Broadcast"
 >
   <TypeList
     __className=""
+    customTitle="Step 1: When a contact arrives at this point in your flow..."
     initialType={
       Object {
         "component": [Function],
-        "description": "Send somebody else a message",
+        "description": "Send a staff member a message",
         "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
@@ -166,25 +328,16 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     searchable={true}
   />
   <p />
-  <TextInputElement
-    autocomplete={true}
-    count="SMS"
-    entry={
-      Object {
-        "value": "Hello World",
-      }
-    }
-    focus={true}
-    name="Message"
-    onChange={[Function]}
-    showLabel={false}
-    textarea={true}
-  />
+  <p>
+    Step 2: Select a template on the WhatsApp tab
+  </p>
 </Dialog>
 `;
 
 exports[`SendBroadcastForm updates handles recipent change 1`] = `
 Object {
+  "attachmentError": "",
+  "attachments": Array [],
   "message": Object {
     "value": "Hello World",
   },
@@ -197,15 +350,21 @@ Object {
       },
     ],
   },
+  "template": Object {
+    "value": null,
+  },
+  "templateVariables": Array [],
   "valid": true,
+  "validAttachment": false,
 }
 `;
 
 exports[`SendBroadcastForm updates handles text change 1`] = `
 Object {
+  "attachmentError": "",
+  "attachments": Array [],
   "message": Object {
-    "validationFailures": Array [],
-    "value": "Message to Group",
+    "value": "Hello World",
   },
   "recipients": Object {
     "value": Array [
@@ -239,19 +398,13 @@ Object {
       },
     ],
   },
+  "template": Object {
+    "value": null,
+  },
+  "templateVariables": Array [],
   "valid": true,
+  "validAttachment": false,
 }
 `;
 
-exports[`SendBroadcastForm updates should allow switching from router 1`] = `
-Array [
-  Object {
-    "contacts": Array [],
-    "groups": Array [],
-    "legacy_vars": Array [],
-    "text": "Message to Group",
-    "type": "send_broadcast",
-    "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
-  },
-]
-`;
+exports[`SendBroadcastForm updates should allow switching from router 1`] = `undefined`;

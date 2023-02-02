@@ -63,11 +63,13 @@ exports[`IssuesTab renders 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`IssuesTab renders missing dependencies 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class=""
@@ -211,5 +213,6 @@ exports[`IssuesTab renders missing dependencies 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

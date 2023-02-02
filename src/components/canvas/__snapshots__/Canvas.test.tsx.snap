@@ -2,6 +2,8 @@
 
 exports[`Canvas adjusts the height when updating dimensions 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="canvas_container"
@@ -26,11 +28,13 @@ exports[`Canvas adjusts the height when updating dimensions 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`Canvas initializes the height to the lowest draggable 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="canvas_container"
@@ -55,6 +59,7 @@ exports[`Canvas initializes the height to the lowest draggable 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -87,5 +92,6 @@ exports[`Canvas render default 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

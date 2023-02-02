@@ -14,6 +14,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
       },
     }
   }
+  defaultTab={0}
   headerClass="wait_for_response"
   tabs={
     Array [
@@ -218,6 +219,7 @@ exports[`RouterLocalizationForm should render 1`] = `
       },
     }
   }
+  defaultTab={0}
   headerClass="wait_for_response"
   tabs={
     Array [

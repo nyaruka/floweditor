@@ -22,49 +22,56 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
           <p>
             Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
-          <div
-            className="url_attachment"
-          >
+          <React.Fragment>
             <div
-              className="type_choice"
+              className="url_attachment"
             >
-              <SelectElement
-                entry={
-                  Object {
-                    "value": null,
+              <div
+                className="type_choice"
+              >
+                <SelectElement
+                  entry={
+                    Object {
+                      "value": null,
+                    }
                   }
-                }
-                name="Type Options"
-                onChange={[Function]}
-                options={
-                  Array [
-                    Object {
-                      "name": "Upload Attachment",
-                      "value": "upload",
-                    },
-                    Object {
-                      "name": "Image URL",
-                      "value": "image",
-                    },
-                    Object {
-                      "name": "Audio URL",
-                      "value": "audio",
-                    },
-                    Object {
-                      "name": "Video URL",
-                      "value": "video",
-                    },
-                    Object {
-                      "name": "PDF Document URL",
-                      "value": "application",
-                    },
-                  ]
-                }
-                placeholder="Add Attachment"
-                style="small"
-              />
+                  name="Type Options"
+                  onChange={[Function]}
+                  options={
+                    Array [
+                      Object {
+                        "name": "Image URL",
+                        "value": "image",
+                      },
+                      Object {
+                        "name": "Audio URL",
+                        "value": "audio",
+                      },
+                      Object {
+                        "name": "Video URL",
+                        "value": "video",
+                      },
+                      Object {
+                        "name": "Sticker URL",
+                        "value": "sticker",
+                      },
+                      Object {
+                        "name": "PDF Document URL",
+                        "value": "document",
+                      },
+                      Object {
+                        "name": "Expression",
+                        "value": "expression",
+                      },
+                    ]
+                  }
+                  placeholder="Add Attachment"
+                  style="small"
+                />
+              </div>
             </div>
-          </div>
+            <div />
+          </React.Fragment>
           <input
             onChange={[Function]}
             style={
@@ -76,34 +83,8 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
           />
         </React.Fragment>,
         "checked": false,
+        "hasErrors": false,
         "name": "Attachments",
-      },
-      Object {
-        "body": <React.Fragment>
-          <MultiChoiceInput
-            helpText={
-              <Trans
-                i18nKey="forms.localized_quick_replies"
-                values={
-                  Object {
-                    "language": "Spanish",
-                  }
-                }
-              >
-                Add a new [[language]] Quick Reply and press enter.
-              </Trans>
-            }
-            items={
-              Object {
-                "value": Array [],
-              }
-            }
-            name="Quick Reply"
-            onChange={[Function]}
-          />
-        </React.Fragment>,
-        "checked": false,
-        "name": "Quick Replies",
       },
     ]
   }
@@ -158,49 +139,56 @@ exports[`MsgLocalizationForm render should render 1`] = `
           <p>
             Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
-          <div
-            className="url_attachment"
-          >
+          <React.Fragment>
             <div
-              className="type_choice"
+              className="url_attachment"
             >
-              <SelectElement
-                entry={
-                  Object {
-                    "value": null,
+              <div
+                className="type_choice"
+              >
+                <SelectElement
+                  entry={
+                    Object {
+                      "value": null,
+                    }
                   }
-                }
-                name="Type Options"
-                onChange={[Function]}
-                options={
-                  Array [
-                    Object {
-                      "name": "Upload Attachment",
-                      "value": "upload",
-                    },
-                    Object {
-                      "name": "Image URL",
-                      "value": "image",
-                    },
-                    Object {
-                      "name": "Audio URL",
-                      "value": "audio",
-                    },
-                    Object {
-                      "name": "Video URL",
-                      "value": "video",
-                    },
-                    Object {
-                      "name": "PDF Document URL",
-                      "value": "application",
-                    },
-                  ]
-                }
-                placeholder="Add Attachment"
-                style="small"
-              />
+                  name="Type Options"
+                  onChange={[Function]}
+                  options={
+                    Array [
+                      Object {
+                        "name": "Image URL",
+                        "value": "image",
+                      },
+                      Object {
+                        "name": "Audio URL",
+                        "value": "audio",
+                      },
+                      Object {
+                        "name": "Video URL",
+                        "value": "video",
+                      },
+                      Object {
+                        "name": "Sticker URL",
+                        "value": "sticker",
+                      },
+                      Object {
+                        "name": "PDF Document URL",
+                        "value": "document",
+                      },
+                      Object {
+                        "name": "Expression",
+                        "value": "expression",
+                      },
+                    ]
+                  }
+                  placeholder="Add Attachment"
+                  style="small"
+                />
+              </div>
             </div>
-          </div>
+            <div />
+          </React.Fragment>
           <input
             onChange={[Function]}
             style={
@@ -212,34 +200,8 @@ exports[`MsgLocalizationForm render should render 1`] = `
           />
         </React.Fragment>,
         "checked": false,
+        "hasErrors": false,
         "name": "Attachments",
-      },
-      Object {
-        "body": <React.Fragment>
-          <MultiChoiceInput
-            helpText={
-              <Trans
-                i18nKey="forms.localized_quick_replies"
-                values={
-                  Object {
-                    "language": "Spanish",
-                  }
-                }
-              >
-                Add a new [[language]] Quick Reply and press enter.
-              </Trans>
-            }
-            items={
-              Object {
-                "value": Array [],
-              }
-            }
-            name="Quick Reply"
-            onChange={[Function]}
-          />
-        </React.Fragment>,
-        "checked": false,
-        "name": "Quick Replies",
       },
     ]
   }

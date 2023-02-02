@@ -16,8 +16,9 @@ exports[`ResponseRouterForm initializes case config 1`] = `
   }
   gutter={
     <TimeoutControl
+      expression=""
       onChanged={[Function]}
-      timeout={0}
+      timeout={-1}
     />
   }
   headerClass="wait_for_response"
@@ -126,8 +127,9 @@ exports[`ResponseRouterForm should render 1`] = `
   }
   gutter={
     <TimeoutControl
+      expression=""
       onChanged={[Function]}
-      timeout={0}
+      timeout={-1}
     />
   }
   headerClass="wait_for_response"
@@ -244,12 +246,17 @@ Object {
       "valid": true,
     },
   ],
+  "expression": "",
   "resultName": Object {
-    "validationFailures": Array [],
+    "validationFailures": Array [
+      Object {
+        "message": "Result Name must be a lowercase alphanumeric character with no spaces",
+      },
+    ],
     "value": "Favorite Color",
   },
   "timeout": 180,
-  "valid": true,
+  "valid": false,
 }
 `;
 
@@ -359,10 +366,11 @@ Object {
       "valid": true,
     },
   ],
+  "expression": "",
   "resultName": Object {
     "value": "",
   },
-  "timeout": 0,
+  "timeout": -1,
   "valid": true,
 }
 `;

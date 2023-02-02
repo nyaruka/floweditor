@@ -76,7 +76,7 @@ exports[`GroupsRouterForm render should render 1`] = `
     onChange={[MockFunction]}
   />
   <p>
-    Select the groups you'd like to split by below
+    Select the collections you'd like to split by below
   </p>
   <AssetSelector
     entry={
@@ -112,6 +112,7 @@ exports[`GroupsRouterForm render should render 1`] = `
     multi={true}
     name="Groups"
     onChange={[Function]}
+    placeholder="Select existing collections or enter a new one"
     searchable={true}
   />
   <OptionalTextInput

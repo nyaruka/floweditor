@@ -23,6 +23,21 @@ exports[`SendMsgForm render should render 1`] = `
             Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
           </p>
           <AssetSelector
+            additionalOptions={
+              Array [
+                Object {
+                  "name": "Expression",
+                  "translations": Array [
+                    Object {
+                      "channel": Object {
+                        "name": "WhatsApp",
+                      },
+                      "status": "approved",
+                    },
+                  ],
+                },
+              ]
+            }
             entry={
               Object {
                 "value": null,
@@ -35,6 +50,35 @@ exports[`SendMsgForm render should render 1`] = `
             searchable={true}
             shouldExclude={[Function]}
           />
+          <div
+            className="label_container"
+          >
+            <p>
+              Select the labels to apply to the outgoing message.
+            </p>
+            <AssetSelector
+              assets={
+                Object {
+                  "items": Object {},
+                  "type": "label",
+                }
+              }
+              createAssetFromInput={[Function]}
+              createPrefix="Create Label: "
+              entry={
+                Object {
+                  "value": Array [],
+                }
+              }
+              expressions={true}
+              multi={true}
+              name="Labels"
+              onAssetCreated={[Function]}
+              onChange={[Function]}
+              placeholder="Enter the name of an existing label or create a new one"
+              searchable={true}
+            />
+          </div>
         </React.Fragment>,
         "checked": false,
         "hasErrors": false,
@@ -43,82 +87,58 @@ exports[`SendMsgForm render should render 1`] = `
       Object {
         "body": <React.Fragment>
           <p>
-            Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".
-          </p>
-          <MultiChoiceInput
-            entry={
-              Object {
-                "value": "",
-              }
-            }
-            helpText={
-              <Trans
-                i18nKey="forms.add_quick_reply"
-              >
-                Add a new Quick Reply and press enter.
-              </Trans>
-            }
-            items={
-              Object {
-                "value": Array [],
-              }
-            }
-            name="Quick Reply"
-            onChange={[Function]}
-          />
-        </React.Fragment>,
-        "checked": false,
-        "hasErrors": false,
-        "name": "Quick Replies",
-      },
-      Object {
-        "body": <React.Fragment>
-          <p>
             Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
-          <div
-            className="url_attachment"
-          >
+          <React.Fragment>
             <div
-              className="type_choice"
+              className="url_attachment"
             >
-              <SelectElement
-                entry={
-                  Object {
-                    "value": null,
+              <div
+                className="type_choice"
+              >
+                <SelectElement
+                  entry={
+                    Object {
+                      "value": null,
+                    }
                   }
-                }
-                name="Type Options"
-                onChange={[Function]}
-                options={
-                  Array [
-                    Object {
-                      "name": "Upload Attachment",
-                      "value": "upload",
-                    },
-                    Object {
-                      "name": "Image URL",
-                      "value": "image",
-                    },
-                    Object {
-                      "name": "Audio URL",
-                      "value": "audio",
-                    },
-                    Object {
-                      "name": "Video URL",
-                      "value": "video",
-                    },
-                    Object {
-                      "name": "PDF Document URL",
-                      "value": "application",
-                    },
-                  ]
-                }
-                placeholder="Add Attachment"
-                style="small"
-              />
+                  name="Type Options"
+                  onChange={[Function]}
+                  options={
+                    Array [
+                      Object {
+                        "name": "Image URL",
+                        "value": "image",
+                      },
+                      Object {
+                        "name": "Audio URL",
+                        "value": "audio",
+                      },
+                      Object {
+                        "name": "Video URL",
+                        "value": "video",
+                      },
+                      Object {
+                        "name": "Sticker URL",
+                        "value": "sticker",
+                      },
+                      Object {
+                        "name": "PDF Document URL",
+                        "value": "document",
+                      },
+                      Object {
+                        "name": "Expression",
+                        "value": "expression",
+                      },
+                    ]
+                  }
+                  placeholder="Add Attachment"
+                  style="small"
+                />
+              </div>
             </div>
-          </div>
+            <div />
+          </React.Fragment>
           <input
             onChange={[Function]}
             style={
@@ -130,19 +150,8 @@ exports[`SendMsgForm render should render 1`] = `
           />
         </React.Fragment>,
         "checked": false,
+        "hasErrors": false,
         "name": "Attachments",
-      },
-      Object {
-        "body": <CheckboxElement
-          checked={false}
-          description="Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
-          labelClassName="checkbox"
-          name="All Destinations"
-          onChange={[Function]}
-          title="All Destinations"
-        />,
-        "checked": false,
-        "name": "Advanced",
       },
     ]
   }
@@ -160,6 +169,7 @@ exports[`SendMsgForm render should render 1`] = `
           "text",
           "quick_replies",
           "templating.variables",
+          "attachments",
         ],
         "massageForDisplay": [Function],
         "name": "Send Message",
@@ -185,6 +195,35 @@ exports[`SendMsgForm render should render 1`] = `
   <temba-charcount
     class="sms-counter"
   />
+  <div
+    className="label_container"
+  >
+    <p>
+      Select the labels to apply to the outgoing message.
+    </p>
+    <AssetSelector
+      assets={
+        Object {
+          "items": Object {},
+          "type": "label",
+        }
+      }
+      createAssetFromInput={[Function]}
+      createPrefix="Create Label: "
+      entry={
+        Object {
+          "value": Array [],
+        }
+      }
+      expressions={true}
+      multi={true}
+      name="Labels"
+      onAssetCreated={[Function]}
+      onChange={[Function]}
+      placeholder="Enter the name of an existing label or create a new one"
+      searchable={true}
+    />
+  </div>
 </Dialog>
 `;
 
@@ -193,6 +232,7 @@ Array [
   Object {
     "all_urns": false,
     "attachments": Array [],
+    "labels": Array [],
     "quick_replies": Array [],
     "text": "What is your favorite color?",
     "type": "send_msg",
@@ -204,6 +244,10 @@ Array [
 exports[`SendMsgForm updates should save changes 1`] = `
 Object {
   "attachments": Array [],
+  "expression": null,
+  "labels": Object {
+    "value": Array [],
+  },
   "message": Object {
     "validationFailures": Array [],
     "value": "What is your favorite color?",
@@ -238,6 +282,7 @@ Array [
   Object {
     "all_urns": true,
     "attachments": Array [],
+    "labels": Array [],
     "quick_replies": Array [
       "red",
       "green",

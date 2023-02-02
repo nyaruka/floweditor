@@ -85,6 +85,7 @@ Array [
 
 exports[`SubflowRouterForm should init parameter tab 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -188,6 +189,7 @@ exports[`SubflowRouterForm should init parameter tab 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -286,5 +288,6 @@ exports[`SubflowRouterForm should render 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

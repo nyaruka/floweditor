@@ -7,5 +7,6 @@ exports[`MountScroll renders 1`] = `
       class="wrapper"
     />
   </div>
+  <temba-store />
 </body>
 `;
