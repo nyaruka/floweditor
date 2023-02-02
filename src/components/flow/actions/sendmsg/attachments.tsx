@@ -82,7 +82,10 @@ export const handleUploadFile = (
   if (files && files.length > 0) {
     onLoading(true);
     const data = new FormData();
-    data.append('file', files[0]);
+    data.append('media', files[0]);
+    const mediaName = files[0].name;
+    const extension = mediaName.slice((Math.max(0, mediaName.lastIndexOf('.')) || Infinity) + 1);
+    data.append('extension', extension);
     axios
       .post(endpoint, data, { headers })
       .then(response => {
@@ -112,7 +115,7 @@ export const renderAttachments = (
     attachment.uploaded
       ? renderUpload(index, attachment, onAttachmentRemoved, () => {})
       : renderAttachment(
-          false,
+          attachmentsEnabled,
           index,
           attachment,
           uploadInProgress,
@@ -125,7 +128,7 @@ export const renderAttachments = (
   const emptyOption =
     attachments.length < MAX_ATTACHMENTS
       ? renderAttachment(
-          false,
+          attachmentsEnabled,
           attachments.length,
           { url: '', type: '' },
           uploadInProgress,
@@ -243,54 +246,64 @@ export const renderAttachment = (
   const isEmptyOption = attachment.type === '';
   const isUploadError = uploadError && uploadError.length > 0;
   return (
-    <div className={styles.url_attachment} key={'url_attachment_' + index}>
-      <div className={styles.type_choice}>
-        <SelectElement
-          key={'attachment_type_' + index}
-          style={TembaSelectStyle.small}
-          name={i18n.t('forms.type_options', 'Type Options')}
-          placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
-          entry={{
-            value: isEmptyOption ? null : getAttachmentTypeOption(attachment.type)
-          }}
-          onChange={(option: any) => {
-            if (option.value === 'upload') {
-              window.setTimeout(() => {
-                filePicker.click();
-              }, 0);
-            } else {
-              onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
-            }
-          }}
-          options={isEmptyOption ? NEW_TYPE_OPTIONS : TYPE_OPTIONS}
-        />
-      </div>
-      {renderIf(isEmptyOption && uploadInProgress)(
-        <temba-loading id={styles.upload_in_progress} units="3" size="8"></temba-loading>
-      )}
-      {renderIf(isEmptyOption && isUploadError)(
-        <div className={styles.upload_error}>{uploadError}</div>
-      )}
-      {isEmptyOption ? null : (
-        <div className={styles.url}>
-          <TextInputElement
-            placeholder="URL"
-            name={i18n.t('forms.url', 'URL')}
-            style={TextInputStyle.small}
-            onChange={(value: string) => {
-              onAttachmentChanged(index, attachment.type, value);
+    <>
+      <div className={styles.url_attachment} key={'url_attachment_' + index}>
+        <div className={styles.type_choice}>
+          <SelectElement
+            key={'attachment_type_' + index}
+            style={TembaSelectStyle.small}
+            name={i18n.t('forms.type_options', 'Type Options')}
+            placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
+            entry={{
+              value: isEmptyOption ? null : getAttachmentTypeOption(attachment.type)
             }}
-            entry={{ value: attachment.url }}
-            autocomplete={true}
+            onChange={(option: any) => {
+              if (option.value === 'upload') {
+                window.setTimeout(() => {
+                  filePicker.click();
+                }, 0);
+              } else {
+                onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
+              }
+            }}
+            options={attachmentsEnabled ? NEW_TYPE_OPTIONS : EXTENDED_TYPE_OPTIONS}
           />
         </div>
-      )}
-      {attachment.validationFailures && attachment.validationFailures.length > 0 ? (
-        <div className={styles.error}>
-          <ImCross className={styles.crossIcon} />
-          {attachment.validationFailures[0].message}
-        </div>
-      ) : null}
-    </div>
+        {renderIf(isEmptyOption && uploadInProgress)(
+          <temba-loading id={styles.upload_in_progress} units="3" size="8"></temba-loading>
+        )}
+        {renderIf(isEmptyOption && isUploadError)(
+          <div className={styles.upload_error}>{uploadError}</div>
+        )}
+        {isEmptyOption ? null : (
+          <div className={styles.url}>
+            <TextInputElement
+              placeholder="URL"
+              name={i18n.t('forms.url', 'URL')}
+              style={TextInputStyle.small}
+              onChange={(value: string) => {
+                onAttachmentChanged(index, attachment.type, value);
+              }}
+              entry={{ value: attachment.url }}
+              autocomplete={true}
+            />
+          </div>
+        )}
+        {attachment.validationFailures && attachment.validationFailures.length > 0 ? (
+          <div className={styles.error}>
+            <ImCross className={styles.crossIcon} />
+            {attachment.validationFailures[0].message}
+          </div>
+        ) : null}
+      </div>
+      <div>
+        {attachment.valid && !attachment.validationFailures && attachment.url ? (
+          <div className={styles.loading}>
+            Checking URL validity
+            <Loading size={10} units={3} color="#999999" />
+          </div>
+        ) : null}
+      </div>
+    </>
   );
 };

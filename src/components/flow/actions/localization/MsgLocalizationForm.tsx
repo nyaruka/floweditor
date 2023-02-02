@@ -166,6 +166,15 @@ export default class MsgLocalizationForm extends React.Component<
     this.setState({ templateVariables });
   }
 
+  private attachmentValidate(body: any, valid: boolean, validationFailures: any) {
+    const attachments: any = mutate(this.state.attachments, {
+      0: {
+        $set: { type: body.type, url: body.url, valid, validationFailures }
+      }
+    });
+    this.setState({ attachments });
+  }
+
   private handleAttachmentUploading(isUploading: boolean) {
     const uploadError: string = '';
     console.log(uploadError);
@@ -184,17 +193,14 @@ export default class MsgLocalizationForm extends React.Component<
     //django returns a 200 even when there's an error
     if (response.data && response.data.error) {
       const uploadError: string = response.data.error;
-      console.log(uploadError);
       this.setState({ uploadError });
     } else {
       const attachments: any = mutate(this.state.attachments, {
         $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
       });
-      console.log(attachments);
       this.setState({ attachments });
 
       const uploadError: string = '';
-      console.log(uploadError);
       this.setState({ uploadError });
     }
 
