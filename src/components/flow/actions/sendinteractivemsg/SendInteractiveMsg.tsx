@@ -63,7 +63,7 @@ const SendInteractiveMsgComp: React.SFC<SendInteractiveMsg> = ({
         }
       });
     }
-  }, [language, id]);
+  }, [addAsset, endpoint, expression, interactive, languageId, type, id]);
 
   const endpoints: any = {};
   let labelsList = null;
