@@ -7,7 +7,6 @@ import { Flow, Group, Label, Topic, Hint } from 'flowTypes';
 import * as React from 'react';
 import { createUUID, getURNPath } from 'utils';
 import i18n from 'config/i18n';
-import { Trans } from 'react-i18next';
 
 const MAP_THUMB = require('static/images/map.jpg');
 
@@ -111,13 +110,19 @@ const renderError = (error: string): JSX.Element => {
   );
 };
 
-const renderInfo = (info: string): JSX.Element => {
+const renderInfo = (info: string, extraStyles?: any[]): JSX.Element => {
   // localized text can have html entities, so this isn't as dangerous as it looks
+  const infoStyle = [styles.info];
+  const allStyles =
+    extraStyles && extraStyles.length > 0 ? [...infoStyle, ...extraStyles] : infoStyle;
   return (
-    <div key={info} className={styles.info}>
+    <div key={info} className={renderInfoStyles(allStyles)}>
       <span dangerouslySetInnerHTML={{ __html: info }} />
     </div>
   );
+};
+const renderInfoStyles = (allStyles: any[]): string => {
+  return allStyles.join(' ');
 };
 
 const renderAttachment = (attachment: string): JSX.Element => {
@@ -258,15 +263,24 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
 
   private renderEmailSent(): JSX.Element {
     const recipients = this.props.to || this.props.addresses;
+    const recipientValues = this.renderValueList(recipients);
+
+    const subject = this.props.subject;
+    const subjectValue = this.renderValue(subject);
+
+    const bodyValue = this.props.body;
+
+    const email_summary =
+      i18n.t('simulator.sent_email.sent_email_to', 'Sent email to') +
+      ' ' +
+      recipientValues +
+      ' ' +
+      i18n.t('simulator.sent_email.with_subject', 'with subject') +
+      ' ' +
+      subjectValue;
+
     return this.renderClickable(
-      <div className={styles.info + ' ' + styles.email}>
-        <Trans
-          i18nKey="simulator.sent_email.summary"
-          values={{ recipients: this.renderValueList(recipients), subject: this.props.subject }}
-        >
-          Sent email to [[recipients]] with subject "[[subject]]"
-        </Trans>
-      </div>,
+      renderInfo(email_summary, [styles.email]),
       <Dialog
         title={i18n.t('simulator.sent_email.title', 'Email Details')}
         headerClass={Types.send_email}
@@ -275,12 +289,12 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
       >
         <div className={styles.email_details}>
           <div className={styles.to}>
-            {i18n.t('email.to', 'To')}: {this.renderValueList(recipients)}
+            {i18n.t('email.to', 'To')}: {recipientValues}
           </div>
           <div className={styles.subject}>
-            {i18n.t('email.subject', 'Subject')}: {this.props.subject}
+            {i18n.t('email.subject', 'Subject')}: {subjectValue}
           </div>
-          <div className={styles.body}>{this.props.body}</div>
+          <div className={styles.body}>{bodyValue}</div>
         </div>
       </Dialog>
     );
@@ -512,6 +526,9 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
       delim = ', ';
     });
     return text;
+  }
+  private renderValue(value: string): string {
+    return `"${value}"`;
   }
 
   /**

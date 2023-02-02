@@ -1,7 +1,15 @@
 import { FlowTypes } from 'config/interfaces';
 import { FlowEditorConfig } from 'flowTypes';
 
-export const config: FlowEditorConfig = {
+export const getFlowEditorConfig = (
+  flowType: FlowTypes = FlowTypes.MESSAGING
+): FlowEditorConfig => {
+  let flowEditorConfig = config;
+  flowEditorConfig.flowType = flowType;
+  return flowEditorConfig;
+};
+
+const config: FlowEditorConfig = {
   flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
   localStorage: true,
   showDownload: true,

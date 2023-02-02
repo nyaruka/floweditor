@@ -11,6 +11,7 @@ import { createUUID } from 'utils';
 
 import config from './config';
 import { RouterFormProps } from 'components/flow/props';
+import { FlowTypes } from 'config/interfaces';
 
 export const TEST_NODE: FlowNode = {
   uuid: createUUID(),
@@ -24,6 +25,7 @@ export const TEST_DEFINITION: FlowDefinition = {
   language: 'eng',
   name: 'Favorites',
   nodes: [TEST_NODE],
+  type: FlowTypes.MESSAGING,
   localization: {},
   revision: 1,
   _ui: null
