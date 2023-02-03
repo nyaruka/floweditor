@@ -64,7 +64,7 @@ describe(ResponseRouterForm.name, () => {
       });
 
       instance.handleUpdateTimeout(180);
-      instance.handleUpdateResultName('Favorite Color');
+      instance.handleUpdateResultName('favorite_color');
       instance.handleCasesUpdated([
         {
           uuid: createUUID(),

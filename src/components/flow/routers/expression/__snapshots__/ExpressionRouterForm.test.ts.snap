@@ -117,14 +117,10 @@ Object {
     "value": "@input.text",
   },
   "resultName": Object {
-    "validationFailures": Array [
-      Object {
-        "message": "Result Name must be a lowercase alphanumeric character with no spaces",
-      },
-    ],
-    "value": "Favorite Color",
+    "validationFailures": Array [],
+    "value": "favorite_color",
   },
-  "valid": false,
+  "valid": true,
 }
 `;
 
@@ -188,7 +184,7 @@ Array [
         ],
         "default_category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         "operand": "@input.text",
-        "result_name": "Favorite Color",
+        "result_name": "favorite_color",
         "type": "switch",
       },
       "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",

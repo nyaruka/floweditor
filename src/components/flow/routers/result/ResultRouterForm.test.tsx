@@ -26,22 +26,24 @@ describe(ResultRouterForm.name, () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  it('should show delimit options', () => {
-    const props = getRouterFormProps(routerNode);
-    const { baseElement, getByText } = render(<ResultRouterForm {...props} />);
+  // we are not using delimit option in Glific
 
-    // turn on delimiting
-    fireEvent.click(getByText('Advanced'));
-    fireEvent.click(getByText('Delimit Result'));
+  // it('should show delimit options', () => {
+  //   const props = getRouterFormProps(routerNode);
+  //   const { baseElement, getByText } = render(<ResultRouterForm {...props} />);
 
-    // return to main view
-    fireEvent.click(getByText('Split by Flow Result'));
+  //   // turn on delimiting
+  //   fireEvent.click(getByText('Advanced'));
+  //   fireEvent.click(getByText('Delimit Result'));
 
-    // should have delimit options
-    getByText('delimited by');
+  //   // return to main view
+  //   fireEvent.click(getByText('Split by Flow Result'));
 
-    expect(baseElement).toMatchSnapshot();
-  });
+  //   // should have delimit options
+  //   getByText('delimited by');
+
+  //   expect(baseElement).toMatchSnapshot();
+  // });
 
   it('should create the right operand on save', () => {
     const props = getRouterFormProps(routerNode);

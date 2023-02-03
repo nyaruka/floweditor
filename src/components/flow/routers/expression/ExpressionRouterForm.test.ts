@@ -34,7 +34,7 @@ describe(ExpressionRouterForm.name, () => {
         $merge: { updateRouter: jest.fn(), onClose: jest.fn() }
       });
 
-      instance.handleUpdateResultName('Favorite Color');
+      instance.handleUpdateResultName('favorite_color');
       instance.handleCasesUpdated([
         {
           kase: { type: Operators.has_any_word, arguments: ['red'] },

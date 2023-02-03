@@ -55,14 +55,17 @@ describe('SendBroadcastComp', () => {
       expect(wrapper.html()).toMatchSnapshot('elided');
     });
 
-    it('should render placeholder if missing text', () => {
-      const { wrapper } = setup(true, {
-        $merge: {
-          text: null
-        }
-      });
-      expect(wrapper.html()).toContain('Send a message to the contact');
-      expect(wrapper.html()).toMatchSnapshot('placeholder text');
-    });
+    // No placeholder needed here in Glific
+
+    // it('should render placeholder if missing text', () => {
+    //   const { wrapper } = setup(true, {
+    //     $merge: {
+    //       text: null
+    //     }
+    //   });
+
+    //   expect(wrapper.html()).toContain('Send a message to the contact');
+    //   expect(wrapper.html()).toMatchSnapshot('placeholder text');
+    // });
   });
 });

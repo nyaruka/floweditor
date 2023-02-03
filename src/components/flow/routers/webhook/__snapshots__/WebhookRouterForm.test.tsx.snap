@@ -275,14 +275,14 @@ Object {
     Object {
       "value": Object {
         "name": "Accept",
-        "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+        "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
         "value": "application/json",
       },
     },
     Object {
       "value": Object {
         "name": "",
-        "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+        "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
         "value": "",
       },
     },
@@ -316,14 +316,6 @@ Object {
     Object {
       "value": Object {
         "name": "Accept",
-        "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
-        "value": "application/json",
-      },
-    },
-    Object {
-      "validationFailures": undefined,
-      "value": Object {
-        "name": "Content-Type",
         "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
         "value": "application/json",
       },
@@ -331,8 +323,16 @@ Object {
     Object {
       "validationFailures": undefined,
       "value": Object {
+        "name": "Content-Type",
+        "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
+        "value": "application/json",
+      },
+    },
+    Object {
+      "validationFailures": undefined,
+      "value": Object {
         "name": "",
-        "uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
+        "uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
         "value": "",
       },
     },
@@ -554,13 +554,13 @@ Array [
     "node": Object {
       "actions": Array [
         Object {
-          "body": "Updated post body",
+          "body": "{ \\"body\\": \\"Updated post body\\" }",
           "headers": Object {
             "Accept": "application/json",
             "Content-Type": "application/json",
           },
           "method": "POST",
-          "result_name": "My Webhook Result",
+          "result_name": "my_webhook_result",
           "type": "call_webhook",
           "url": "http://app.rapidpro.io",
           "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
