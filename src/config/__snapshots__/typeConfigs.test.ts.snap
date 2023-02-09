@@ -85,10 +85,24 @@ Array [
       "text",
       "quick_replies",
       "templating.variables",
+      "attachments",
     ],
     "massageForDisplay": [Function],
     "name": "Send Message",
     "type": "send_msg",
+  },
+  Object {
+    "component": Object {
+      "$$typeof": Symbol(react.memo),
+      "WrappedComponent": [Function],
+      "compare": null,
+      "displayName": "Connect(SendInteractiveMsgComp)",
+      "type": [Function],
+    },
+    "description": "Send the contact an interactive message",
+    "form": [Function],
+    "name": "Interactive Message",
+    "type": "send_interactive_msg",
   },
   Object {
     "aliases": Array [
@@ -110,7 +124,14 @@ Array [
   },
   Object {
     "component": [Function],
-    "description": "Send somebody else a message",
+    "description": "Wait for time",
+    "form": [Function],
+    "name": "Wait for time",
+    "type": "wait_for_time",
+  },
+  Object {
+    "component": [Function],
+    "description": "Send a staff member a message",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
@@ -140,9 +161,9 @@ Array [
   },
   Object {
     "component": [Function],
-    "description": "Add the contact to a group",
+    "description": "Add the contact to a collection",
     "form": [Function],
-    "name": "Add to Group",
+    "name": "Add to Collection",
     "type": "add_contact_groups",
   },
   Object {
@@ -191,6 +212,14 @@ Array [
   },
   Object {
     "component": [Function],
+    "description": "Manage profile",
+    "filter": "profile",
+    "form": [Function],
+    "name": "Manage profile",
+    "type": "set_contact_profile",
+  },
+  Object {
+    "component": [Function],
     "description": "Play a contact recording",
     "form": [Function],
     "name": "Play Recording",
@@ -217,6 +246,13 @@ Array [
       "messaging_background",
       "voice",
     ],
+  },
+  Object {
+    "component": [Function],
+    "description": "Link Google sheet",
+    "form": [Function],
+    "name": "Link Google sheet",
+    "type": "link_google_sheet",
   },
   Object {
     "aliases": Array [
@@ -262,11 +298,6 @@ Array [
     ],
     "name": "Start Somebody Else",
     "type": "start_session",
-    "visibility": Array [
-      "messaging",
-      "messaging_background",
-      "voice",
-    ],
   },
   Object {
     "aliases": Array [
@@ -320,6 +351,13 @@ Array [
     "visibility": Array [
       "messaging_offline",
     ],
+  },
+  Object {
+    "component": [Function],
+    "description": "Wait for result",
+    "form": [Function],
+    "name": "Wait for result",
+    "type": "wait_for_result",
   },
   Object {
     "description": "Wait for a video",
@@ -440,9 +478,9 @@ exports[`typeConfigs should provide type configs 2`] = `
 Object {
   "add_contact_groups": Object {
     "component": [Function],
-    "description": "Add the contact to a group",
+    "description": "Add the contact to a collection",
     "form": [Function],
-    "name": "Add to Group",
+    "name": "Add to Collection",
     "type": "add_contact_groups",
   },
   "add_contact_urn": Object {
@@ -537,6 +575,13 @@ Object {
     "name": "Enter a Flow",
     "type": "enter_flow",
   },
+  "link_google_sheet": Object {
+    "component": [Function],
+    "description": "Link Google sheet",
+    "form": [Function],
+    "name": "Link Google sheet",
+    "type": "link_google_sheet",
+  },
   "missing": Object {
     "component": [Function],
     "description": " ** Unsupported ** ",
@@ -600,7 +645,7 @@ Object {
   },
   "send_broadcast": Object {
     "component": [Function],
-    "description": "Send somebody else a message",
+    "description": "Send a staff member a message",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
@@ -626,6 +671,19 @@ Object {
       "voice",
     ],
   },
+  "send_interactive_msg": Object {
+    "component": Object {
+      "$$typeof": Symbol(react.memo),
+      "WrappedComponent": [Function],
+      "compare": null,
+      "displayName": "Connect(SendInteractiveMsgComp)",
+      "type": [Function],
+    },
+    "description": "Send the contact an interactive message",
+    "form": [Function],
+    "name": "Interactive Message",
+    "type": "send_interactive_msg",
+  },
   "send_msg": Object {
     "component": [Function],
     "description": "Send the contact a message",
@@ -635,6 +693,7 @@ Object {
       "text",
       "quick_replies",
       "templating.variables",
+      "attachments",
     ],
     "massageForDisplay": [Function],
     "name": "Send Message",
@@ -691,6 +750,14 @@ Object {
     "form": [Function],
     "name": "Update Contact",
     "type": "set_contact_field",
+  },
+  "set_contact_profile": Object {
+    "component": [Function],
+    "description": "Manage profile",
+    "filter": "profile",
+    "form": [Function],
+    "name": "Manage profile",
+    "type": "set_contact_profile",
   },
   "set_contact_status": Object {
     "aliases": Array [
@@ -915,11 +982,6 @@ Object {
     ],
     "name": "Start Somebody Else",
     "type": "start_session",
-    "visibility": Array [
-      "messaging",
-      "messaging_background",
-      "voice",
-    ],
   },
   "switch": Object {
     "aliases": Array [
@@ -1052,6 +1114,20 @@ Object {
       "messaging",
       "messaging_offline",
     ],
+  },
+  "wait_for_result": Object {
+    "component": [Function],
+    "description": "Wait for result",
+    "form": [Function],
+    "name": "Wait for result",
+    "type": "wait_for_result",
+  },
+  "wait_for_time": Object {
+    "component": [Function],
+    "description": "Wait for time",
+    "form": [Function],
+    "name": "Wait for time",
+    "type": "wait_for_time",
   },
   "wait_for_video": Object {
     "description": "Wait for a video",

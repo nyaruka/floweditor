@@ -6,6 +6,7 @@ import {
   ActionWrapper,
   ActionWrapperProps
 } from 'components/flow/actions/action/Action';
+import { FlowTypes } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from 'testUtils';
 import {
@@ -28,7 +29,7 @@ const sendMsgNode = createRenderNode({
   exits: [createExit()]
 });
 const startFlowAction = createStartFlowAction();
-const subflowNode = createSubflowNode(startFlowAction);
+const subflowNode = createSubflowNode(startFlowAction, FlowTypes.MESSAGING);
 const localization = {
   spa: {
     [sendMsgAction.uuid]: {

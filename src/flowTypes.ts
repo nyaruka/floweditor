@@ -1,9 +1,10 @@
 import { Methods } from 'components/flow/routers/webhook/helpers';
 import { FlowTypes, Operators, Types, ContactStatus } from 'config/interfaces';
 import { AssetStore } from 'store/flowContext';
+import { ExclusionsCheckboxEntry } from 'store/nodeEditor';
 
 // we don't concern ourselves with patch versions
-export const SPEC_VERSION = '13.1';
+export const SPEC_VERSION = '13.2';
 
 export interface Languages {
   [iso: string]: string;
@@ -29,6 +30,7 @@ export interface Endpoints {
   globals: string;
   groups: string;
   recipients: string;
+  contacts: string;
   flows: string;
   revisions: string;
   activity: string;
@@ -163,6 +165,7 @@ export interface FlowDefinition {
   name: string;
   nodes: FlowNode[];
   uuid: string;
+  type: FlowTypes;
   revision: number;
   spec_version: string;
   _ui: UIMetaData;
@@ -258,6 +261,8 @@ export interface Wait {
   timeout?: Timeout;
   hint?: Hint;
   phone?: string;
+  dial_limit_seconds?: number;
+  call_limit_seconds?: number;
 }
 
 export interface Group {
@@ -505,6 +510,7 @@ export interface StartSession extends RecipientsAction {
   flow: Flow;
   create_contact?: boolean;
   contact_query?: string;
+  exclusions?: ExclusionsCheckboxEntry;
 }
 
 export interface UIMetaData {

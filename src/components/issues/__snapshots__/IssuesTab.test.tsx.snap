@@ -10,7 +10,7 @@ exports[`IssuesTab renders 1`] = `
         class="mask"
       />
       <div
-        class="pop_wrapper pop_wrapper "
+        class="pop_wrapper pop_wrapper pop_invisible"
         style="right: -260px; top: 270px;"
       >
         <div
@@ -63,11 +63,13 @@ exports[`IssuesTab renders 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`IssuesTab renders missing dependencies 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class=""
@@ -76,7 +78,7 @@ exports[`IssuesTab renders missing dependencies 1`] = `
         class="mask"
       />
       <div
-        class="pop_wrapper pop_wrapper "
+        class="pop_wrapper pop_wrapper pop_invisible"
         style="right: -260px; top: 270px;"
       >
         <div
@@ -211,5 +213,6 @@ exports[`IssuesTab renders missing dependencies 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

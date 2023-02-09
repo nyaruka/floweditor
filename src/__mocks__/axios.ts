@@ -1,4 +1,4 @@
-import { config } from 'test/config';
+import { getFlowEditorConfig } from 'test/config';
 
 export const axios = require.requireActual('axios');
 
@@ -34,7 +34,7 @@ const getUUIDQuery = (urlStr: string) => {
 
 axios.get = jest.fn((url: string) => {
   const { endpoint, containsQuery } = getEndpoint(url);
-  const endpoints = config.endpoints;
+  const endpoints = getFlowEditorConfig().endpoints;
 
   switch (endpoint) {
     case endpoints.flows:

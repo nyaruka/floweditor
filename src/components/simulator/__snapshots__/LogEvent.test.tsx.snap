@@ -17,11 +17,13 @@ exports[`LogEvent should render broadcast_created event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render contact_field_changed event 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -35,11 +37,14 @@ exports[`LogEvent should render contact_field_changed event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render contact_field_changed event with null value 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -53,11 +58,15 @@ exports[`LogEvent should render contact_field_changed event with null value 1`] 
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render contact_groups_changed event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -71,11 +80,17 @@ exports[`LogEvent should render contact_groups_changed event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render contact_language_changed event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -89,11 +104,16 @@ exports[`LogEvent should render contact_language_changed event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render contact_name_changed event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -107,11 +127,18 @@ exports[`LogEvent should render contact_name_changed event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render contact_status_changed event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -125,11 +152,19 @@ exports[`LogEvent should render contact_status_changed event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render contact_urns_changed event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -143,11 +178,20 @@ exports[`LogEvent should render contact_urns_changed event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render email_sent event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -159,12 +203,15 @@ exports[`LogEvent should render email_sent event 1`] = `
           <div
             class="info email"
           >
-            Sent email to &quot;fun@temba.io&quot;, &quot;events@temba.io&quot; with subject "Party time"
+            <span>
+              Sent email to "fun@temba.io", "events@temba.io" with subject "Party time"
+            </span>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <temba-store />
   <div
     class="ReactModalPortal"
   />
@@ -173,6 +220,15 @@ exports[`LogEvent should render email_sent event 1`] = `
 
 exports[`LogEvent should render error event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -187,11 +243,22 @@ exports[`LogEvent should render error event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render failure event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -206,11 +273,23 @@ exports[`LogEvent should render failure event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render input_labels_added event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -224,11 +303,24 @@ exports[`LogEvent should render input_labels_added event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render ivr_created event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -250,11 +342,25 @@ exports[`LogEvent should render ivr_created event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render msg_created event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -276,11 +382,26 @@ exports[`LogEvent should render msg_created event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render msg_received event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -302,11 +423,27 @@ exports[`LogEvent should render msg_received event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render msg_wait event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -320,11 +457,28 @@ exports[`LogEvent should render msg_wait event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render resthook_called event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -338,11 +492,29 @@ exports[`LogEvent should render resthook_called event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render run_result_changed event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -356,11 +528,30 @@ exports[`LogEvent should render run_result_changed event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`LogEvent should render service_called event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -381,6 +572,7 @@ exports[`LogEvent should render service_called event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
   <div
     class="ReactModalPortal"
   />
@@ -389,6 +581,25 @@ exports[`LogEvent should render service_called event 1`] = `
 
 exports[`LogEvent should render ticket_opened event 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="evt"
@@ -402,5 +613,6 @@ exports[`LogEvent should render ticket_opened event 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

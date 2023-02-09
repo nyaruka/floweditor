@@ -16,8 +16,9 @@ exports[`ResponseRouterForm initializes case config 1`] = `
   }
   gutter={
     <TimeoutControl
+      expression=""
       onChanged={[Function]}
-      timeout={0}
+      timeout={-1}
     />
   }
   headerClass="wait_for_response"
@@ -126,8 +127,9 @@ exports[`ResponseRouterForm should render 1`] = `
   }
   gutter={
     <TimeoutControl
+      expression=""
       onChanged={[Function]}
-      timeout={0}
+      timeout={-1}
     />
   }
   headerClass="wait_for_response"
@@ -244,9 +246,10 @@ Object {
       "valid": true,
     },
   ],
+  "expression": "",
   "resultName": Object {
     "validationFailures": Array [],
-    "value": "Favorite Color",
+    "value": "favorite_color",
   },
   "timeout": 180,
   "valid": true,
@@ -321,7 +324,7 @@ Array [
         ],
         "default_category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
         "operand": "@input.text",
-        "result_name": "Favorite Color",
+        "result_name": "favorite_color",
         "type": "switch",
         "wait": Object {
           "timeout": Object {
@@ -359,10 +362,11 @@ Object {
       "valid": true,
     },
   ],
+  "expression": "",
   "resultName": Object {
     "value": "",
   },
-  "timeout": 0,
+  "timeout": -1,
   "valid": true,
 }
 `;

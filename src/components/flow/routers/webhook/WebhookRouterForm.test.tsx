@@ -43,7 +43,7 @@ describe(WebhookRouterForm.name, () => {
       const resultName = getByTestId('Result Name');
 
       fireChangeText(url, 'http://app.rapidpro.io');
-      fireChangeText(resultName, 'My Webhook Result');
+      fireChangeText(resultName, 'my_webhook_result');
 
       // make it a post
       fireTembaSelect(getByTestId('temba_select_method'), 'POST');
@@ -52,7 +52,7 @@ describe(WebhookRouterForm.name, () => {
       fireEvent.click(getByText('POST Body'));
       const postBody = getByTestId('POST Body');
 
-      fireChangeText(postBody, 'Updated post body');
+      fireChangeText(postBody, '{ "body": "Updated post body" }');
 
       // add http header
       fireEvent.click(getByText('HTTP Headers'));
@@ -99,7 +99,7 @@ describe(WebhookRouterForm.name, () => {
       const resultName = getByTestId('Result Name');
 
       fireChangeText(url, 'bad url');
-      fireChangeText(resultName, 'My Webhook Result');
+      fireChangeText(resultName, 'my_webhook_result');
 
       // we need a valid url
       const okButton = getByText('Ok');

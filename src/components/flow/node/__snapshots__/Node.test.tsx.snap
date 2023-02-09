@@ -8,7 +8,7 @@ exports[`NodeComp renders 1`] = `
       id="061fc171-8b79-4636-b892-bd0ea5aa9b42"
     >
       <div
-        class="node"
+        class="flow_node node"
       >
         <div
           class="flow_start_message"
@@ -80,18 +80,20 @@ exports[`NodeComp renders 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`NodeComp renders a named random split 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="node_container plumb-drag flow_start"
       id="2dc85899-0577-4f1b-a620-f12094e34b5e"
     >
       <div
-        class="node"
+        class="flow_node node"
       >
         <div
           class="flow_start_message"
@@ -132,6 +134,7 @@ exports[`NodeComp renders a named random split 1`] = `
                     class="titletext"
                   >
                     Split Randomly
+                     
                   </div>
                   <div
                     class="remove_button"
@@ -236,5 +239,6 @@ exports[`NodeComp renders a named random split 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

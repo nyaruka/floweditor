@@ -1,5 +1,5 @@
 import { react as bindCallbacks } from 'auto-bind';
-import Dialog, { ButtonSet } from 'components/dialog/Dialog';
+import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TypeList from 'components/nodeeditor/TypeList';
@@ -11,7 +11,8 @@ import {
   mergeForm,
   StringEntry,
   SelectOptionEntry,
-  FormEntry
+  FormEntry,
+  ExclusionsCheckboxEntry
 } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
 import { renderIf } from 'utils';
@@ -20,6 +21,8 @@ import { initializeForm, stateToAction } from './helpers';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
+import styles from './StartSessionForm.module.scss';
+import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 
 export const START_TYPE_ASSETS: SelectOption = {
   name: i18n.t('forms.start_type_manual', 'Select recipients manually'),
@@ -30,7 +33,7 @@ export const START_TYPE_CREATE: SelectOption = {
   value: 'create_contact'
 };
 export const START_TYPE_QUERY: SelectOption = {
-  name: i18n.t('forms.start_type_query', 'Select recipients from a query'),
+  name: i18n.t('forms.start_type_query_contact', 'Select a contact with a query'),
   value: 'contact_query'
 };
 
@@ -41,6 +44,7 @@ export interface StartSessionFormState extends FormState {
   flow: FormEntry;
   startType: SelectOptionEntry;
   contactQuery: StringEntry;
+  exclusions: ExclusionsCheckboxEntry;
 }
 
 export class StartSessionForm extends React.Component<ActionFormProps, StartSessionFormState> {
@@ -74,8 +78,19 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
     return this.handleUpdate({ contactQuery });
   }
 
+  public handleExclusions(skipContactsInAFlow: boolean): boolean {
+    let exclusions = { in_a_flow: skipContactsInAFlow };
+    return this.handleUpdate({ exclusions });
+  }
+
   private handleUpdate(
-    keys: { flow?: Asset; recipients?: Asset[]; startType?: SelectOption; contactQuery?: string },
+    keys: {
+      flow?: Asset;
+      recipients?: Asset[];
+      startType?: SelectOption;
+      contactQuery?: string;
+      exclusions?: ExclusionsCheckboxEntry;
+    },
     submitting = false
   ): boolean {
     const updates: Partial<StartSessionFormState> = {};
@@ -109,6 +124,10 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
       updates.flow = validate(i18n.t('forms.flow', 'Flow'), keys.flow, [
         shouldRequireIf(submitting)
       ]);
+    }
+
+    if (keys.hasOwnProperty('exclusions')) {
+      updates.exclusions = keys.exclusions;
     }
 
     const updated = mergeForm(this.state, updates);
@@ -148,8 +167,33 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
+    const advanced: Tab = {
+      name: i18n.t('forms.advanced', 'Advanced'),
+      body: (
+        <CheckboxElement
+          name={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
+          title={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
+          labelClassName={styles.checkbox}
+          checked={this.state.exclusions.in_a_flow}
+          description={i18n.t(
+            'forms.skip_contacts_in_a_flow_description',
+            'Avoid interrupting a contact who is already in a flow.'
+          )}
+          onChange={this.handleExclusions}
+        />
+      ),
+      checked: this.state.exclusions.in_a_flow
+    };
+
+    const tabs = [advanced];
+
     return (
-      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+      <Dialog
+        title={typeConfig.name}
+        headerClass={typeConfig.type}
+        buttons={this.getButtons()}
+        tabs={tabs}
+      >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div>
           <SelectElement
@@ -170,7 +214,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
                   'forms.select_who_to_start',
                   'Select who should be started in the flow'
                 )}
-                assets={this.props.assetStore.recipients}
+                assets={this.props.assetStore.contacts}
                 entry={this.state.recipients}
                 searchable={true}
                 multi={true}
@@ -191,7 +235,9 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
                 autocomplete={true}
                 focus={true}
               />
-              <p />
+              <div className={styles.helpText}>
+                {i18n.t('forms.contact_query_help', 'Only one matching contact will be started')}
+              </div>
             </div>
           )}
 

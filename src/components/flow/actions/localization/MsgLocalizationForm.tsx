@@ -17,7 +17,7 @@ import i18n from 'config/i18n';
 import { range } from 'utils';
 import { renderIssues } from '../helpers';
 import { Attachment, renderAttachments, validateURL } from '../sendmsg/attachments';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
 export interface MsgLocalizationFormState extends FormState {
   message: StringEntry;
@@ -26,6 +26,8 @@ export interface MsgLocalizationFormState extends FormState {
   templateVariables: StringEntry[];
   templating: MsgTemplating;
   attachments: Attachment[];
+  uploadInProgress: boolean;
+  uploadError: string;
 }
 
 export default class MsgLocalizationForm extends React.Component<
@@ -164,13 +166,6 @@ export default class MsgLocalizationForm extends React.Component<
     this.setState({ templateVariables });
   }
 
-  private handleAttachmentUploaded(response: AxiosResponse) {
-    const attachments: any = mutate(this.state.attachments, {
-      $push: [{ type: 'document', url: response.data.url, uploaded: true }]
-    });
-    this.setState({ attachments });
-  }
-
   private attachmentValidate(body: any, valid: boolean, validationFailures: any) {
     const attachments: any = mutate(this.state.attachments, {
       0: {
@@ -180,7 +175,59 @@ export default class MsgLocalizationForm extends React.Component<
     this.setState({ attachments });
   }
 
+  private handleAttachmentUploading(isUploading: boolean) {
+    const uploadError: string = '';
+    console.log(uploadError);
+    this.setState({ uploadError });
+
+    if (isUploading) {
+      const uploadInProgress: boolean = true;
+      this.setState({ uploadInProgress });
+    } else {
+      const uploadInProgress: boolean = false;
+      this.setState({ uploadInProgress });
+    }
+  }
+
+  private handleAttachmentUploaded(response: AxiosResponse) {
+    //django returns a 200 even when there's an error
+    if (response.data && response.data.error) {
+      const uploadError: string = response.data.error;
+      this.setState({ uploadError });
+    } else {
+      const attachments: any = mutate(this.state.attachments, {
+        $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
+      });
+      this.setState({ attachments });
+
+      const uploadError: string = '';
+      this.setState({ uploadError });
+    }
+
+    const uploadInProgress: boolean = false;
+    this.setState({ uploadInProgress });
+  }
+
+  private handleAttachmentUploadFailed(error: AxiosError) {
+    //nginx returns a 300+ if there's an error
+    let uploadError: string = '';
+    const status = error.response.status;
+    if (status >= 500) {
+      uploadError = i18n.t('file_upload_failed_generic', 'File upload failed, please try again');
+    } else if (status === 413) {
+      uploadError = i18n.t('file_upload_failed_max_limit', 'Limit for file uploads is 25 MB');
+    } else {
+      uploadError = error.response.statusText;
+    }
+    this.setState({ uploadError });
+
+    const uploadInProgress: boolean = false;
+    this.setState({ uploadInProgress });
+  }
+
   private handleAttachmentChanged(index: number, type: string, url: string) {
+    this.handleAttachmentUploading(false);
+
     let attachments: any = this.state.attachments;
 
     const isExpression = type === 'expression';
@@ -271,7 +318,11 @@ export default class MsgLocalizationForm extends React.Component<
           this.context.config.endpoints.attachments,
           this.context.config.attachmentsEnabled,
           this.state.attachments,
+          this.state.uploadInProgress,
+          this.state.uploadError,
+          this.handleAttachmentUploading,
           this.handleAttachmentUploaded,
+          this.handleAttachmentUploadFailed,
           this.handleAttachmentChanged,
           this.handleAttachmentRemoved
         ),

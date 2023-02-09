@@ -118,7 +118,7 @@ Object {
   },
   "resultName": Object {
     "validationFailures": Array [],
-    "value": "Favorite Color",
+    "value": "favorite_color",
   },
   "valid": true,
 }
@@ -184,7 +184,7 @@ Array [
         ],
         "default_category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         "operand": "@input.text",
-        "result_name": "Favorite Color",
+        "result_name": "favorite_color",
         "type": "switch",
       },
       "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",

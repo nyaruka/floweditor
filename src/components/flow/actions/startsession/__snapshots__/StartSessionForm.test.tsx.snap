@@ -7,6 +7,16 @@ exports[`StartSessionForm render should render 1`] = `
       class="dialog"
     >
       <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Advanced
+           
+        </div>
+      </div>
+      <div
         class="header start_session"
       >
         <div
@@ -43,7 +53,7 @@ exports[`StartSessionForm render should render 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
               />
             </div>
           </div>
@@ -87,7 +97,6 @@ exports[`StartSessionForm render should render 1`] = `
                   name="Recipients"
                   namekey="name"
                   placeholder="Select who should be started in the flow"
-                  queryparam="search"
                   searchable="true"
                   valuekey="uuid"
                   values="[{\\"id\\":\\"2dc85899-0577-4f1b-a620-f12094e34b5e\\",\\"name\\":\\"Cat Fanciers\\",\\"type\\":\\"group\\"},{\\"id\\":\\"42ebf1d0-a43e-4ba6-9577-c863b20c88c4\\",\\"name\\":\\"Norbert Kwizera\\",\\"type\\":\\"contact\\",\\"missing\\":false},{\\"id\\":\\"70ac6ea6-803a-4c33-81c7-dc26803c313f\\",\\"name\\":\\"Rowan Seymour\\",\\"type\\":\\"contact\\",\\"missing\\":false}]"
@@ -144,6 +153,7 @@ exports[`StartSessionForm render should render 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -151,6 +161,9 @@ exports[`StartSessionForm render should render an empty form with no action 1`] 
 Object {
   "contactQuery": Object {
     "value": "",
+  },
+  "exclusions": Object {
+    "in_a_flow": false,
   },
   "flow": Object {
     "value": null,
@@ -183,6 +196,22 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
     }
   }
   headerClass="start_session"
+  tabs={
+    Array [
+      Object {
+        "body": <CheckboxElement
+          checked={false}
+          description="Avoid interrupting a contact who is already in a flow."
+          labelClassName="checkbox"
+          name="Skip contacts currently in a flow"
+          onChange={[Function]}
+          title="Skip contacts currently in a flow"
+        />,
+        "checked": false,
+        "name": "Advanced",
+      },
+    ]
+  }
   title="Start Somebody Else"
 >
   <TypeList
@@ -198,11 +227,6 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
         ],
         "name": "Start Somebody Else",
         "type": "start_session",
-        "visibility": Array [
-          "messaging",
-          "messaging_background",
-          "voice",
-        ],
       }
     }
     onChange={[MockFunction]}
@@ -227,7 +251,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
             "value": "assets",
           },
           Object {
-            "name": "Select recipients from a query",
+            "name": "Select a contact with a query",
             "value": "contact_query",
           },
           Object {
@@ -244,12 +268,6 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
       data-testid="recipients"
     >
       <AssetSelector
-        assets={
-          Object {
-            "items": Object {},
-            "type": "contact",
-          }
-        }
         entry={
           Object {
             "value": Array [],
@@ -287,10 +305,22 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
 
 exports[`StartSessionForm render should render contact query 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="dialog"
     >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Advanced
+           
+        </div>
+      </div>
       <div
         class="header start_session"
       >
@@ -328,7 +358,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
               />
             </div>
           </div>
@@ -347,7 +377,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
                 name="Start Type"
                 namekey="name"
                 valuekey="value"
-                values="[{\\"name\\":\\"Select recipients from a query\\",\\"value\\":\\"contact_query\\"}]"
+                values="[{\\"name\\":\\"Select a contact with a query\\",\\"value\\":\\"contact_query\\"}]"
               />
             </div>
           </div>
@@ -371,7 +401,11 @@ exports[`StartSessionForm render should render contact query 1`] = `
                 />
               </div>
             </div>
-            <p />
+            <div
+              class="helpText"
+            >
+              Only one matching contact will be started
+            </div>
           </div>
           <div
             class="ele"
@@ -421,6 +455,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -430,6 +465,9 @@ Array [
     "contact_query": "my_field > 6",
     "contacts": Array [],
     "create_contact": false,
+    "exclusions": Object {
+      "in_a_flow": false,
+    },
     "flow": Object {
       "name": "Flow to Start",
       "uuid": "flow_uuid",
@@ -444,10 +482,21 @@ Array [
 
 exports[`StartSessionForm render should render create new contacts 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="dialog"
     >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Advanced
+           
+        </div>
+      </div>
       <div
         class="header start_session"
       >
@@ -485,7 +534,7 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
               />
             </div>
           </div>
@@ -559,6 +608,7 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -577,6 +627,22 @@ exports[`StartSessionForm render should render self, children with base props 1`
     }
   }
   headerClass="start_session"
+  tabs={
+    Array [
+      Object {
+        "body": <CheckboxElement
+          checked={false}
+          description="Avoid interrupting a contact who is already in a flow."
+          labelClassName="checkbox"
+          name="Skip contacts currently in a flow"
+          onChange={[Function]}
+          title="Skip contacts currently in a flow"
+        />,
+        "checked": false,
+        "name": "Advanced",
+      },
+    ]
+  }
   title="Start Somebody Else"
 >
   <TypeList
@@ -592,11 +658,6 @@ exports[`StartSessionForm render should render self, children with base props 1`
         ],
         "name": "Start Somebody Else",
         "type": "start_session",
-        "visibility": Array [
-          "messaging",
-          "messaging_background",
-          "voice",
-        ],
       }
     }
     onChange={[MockFunction]}
@@ -621,7 +682,7 @@ exports[`StartSessionForm render should render self, children with base props 1`
             "value": "assets",
           },
           Object {
-            "name": "Select recipients from a query",
+            "name": "Select a contact with a query",
             "value": "contact_query",
           },
           Object {
@@ -638,12 +699,6 @@ exports[`StartSessionForm render should render self, children with base props 1`
       data-testid="recipients"
     >
       <AssetSelector
-        assets={
-          Object {
-            "items": Object {},
-            "type": "contact",
-          }
-        }
         entry={
           Object {
             "value": Array [
@@ -702,10 +757,23 @@ exports[`StartSessionForm render should render self, children with base props 1`
 
 exports[`StartSessionForm render should warn about invalid fields in contact queries 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="dialog"
     >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Advanced
+           
+        </div>
+      </div>
       <div
         class="header start_session"
       >
@@ -743,7 +811,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
               />
             </div>
           </div>
@@ -762,7 +830,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                 name="Start Type"
                 namekey="name"
                 valuekey="value"
-                values="[{\\"name\\":\\"Select recipients from a query\\",\\"value\\":\\"contact_query\\"}]"
+                values="[{\\"name\\":\\"Select a contact with a query\\",\\"value\\":\\"contact_query\\"}]"
               />
             </div>
           </div>
@@ -786,7 +854,11 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                 />
               </div>
             </div>
-            <p />
+            <div
+              class="helpText"
+            >
+              Only one matching contact will be started
+            </div>
           </div>
           <div
             class="ele"
@@ -836,6 +908,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -844,6 +917,9 @@ Array [
   Object {
     "contacts": Array [],
     "create_contact": false,
+    "exclusions": Object {
+      "in_a_flow": false,
+    },
     "flow": Object {
       "name": "My Flow",
       "uuid": undefined,
@@ -860,6 +936,9 @@ exports[`StartSessionForm updates should save changes 1`] = `
 Object {
   "contactQuery": Object {
     "value": "",
+  },
+  "exclusions": Object {
+    "in_a_flow": false,
   },
   "flow": Object {
     "validationFailures": Array [],
@@ -893,6 +972,9 @@ Array [
   Object {
     "contacts": Array [],
     "create_contact": false,
+    "exclusions": Object {
+      "in_a_flow": false,
+    },
     "flow": Object {
       "name": "My Flow",
       "uuid": undefined,

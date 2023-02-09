@@ -77,6 +77,8 @@ export const initializeForm = (
       labels: {
         value: labels
       },
+      uploadInProgress: false,
+      uploadError: '',
       message: { value: action.text },
       quickReplies: { value: action.quick_replies || [] },
       quickReplyEntry: { value: '' },
@@ -90,6 +92,8 @@ export const initializeForm = (
     template,
     templateVariables: [],
     attachments: [],
+    uploadInProgress: false,
+    uploadError: '',
     message: { value: '' },
     quickReplies: { value: [] },
     quickReplyEntry: { value: '' },

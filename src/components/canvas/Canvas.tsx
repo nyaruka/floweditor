@@ -286,13 +286,23 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
       });
     }
 
+    let selected = this.state.selected;
     if (!this.justSelected) {
       this.props.mergeEditorState({
         dragActive: false
       });
 
       this.setState({ selected: {} });
+      selected = {};
     }
+
+    // trigger a bubbling event of our selection
+    this.ele.dispatchEvent(
+      new CustomEvent('temba-node-selection-changed', {
+        detail: { nodes: selected },
+        bubbles: true
+      })
+    );
 
     if (this.state.dragSelection && this.state.dragSelection.startX) {
       this.setState({

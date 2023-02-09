@@ -111,6 +111,7 @@ exports[`WebhookRouterForm should render 1`] = `
           />
         </div>,
         "checked": false,
+        "hasErrors": false,
         "name": "GET Body",
       },
     ]
@@ -176,20 +177,12 @@ exports[`WebhookRouterForm should render 1`] = `
               "value": "POST",
             },
             Object {
-              "name": "PUT",
-              "value": "PUT",
-            },
-            Object {
-              "name": "DELETE",
-              "value": "DELETE",
-            },
-            Object {
-              "name": "HEAD",
-              "value": "HEAD",
-            },
-            Object {
               "name": "PATCH",
               "value": "PATCH",
+            },
+            Object {
+              "name": "FUNCTION",
+              "value": "FUNCTION",
             },
           ]
         }
@@ -266,7 +259,7 @@ exports[`WebhookRouterForm should render 1`] = `
     toggleText="Save as.."
     value={
       Object {
-        "value": "Result",
+        "value": "result",
       }
     }
   />
@@ -300,7 +293,7 @@ Object {
     },
   },
   "resultName": Object {
-    "value": "Result",
+    "value": "result",
   },
   "url": Object {
     "validationFailures": Array [],
@@ -313,18 +306,11 @@ Object {
 exports[`WebhookRouterForm updates should repopulate post body 2`] = `
 Object {
   "body": Object {
-    "value": "@(json(object(
-  \\"contact\\", object(
-    \\"uuid\\", contact.uuid, 
-    \\"name\\", contact.name, 
-    \\"urn\\", contact.urn
-  ),
-  \\"flow\\", object(
-    \\"uuid\\", run.flow.uuid, 
-    \\"name\\", run.flow.name
-  ),
-  \\"results\\", foreach_value(results, extract_object, \\"value\\", \\"category\\")
-)))",
+    "value": "{
+  \\"contact\\": \\"@contact\\",
+  \\"results\\": \\"@results\\",
+  \\"custom_key\\": \\"custom_value\\"
+}",
   },
   "headers": Array [
     Object {
@@ -355,7 +341,7 @@ Object {
     "value": "POST",
   },
   "resultName": Object {
-    "value": "Result",
+    "value": "result",
   },
   "url": Object {
     "validationFailures": Array [],
@@ -519,7 +505,7 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
               <input
                 data-testid="Result Name"
                 name="Result Name"
-                value="Result"
+                value="result"
               />
             </div>
             <div
@@ -557,6 +543,7 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -567,13 +554,13 @@ Array [
     "node": Object {
       "actions": Array [
         Object {
-          "body": "Updated post body",
+          "body": "{ \\"body\\": \\"Updated post body\\" }",
           "headers": Object {
             "Accept": "application/json",
             "Content-Type": "application/json",
           },
           "method": "POST",
-          "result_name": "My Webhook Result",
+          "result_name": "my_webhook_result",
           "type": "call_webhook",
           "url": "http://app.rapidpro.io",
           "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",

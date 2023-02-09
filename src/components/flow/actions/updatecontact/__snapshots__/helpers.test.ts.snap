@@ -3,11 +3,6 @@
 exports[`UpdateContact.helpers should sort options 1`] = `
 Array [
   Object {
-    "id": "name",
-    "name": "Name",
-    "type": "property",
-  },
-  Object {
     "id": "channel",
     "name": "Channel",
     "type": "property",

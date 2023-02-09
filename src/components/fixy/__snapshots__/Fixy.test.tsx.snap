@@ -7,5 +7,6 @@ exports[`Fixy renders 1`] = `
       style="position: absolute;"
     />
   </div>
+  <temba-store />
 </body>
 `;

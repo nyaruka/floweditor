@@ -1,7 +1,7 @@
 import { createRenderNode } from 'components/flow/routers/helpers';
 import { SubflowRouterFormState } from 'components/flow/routers/subflow/SubflowRouterForm';
 import { SUBFLOW_OPERAND } from 'components/nodeeditor/constants';
-import { Operators, Types } from 'config/interfaces';
+import { FlowTypes, Operators, Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import {
   Case,
@@ -57,7 +57,8 @@ export const nodeToState = (settings: NodeEditorSettings): SubflowRouterFormStat
 
 export const stateToNode = (
   settings: NodeEditorSettings,
-  state: SubflowRouterFormState
+  state: SubflowRouterFormState,
+  parentFlowType: string
 ): RenderNode => {
   const action =
     settings.originalAction ||
@@ -87,40 +88,41 @@ export const stateToNode = (
       {
         uuid: createUUID(),
         destination_uuid: null
-      },
-      {
-        uuid: createUUID(),
-        destination_uuid: null
       }
     ];
-
     categories = [
       {
         uuid: createUUID(),
         name: StartFlowExitNames.Complete,
         exit_uuid: exits[0].uuid
-      },
-      {
-        uuid: createUUID(),
-        name: StartFlowExitNames.Expired,
-        exit_uuid: exits[1].uuid
       }
     ];
-
     cases = [
       {
         uuid: createUUID(),
         type: Operators.has_only_text,
         arguments: ['completed'],
         category_uuid: categories[0].uuid
-      },
-      {
+      }
+    ];
+
+    if (parentFlowType !== FlowTypes.VOICE) {
+      exits.push({
+        uuid: createUUID(),
+        destination_uuid: null
+      });
+      categories.push({
+        uuid: createUUID(),
+        name: StartFlowExitNames.Expired,
+        exit_uuid: exits[1].uuid
+      });
+      cases.push({
         uuid: createUUID(),
         arguments: ['expired'],
         type: Operators.has_only_text,
         category_uuid: categories[1].uuid
-      }
-    ];
+      });
+    }
   }
 
   const actions = [];

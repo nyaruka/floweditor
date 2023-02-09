@@ -34,6 +34,7 @@ export const initializeForm = (settings: NodeEditorSettings): StartSessionFormSt
           : START_TYPE_ASSETS
       },
       contactQuery: { value: action.contact_query || '' },
+      exclusions: action.exclusions || { in_a_flow: false },
       valid: true
     };
 
@@ -45,6 +46,7 @@ export const initializeForm = (settings: NodeEditorSettings): StartSessionFormSt
     flow: { value: null },
     startType: { value: START_TYPE_ASSETS },
     contactQuery: { value: '' },
+    exclusions: { in_a_flow: false },
     valid: false
   };
 };
@@ -62,7 +64,8 @@ export const stateToAction = (
     create_contact: state.startType.value === START_TYPE_CREATE,
     flow: { name: flow.name, uuid: flow.uuid },
     type: Types.start_session,
-    uuid: getActionUUID(settings, Types.start_session)
+    uuid: getActionUUID(settings, Types.start_session),
+    exclusions: state.exclusions
   };
 
   // only include contact query if it is set

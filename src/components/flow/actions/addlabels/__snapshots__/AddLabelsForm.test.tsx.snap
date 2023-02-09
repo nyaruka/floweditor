@@ -2,6 +2,7 @@
 
 exports[`AddLabelsForm render allows expressions 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -43,7 +44,7 @@ exports[`AddLabelsForm render allows expressions 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
               />
             </div>
           </div>
@@ -101,6 +102,7 @@ exports[`AddLabelsForm render allows expressions 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -219,5 +221,6 @@ exports[`AddLabelsForm render should render 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

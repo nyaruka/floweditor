@@ -130,11 +130,14 @@ exports[`WaitRouterForm should render a normal wait 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`WaitRouterForm should render wait for audio with previous name 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -240,6 +243,7 @@ exports[`WaitRouterForm should render wait for audio with previous name 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 

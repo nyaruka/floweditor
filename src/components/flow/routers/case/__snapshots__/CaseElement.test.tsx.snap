@@ -2,6 +2,8 @@
 
 exports[`CaseElement operator changes should handle updates 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="ele group"
@@ -64,11 +66,15 @@ exports[`CaseElement operator changes should handle updates 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`CaseElement operator changes should should set arguments for numeric range 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="ele group"
@@ -164,11 +170,16 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`CaseElement operator changes shouldnt update exit if it has been edited 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="ele group"
@@ -231,11 +242,13 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`CaseElement render renders no argument rules 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="ele group"
@@ -298,6 +311,7 @@ exports[`CaseElement render renders no argument rules 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -380,11 +394,18 @@ exports[`CaseElement render should render empty case 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`CaseElement update handles argument change 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="ele group"
@@ -462,11 +483,19 @@ exports[`CaseElement update handles argument change 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`CaseElement update handles multiple argument change 1`] = `
 <body>
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
+  <temba-store />
   <div>
     <div
       class="ele group"
@@ -562,5 +591,6 @@ exports[`CaseElement update handles multiple argument change 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

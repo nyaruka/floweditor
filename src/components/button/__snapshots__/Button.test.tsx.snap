@@ -10,5 +10,6 @@ exports[`Button render should render self, children with base props 1`] = `
       Save
     </div>
   </div>
+  <temba-store />
 </body>
 `;

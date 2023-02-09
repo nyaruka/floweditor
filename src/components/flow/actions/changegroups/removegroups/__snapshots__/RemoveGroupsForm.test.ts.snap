@@ -34,7 +34,7 @@ exports[`RemoveGroupsForm render should render 1`] = `
     <p
       data-spec="label"
     >
-      Select the groups to remove the contact from.
+      Select the collections to remove the contact from.
     </p>
     <AssetSelector
       entry={
@@ -70,7 +70,7 @@ exports[`RemoveGroupsForm render should render 1`] = `
       multi={true}
       name="Groups"
       onChange={[Function]}
-      placeholder="Select Groups"
+      placeholder="Select Collections"
       searchable={true}
       shouldExclude={[Function]}
     />

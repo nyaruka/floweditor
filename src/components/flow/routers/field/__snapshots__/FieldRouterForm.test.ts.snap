@@ -45,11 +45,6 @@ exports[`FieldRouterForm initializes 1`] = `
         additionalOptions={
           Array [
             Object {
-              "id": "name",
-              "name": "Name",
-              "type": "property",
-            },
-            Object {
               "id": "language",
               "name": "Language",
               "type": "property",
@@ -77,6 +72,11 @@ exports[`FieldRouterForm initializes 1`] = `
             Object {
               "id": "facebook",
               "name": "Facebook",
+              "type": "scheme",
+            },
+            Object {
+              "id": "instagram",
+              "name": "Instagram ID",
               "type": "scheme",
             },
             Object {
@@ -127,6 +127,26 @@ exports[`FieldRouterForm initializes 1`] = `
             Object {
               "id": "twitter",
               "name": "Twitter Handle",
+              "type": "scheme",
+            },
+            Object {
+              "id": "vk",
+              "name": "VK ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "discord",
+              "name": "Discord ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "webchat",
+              "name": "WebChat ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "rocketchat",
+              "name": "RocketChat ID",
               "type": "scheme",
             },
             Object {
@@ -253,11 +273,6 @@ exports[`FieldRouterForm should render 1`] = `
         additionalOptions={
           Array [
             Object {
-              "id": "name",
-              "name": "Name",
-              "type": "property",
-            },
-            Object {
               "id": "language",
               "name": "Language",
               "type": "property",
@@ -285,6 +300,11 @@ exports[`FieldRouterForm should render 1`] = `
             Object {
               "id": "facebook",
               "name": "Facebook",
+              "type": "scheme",
+            },
+            Object {
+              "id": "instagram",
+              "name": "Instagram ID",
               "type": "scheme",
             },
             Object {
@@ -335,6 +355,26 @@ exports[`FieldRouterForm should render 1`] = `
             Object {
               "id": "twitter",
               "name": "Twitter Handle",
+              "type": "scheme",
+            },
+            Object {
+              "id": "vk",
+              "name": "VK ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "discord",
+              "name": "Discord ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "webchat",
+              "name": "WebChat ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "rocketchat",
+              "name": "RocketChat ID",
               "type": "scheme",
             },
             Object {

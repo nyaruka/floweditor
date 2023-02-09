@@ -29,6 +29,7 @@ exports[`SayMsgForm render should render 1`] = `
           "text",
           "quick_replies",
           "templating.variables",
+          "attachments",
         ],
         "massageForDisplay": [Function],
         "name": "Send Message",

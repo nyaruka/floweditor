@@ -2,6 +2,7 @@
 
 exports[`ActionWrapper can have localized quick replies when empty on default language 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="action translating localized"
@@ -31,6 +32,7 @@ exports[`ActionWrapper can have localized quick replies when empty on default la
               class="titletext"
             >
               Send Message
+               
             </div>
             <div
               class="remove_button"
@@ -68,6 +70,7 @@ exports[`ActionWrapper can have localized quick replies when empty on default la
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
@@ -102,6 +105,7 @@ exports[`ActionWrapper renders a base language 1`] = `
               class="titletext"
             >
               Send Message
+               
             </div>
             <div
               class="remove_button"
@@ -131,5 +135,6 @@ exports[`ActionWrapper renders a base language 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;

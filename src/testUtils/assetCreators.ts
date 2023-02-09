@@ -1,3 +1,4 @@
+import { AxiosError, AxiosResponse } from 'axios';
 import { determineTypeConfig } from 'components/flow/helpers';
 import { ActionFormProps, LocalizationFormProps, RouterFormProps } from 'components/flow/props';
 import { CaseProps } from 'components/flow/routers/caselist/CaseList';
@@ -10,7 +11,7 @@ import {
   GROUPS_OPERAND,
   SCHEMES_OPERAND
 } from 'components/nodeeditor/constants';
-import { Operators, Types, ContactStatus } from 'config/interfaces';
+import { Operators, Types, ContactStatus, FlowTypes } from 'config/interfaces';
 import { getTypeConfig, Scheme } from 'config/typeConfigs';
 import {
   AnyAction,
@@ -57,6 +58,7 @@ import {
 import Localization from 'services/Localization';
 import { Asset, Assets, AssetType, RenderNode } from 'store/flowContext';
 import { assetListToMap } from 'store/helpers';
+import { ExclusionsCheckboxEntry } from 'store/nodeEditor';
 import { EMPTY_TEST_ASSETS } from 'test/utils';
 import { mock } from 'testUtils';
 import * as utils from 'utils';
@@ -181,19 +183,22 @@ export const createStartSessionAction = ({
     uuid: 'flow_uuid',
     name: 'Flow to Start'
   },
-  create_contact = false
+  create_contact = false,
+  exclusions = { in_a_flow: false }
 }: {
   uuid?: string;
   groups?: Group[];
   contacts?: Contact[];
   flow?: Flow;
   create_contact?: boolean;
+  exclusions?: ExclusionsCheckboxEntry;
 } = {}): StartSession => ({
   uuid,
   groups,
   contacts,
   flow,
   create_contact,
+  exclusions,
   type: Types.start_session
 });
 
@@ -256,6 +261,27 @@ export const createStartFlowAction = ({
 } = {}): StartFlow => ({
   type: Types.enter_flow,
   uuid: 'd4a3a01c-1dee-4324-b107-4ac7a21d836f',
+  flow: {
+    name: utils.capitalize(flow.name.trim()),
+    uuid
+  }
+});
+
+export const createVoiceStartFlowAction = ({
+  uuid = utils.createUUID(),
+  flow = {
+    name: 'Sounds',
+    uuid: '2d1284d0-6972-11ed-9ca7-8f291517c832'
+  }
+}: {
+  uuid?: string;
+  flow?: {
+    name: string;
+    uuid: string;
+  };
+} = {}): StartFlow => ({
+  type: Types.enter_flow,
+  uuid: '2d1284d0-6972-11ed-9ca7-8f291517c832',
   flow: {
     name: utils.capitalize(flow.name.trim()),
     uuid
@@ -635,7 +661,12 @@ export const createSchemeRouter = (schemes: Scheme[]): RenderNode => {
   return matchRouter;
 };
 
-export const createDialRouter = (phone: string, resultName: string): RenderNode => {
+export const createDialRouter = (
+  phone: string,
+  resultName: string,
+  dialLimit: number,
+  callLimit: number
+): RenderNode => {
   const matchRouter = createMatchRouter(
     ['Answered', 'No Answer', 'Busy', 'Failed'],
     DIAL_OPERAND,
@@ -647,7 +678,12 @@ export const createDialRouter = (phone: string, resultName: string): RenderNode 
   const router = matchRouter.node.router as SwitchRouter;
 
   // switch our wait to match a dial router
-  router.wait = { type: WaitTypes.dial, phone: phone };
+  router.wait = {
+    type: WaitTypes.dial,
+    phone: phone,
+    dial_limit_seconds: dialLimit,
+    call_limit_seconds: callLimit
+  };
 
   matchRouter.ui.type = Types.wait_for_dial;
 
@@ -762,12 +798,38 @@ export const createRandomNode = (buckets: number): RenderNode => {
 
 export const createSubflowNode = (
   startFlowAction: StartFlow,
+  parentFlowType: string,
   uuid: string = utils.createUUID()
 ): RenderNode => {
-  const { categories, exits } = createCategories([
-    StartFlowExitNames.Complete,
-    StartFlowExitNames.Expired
-  ]);
+  const { categories, exits } =
+    parentFlowType === FlowTypes.VOICE
+      ? createCategories([StartFlowExitNames.Complete])
+      : createCategories([StartFlowExitNames.Complete, StartFlowExitNames.Expired]);
+
+  const cases =
+    parentFlowType === FlowTypes.VOICE
+      ? [
+          createCase({
+            uuid: utils.createUUID(),
+            type: Operators.has_run_status,
+            category_uuid: categories[0].uuid,
+            args: [StartFlowArgs.Complete]
+          })
+        ]
+      : [
+          createCase({
+            uuid: utils.createUUID(),
+            type: Operators.has_run_status,
+            category_uuid: categories[0].uuid,
+            args: [StartFlowArgs.Complete]
+          }),
+          createCase({
+            uuid: utils.createUUID(),
+            type: Operators.has_run_status,
+            category_uuid: categories[1].uuid,
+            args: [StartFlowArgs.Expired]
+          })
+        ];
 
   return createRenderNode({
     actions: [startFlowAction],
@@ -775,20 +837,7 @@ export const createSubflowNode = (
     uuid,
     router: createSwitchRouter({
       categories,
-      cases: [
-        createCase({
-          uuid: utils.createUUID(),
-          type: Operators.has_run_status,
-          category_uuid: categories[0].uuid,
-          args: [StartFlowArgs.Complete]
-        }),
-        createCase({
-          uuid: utils.createUUID(),
-          type: Operators.has_run_status,
-          category_uuid: categories[1].uuid,
-          args: [StartFlowArgs.Expired]
-        })
-      ],
+      cases,
       operand: '@child',
       default_category_uuid: null
     }),
@@ -881,6 +930,36 @@ export const createGroupsRouterNode = (
   });
 };
 
+export const createAxiosResponse = (
+  data: {},
+  status: number,
+  statusText: string
+): AxiosResponse => {
+  return {
+    config: {},
+    headers: {},
+    data: data,
+    status: status,
+    statusText: statusText
+  };
+};
+
+export const createAxiosError = (status: number): AxiosError => {
+  return {
+    isAxiosError: true,
+    name: '',
+    message: '',
+    toJSON: () => ({}),
+    config: {},
+    request: {},
+    response: {
+      data: {},
+      status: status,
+      statusText: ''
+    } as AxiosResponse
+  };
+};
+
 export const getGroupOptions = (groups: Group[] = groupsResults) =>
   groups.map(({ name, uuid }) => ({
     name,
@@ -913,7 +992,15 @@ export const SubscribersGroup = {
 export const ColorFlowAsset = {
   name: 'Favorite Color',
   uuid: '9a93ede6-078f-44c9-ad0a-133793be5d56',
+  type: FlowTypes.MESSAGING,
   parent_refs: ['colors']
+};
+
+export const SoundFlowAsset = {
+  name: 'Favorite Sound',
+  uuid: '80b0a850-6973-11ed-9c42-ad7d71773e93',
+  type: FlowTypes.VOICE,
+  parent_refs: ['sounds']
 };
 
 export const ResthookAsset = {

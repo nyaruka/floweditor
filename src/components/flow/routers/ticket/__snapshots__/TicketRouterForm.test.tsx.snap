@@ -165,11 +165,13 @@ exports[`TicketRouterForm render should render 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
 exports[`TicketRouterForm updates should save changes 1`] = `
 <body>
+  <temba-store />
   <div>
     <div
       class="dialog"
@@ -333,6 +335,7 @@ exports[`TicketRouterForm updates should save changes 1`] = `
       </div>
     </div>
   </div>
+  <temba-store />
 </body>
 `;
 
