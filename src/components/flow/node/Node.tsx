@@ -129,7 +129,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
         // move our ghost node into position
         const width = this.ele.getBoundingClientRect().width;
-        const left = e.pageX - width / 2 - 15 - canvasBounds.left;
+        const left = e.screenX - width / 2 - 15 - canvasBounds.left;
         const top = e.pageY - canvasBounds.top - window.scrollY;
         const style = this.ele.style;
         style.left = left + 'px';
