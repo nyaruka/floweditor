@@ -5,6 +5,7 @@ exports[`Simulator renders 1`] = `
   className=""
 >
   <PopTab
+    className="simulator"
     color="#2db379"
     custom={true}
     header="Simulator"

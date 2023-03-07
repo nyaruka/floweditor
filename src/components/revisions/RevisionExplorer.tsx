@@ -142,6 +142,7 @@ export class RevisionExplorer extends React.Component<
       <div className={classes}>
         <div className={styles.mask} />
         <PopTab
+          className="revisions"
           header={i18n.t('revisions.header', 'Revisions')}
           color="#8e5ea7"
           icon="fe-time"

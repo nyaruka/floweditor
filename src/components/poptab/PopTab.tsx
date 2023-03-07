@@ -4,6 +4,7 @@ import * as React from 'react';
 import styles from './PopTab.module.scss';
 
 export interface PopTabProps {
+  className: string;
   color: string;
   icon: string;
   label: string;
@@ -54,6 +55,8 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
     return (
       <div
         className={
+          this.props.className +
+          ' ' +
           'pop_wrapper ' +
           styles.pop_wrapper +
           ' ' +
