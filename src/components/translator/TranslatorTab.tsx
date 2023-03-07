@@ -293,6 +293,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     return (
       <div className={classes}>
         <PopTab
+          className="translations"
           header={`${this.props.language.name} ${i18n.t('translation.label', 'Translations')}`}
           label={i18n.t('translation.header', 'Flow Translation')}
           color="#777"

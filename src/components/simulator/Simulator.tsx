@@ -949,6 +949,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     return (
       <div className={hidden ? styles.tab_hidden : ''}>
         <PopTab
+          className="simulator"
           header={i18n.t('simulator.header', 'Simulator')}
           color="#2db379"
           icon="fe-smartphone"

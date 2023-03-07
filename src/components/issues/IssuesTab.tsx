@@ -238,6 +238,7 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
       <div className={classes}>
         <div className={styles.mask} />
         <PopTab
+          className="issues"
           header={`${i18n.t('issues.label', 'Flow Issues')} (${issueCount})`}
           label={i18n.t('issues.header', 'Flow Issues')}
           color="tomato"
