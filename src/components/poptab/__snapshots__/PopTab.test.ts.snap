@@ -37,7 +37,7 @@ exports[`PopTab render should render base component 1`] = `
     </div>
   </div>
   <div
-    className="popped "
+    className="popped popped "
     style={
       Object {
         "borderColor": "red",
