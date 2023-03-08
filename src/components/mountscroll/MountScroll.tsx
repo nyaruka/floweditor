@@ -53,7 +53,7 @@ export default class MountScroll extends React.Component<MountScrollProps, Mount
   }
 
   private handleScrollIntoView(): void {
-    if (this.ele) {
+    if (this.ele && this.ele.scrollIntoView) {
       this.ele.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     }
   }

@@ -32,7 +32,7 @@ exports[`TranslatorTab finds email translations 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
@@ -209,7 +209,7 @@ exports[`TranslatorTab finds message translations 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
@@ -400,7 +400,7 @@ exports[`TranslatorTab finds split translations 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
@@ -577,7 +577,7 @@ exports[`TranslatorTab handles partial category translation 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
@@ -754,7 +754,7 @@ exports[`TranslatorTab hides completed translations 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
@@ -917,7 +917,7 @@ exports[`TranslatorTab renders 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
