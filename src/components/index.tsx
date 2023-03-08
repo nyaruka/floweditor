@@ -214,6 +214,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
       });
     }
 
+    console.log(node_uuid, action_uuid);
     onNextRender(() => {
       this.props.mergeEditorState({
         scrollToNode: node_uuid,

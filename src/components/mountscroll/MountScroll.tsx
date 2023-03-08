@@ -15,6 +15,7 @@ interface MountScrollState {
 export default class MountScroll extends React.Component<MountScrollProps, MountScrollState> {
   private ele!: HTMLDivElement;
   private handleScroll: () => void;
+  private container: HTMLDivElement | Window;
 
   constructor(props: MountScrollProps) {
     super(props);
@@ -27,6 +28,8 @@ export default class MountScroll extends React.Component<MountScrollProps, Mount
   public componentDidMount(): void {
     const handleScrollCompleted = this.handleScrollCompleted.bind(this);
 
+    this.container = (document.querySelector('#grid') as HTMLDivElement) || window;
+
     let timer: number = null;
     this.handleScroll = () => {
       if (timer !== null) {
@@ -34,16 +37,15 @@ export default class MountScroll extends React.Component<MountScrollProps, Mount
       }
       timer = window.setTimeout(() => {
         handleScrollCompleted();
-        window.removeEventListener('scroll', this.handleScroll);
+        this.container.removeEventListener('scroll', this.handleScroll);
       }, 50);
     };
-
-    window.addEventListener('scroll', this.handleScroll);
+    this.container.addEventListener('scroll', this.handleScroll);
     this.handleScrollIntoView();
   }
 
   public componentWillUnmount(): void {
-    window.removeEventListener('scroll', this.handleScroll);
+    this.container.removeEventListener('scroll', this.handleScroll);
   }
 
   private handleScrollCompleted(): void {
@@ -51,24 +53,8 @@ export default class MountScroll extends React.Component<MountScrollProps, Mount
   }
 
   private handleScrollIntoView(): void {
-    if (!!this.ele) {
-      const scrollTo = this.ele.getBoundingClientRect().top - 200 + window.scrollY;
-
-      if (scrollTo !== window.scrollY) {
-        const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 2;
-        if (atBottom && scrollTo > window.scrollY) {
-          this.handleScrollCompleted();
-        } else {
-          window.setTimeout(() => {
-            window.scrollTo({
-              top: scrollTo,
-              behavior: 'smooth'
-            });
-          }, 0);
-        }
-      } else {
-        this.handleScrollCompleted();
-      }
+    if (this.ele) {
+      this.ele.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     }
   }
 

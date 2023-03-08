@@ -81,7 +81,7 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
         </div>
         <div
           ref={this.handlePoppedRef}
-          className={styles.popped + ' ' + (this.props.custom ? styles.custom : '')}
+          className={'popped ' + styles.popped + ' ' + (this.props.custom ? styles.custom : '')}
           style={{
             borderColor: this.props.color,
             top: this.props.popTop || 0,
