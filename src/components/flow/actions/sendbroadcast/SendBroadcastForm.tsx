@@ -395,6 +395,8 @@ export default class SendBroadcastForm extends React.Component<
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
+    const shouldExclude = (asset: Asset): boolean => asset.type === 'group';
+
     const templates: any = {
       name: 'WhatsApp',
       body: this.renderTemplateConfig(),
@@ -429,6 +431,7 @@ export default class SendBroadcastForm extends React.Component<
           entry={this.state.recipients}
           searchable={true}
           multi={true}
+          shouldExclude={shouldExclude}
           expressions={true}
           onChange={this.handleRecipientsChanged}
         />

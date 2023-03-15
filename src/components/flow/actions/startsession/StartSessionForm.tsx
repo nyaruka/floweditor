@@ -37,7 +37,7 @@ export const START_TYPE_QUERY: SelectOption = {
   value: 'contact_query'
 };
 
-const START_TYPE_OPTIONS = [START_TYPE_ASSETS, START_TYPE_QUERY, START_TYPE_CREATE];
+const START_TYPE_OPTIONS = [START_TYPE_ASSETS];
 
 export interface StartSessionFormState extends FormState {
   recipients: AssetArrayEntry;
@@ -163,6 +163,16 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
       }
     };
   }
+  private getName(option: any): string {
+    switch (option.type) {
+      case 'contact':
+        return option.name + ' (User)';
+      case 'group':
+        return option.name + ' (Collection)';
+      default:
+        return option.name;
+    }
+  }
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
@@ -214,6 +224,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
                   'forms.select_who_to_start',
                   'Select who should be started in the flow'
                 )}
+                getName={this.getName}
                 assets={this.props.assetStore.contacts}
                 entry={this.state.recipients}
                 searchable={true}
