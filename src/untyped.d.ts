@@ -11,5 +11,6 @@ declare namespace JSX {
     'temba-checkbox': any;
     'temba-charcount': any;
     'temba-loading': any;
+    'temba-compose': any;
   }
 }

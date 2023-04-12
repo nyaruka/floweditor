@@ -1,5 +1,8 @@
 import {
   getActionUUID,
+  getCompose,
+  getComposeAttachments,
+  getComposeText,
   getExpressions,
   getRecipients,
   getRecipientsByAsset
@@ -21,7 +24,8 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
         action = settings.localizations[0].getObject() as BroadcastMsg;
       } else {
         return {
-          message: { value: '' },
+          // message: { value: '' },
+          compose: { value: '' },
           recipients: { value: [] },
           valid: true
         };
@@ -29,14 +33,16 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
     }
 
     return {
-      message: { value: action.text },
+      // message: { value: action.text },
+      compose: { value: getCompose(action) },
       recipients: { value: getRecipients(action) },
       valid: true
     };
   }
 
   return {
-    message: { value: '' },
+    // message: { value: '' },
+    compose: { value: '' },
     recipients: { value: [] },
     valid: false
   };
@@ -50,7 +56,8 @@ export const stateToAction = (
     legacy_vars: getExpressions(formState.recipients.value),
     contacts: getRecipientsByAsset(formState.recipients.value, AssetType.Contact),
     groups: getRecipientsByAsset(formState.recipients.value, AssetType.Group),
-    text: formState.message.value,
+    text: getComposeText(formState.compose.value, AssetType.ComposeText),
+    attachments: getComposeAttachments(formState.compose.value, AssetType.ComposeAttachments),
     type: Types.send_broadcast,
     uuid: getActionUUID(settings, Types.send_broadcast)
   };

@@ -53,7 +53,8 @@ import {
   WaitTypes,
   WebhookExitNames,
   HintTypes,
-  CallClassifier
+  CallClassifier,
+  ComposeAttachment
 } from 'flowTypes';
 import Localization from 'services/Localization';
 import { Asset, Assets, AssetType, RenderNode } from 'store/flowContext';
@@ -213,17 +214,20 @@ export const createBroadcastMsgAction = ({
     { uuid: utils.createUUID(), name: 'Norbert Kwizera' },
     { uuid: utils.createUUID(), name: 'Rowan Seymour' }
   ],
-  text = 'Hello World'
+  text = 'Hello World',
+  attachments = []
 }: {
   uuid?: string;
   groups?: Group[];
   contacts?: Contact[];
   text?: string;
+  attachments?: ComposeAttachment[];
 } = {}): BroadcastMsg => ({
   uuid,
   groups,
   contacts,
   text,
+  attachments,
   type: Types.send_broadcast
 });
 

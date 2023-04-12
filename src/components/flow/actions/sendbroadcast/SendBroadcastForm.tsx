@@ -3,7 +3,6 @@ import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { initializeForm, stateToAction } from 'components/flow/actions/sendbroadcast/helpers';
 import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
-import TextInputElement, { Count } from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
@@ -12,9 +11,11 @@ import { AssetArrayEntry, FormState, mergeForm, StringEntry } from 'store/nodeEd
 import { shouldRequireIf, validate } from 'store/validators';
 import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
+import ComposeElement from 'components/form/compose/ComposeElement';
 
 export interface SendBroadcastFormState extends FormState {
-  message: StringEntry;
+  // message: StringEntry;
+  compose: StringEntry;
   recipients: AssetArrayEntry;
 }
 
@@ -40,11 +41,18 @@ export default class SendBroadcastForm extends React.Component<
     return this.handleUpdate({ recipients });
   }
 
-  public handleMessageUpdate(text: string): boolean {
-    return this.handleUpdate({ text });
+  // public handleMessageUpdate(text: string): boolean {
+  //   return this.handleUpdate({ text });
+  // }
+
+  public handleComposeChanged(compose: string): boolean {
+    return this.handleUpdate({ compose });
   }
 
-  private handleUpdate(keys: { text?: string; recipients?: Asset[] }, submitting = false): boolean {
+  private handleUpdate(
+    keys: { compose?: string; recipients?: Asset[] },
+    submitting = false
+  ): boolean {
     const updates: Partial<SendBroadcastFormState> = {};
 
     if (keys.hasOwnProperty('recipients')) {
@@ -53,8 +61,14 @@ export default class SendBroadcastForm extends React.Component<
       ]);
     }
 
-    if (keys.hasOwnProperty('text')) {
-      updates.message = validate(i18n.t('forms.message', 'Message'), keys.text!, [
+    // if (keys.hasOwnProperty('text')) {
+    //   updates.message = validate(i18n.t('forms.message', 'Message'), keys.text!, [
+    //     shouldRequireIf(submitting)
+    //   ]);
+    // }
+
+    if (keys.hasOwnProperty('compose')) {
+      updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose!, [
         shouldRequireIf(submitting)
       ]);
     }
@@ -68,7 +82,8 @@ export default class SendBroadcastForm extends React.Component<
     // validate in case they never updated an empty field
     const valid = this.handleUpdate(
       {
-        text: this.state.message.value,
+        // text: this.state.message.value,
+        compose: this.state.compose.value,
         recipients: this.state.recipients.value!
       },
       true
@@ -108,7 +123,7 @@ export default class SendBroadcastForm extends React.Component<
           onChange={this.handleRecipientsChanged}
         />
         <p />
-        <TextInputElement
+        {/* <TextInputElement
           name={i18n.t('forms.message', 'Message')}
           showLabel={false}
           count={Count.SMS}
@@ -117,7 +132,15 @@ export default class SendBroadcastForm extends React.Component<
           autocomplete={true}
           focus={true}
           textarea={true}
-        />
+        /> */}
+        <ComposeElement
+          name={i18n.t('forms.compose', 'Compose')}
+          chatbox
+          attachments
+          counter
+          onChange={this.handleComposeChanged}
+          entry={this.state.compose}
+        ></ComposeElement>
         {renderIssues(this.props)}
       </Dialog>
     );

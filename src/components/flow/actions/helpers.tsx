@@ -1,4 +1,13 @@
-import { Contact, Endpoints, Group, RecipientsAction, FlowIssue, FlowIssueType } from 'flowTypes';
+import {
+  Contact,
+  Endpoints,
+  Group,
+  RecipientsAction,
+  FlowIssue,
+  FlowIssueType,
+  BroadcastMsg,
+  ComposeAttachment
+} from 'flowTypes';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
 import { FormEntry, NodeEditorSettings, ValidationFailure } from 'store/nodeEditor';
@@ -118,6 +127,26 @@ export const getRecipients = (action: RecipientsAction): Asset[] => {
   return selected;
 };
 
+export const getCompose = (action: BroadcastMsg): string => {
+  let text = action.text || '';
+  let attachments: ComposeAttachment[] = (action.attachments || []).map(
+    (attachment: ComposeAttachment) => {
+      return {
+        uuid: attachment.uuid,
+        content_type: attachment.content_type,
+        url: attachment.url,
+        filename: attachment.filename,
+        size: attachment.size,
+        error: attachment.error
+        // type: AssetType.ComposeAttachment
+      };
+    }
+  );
+
+  const compose = { text: text, attachments: attachments };
+  return JSON.stringify(compose);
+};
+
 export const renderAssetList = (
   assets: Asset[],
   max: number = 10,
@@ -230,4 +259,11 @@ export const getRecipientsByAsset = (assets: Asset[], type: AssetType): any[] =>
     .map((asset: Asset) => {
       return { uuid: asset.id, name: asset.name };
     });
+};
+
+export const getComposeText = (value: string, asset: string): string => {
+  return JSON.parse(value)[asset];
+};
+export const getComposeAttachments = (value: string, asset: string): ComposeAttachment[] => {
+  return JSON.parse(value)[asset];
 };
