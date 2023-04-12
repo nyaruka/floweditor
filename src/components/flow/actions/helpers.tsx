@@ -138,7 +138,6 @@ export const getCompose = (action: BroadcastMsg): string => {
         filename: attachment.filename,
         size: attachment.size,
         error: attachment.error
-        // type: AssetType.ComposeAttachment
       };
     }
   );
