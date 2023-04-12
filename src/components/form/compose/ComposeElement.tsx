@@ -12,7 +12,7 @@ export interface ComposeProps extends FormElementProps {
   counter?: boolean;
   button?: boolean;
   // handleButtonClicked?: (value: string, name?: string) => void;
-  onChange?: (value: string, name?: string) => void;
+  onChange: (value: string) => void;
 }
 
 export default class ComposeElement extends React.Component<ComposeProps> {
@@ -43,10 +43,14 @@ export default class ComposeElement extends React.Component<ComposeProps> {
   //   }
   // }
 
-  public handleChange({ currentTarget: { value } }: any): void {
-    if (this.props.onChange) {
-      this.props.onChange(value, this.props.name);
-    }
+  private handleChange(value: string): void {
+    console.log('handleChange value', value);
+    console.log('handleChange entry', this.props.entry);
+    console.log('handleChange value', value);
+    console.log('handleChange entry', this.props.entry.value);
+    // if (this.props.onChange) {
+    //   this.props.onChange(value);
+    // }
   }
 
   public render(): JSX.Element {
@@ -79,7 +83,7 @@ export default class ComposeElement extends React.Component<ComposeProps> {
           {...optional}
           value={this.props.entry.value}
           errors={this.props.errors}
-          onChange={this.props.onChange}
+          onChange={this.handleChange}
         ></temba-compose>
       </FormElement>
     );
