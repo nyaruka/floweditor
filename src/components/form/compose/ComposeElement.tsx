@@ -29,7 +29,7 @@ export default class ComposeElement extends React.Component<ComposeProps> {
     };
 
     bindCallbacks(this, {
-      include: [/^handle/]
+      include: [/^on/, /^handle/]
     });
   }
 
