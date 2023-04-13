@@ -10,9 +10,9 @@ export interface ComposeProps extends FormElementProps {
   chatbox?: boolean;
   attachments?: boolean;
   counter?: boolean;
-  button?: boolean;
+  // button?: boolean;
   // handleButtonClicked?: (value: string, name?: string) => void;
-  onChange: (value: string) => void;
+  onChange?: (value: string, name?: string) => void;
 }
 
 export default class ComposeElement extends React.Component<ComposeProps> {
@@ -29,7 +29,13 @@ export default class ComposeElement extends React.Component<ComposeProps> {
     };
 
     bindCallbacks(this, {
-      include: [/^on/, /^handle/]
+      include: [
+        /^on/,
+        /^handle/,
+        /handleChatboxChange/,
+        /addCurrentAttachment/,
+        /removeCurrentAttachment/
+      ]
     });
   }
 
@@ -43,14 +49,14 @@ export default class ComposeElement extends React.Component<ComposeProps> {
   //   }
   // }
 
-  private handleChange(value: string): void {
+  public handleChange({ currentTarget: { value } }: any): void {
     console.log('handleChange value', value);
     console.log('handleChange entry', this.props.entry);
     console.log('handleChange value', value);
     console.log('handleChange entry', this.props.entry.value);
-    // if (this.props.onChange) {
-    //   this.props.onChange(value);
-    // }
+    if (this.props.onChange) {
+      this.props.onChange(value, this.props.name);
+    }
   }
 
   public render(): JSX.Element {
@@ -64,9 +70,9 @@ export default class ComposeElement extends React.Component<ComposeProps> {
     if (this.props.counter) {
       optional['counter'] = this.props.counter;
     }
-    if (this.props.button) {
-      optional['button'] = this.props.button;
-    }
+    // if (this.props.button) {
+    //   optional['button'] = this.props.button;
+    // }
     // todo
     // if (this.props.handleButtonClicked) {
     //   optional['@temba-button-clicked'] = this.props.handleButtonClicked;
