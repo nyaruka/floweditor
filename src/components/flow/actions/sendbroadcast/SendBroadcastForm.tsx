@@ -55,20 +55,14 @@ export default class SendBroadcastForm extends React.Component<
   ): boolean {
     const updates: Partial<SendBroadcastFormState> = {};
 
-    if (keys.hasOwnProperty('recipients')) {
-      updates.recipients = validate(i18n.t('forms.recipients', 'Recipients'), keys.recipients!, [
+    if (keys.hasOwnProperty('compose')) {
+      updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose!, [
         shouldRequireIf(submitting)
       ]);
     }
 
-    // if (keys.hasOwnProperty('text')) {
-    //   updates.message = validate(i18n.t('forms.message', 'Message'), keys.text!, [
-    //     shouldRequireIf(submitting)
-    //   ]);
-    // }
-
-    if (keys.hasOwnProperty('compose')) {
-      updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose!, [
+    if (keys.hasOwnProperty('recipients')) {
+      updates.recipients = validate(i18n.t('forms.recipients', 'Recipients'), keys.recipients!, [
         shouldRequireIf(submitting)
       ]);
     }
@@ -82,7 +76,6 @@ export default class SendBroadcastForm extends React.Component<
     // validate in case they never updated an empty field
     const valid = this.handleUpdate(
       {
-        // text: this.state.message.value,
         compose: this.state.compose.value,
         recipients: this.state.recipients.value!
       },
@@ -123,16 +116,6 @@ export default class SendBroadcastForm extends React.Component<
           onChange={this.handleRecipientsChanged}
         />
         <p />
-        {/* <TextInputElement
-          name={i18n.t('forms.message', 'Message')}
-          showLabel={false}
-          count={Count.SMS}
-          onChange={this.handleMessageUpdate}
-          entry={this.state.message}
-          autocomplete={true}
-          focus={true}
-          textarea={true}
-        /> */}
         <ComposeElement
           name={i18n.t('forms.compose', 'Compose')}
           chatbox

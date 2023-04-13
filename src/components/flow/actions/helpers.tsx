@@ -103,6 +103,27 @@ export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: str
   return createUUID();
 };
 
+export const getCompose = (action: BroadcastMsg): string => {
+  if (!action) {
+    return JSON.stringify({ text: '', attachments: [] });
+  }
+
+  const text = action.text || '';
+  const attachments: ComposeAttachment[] = (action.attachments || []).map(
+    (attachment: ComposeAttachment) => {
+      return {
+        uuid: attachment.uuid,
+        content_type: attachment.content_type,
+        url: attachment.url,
+        filename: attachment.filename,
+        size: attachment.size,
+        error: attachment.error
+      };
+    }
+  );
+  return JSON.stringify({ text: text, attachments: attachments });
+};
+
 export const getRecipients = (action: RecipientsAction): Asset[] => {
   let selected: any[] = (action.groups || []).map((group: Group) => {
     return {
@@ -125,25 +146,6 @@ export const getRecipients = (action: RecipientsAction): Asset[] => {
   );
 
   return selected;
-};
-
-export const getCompose = (action: BroadcastMsg): string => {
-  let text = action.text || '';
-  let attachments: ComposeAttachment[] = (action.attachments || []).map(
-    (attachment: ComposeAttachment) => {
-      return {
-        uuid: attachment.uuid,
-        content_type: attachment.content_type,
-        url: attachment.url,
-        filename: attachment.filename,
-        size: attachment.size,
-        error: attachment.error
-      };
-    }
-  );
-
-  const compose = { text: text, attachments: attachments };
-  return JSON.stringify(compose);
 };
 
 export const renderAssetList = (

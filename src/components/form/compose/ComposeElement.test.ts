@@ -14,7 +14,7 @@ const createWrapper = () => {
       chatbox: true,
       attachments: true,
       counter: true,
-      button: true,
+      // button: true,
       // handleButtonClicked: jest.fn(),
       onChange: jest.fn()
     }

@@ -40,14 +40,6 @@ describe(SendBroadcastForm.name, () => {
       expect(instance.state).toMatchSnapshot();
     });
 
-    // it('handles text change', () => {
-    //   const { instance, props } = setup(true, {
-    //     $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
-    //   });
-    //   instance.handleMessageUpdate('Message to Group');
-    //   expect(instance.state).toMatchSnapshot();
-    // });
-
     // todo
     // it('handles compose text change', () => {
     //   const { instance, props } = setup(true, {
