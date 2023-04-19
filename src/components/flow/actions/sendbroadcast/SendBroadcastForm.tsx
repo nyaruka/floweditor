@@ -46,6 +46,7 @@ export default class SendBroadcastForm extends React.Component<
   // }
 
   public handleComposeChanged(compose: string): boolean {
+    console.log('compose changed', compose);
     return this.handleUpdate({ compose });
   }
 

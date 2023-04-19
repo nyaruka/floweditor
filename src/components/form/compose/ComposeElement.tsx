@@ -16,6 +16,8 @@ export interface ComposeProps extends FormElementProps {
 }
 
 export default class ComposeElement extends React.Component<ComposeProps> {
+  ele: HTMLElement;
+
   constructor(props: ComposeProps) {
     super(props);
 
@@ -29,18 +31,29 @@ export default class ComposeElement extends React.Component<ComposeProps> {
     };
 
     bindCallbacks(this, {
-      include: [
-        /^on/,
-        /^handle/,
-        /handleChatboxChange/,
-        /addCurrentAttachment/,
-        /removeCurrentAttachment/
-      ]
+      include: [/^on/, /^handle/]
     });
   }
 
   public componentDidMount(): void {
-    // todo
+    if (this.ele) {
+      this.ele.addEventListener('temba-attachment-added', this.handleAttachmentAdded);
+      this.ele.addEventListener('temba-attachment-removed', this.handleAttachmentRemoved);
+    }
+  }
+
+  public handleAttachmentAdded(event: any) {
+    console.log(event.detail);
+  }
+
+  public handleAttachmentRemoved(event: any) {
+    console.log(event.detail);
+  }
+
+  public handleListenerRegistration(ref: any): void {
+    if (!this.ele && ref) {
+      this.ele = ref;
+    }
   }
 
   // public handleButtonClicked({ currentTarget: { value } }: any): void {
@@ -85,6 +98,7 @@ export default class ComposeElement extends React.Component<ComposeProps> {
         entry={this.props.entry}
       >
         <temba-compose
+          ref={this.handleListenerRegistration}
           name={this.props.name}
           {...optional}
           value={this.props.entry.value}
