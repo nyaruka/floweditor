@@ -10,9 +10,7 @@ export interface ComposeProps extends FormElementProps {
   chatbox?: boolean;
   attachments?: boolean;
   counter?: boolean;
-  // button?: boolean;
-  // handleButtonClicked?: (value: string, name?: string) => void;
-  onChange?: (value: string, name?: string) => void;
+  onChange?: (composeValue: string) => void;
 }
 
 export default class ComposeElement extends React.Component<ComposeProps> {
@@ -35,40 +33,21 @@ export default class ComposeElement extends React.Component<ComposeProps> {
     });
   }
 
-  public componentDidMount(): void {
-    if (this.ele) {
-      this.ele.addEventListener('temba-attachment-added', this.handleAttachmentAdded);
-      this.ele.addEventListener('temba-attachment-removed', this.handleAttachmentRemoved);
-    }
-  }
-
-  public handleAttachmentAdded(event: any) {
-    console.log(event.detail);
-  }
-
-  public handleAttachmentRemoved(event: any) {
-    console.log(event.detail);
-  }
-
-  public handleListenerRegistration(ref: any): void {
+  public handleEventListenerRegistration(ref: any): void {
     if (!this.ele && ref) {
       this.ele = ref;
     }
   }
 
-  // public handleButtonClicked({ currentTarget: { value } }: any): void {
-  //   if (this.props.handleButtonClicked) {
-  //     this.props.handleButtonClicked(value, this.props.name);
-  //   }
-  // }
+  public componentDidMount(): void {
+    if (this.ele) {
+      this.ele.addEventListener('temba-content-changed', this.handleChange);
+    }
+  }
 
-  public handleChange({ currentTarget: { value } }: any): void {
-    console.log('handleChange value', value);
-    console.log('handleChange entry', this.props.entry);
-    console.log('handleChange value', value);
-    console.log('handleChange entry', this.props.entry.value);
+  public handleChange(event: any): void {
     if (this.props.onChange) {
-      this.props.onChange(value, this.props.name);
+      this.props.onChange(event.detail);
     }
   }
 
@@ -83,13 +62,6 @@ export default class ComposeElement extends React.Component<ComposeProps> {
     if (this.props.counter) {
       optional['counter'] = this.props.counter;
     }
-    // if (this.props.button) {
-    //   optional['button'] = this.props.button;
-    // }
-    // todo
-    // if (this.props.handleButtonClicked) {
-    //   optional['@temba-button-clicked'] = this.props.handleButtonClicked;
-    // }
 
     return (
       <FormElement
@@ -98,7 +70,7 @@ export default class ComposeElement extends React.Component<ComposeProps> {
         entry={this.props.entry}
       >
         <temba-compose
-          ref={this.handleListenerRegistration}
+          ref={this.handleEventListenerRegistration}
           name={this.props.name}
           {...optional}
           value={this.props.entry.value}

@@ -41,12 +41,7 @@ export default class SendBroadcastForm extends React.Component<
     return this.handleUpdate({ recipients });
   }
 
-  // public handleMessageUpdate(text: string): boolean {
-  //   return this.handleUpdate({ text });
-  // }
-
   public handleComposeChanged(compose: string): boolean {
-    console.log('compose changed', compose);
     return this.handleUpdate({ compose });
   }
 
@@ -122,8 +117,8 @@ export default class SendBroadcastForm extends React.Component<
           chatbox
           attachments
           counter
-          onChange={this.handleComposeChanged}
           entry={this.state.compose}
+          onChange={this.handleComposeChanged}
         ></ComposeElement>
         {renderIssues(this.props)}
       </Dialog>
