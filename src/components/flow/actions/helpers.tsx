@@ -5,8 +5,7 @@ import {
   RecipientsAction,
   FlowIssue,
   FlowIssueType,
-  BroadcastMsg,
-  ComposeAttachment
+  BroadcastMsg
 } from 'flowTypes';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
@@ -105,25 +104,14 @@ export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: str
 
 export const getCompose = (action: BroadcastMsg): string => {
   if (!action) {
-    return JSON.stringify({ text: '', attachments: [] });
+    return getEmptyComposeValue();
   }
 
-  const text = action.text || '';
+  return action.compose;
+};
 
-  const attachments: ComposeAttachment[] = (action.attachments || []).map(
-    (attachment: ComposeAttachment) => {
-      return {
-        uuid: attachment.uuid,
-        content_type: attachment.content_type,
-        url: attachment.url,
-        filename: attachment.filename,
-        size: attachment.size,
-        error: attachment.error
-      };
-    }
-  );
-
-  return JSON.stringify({ text: text, attachments: attachments });
+export const getEmptyComposeValue = (): string => {
+  return JSON.stringify({ text: '', attachments: [] });
 };
 
 export const getRecipients = (action: RecipientsAction): Asset[] => {

@@ -6,15 +6,14 @@ import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
-import { Asset } from 'store/flowContext';
+import { Asset, AssetType } from 'store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
-import { shouldRequireIf, validate } from 'store/validators';
+import { MaxOf640Chars, MaxOfTenItems, shouldRequireIf, validate } from 'store/validators';
 import i18n from 'config/i18n';
-import { renderIssues } from '../helpers';
+import { getComposeByAsset, getEmptyComposeValue, renderIssues } from '../helpers';
 import ComposeElement from 'components/form/compose/ComposeElement';
 
 export interface SendBroadcastFormState extends FormState {
-  // message: StringEntry;
   compose: StringEntry;
   recipients: AssetArrayEntry;
 }
@@ -55,6 +54,43 @@ export default class SendBroadcastForm extends React.Component<
       updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose!, [
         shouldRequireIf(submitting)
       ]);
+      // validate compose value in it's entirety
+      const composeValue = keys.compose;
+      if (composeValue === getEmptyComposeValue()) {
+        updates.compose = validate(i18n.t('forms.compose', 'Compose'), '', [
+          shouldRequireIf(submitting)
+        ]);
+        updates.compose.value = keys.compose;
+      } else {
+        updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose, [
+          shouldRequireIf(submitting)
+        ]);
+      }
+      // validate compose inner text value
+      const textValue = getComposeByAsset(keys.compose, AssetType.ComposeText);
+      const textValidationResult = validate(i18n.t('forms.compose', 'Compose'), textValue, [
+        MaxOf640Chars
+      ]);
+      // todo - tweak err msg to be more consistent/user-friendly
+      if (textValidationResult.validationFailures.length > 0) {
+        updates.compose.validationFailures = [
+          ...updates.compose.validationFailures,
+          ...textValidationResult.validationFailures
+        ];
+      }
+      // validate compose inner attachments value
+      const attachmentsValue = getComposeByAsset(keys.compose, AssetType.ComposeAttachments);
+      const attachmentsValidationResult = validate(
+        i18n.t('forms.compose', 'Compose'),
+        attachmentsValue,
+        [MaxOfTenItems]
+      );
+      if (attachmentsValidationResult.validationFailures.length > 0) {
+        updates.compose.validationFailures = [
+          ...updates.compose.validationFailures,
+          ...attachmentsValidationResult.validationFailures
+        ];
+      }
     }
 
     if (keys.hasOwnProperty('recipients')) {

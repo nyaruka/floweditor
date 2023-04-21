@@ -214,18 +214,21 @@ export const createBroadcastMsgAction = ({
     { uuid: utils.createUUID(), name: 'Norbert Kwizera' },
     { uuid: utils.createUUID(), name: 'Rowan Seymour' }
   ],
-  text = 'Hello World',
+  compose = JSON.stringify({ text: 'Some broadcast message', attachments: [] }),
+  text = 'Some broadcast message',
   attachments = []
 }: {
   uuid?: string;
   groups?: Group[];
   contacts?: Contact[];
+  compose?: string;
   text?: string;
-  attachments?: ComposeAttachment[];
+  attachments?: string[];
 } = {}): BroadcastMsg => ({
   uuid,
   groups,
   contacts,
+  compose,
   text,
   attachments,
   type: Types.send_broadcast

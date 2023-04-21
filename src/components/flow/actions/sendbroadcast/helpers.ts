@@ -8,7 +8,7 @@ import {
 } from 'components/flow/actions/helpers';
 import { SendBroadcastFormState } from 'components/flow/actions/sendbroadcast/SendBroadcastForm';
 import { Types } from 'config/interfaces';
-import { BroadcastMsg } from 'flowTypes';
+import { BroadcastMsg, ComposeAttachment } from 'flowTypes';
 import { AssetType } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
 
@@ -48,12 +48,19 @@ export const stateToAction = (
   settings: NodeEditorSettings,
   formState: SendBroadcastFormState
 ): BroadcastMsg => {
+  const compose = formState.compose.value;
+  const text = getComposeByAsset(compose, AssetType.ComposeText);
+  const attachments = getComposeByAsset(compose, AssetType.ComposeAttachments).map(
+    (attachment: ComposeAttachment) => `${attachment.content_type}:${attachment.url}`
+  );
+
   return {
     legacy_vars: getExpressions(formState.recipients.value),
     contacts: getRecipientsByAsset(formState.recipients.value, AssetType.Contact),
     groups: getRecipientsByAsset(formState.recipients.value, AssetType.Group),
-    text: getComposeByAsset(formState.compose.value, AssetType.ComposeText),
-    attachments: getComposeByAsset(formState.compose.value, AssetType.ComposeAttachments),
+    compose: compose,
+    text: text,
+    attachments: attachments,
     type: Types.send_broadcast,
     uuid: getActionUUID(settings, Types.send_broadcast)
   };

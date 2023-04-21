@@ -14,7 +14,8 @@ export type FormInput =
   | SelectOption
   | SelectOption[]
   | User
-  | Topic;
+  | Topic
+  | {};
 export type ValidatorFunc = (
   name: string,
   input: FormInput
@@ -72,6 +73,17 @@ const inputAsString = (input: FormInput): string => {
   }
 
   return value ? value + '' : null;
+};
+
+const fromMaxChars = (max: number): ValidatorFunc => (name: string, input: FormInput) => {
+  const item = input as string;
+  if (item && item.length > max) {
+    return {
+      value: input,
+      failures: [{ message: `${name} cannot be more than ${max} characters` }]
+    };
+  }
+  return { failures: [], value: input };
 };
 
 const fromMaxItems = (max: number): ValidatorFunc => (name: string, input: FormInput) => {
@@ -283,6 +295,7 @@ export const IsValidIntent = (classifier: Asset): ValidatorFunc => (
   return { failures: [], value: input };
 };
 
+export const MaxOf640Chars = fromMaxChars(640);
 export const MaxOfTenItems = fromMaxItems(10);
 export const StartIsNonNumeric = fromRegex(/^(?!\d)/, "can't start with a number");
 export const ValidURL = fromRegex(REGEX_URL, 'is not a valid URL');

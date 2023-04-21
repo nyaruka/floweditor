@@ -386,8 +386,9 @@ export interface PlayAudio extends Action {
 }
 
 export interface BroadcastMsg extends RecipientsAction {
+  compose: string;
   text?: string;
-  attachments?: ComposeAttachment[];
+  attachments?: string[];
 }
 
 export interface AddLabels extends Action {
