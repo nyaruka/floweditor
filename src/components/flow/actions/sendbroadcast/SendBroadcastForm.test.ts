@@ -1,5 +1,6 @@
 import SendBroadcastForm from 'components/flow/actions/sendbroadcast/SendBroadcastForm';
 import { ActionFormProps } from 'components/flow/props';
+import { ComposeAttachment } from 'flowTypes';
 import { composeComponentTestUtils, mock } from 'testUtils';
 import { createBroadcastMsgAction, getActionFormProps } from 'testUtils/assetCreators';
 import * as utils from 'utils';
@@ -11,6 +12,26 @@ const { setup } = composeComponentTestUtils<ActionFormProps>(
   SendBroadcastForm,
   getActionFormProps(action)
 );
+
+export const getTestAttachments = (numFiles = 2): ComposeAttachment[] => {
+  const attachments = [];
+  let index = 1;
+  while (index <= numFiles) {
+    const test = 'test' + index;
+    const attachment = {
+      uuid: test,
+      content_type: 'image/png',
+      type: 'image/png',
+      filename: 'name_' + test,
+      url: 'url_' + test,
+      size: 1024,
+      error: null
+    } as ComposeAttachment;
+    attachments.push(attachment);
+    index++;
+  }
+  return attachments;
+};
 
 describe(SendBroadcastForm.name, () => {
   describe('render', () => {
@@ -40,25 +61,25 @@ describe(SendBroadcastForm.name, () => {
       expect(instance.state).toMatchSnapshot();
     });
 
-    // todo
-    // it('handles compose text change', () => {
-    //   const { instance, props } = setup(true, {
-    //     $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
-    //   });
-    //   const compose = JSON.stringify({ text: 'Message to Group', attachments: [] });
-    //   instance.handleComposeChanged(compose);
-    //   expect(instance.state).toMatchSnapshot();
-    // });
+    it('handles compose text change', () => {
+      const { instance, props } = setup(true, {
+        $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
+      });
+      const compose = JSON.stringify({ text: 'Some message', attachments: [] });
+      instance.handleComposeChanged(compose);
+      expect(instance.state).toMatchSnapshot();
+    });
 
-    // todo
-    // it('handles compose attachments change', () => {
-    //   const { instance, props } = setup(true, {
-    //     $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
-    //   });
-    //   const compose = JSON.stringify({ text: 'Message to Group', attachments: [] });
-    //   instance.handleComposeChanged();
-    //   expect(instance.state).toMatchSnapshot();
-    // });
+    it('handles compose attachments change', () => {
+      const { instance, props } = setup(true, {
+        $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
+      });
+      const text = 'Some message with an attachment';
+      const attachments = getTestAttachments(1);
+      const compose = JSON.stringify({ text: text, attachments: attachments });
+      instance.handleComposeChanged(compose);
+      expect(instance.state).toMatchSnapshot();
+    });
 
     it('should allow switching from router', () => {
       const { instance, props } = setup(true, {
@@ -67,7 +88,10 @@ describe(SendBroadcastForm.name, () => {
       });
 
       instance.handleRecipientsChanged([{ id: 'group-0', name: 'My Group' }]);
-      instance.handleMessageUpdate('Message to Group');
+      const text = 'Some message with an attachment';
+      const attachments = getTestAttachments(1);
+      const compose = JSON.stringify({ text: text, attachments: attachments });
+      instance.handleComposeChanged(compose);
       instance.handleSave();
 
       expect(props.updateAction).toMatchCallSnapshot();

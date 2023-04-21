@@ -109,6 +109,7 @@ export const getCompose = (action: BroadcastMsg): string => {
   }
 
   const text = action.text || '';
+
   const attachments: ComposeAttachment[] = (action.attachments || []).map(
     (attachment: ComposeAttachment) => {
       return {
@@ -121,6 +122,7 @@ export const getCompose = (action: BroadcastMsg): string => {
       };
     }
   );
+
   return JSON.stringify({ text: text, attachments: attachments });
 };
 
@@ -262,9 +264,6 @@ export const getRecipientsByAsset = (assets: Asset[], type: AssetType): any[] =>
     });
 };
 
-export const getComposeText = (value: string, asset: string): string => {
-  return JSON.parse(value)[asset];
-};
-export const getComposeAttachments = (value: string, asset: string): ComposeAttachment[] => {
+export const getComposeByAsset = (value: string, asset: string): any | any[] => {
   return JSON.parse(value)[asset];
 };

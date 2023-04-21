@@ -1,8 +1,7 @@
 import {
   getActionUUID,
   getCompose,
-  getComposeAttachments,
-  getComposeText,
+  getComposeByAsset,
   getExpressions,
   getRecipients,
   getRecipientsByAsset
@@ -53,8 +52,8 @@ export const stateToAction = (
     legacy_vars: getExpressions(formState.recipients.value),
     contacts: getRecipientsByAsset(formState.recipients.value, AssetType.Contact),
     groups: getRecipientsByAsset(formState.recipients.value, AssetType.Group),
-    text: getComposeText(formState.compose.value, AssetType.ComposeText),
-    attachments: getComposeAttachments(formState.compose.value, AssetType.ComposeAttachments),
+    text: getComposeByAsset(formState.compose.value, AssetType.ComposeText),
+    attachments: getComposeByAsset(formState.compose.value, AssetType.ComposeAttachments),
     type: Types.send_broadcast,
     uuid: getActionUUID(settings, Types.send_broadcast)
   };

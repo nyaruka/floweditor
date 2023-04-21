@@ -72,7 +72,7 @@ export default class SendBroadcastForm extends React.Component<
     // validate in case they never updated an empty field
     const valid = this.handleUpdate(
       {
-        compose: this.state.compose.value,
+        compose: this.state.compose.value!,
         recipients: this.state.recipients.value!
       },
       true
