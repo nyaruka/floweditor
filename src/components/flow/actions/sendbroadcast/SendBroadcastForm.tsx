@@ -51,45 +51,57 @@ export default class SendBroadcastForm extends React.Component<
     const updates: Partial<SendBroadcastFormState> = {};
 
     if (keys.hasOwnProperty('compose')) {
-      updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose!, [
-        shouldRequireIf(submitting)
-      ]);
-      // validate compose value in it's entirety
-      const composeValue = keys.compose;
-      if (composeValue === getEmptyComposeValue()) {
+      // validate empty compose value
+      if (keys.compose === getEmptyComposeValue()) {
         updates.compose = validate(i18n.t('forms.compose', 'Compose'), '', [
           shouldRequireIf(submitting)
         ]);
         updates.compose.value = keys.compose;
+        if (updates.compose.validationFailures.length > 0) {
+          let composeErrMsg = updates.compose.validationFailures[0].message;
+          composeErrMsg = composeErrMsg.replace('Compose is', 'Text or attachments are');
+          updates.compose.validationFailures[0].message = composeErrMsg;
+        }
       } else {
+        // validate empty compose value
         updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose, [
           shouldRequireIf(submitting)
         ]);
-      }
-      // validate compose inner text value
-      const textValue = getComposeByAsset(keys.compose, AssetType.ComposeText);
-      const textValidationResult = validate(i18n.t('forms.compose', 'Compose'), textValue, [
-        MaxOf640Chars
-      ]);
-      // todo - tweak err msg to be more consistent/user-friendly
-      if (textValidationResult.validationFailures.length > 0) {
-        updates.compose.validationFailures = [
-          ...updates.compose.validationFailures,
-          ...textValidationResult.validationFailures
-        ];
-      }
-      // validate compose inner attachments value
-      const attachmentsValue = getComposeByAsset(keys.compose, AssetType.ComposeAttachments);
-      const attachmentsValidationResult = validate(
-        i18n.t('forms.compose', 'Compose'),
-        attachmentsValue,
-        [MaxOfTenItems]
-      );
-      if (attachmentsValidationResult.validationFailures.length > 0) {
-        updates.compose.validationFailures = [
-          ...updates.compose.validationFailures,
-          ...attachmentsValidationResult.validationFailures
-        ];
+        // validate inner compose text value
+        const composeTextValue = getComposeByAsset(keys.compose, AssetType.ComposeText);
+        const composeTextResult = validate(i18n.t('forms.compose', 'Compose'), composeTextValue, [
+          MaxOf640Chars
+        ]);
+        if (composeTextResult.validationFailures.length > 0) {
+          let textErrMsg = composeTextResult.validationFailures[0].message;
+          textErrMsg = textErrMsg.replace('Compose cannot be more than', 'Maximum allowed text is');
+          composeTextResult.validationFailures[0].message = textErrMsg;
+          updates.compose.validationFailures = [
+            ...updates.compose.validationFailures,
+            ...composeTextResult.validationFailures
+          ];
+        }
+        // validate inner compose attachments value
+        const composeAttachmentsValue = getComposeByAsset(
+          keys.compose,
+          AssetType.ComposeAttachments
+        );
+        const composeAttachmentsResult = validate(
+          i18n.t('forms.compose', 'Compose'),
+          composeAttachmentsValue,
+          [MaxOfTenItems]
+        );
+        if (composeAttachmentsResult.validationFailures.length > 0) {
+          let attachmentsErrMsg = composeAttachmentsResult.validationFailures[0].message;
+          attachmentsErrMsg = attachmentsErrMsg
+            .replace('Compose cannot have more than', 'Maximum allowed attachments is')
+            .replace('entries', 'files');
+          composeAttachmentsResult.validationFailures[0].message = attachmentsErrMsg;
+          updates.compose.validationFailures = [
+            ...updates.compose.validationFailures,
+            ...composeAttachmentsResult.validationFailures
+          ];
+        }
       }
     }
 

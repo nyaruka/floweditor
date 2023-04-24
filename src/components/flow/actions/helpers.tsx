@@ -106,7 +106,6 @@ export const getCompose = (action: BroadcastMsg): string => {
   if (!action) {
     return getEmptyComposeValue();
   }
-
   return action.compose;
 };
 
