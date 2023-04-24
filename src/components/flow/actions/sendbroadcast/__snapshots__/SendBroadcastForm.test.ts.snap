@@ -179,7 +179,7 @@ exports[`SendBroadcastForm render should render self, children with base props 1
 </Dialog>
 `;
 
-exports[`SendBroadcastForm updates handles compose invalid attachments change 1`] = `
+exports[`SendBroadcastForm updates handles invalid compose attachments change 1`] = `
 Object {
   "compose": Object {
     "validationFailures": Array [
@@ -225,7 +225,7 @@ Object {
 }
 `;
 
-exports[`SendBroadcastForm updates handles compose invalid text change 1`] = `
+exports[`SendBroadcastForm updates handles invalid compose text change 1`] = `
 Object {
   "compose": Object {
     "validationFailures": Array [
@@ -271,7 +271,25 @@ Object {
 }
 `;
 
-exports[`SendBroadcastForm updates handles compose valid attachments change 1`] = `
+exports[`SendBroadcastForm updates handles recipent change 1`] = `
+Object {
+  "compose": Object {
+    "value": "{\\"text\\":\\"Some broadcast message\\",\\"attachments\\":[]}",
+  },
+  "recipients": Object {
+    "validationFailures": Array [],
+    "value": Array [
+      Object {
+        "id": "group-0",
+        "name": "My Group",
+      },
+    ],
+  },
+  "valid": true,
+}
+`;
+
+exports[`SendBroadcastForm updates handles valid compose attachments change 1`] = `
 Object {
   "compose": Object {
     "validationFailures": Array [],
@@ -313,7 +331,7 @@ Object {
 }
 `;
 
-exports[`SendBroadcastForm updates handles compose valid text change 1`] = `
+exports[`SendBroadcastForm updates handles valid compose text change 1`] = `
 Object {
   "compose": Object {
     "validationFailures": Array [],
@@ -348,24 +366,6 @@ Object {
         "missing": false,
         "name": "Rowan Seymour",
         "type": "contact",
-      },
-    ],
-  },
-  "valid": true,
-}
-`;
-
-exports[`SendBroadcastForm updates handles recipent change 1`] = `
-Object {
-  "compose": Object {
-    "value": "{\\"text\\":\\"Some broadcast message\\",\\"attachments\\":[]}",
-  },
-  "recipients": Object {
-    "validationFailures": Array [],
-    "value": Array [
-      Object {
-        "id": "group-0",
-        "name": "My Group",
       },
     ],
   },
