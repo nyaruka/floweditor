@@ -63,7 +63,6 @@ export default class SendBroadcastForm extends React.Component<
           updates.compose.validationFailures[0].message = composeErrMsg;
         }
       } else {
-        // validate empty compose value
         updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose, [
           shouldRequireIf(submitting)
         ]);
