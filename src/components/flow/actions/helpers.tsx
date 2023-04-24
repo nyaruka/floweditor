@@ -102,7 +102,7 @@ export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: str
   return createUUID();
 };
 
-export const getCompose = (action: BroadcastMsg): string => {
+export const getCompose = (action: BroadcastMsg = null): string => {
   if (!action) {
     return getEmptyComposeValue();
   }

@@ -23,7 +23,7 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
         action = settings.localizations[0].getObject() as BroadcastMsg;
       } else {
         return {
-          compose: { value: getCompose(null) },
+          compose: { value: getCompose() },
           recipients: { value: [] },
           valid: true
         };
@@ -38,7 +38,7 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
   }
 
   return {
-    compose: { value: getCompose(null) },
+    compose: { value: getCompose() },
     recipients: { value: [] },
     valid: false
   };
