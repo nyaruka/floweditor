@@ -368,10 +368,11 @@ export interface MsgTemplating {
 }
 
 export interface SendMsg extends Action {
+  compose: string;
   text: string;
+  attachments?: string[];
   all_urns?: boolean;
   quick_replies?: string[];
-  attachments?: string[];
   topic?: string;
   templating?: MsgTemplating;
 }

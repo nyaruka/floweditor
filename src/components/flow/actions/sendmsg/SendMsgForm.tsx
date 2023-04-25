@@ -3,7 +3,12 @@
 import { react as bindCallbacks } from 'auto-bind';
 import { AxiosError, AxiosResponse } from 'axios';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
-import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
+import {
+  getComposeByAsset,
+  getEmptyComposeValue,
+  hasErrors,
+  renderIssues
+} from 'components/flow/actions/helpers';
 import {
   initializeForm as stateToForm,
   stateToAction,
@@ -22,7 +27,7 @@ import { fetchAsset } from 'external';
 import { Template, TemplateTranslation } from 'flowTypes';
 import mutate from 'immutability-helper';
 import * as React from 'react';
-import { Asset } from 'store/flowContext';
+import { Asset, AssetType } from 'store/flowContext';
 import {
   FormState,
   mergeForm,
@@ -31,7 +36,14 @@ import {
   SelectOptionEntry,
   FormEntry
 } from 'store/nodeEditor';
-import { MaxOfTenItems, Required, shouldRequireIf, validate } from 'store/validators';
+import {
+  MaxOf640Chars,
+  MaxOfTenItems,
+  MaxOfThreeItems,
+  Required,
+  shouldRequireIf,
+  validate
+} from 'store/validators';
 import { range } from 'utils';
 
 import styles from './SendMsgForm.module.scss';
@@ -40,16 +52,12 @@ import { FeatureFilter } from 'config/interfaces';
 
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
-import { Attachment, renderAttachments } from './attachments';
 
 export interface SendMsgFormState extends FormState {
-  message: StringEntry;
+  compose: StringEntry;
   quickReplies: StringArrayEntry;
   quickReplyEntry: StringEntry;
   sendAll: boolean;
-  attachments: Attachment[];
-  uploadInProgress: boolean;
-  uploadError: string;
   template: FormEntry;
   topic: SelectOptionEntry;
   templateVariables: StringEntry[];
@@ -84,17 +92,67 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
   private handleUpdate(
     keys: {
-      text?: string;
+      compose?: string;
       sendAll?: boolean;
       quickReplies?: string[];
     },
     submitting = false
   ): boolean {
     const updates: Partial<SendMsgFormState> = {};
-    if (keys.hasOwnProperty('text')) {
-      updates.message = validate(i18n.t('forms.message', 'Message'), keys.text, [
-        shouldRequireIf(submitting)
-      ]);
+
+    // todo move this to shared helpers file
+    if (keys.hasOwnProperty('compose')) {
+      // validate empty compose value
+      if (keys.compose === getEmptyComposeValue()) {
+        updates.compose = validate(i18n.t('forms.compose', 'Compose'), '', [
+          shouldRequireIf(submitting)
+        ]);
+        updates.compose.value = keys.compose;
+        if (updates.compose.validationFailures.length > 0) {
+          let composeErrMsg = updates.compose.validationFailures[0].message;
+          composeErrMsg = composeErrMsg.replace('Compose is', 'Text or attachments are');
+          updates.compose.validationFailures[0].message = composeErrMsg;
+        }
+      } else {
+        updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose, [
+          shouldRequireIf(submitting)
+        ]);
+        // validate inner compose text value
+        const composeTextValue = getComposeByAsset(keys.compose, AssetType.ComposeText);
+        const composeTextResult = validate(i18n.t('forms.compose', 'Compose'), composeTextValue, [
+          MaxOf640Chars
+        ]);
+        if (composeTextResult.validationFailures.length > 0) {
+          let textErrMsg = composeTextResult.validationFailures[0].message;
+          textErrMsg = textErrMsg.replace('Compose cannot be more than', 'Maximum allowed text is');
+          composeTextResult.validationFailures[0].message = textErrMsg;
+          updates.compose.validationFailures = [
+            ...updates.compose.validationFailures,
+            ...composeTextResult.validationFailures
+          ];
+        }
+        // validate inner compose attachments value
+        const composeAttachmentsValue = getComposeByAsset(
+          keys.compose,
+          AssetType.ComposeAttachments
+        );
+        const composeAttachmentsResult = validate(
+          i18n.t('forms.compose', 'Compose'),
+          composeAttachmentsValue,
+          [MaxOfThreeItems]
+        );
+        if (composeAttachmentsResult.validationFailures.length > 0) {
+          let attachmentsErrMsg = composeAttachmentsResult.validationFailures[0].message;
+          attachmentsErrMsg = attachmentsErrMsg
+            .replace('Compose cannot have more than', 'Maximum allowed attachments is')
+            .replace('entries', 'files');
+          composeAttachmentsResult.validationFailures[0].message = attachmentsErrMsg;
+          updates.compose.validationFailures = [
+            ...updates.compose.validationFailures,
+            ...composeAttachmentsResult.validationFailures
+          ];
+        }
+      }
     }
 
     if (keys.hasOwnProperty('sendAll')) {
@@ -115,12 +173,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     return updated.valid;
   }
 
-  public handleMessageInput(event: React.KeyboardEvent) {
-    return this.handleUpdate({ text: (event.target as any).value }, false);
-  }
-
-  public handleMessageUpdate(message: string, name: string, submitting = false): boolean {
-    return this.handleUpdate({ text: message }, submitting);
+  public handleComposeChanged(): boolean {
+    // todo
+    return true;
   }
 
   public handleQuickRepliesUpdate(quickReplies: string[]): boolean {
@@ -132,13 +187,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleSave(): void {
-    // don't continue if our message already has errors
-    if (hasErrors(this.state.message)) {
-      return;
-    }
-
-    // make sure we validate untouched text fields and contact fields
-    let valid = this.handleMessageUpdate(this.state.message.value, null, true);
+    // todo compose
 
     let templateVariables = this.state.templateVariables;
     // make sure we don't have untouched template variables
@@ -286,85 +335,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     );
   }
 
-  private handleAttachmentUploading(isUploading: boolean) {
-    const uploadError: string = '';
-    console.log(uploadError);
-    this.setState({ uploadError });
-
-    if (isUploading) {
-      const uploadInProgress: boolean = true;
-      this.setState({ uploadInProgress });
-    } else {
-      const uploadInProgress: boolean = false;
-      this.setState({ uploadInProgress });
-    }
-  }
-
-  private handleAttachmentUploaded(response: AxiosResponse) {
-    //django returns a 200 even when there's an error
-    if (response.data && response.data.error) {
-      const uploadError: string = response.data.error;
-      console.log(uploadError);
-      this.setState({ uploadError });
-    } else {
-      const attachments: any = mutate(this.state.attachments, {
-        $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
-      });
-      console.log(attachments);
-      this.setState({ attachments });
-
-      const uploadError: string = '';
-      console.log(uploadError);
-      this.setState({ uploadError });
-    }
-
-    const uploadInProgress: boolean = false;
-    this.setState({ uploadInProgress });
-  }
-
-  private handleAttachmentUploadFailed(error: AxiosError) {
-    //nginx returns a 300+ if there's an error
-    let uploadError: string = '';
-    const status = error.response.status;
-    if (status >= 500) {
-      uploadError = i18n.t('file_upload_failed_generic', 'File upload failed, please try again');
-    } else if (status === 413) {
-      uploadError = i18n.t('file_upload_failed_max_limit', 'Limit for file uploads is 25 MB');
-    } else {
-      uploadError = error.response.statusText;
-    }
-    this.setState({ uploadError });
-
-    const uploadInProgress: boolean = false;
-    this.setState({ uploadInProgress });
-  }
-
-  private handleAttachmentChanged(index: number, type: string, url: string) {
-    this.handleAttachmentUploading(false);
-
-    let attachments: any = this.state.attachments;
-    if (index === -1) {
-      attachments = mutate(attachments, {
-        $push: [{ type, url }]
-      });
-    } else {
-      attachments = mutate(attachments, {
-        [index]: {
-          $set: { type, url }
-        }
-      });
-    }
-
-    this.setState({ attachments });
-  }
-
-  private handleAttachmentRemoved(index: number) {
-    const attachments: any = mutate(this.state.attachments, {
-      $splice: [[index, 1]]
-    });
-    this.setState({ attachments });
-  }
-
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
@@ -394,22 +364,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       hasErrors: hasErrors(this.state.quickReplyEntry)
     };
 
-    const attachments: Tab = {
-      name: i18n.t('forms.attachments', 'Attachments'),
-      body: renderAttachments(
-        this.context.config.endpoints.attachments,
-        this.state.attachments,
-        this.state.uploadInProgress,
-        this.state.uploadError,
-        this.handleAttachmentUploading,
-        this.handleAttachmentUploaded,
-        this.handleAttachmentUploadFailed,
-        this.handleAttachmentChanged,
-        this.handleAttachmentRemoved
-      ),
-      checked: this.state.attachments.length > 0
-    };
-
     const advanced: Tab = {
       name: i18n.t('forms.advanced', 'Advanced'),
       body: (
@@ -428,7 +382,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       checked: this.state.sendAll
     };
 
-    const tabs = [quickReplies, attachments, advanced];
+    const tabs = [quickReplies, advanced];
 
     if (hasFeature(this.context.config, FeatureFilter.HAS_WHATSAPP)) {
       const templates: Tab = {
@@ -457,17 +411,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         tabs={tabs}
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <TextInputElement
-          name={i18n.t('forms.message', 'Message')}
-          showLabel={false}
-          counter=".sms-counter"
-          onChange={this.handleMessageUpdate}
-          entry={this.state.message}
-          autocomplete={true}
-          focus={true}
-          textarea={true}
-        />
-        <temba-charcount class="sms-counter"></temba-charcount>
+        {/* todo <ComposeElement/> */}
         {renderIssues(this.props)}
       </Dialog>
     );

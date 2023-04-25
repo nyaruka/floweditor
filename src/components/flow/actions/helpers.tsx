@@ -5,7 +5,8 @@ import {
   RecipientsAction,
   FlowIssue,
   FlowIssueType,
-  BroadcastMsg
+  BroadcastMsg,
+  SendMsg
 } from 'flowTypes';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
@@ -102,7 +103,7 @@ export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: str
   return createUUID();
 };
 
-export const getCompose = (action: BroadcastMsg = null): string => {
+export const getCompose = (action: SendMsg | BroadcastMsg = null): string => {
   if (!action) {
     return getEmptyComposeValue();
   }

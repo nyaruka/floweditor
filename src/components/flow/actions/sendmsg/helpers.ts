@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { getActionUUID } from 'components/flow/actions/helpers';
+import { getActionUUID, getCompose, getComposeByAsset } from 'components/flow/actions/helpers';
 import { SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from 'config/interfaces';
 import { MsgTemplating, SendMsg } from 'flowTypes';
@@ -7,7 +7,6 @@ import { AssetStore } from 'store/flowContext';
 import { FormEntry, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { createUUID } from 'utils';
-import { Attachment } from './attachments';
 
 export const TOPIC_OPTIONS: SelectOption[] = [
   { value: 'event', name: 'Event' },
@@ -25,19 +24,6 @@ export const initializeForm = (
 
   if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
     const action = settings.originalAction as SendMsg;
-    const attachments: Attachment[] = [];
-    (action.attachments || []).forEach((attachmentString: string) => {
-      const splitPoint = attachmentString.indexOf(':');
-
-      const type = attachmentString.substring(0, splitPoint);
-      const attachment = {
-        type,
-        url: attachmentString.substring(splitPoint + 1),
-        uploaded: type.indexOf('/') > -1
-      };
-
-      attachments.push(attachment);
-    });
 
     if (action.templating) {
       const msgTemplate = action.templating.template;
@@ -55,13 +41,10 @@ export const initializeForm = (
     }
 
     return {
+      compose: { value: getCompose(action) },
       topic: { value: TOPIC_OPTIONS.find(option => option.value === action.topic) },
       template,
       templateVariables,
-      attachments,
-      uploadInProgress: false,
-      uploadError: '',
-      message: { value: action.text },
       quickReplies: { value: action.quick_replies || [] },
       quickReplyEntry: { value: '' },
       sendAll: action.all_urns,
@@ -70,13 +53,10 @@ export const initializeForm = (
   }
 
   return {
+    compose: { value: getCompose() },
     topic: { value: null },
     template,
     templateVariables: [],
-    attachments: [],
-    uploadInProgress: false,
-    uploadError: '',
-    message: { value: '' },
     quickReplies: { value: [] },
     quickReplyEntry: { value: '' },
     sendAll: false,
@@ -85,9 +65,7 @@ export const initializeForm = (
 };
 
 export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormState): SendMsg => {
-  const attachments = state.attachments
-    .filter((attachment: Attachment) => attachment.url.trim().length > 0)
-    .map((attachment: Attachment) => `${attachment.type}:${attachment.url}`);
+  // todo attachments
 
   let templating: MsgTemplating = null;
 
@@ -115,8 +93,9 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
   }
 
   const result: SendMsg = {
-    attachments,
-    text: state.message.value,
+    compose: getCompose(),
+    text: getComposeByAsset(compose, AssetType.ComposeText),
+    attachments: getComposeByAsset(compose, AssetType.ComposeAttachments),
     type: Types.send_msg,
     all_urns: state.sendAll,
     quick_replies: state.quickReplies.value,
