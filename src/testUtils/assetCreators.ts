@@ -1,4 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
+import { getEmptyComposeValue } from 'components/flow/actions/helpers';
 import { determineTypeConfig } from 'components/flow/helpers';
 import { ActionFormProps, LocalizationFormProps, RouterFormProps } from 'components/flow/props';
 import { CaseProps } from 'components/flow/routers/caselist/CaseList';
@@ -95,17 +96,23 @@ export const createPlayAudioAction = ({
 
 export const createSendMsgAction = ({
   uuid = utils.createUUID(),
-  text = 'Hey!',
+  compose = JSON.stringify({ text: 'Some message', attachments: [] }),
+  text = 'Some message',
+  attachments = [],
   all_urns = false
 }: {
   uuid?: string;
+  compose?: string;
   text?: string;
+  attachments?: string[];
   // tslint:disable-next-line:variable-name
   all_urns?: boolean;
 } = {}): SendMsg => ({
   type: Types.send_msg,
   uuid,
+  compose,
   text,
+  attachments,
   all_urns
 });
 

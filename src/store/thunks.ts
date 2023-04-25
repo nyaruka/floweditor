@@ -69,6 +69,7 @@ import { createUUID, hasString, NODE_SPACING, timeEnd, timeStart, ACTIVITY_INTER
 import { AxiosError } from 'axios';
 import i18n from 'config/i18n';
 import { TembaStore } from 'temba-components';
+import { getEmptyComposeValue } from 'components/flow/actions/helpers';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -810,7 +811,9 @@ export const onAddToNode = (node: FlowNode) => (
   const newAction: SendMsg = {
     uuid: createUUID(),
     type: Types.send_msg,
-    text: ''
+    compose: getEmptyComposeValue(),
+    text: '',
+    attachments: []
   };
 
   dispatch(

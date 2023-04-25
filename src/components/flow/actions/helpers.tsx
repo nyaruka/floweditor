@@ -6,16 +6,21 @@ import {
   FlowIssue,
   FlowIssueType,
   BroadcastMsg,
-  SendMsg
+  SendMsg,
+  ComposeAttachment
 } from 'flowTypes';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
-import { FormEntry, NodeEditorSettings, ValidationFailure } from 'store/nodeEditor';
+import { FormEntry, NodeEditorSettings, StringEntry, ValidationFailure } from 'store/nodeEditor';
 import { createUUID } from 'utils';
 import { Trans } from 'react-i18next';
 import shared from 'components/shared.module.scss';
 import { showHelpArticle } from 'external';
 import { IssueProps } from '../props';
+import { SendBroadcastFormState } from './sendbroadcast/SendBroadcastForm';
+import { SendMsgFormState } from './sendmsg/SendMsgForm';
+import { MaxOf640Chars, MaxOfThreeItems, shouldRequireIf, validate } from 'store/validators';
+import i18n from 'config/i18n';
 
 export const renderIssues = (issueProps: IssueProps): JSX.Element => {
   const { issues, helpArticles } = issueProps;
@@ -103,15 +108,78 @@ export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: str
   return createUUID();
 };
 
-export const getCompose = (action: SendMsg | BroadcastMsg = null): string => {
+export const getEmptyComposeValue = (): string => {
+  return JSON.stringify({ text: '', attachments: [] });
+};
+
+export const getComposeActionToState = (action: SendMsg | BroadcastMsg = null): string => {
   if (!action) {
     return getEmptyComposeValue();
   }
   return action.compose;
 };
 
-export const getEmptyComposeValue = (): string => {
-  return JSON.stringify({ text: '', attachments: [] });
+export const validateCompose = (composeValue: string, submitting: boolean = false): StringEntry => {
+  let composeUpdate: StringEntry;
+
+  // validate empty compose value
+  if (composeValue === getEmptyComposeValue()) {
+    composeUpdate = validate(i18n.t('forms.compose', 'Compose'), '', [shouldRequireIf(submitting)]);
+    composeUpdate.value = composeValue;
+    if (composeUpdate.validationFailures.length > 0) {
+      let composeErrMsg = composeUpdate.validationFailures[0].message;
+      composeErrMsg = composeErrMsg.replace('Compose is', 'Text or attachments are');
+      composeUpdate.validationFailures[0].message = composeErrMsg;
+    }
+    return composeUpdate;
+  }
+
+  // validate populated compose value
+  composeUpdate = validate(i18n.t('forms.compose', 'Compose'), composeValue, [
+    shouldRequireIf(submitting)
+  ]);
+  // validate inner text value
+  const composeTextValue = getComposeByAsset(composeValue, AssetType.ComposeText);
+  const composeTextResult = validate(i18n.t('forms.compose', 'Compose'), composeTextValue, [
+    MaxOf640Chars
+  ]);
+  if (composeTextResult.validationFailures.length > 0) {
+    let textErrMsg = composeTextResult.validationFailures[0].message;
+    textErrMsg = textErrMsg.replace('Compose cannot be more than', 'Maximum allowed text is');
+    composeTextResult.validationFailures[0].message = textErrMsg;
+    composeUpdate.validationFailures = [
+      ...composeUpdate.validationFailures,
+      ...composeTextResult.validationFailures
+    ];
+  }
+  // validate inner attachments value
+  const composeAttachmentsValue = getComposeByAsset(composeValue, AssetType.ComposeAttachments);
+  const composeAttachmentsResult = validate(
+    i18n.t('forms.compose', 'Compose'),
+    composeAttachmentsValue,
+    [MaxOfThreeItems]
+  );
+  if (composeAttachmentsResult.validationFailures.length > 0) {
+    let attachmentsErrMsg = composeAttachmentsResult.validationFailures[0].message;
+    attachmentsErrMsg = attachmentsErrMsg
+      .replace('Compose cannot have more than', 'Maximum allowed attachments is')
+      .replace('entries', 'files');
+    composeAttachmentsResult.validationFailures[0].message = attachmentsErrMsg;
+    composeUpdate.validationFailures = [
+      ...composeUpdate.validationFailures,
+      ...composeAttachmentsResult.validationFailures
+    ];
+  }
+  return composeUpdate;
+};
+
+export const getComposeStateToAction = (state: SendMsgFormState | SendBroadcastFormState): any => {
+  const compose = state.compose.value;
+  const text = getComposeByAsset(compose, AssetType.ComposeText);
+  const attachments = getComposeByAsset(compose, AssetType.ComposeAttachments).map(
+    (attachment: ComposeAttachment) => `${attachment.content_type}:${attachment.url}`
+  );
+  return [compose, text, attachments];
 };
 
 export const getRecipients = (action: RecipientsAction): Asset[] => {
@@ -136,6 +204,13 @@ export const getRecipients = (action: RecipientsAction): Asset[] => {
   );
 
   return selected;
+};
+
+export const getRecipientsStateToAction = (state: SendBroadcastFormState): any => {
+  const legacy_vars = getExpressions(state.recipients.value);
+  const contacts = getRecipientsByAsset(state.recipients.value, AssetType.Contact);
+  const groups = getRecipientsByAsset(state.recipients.value, AssetType.Group);
+  return [legacy_vars, contacts, groups];
 };
 
 export const renderAssetList = (

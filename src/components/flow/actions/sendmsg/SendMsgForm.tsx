@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { react as bindCallbacks } from 'auto-bind';
-import { AxiosError, AxiosResponse } from 'axios';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
-import {
-  getComposeByAsset,
-  getEmptyComposeValue,
-  hasErrors,
-  renderIssues
-} from 'components/flow/actions/helpers';
+import { hasErrors, renderIssues, validateCompose } from 'components/flow/actions/helpers';
 import {
   initializeForm as stateToForm,
   stateToAction,
@@ -27,7 +21,7 @@ import { fetchAsset } from 'external';
 import { Template, TemplateTranslation } from 'flowTypes';
 import mutate from 'immutability-helper';
 import * as React from 'react';
-import { Asset, AssetType } from 'store/flowContext';
+import { Asset } from 'store/flowContext';
 import {
   FormState,
   mergeForm,
@@ -36,14 +30,7 @@ import {
   SelectOptionEntry,
   FormEntry
 } from 'store/nodeEditor';
-import {
-  MaxOf640Chars,
-  MaxOfTenItems,
-  MaxOfThreeItems,
-  Required,
-  shouldRequireIf,
-  validate
-} from 'store/validators';
+import { MaxOfTenItems, Required, validate } from 'store/validators';
 import { range } from 'utils';
 
 import styles from './SendMsgForm.module.scss';
@@ -52,6 +39,7 @@ import { FeatureFilter } from 'config/interfaces';
 
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
+import ComposeElement from 'components/form/compose/ComposeElement';
 
 export interface SendMsgFormState extends FormState {
   compose: StringEntry;
@@ -100,59 +88,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   ): boolean {
     const updates: Partial<SendMsgFormState> = {};
 
-    // todo move this to shared helpers file
     if (keys.hasOwnProperty('compose')) {
-      // validate empty compose value
-      if (keys.compose === getEmptyComposeValue()) {
-        updates.compose = validate(i18n.t('forms.compose', 'Compose'), '', [
-          shouldRequireIf(submitting)
-        ]);
-        updates.compose.value = keys.compose;
-        if (updates.compose.validationFailures.length > 0) {
-          let composeErrMsg = updates.compose.validationFailures[0].message;
-          composeErrMsg = composeErrMsg.replace('Compose is', 'Text or attachments are');
-          updates.compose.validationFailures[0].message = composeErrMsg;
-        }
-      } else {
-        updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose, [
-          shouldRequireIf(submitting)
-        ]);
-        // validate inner compose text value
-        const composeTextValue = getComposeByAsset(keys.compose, AssetType.ComposeText);
-        const composeTextResult = validate(i18n.t('forms.compose', 'Compose'), composeTextValue, [
-          MaxOf640Chars
-        ]);
-        if (composeTextResult.validationFailures.length > 0) {
-          let textErrMsg = composeTextResult.validationFailures[0].message;
-          textErrMsg = textErrMsg.replace('Compose cannot be more than', 'Maximum allowed text is');
-          composeTextResult.validationFailures[0].message = textErrMsg;
-          updates.compose.validationFailures = [
-            ...updates.compose.validationFailures,
-            ...composeTextResult.validationFailures
-          ];
-        }
-        // validate inner compose attachments value
-        const composeAttachmentsValue = getComposeByAsset(
-          keys.compose,
-          AssetType.ComposeAttachments
-        );
-        const composeAttachmentsResult = validate(
-          i18n.t('forms.compose', 'Compose'),
-          composeAttachmentsValue,
-          [MaxOfThreeItems]
-        );
-        if (composeAttachmentsResult.validationFailures.length > 0) {
-          let attachmentsErrMsg = composeAttachmentsResult.validationFailures[0].message;
-          attachmentsErrMsg = attachmentsErrMsg
-            .replace('Compose cannot have more than', 'Maximum allowed attachments is')
-            .replace('entries', 'files');
-          composeAttachmentsResult.validationFailures[0].message = attachmentsErrMsg;
-          updates.compose.validationFailures = [
-            ...updates.compose.validationFailures,
-            ...composeAttachmentsResult.validationFailures
-          ];
-        }
-      }
+      updates.compose = validateCompose(keys.compose, submitting);
     }
 
     if (keys.hasOwnProperty('sendAll')) {
@@ -173,9 +110,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     return updated.valid;
   }
 
-  public handleComposeChanged(): boolean {
-    // todo
-    return true;
+  public handleComposeChanged(compose: string): boolean {
+    return this.handleUpdate({ compose });
   }
 
   public handleQuickRepliesUpdate(quickReplies: string[]): boolean {
@@ -187,7 +123,13 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleSave(): void {
-    // todo compose
+    // validate in case they never updated an empty field
+    let valid = this.handleUpdate(
+      {
+        compose: this.state.compose.value!
+      },
+      true
+    );
 
     let templateVariables = this.state.templateVariables;
     // make sure we don't have untouched template variables
@@ -411,7 +353,14 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         tabs={tabs}
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        {/* todo <ComposeElement/> */}
+        <ComposeElement
+          name={i18n.t('forms.compose', 'Compose')}
+          chatbox
+          attachments
+          counter
+          entry={this.state.compose}
+          onChange={this.handleComposeChanged}
+        ></ComposeElement>
         {renderIssues(this.props)}
       </Dialog>
     );

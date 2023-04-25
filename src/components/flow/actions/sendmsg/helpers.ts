@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { getActionUUID, getCompose, getComposeByAsset } from 'components/flow/actions/helpers';
+import {
+  getActionUUID,
+  getComposeActionToState,
+  getComposeStateToAction
+} from 'components/flow/actions/helpers';
 import { SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from 'config/interfaces';
 import { MsgTemplating, SendMsg } from 'flowTypes';
@@ -41,7 +45,7 @@ export const initializeForm = (
     }
 
     return {
-      compose: { value: getCompose(action) },
+      compose: { value: getComposeActionToState(action) },
       topic: { value: TOPIC_OPTIONS.find(option => option.value === action.topic) },
       template,
       templateVariables,
@@ -53,7 +57,7 @@ export const initializeForm = (
   }
 
   return {
-    compose: { value: getCompose() },
+    compose: { value: getComposeActionToState() },
     topic: { value: null },
     template,
     templateVariables: [],
@@ -65,7 +69,7 @@ export const initializeForm = (
 };
 
 export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormState): SendMsg => {
-  // todo attachments
+  const [compose, text, attachments] = getComposeStateToAction(state);
 
   let templating: MsgTemplating = null;
 
@@ -93,9 +97,9 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
   }
 
   const result: SendMsg = {
-    compose: getCompose(),
-    text: getComposeByAsset(compose, AssetType.ComposeText),
-    attachments: getComposeByAsset(compose, AssetType.ComposeAttachments),
+    compose: compose,
+    text: text,
+    attachments: attachments,
     type: Types.send_msg,
     all_urns: state.sendAll,
     quick_replies: state.quickReplies.value,
