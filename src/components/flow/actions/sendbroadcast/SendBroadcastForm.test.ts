@@ -106,7 +106,7 @@ describe(SendBroadcastForm.name, () => {
       const compose = JSON.stringify({ text: text, attachments: attachments });
       instance.handleComposeChanged(compose);
       expect(instance.state.compose.validationFailures[0].message).toContain(
-        'Maximum allowed attachments is 10 files'
+        'Maximum allowed attachments is 3 files'
       );
       expect(instance.state).toMatchSnapshot();
     });
