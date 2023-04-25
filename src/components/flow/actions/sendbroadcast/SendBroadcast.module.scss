@@ -36,3 +36,10 @@
     }
   }
 }
+
+.attachment {
+  padding-left: 5px;
+  color: $gray;
+  transform: rotate(30deg);
+  display: inline-block;
+}

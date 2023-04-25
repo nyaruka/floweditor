@@ -8,7 +8,7 @@ import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
-import { MaxOf640Chars, MaxOfTenItems, shouldRequireIf, validate } from 'store/validators';
+import { MaxOf640Chars, MaxOfThreeItems, shouldRequireIf, validate } from 'store/validators';
 import i18n from 'config/i18n';
 import { getComposeByAsset, getEmptyComposeValue, renderIssues } from '../helpers';
 import ComposeElement from 'components/form/compose/ComposeElement';
@@ -88,7 +88,7 @@ export default class SendBroadcastForm extends React.Component<
         const composeAttachmentsResult = validate(
           i18n.t('forms.compose', 'Compose'),
           composeAttachmentsValue,
-          [MaxOfTenItems]
+          [MaxOfThreeItems]
         );
         if (composeAttachmentsResult.validationFailures.length > 0) {
           let attachmentsErrMsg = composeAttachmentsResult.validationFailures[0].message;
