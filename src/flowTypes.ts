@@ -449,10 +449,13 @@ export interface SetContactProfile extends Action {
 
 export interface LinkSheets extends Action {
   url: string;
-  row: string;
+  row?: string;
   sheet_id: any;
+  action_type: string;
+  row_data?: string[];
+  range?: string;
   name: string;
-  result_name: string;
+  result_name?: string;
 }
 
 export interface Headers {
