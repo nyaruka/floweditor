@@ -28,21 +28,21 @@ export interface SheetFormState extends FormState {
 
 const MAX_ATTACHMENTS = 10;
 
-export const renderAttachment = (
-  index: number,
-  rowData: FormEntry,
-  onAttachmentChanged: (index: number, value: string) => void,
-  onAttachmentRemoved: (index: number) => void
-): JSX.Element => {
+export const RenderData = ({
+  index,
+  rowData,
+  onRowDataChanged,
+  onRowDataRemoved
+}: any): JSX.Element => {
   return (
-    <div className={styles.url_attachment} key={index}>
+    <div className={styles.url_attachment}>
       <div className={styles.row}>
         <TextInputElement
           placeholder="Row data"
           name={i18n.t('forms.row', 'row_data')}
           style={TextInputStyle.small}
-          onChange={(value: string) => {
-            onAttachmentChanged(index, value);
+          onBlur={(event: any) => {
+            onRowDataChanged(index, event.target.value);
           }}
           entry={rowData}
           autocomplete={true}
@@ -51,24 +51,27 @@ export const renderAttachment = (
     </div>
   );
 };
-const renderAttachments = (
-  rowDataArray: FormEntry[],
-  onAttachmentChanged: (index: number, value: string) => void,
-  onAttachmentRemoved: (index: number) => void
-): JSX.Element => {
-  const renderedAttachments = rowDataArray.map((rowData, index: number) =>
-    renderAttachment(index, rowData, onAttachmentChanged, onAttachmentRemoved)
-  );
+const RenderRowData = ({ rowDataArray, onRowDataChanged, onRowDataRemoved }: any): JSX.Element => {
+  const renderedAttachments = rowDataArray.map((rowData: any, index: number) => (
+    <RenderData
+      key={index}
+      index={index}
+      rowData={rowData}
+      onRowDataChanged={onRowDataChanged}
+      onRowDataRemoved={onRowDataRemoved}
+    />
+  ));
 
   const emptyOption =
-    rowDataArray.length < MAX_ATTACHMENTS
-      ? renderAttachment(
-          rowDataArray.length,
-          { value: '' },
-          onAttachmentChanged,
-          onAttachmentRemoved
-        )
-      : null;
+    rowDataArray.length < MAX_ATTACHMENTS ? (
+      <RenderData
+        key={rowDataArray.length}
+        index={rowDataArray.length}
+        rowData={{ value: '' }}
+        onRowDataChanged={onRowDataChanged}
+        onRowDataRemoved={onRowDataRemoved}
+      />
+    ) : null;
 
   return (
     <>
@@ -181,7 +184,6 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
 
     const snaked =
       !hasErrors(result_name) && result_name.value ? '.' + snakify(result_name.value) : '';
-    const rowData = renderAttachments(this.state.row_data, this.handleAttachmentChanged, () => {});
 
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
@@ -198,104 +200,109 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
             options={ACTION_OPTIONS}
           />
         </div>
+        <div className={styles.sheet_form}>
+          {this.state.action_type.value.value === 'READ' && (
+            <>
+              <div className={styles.read_container}>
+                <div className={styles.delay_container}>
+                  <AssetSelector
+                    name={i18n.t('forms.sheet', 'Sheet')}
+                    placeholder={i18n.t('forms.select_sheet', 'Select sheet')}
+                    assets={this.props.assetStore.sheets}
+                    entry={sheet}
+                    searchable={true}
+                    onChange={this.handleSheetChanged}
+                  />
+                </div>
+                <div className={styles.row_field}>
+                  <TextInputElement
+                    showLabel={true}
+                    name={i18n.t('forms.row', 'Select row')}
+                    placeholder={i18n.t('forms.enter_profile_name', 'Enter value')}
+                    onChange={value => {
+                      this.setState({ row: { value } });
+                    }}
+                    entry={row}
+                    helpText={
+                      <Trans i18nKey="forms.row_name_help">
+                        Select row based on the values in the first column of the sheet. You can
+                        either use a static value or a variable from the first column.
+                      </Trans>
+                    }
+                    autocomplete={true}
+                    focus={true}
+                  />
+                </div>
+              </div>
+              <TextInputElement
+                showLabel={true}
+                maxLength={64}
+                name={i18n.t('forms.sheet_result_name', 'Save row as')}
+                onChange={this.handleUpdateResultName}
+                entry={result_name}
+                helpText={
+                  <Trans
+                    i18nKey="forms.sheet_result_help"
+                    values={{
+                      resultFormat: `@results${snaked}`,
+                      columnFormat: `@results${snaked}.column_title`
+                    }}
+                  >
+                    You can reference this row as [[resultFormat]] and a specific column can be
+                    referenced as [[columnFormat]]
+                  </Trans>
+                }
+              />
+            </>
+          )}
 
-        {this.state.action_type.value.value === 'READ' && (
-          <>
-            <div className={styles.read_container}>
-              <div className={styles.delay_container}>
-                <AssetSelector
-                  name={i18n.t('forms.sheet', 'Sheet')}
-                  placeholder={i18n.t('forms.select_sheet', 'Select sheet')}
-                  assets={this.props.assetStore.sheets}
-                  entry={sheet}
-                  searchable={true}
-                  onChange={this.handleSheetChanged}
+          {this.state.action_type.value.value === 'WRITE' && (
+            <>
+              <div className={styles.read_container}>
+                <div className={styles.delay_container}>
+                  <AssetSelector
+                    name={i18n.t('forms.sheet', 'Sheet')}
+                    placeholder={i18n.t('forms.select_sheet', 'Select sheet')}
+                    assets={this.props.assetStore.sheets}
+                    entry={sheet}
+                    searchable={true}
+                    onChange={this.handleSheetChanged}
+                  />
+                </div>
+                <div className={styles.row_field}>
+                  <TextInputElement
+                    showLabel={true}
+                    name={i18n.t('forms.range', 'Sheet range')}
+                    placeholder={i18n.t('forms.enter_sheet_range', 'Enter value')}
+                    onChange={value => {
+                      this.setState({ range: { value } });
+                    }}
+                    entry={this.state.range}
+                    helpText={
+                      <span>
+                        Know more about sheet ranges{' '}
+                        <a
+                          href="https://spreadsheet.dev/range-in-google-sheets"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          here
+                        </a>
+                      </span>
+                    }
+                    autocomplete={true}
+                    focus={true}
+                  />
+                </div>
+                <RenderRowData
+                  rowDataArray={this.state.row_data}
+                  onRowDataChanged={this.handleAttachmentChanged}
+                  onRowDataRemoved={() => {}}
                 />
               </div>
-              <div className={styles.row_field}>
-                <TextInputElement
-                  showLabel={true}
-                  name={i18n.t('forms.row', 'Select row')}
-                  placeholder={i18n.t('forms.enter_profile_name', 'Enter value')}
-                  onChange={value => {
-                    this.setState({ row: { value } });
-                  }}
-                  entry={row}
-                  helpText={
-                    <Trans i18nKey="forms.row_name_help">
-                      Select row based on the values in the first column of the sheet. You can
-                      either use a static value or a variable from the first column.
-                    </Trans>
-                  }
-                  autocomplete={true}
-                  focus={true}
-                />
-              </div>
-            </div>
-            <TextInputElement
-              showLabel={true}
-              maxLength={64}
-              name={i18n.t('forms.sheet_result_name', 'Save row as')}
-              onChange={this.handleUpdateResultName}
-              entry={result_name}
-              helpText={
-                <Trans
-                  i18nKey="forms.sheet_result_help"
-                  values={{
-                    resultFormat: `@results${snaked}`,
-                    columnFormat: `@results${snaked}.column_title`
-                  }}
-                >
-                  You can reference this row as [[resultFormat]] and a specific column can be
-                  referenced as [[columnFormat]]
-                </Trans>
-              }
-            />
-          </>
-        )}
-
-        {this.state.action_type.value.value === 'WRITE' && (
-          <>
-            <div className={styles.read_container}>
-              <div className={styles.delay_container}>
-                <AssetSelector
-                  name={i18n.t('forms.sheet', 'Sheet')}
-                  placeholder={i18n.t('forms.select_sheet', 'Select sheet')}
-                  assets={this.props.assetStore.sheets}
-                  entry={sheet}
-                  searchable={true}
-                  onChange={this.handleSheetChanged}
-                />
-              </div>
-              <div className={styles.row_field}>
-                <TextInputElement
-                  showLabel={true}
-                  name={i18n.t('forms.range', 'Sheet range')}
-                  placeholder={i18n.t('forms.enter_sheet_range', 'Enter value')}
-                  onChange={value => {
-                    this.setState({ range: { value } });
-                  }}
-                  entry={this.state.range}
-                  helpText={
-                    <span>
-                      Know more about sheet ranges{' '}
-                      <a
-                        href="https://spreadsheet.dev/range-in-google-sheets"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        here
-                      </a>
-                    </span>
-                  }
-                  autocomplete={true}
-                  focus={true}
-                />
-              </div>
-              {rowData}
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </Dialog>
     );
   }

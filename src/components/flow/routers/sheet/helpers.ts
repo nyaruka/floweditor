@@ -42,9 +42,12 @@ export const nodeToState = (settings: NodeEditorSettings): SheetFormState => {
             value: row
           }))
         : [];
-      action_type.value = ACTION_OPTIONS.filter(
-        action => action.value === callSheet.action_type
-      )[0];
+      if (callSheet.action_type) {
+        action_type.value = ACTION_OPTIONS.filter(
+          action => action.value === callSheet.action_type
+        )[0];
+      }
+
       row.value = callSheet.row;
       range.value = callSheet.range;
       result_name.value = callSheet.result_name;
@@ -88,7 +91,7 @@ export const stateToNode = (settings: NodeEditorSettings, state: SheetFormState)
     case 'WRITE':
       newAction = {
         url: sheet.value.url,
-        row_data: row_data.map(row => row.value),
+        row_data: row_data.filter(row => row.value !== '').map(row => row.value),
         sheet_id: sheet.value.id,
         name: sheet.value.name,
         action_type: actionType,
