@@ -273,7 +273,7 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
                   <TextInputElement
                     showLabel={true}
                     name={i18n.t('forms.range', 'Sheet range')}
-                    placeholder={i18n.t('forms.enter_sheet_range', 'Enter value')}
+                    placeholder={i18n.t('forms.enter_sheet_range', 'SheetA1:D30')}
                     onChange={value => {
                       this.setState({ range: { value } });
                     }}
