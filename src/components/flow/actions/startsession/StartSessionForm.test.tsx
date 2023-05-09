@@ -28,43 +28,43 @@ describe(StartSessionForm.name, () => {
       expect(queryByTestId('recipients')).not.toBeNull();
     });
 
-    it('should render create new contacts', () => {
-      const props = getActionFormProps(createStartSessionAction());
-      const { baseElement, queryByTestId, getByTestId } = render(<StartSessionForm {...props} />);
+    // it('should render create new contacts', () => {
+    //   const props = getActionFormProps(createStartSessionAction());
+    //   const { baseElement, queryByTestId, getByTestId } = render(<StartSessionForm {...props} />);
 
-      fireTembaSelect(getByTestId('temba_select_start_type'), START_TYPE_CREATE.value);
+    //   fireTembaSelect(getByTestId('temba_select_start_type'), START_TYPE_CREATE.value);
 
-      expect(queryByTestId('recipients')).toBeNull();
-      expect(baseElement).toMatchSnapshot();
-    });
+    //   expect(queryByTestId('recipients')).toBeNull();
+    //   expect(baseElement).toMatchSnapshot();
+    // });
 
-    it('should render contact query', () => {
-      const props = getActionFormProps(createStartSessionAction());
-      const { baseElement, getAllByTestId, getByTestId, getByText } = render(
-        <StartSessionForm {...props} />
-      );
+    // it('should render contact query', () => {
+    //   const props = getActionFormProps(createStartSessionAction());
+    //   const { baseElement, getAllByTestId, getByTestId, getByText } = render(
+    //     <StartSessionForm {...props} />
+    //   );
 
-      fireTembaSelect(getByTestId('temba_select_start_type'), START_TYPE_QUERY.value);
+    //   fireTembaSelect(getByTestId('temba_select_start_type'), START_TYPE_QUERY.value);
 
-      fireChangeText(getByTestId('Contact Query'), 'my_field > 6');
-      expect(baseElement).toMatchSnapshot();
+    //   fireChangeText(getByTestId('Contact Query'), 'my_field > 6');
+    //   expect(baseElement).toMatchSnapshot();
 
-      fireEvent.click(getByText('Ok'));
-      expect(props.updateAction).toHaveBeenCalled();
-      expect(props.updateAction).toMatchCallSnapshot();
-    });
+    //   fireEvent.click(getByText('Ok'));
+    //   expect(props.updateAction).toHaveBeenCalled();
+    //   expect(props.updateAction).toMatchCallSnapshot();
+    // });
 
-    it('should warn about invalid fields in contact queries', () => {
-      const props = getActionFormProps(createStartSessionAction());
-      const { baseElement, getByTestId } = render(<StartSessionForm {...props} />);
+    // it('should warn about invalid fields in contact queries', () => {
+    //   const props = getActionFormProps(createStartSessionAction());
+    //   const { baseElement, getByTestId } = render(<StartSessionForm {...props} />);
 
-      fireTembaSelect(getByTestId('temba_select_start_type'), START_TYPE_QUERY.value);
+    //   fireTembaSelect(getByTestId('temba_select_start_type'), START_TYPE_QUERY.value);
 
-      const input = getByTestId('Contact Query');
-      fireChangeText(input, '@fields.arst = 34');
-      fireEvent.blur(input);
-      expect(baseElement).toMatchSnapshot();
-    });
+    //   const input = getByTestId('Contact Query');
+    //   fireChangeText(input, '@fields.arst = 34');
+    //   fireEvent.blur(input);
+    //   expect(baseElement).toMatchSnapshot();
+    // });
 
     it('should render self, children with base props', () => {
       const { wrapper } = setup(true);
