@@ -141,7 +141,10 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
   }
 
   private handleActionUpdate(action: SelectOption): boolean {
-    this.setState({ action_type: { value: action } });
+    this.setState({
+      action_type: { value: action },
+      sheet: { value: { id: '', name: '', url: '' } }
+    });
     return true;
   }
 
@@ -163,6 +166,16 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
     this.setState({
       sheet: { value: sheetValue }
     });
+  }
+
+  private handleExcludeSheets(sheet: any) {
+    const action = this.state.action_type.value.value;
+    if (action === 'ALL' || action === sheet.type) {
+      return false;
+    } else if (!sheet.type) {
+      return false;
+    }
+    return true;
   }
 
   private handleAttachmentChanged(index: number, value: string) {
@@ -211,6 +224,7 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
                     assets={this.props.assetStore.sheets}
                     entry={sheet}
                     searchable={true}
+                    shouldExclude={this.handleExcludeSheets}
                     onChange={this.handleSheetChanged}
                   />
                 </div>
@@ -266,6 +280,7 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
                     assets={this.props.assetStore.sheets}
                     entry={sheet}
                     searchable={true}
+                    shouldExclude={this.handleExcludeSheets}
                     onChange={this.handleSheetChanged}
                   />
                 </div>
@@ -273,7 +288,7 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
                   <TextInputElement
                     showLabel={true}
                     name={i18n.t('forms.range', 'Sheet range')}
-                    placeholder={i18n.t('forms.enter_sheet_range', 'SheetA1:D30')}
+                    placeholder={i18n.t('forms.enter_sheet_range', 'Sheet1!A1:D30')}
                     onChange={value => {
                       this.setState({ range: { value } });
                     }}
