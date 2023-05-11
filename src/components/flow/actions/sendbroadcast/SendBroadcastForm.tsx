@@ -3,18 +3,18 @@ import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { initializeForm, stateToAction } from 'components/flow/actions/sendbroadcast/helpers';
 import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
-import TextInputElement, { Count } from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
-import { Asset } from 'store/flowContext';
+import { Asset, AssetType } from 'store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
-import { shouldRequireIf, validate } from 'store/validators';
+import { MaxOf640Chars, MaxOfThreeItems, shouldRequireIf, validate } from 'store/validators';
 import i18n from 'config/i18n';
-import { renderIssues } from '../helpers';
+import { getComposeByAsset, getEmptyComposeValue, renderIssues } from '../helpers';
+import ComposeElement from 'components/form/compose/ComposeElement';
 
 export interface SendBroadcastFormState extends FormState {
-  message: StringEntry;
+  compose: StringEntry;
   recipients: AssetArrayEntry;
 }
 
@@ -40,21 +40,72 @@ export default class SendBroadcastForm extends React.Component<
     return this.handleUpdate({ recipients });
   }
 
-  public handleMessageUpdate(text: string): boolean {
-    return this.handleUpdate({ text });
+  public handleComposeChanged(compose: string): boolean {
+    return this.handleUpdate({ compose });
   }
 
-  private handleUpdate(keys: { text?: string; recipients?: Asset[] }, submitting = false): boolean {
+  private handleUpdate(
+    keys: { compose?: string; recipients?: Asset[] },
+    submitting = false
+  ): boolean {
     const updates: Partial<SendBroadcastFormState> = {};
+
+    if (keys.hasOwnProperty('compose')) {
+      // validate empty compose value
+      if (keys.compose === getEmptyComposeValue()) {
+        updates.compose = validate(i18n.t('forms.compose', 'Compose'), '', [
+          shouldRequireIf(submitting)
+        ]);
+        updates.compose.value = keys.compose;
+        if (updates.compose.validationFailures.length > 0) {
+          let composeErrMsg = updates.compose.validationFailures[0].message;
+          composeErrMsg = composeErrMsg.replace('Compose is', 'Text or attachments are');
+          updates.compose.validationFailures[0].message = composeErrMsg;
+        }
+      } else {
+        updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose, [
+          shouldRequireIf(submitting)
+        ]);
+        // validate inner compose text value
+        const composeTextValue = getComposeByAsset(keys.compose, AssetType.ComposeText);
+        const composeTextResult = validate(i18n.t('forms.compose', 'Compose'), composeTextValue, [
+          MaxOf640Chars
+        ]);
+        if (composeTextResult.validationFailures.length > 0) {
+          let textErrMsg = composeTextResult.validationFailures[0].message;
+          textErrMsg = textErrMsg.replace('Compose cannot be more than', 'Maximum allowed text is');
+          composeTextResult.validationFailures[0].message = textErrMsg;
+          updates.compose.validationFailures = [
+            ...updates.compose.validationFailures,
+            ...composeTextResult.validationFailures
+          ];
+        }
+        // validate inner compose attachments value
+        const composeAttachmentsValue = getComposeByAsset(
+          keys.compose,
+          AssetType.ComposeAttachments
+        );
+        const composeAttachmentsResult = validate(
+          i18n.t('forms.compose', 'Compose'),
+          composeAttachmentsValue,
+          [MaxOfThreeItems]
+        );
+        if (composeAttachmentsResult.validationFailures.length > 0) {
+          let attachmentsErrMsg = composeAttachmentsResult.validationFailures[0].message;
+          attachmentsErrMsg = attachmentsErrMsg
+            .replace('Compose cannot have more than', 'Maximum allowed attachments is')
+            .replace('entries', 'files');
+          composeAttachmentsResult.validationFailures[0].message = attachmentsErrMsg;
+          updates.compose.validationFailures = [
+            ...updates.compose.validationFailures,
+            ...composeAttachmentsResult.validationFailures
+          ];
+        }
+      }
+    }
 
     if (keys.hasOwnProperty('recipients')) {
       updates.recipients = validate(i18n.t('forms.recipients', 'Recipients'), keys.recipients!, [
-        shouldRequireIf(submitting)
-      ]);
-    }
-
-    if (keys.hasOwnProperty('text')) {
-      updates.message = validate(i18n.t('forms.message', 'Message'), keys.text!, [
         shouldRequireIf(submitting)
       ]);
     }
@@ -68,7 +119,7 @@ export default class SendBroadcastForm extends React.Component<
     // validate in case they never updated an empty field
     const valid = this.handleUpdate(
       {
-        text: this.state.message.value,
+        compose: this.state.compose.value!,
         recipients: this.state.recipients.value!
       },
       true
@@ -108,16 +159,14 @@ export default class SendBroadcastForm extends React.Component<
           onChange={this.handleRecipientsChanged}
         />
         <p />
-        <TextInputElement
-          name={i18n.t('forms.message', 'Message')}
-          showLabel={false}
-          count={Count.SMS}
-          onChange={this.handleMessageUpdate}
-          entry={this.state.message}
-          autocomplete={true}
-          focus={true}
-          textarea={true}
-        />
+        <ComposeElement
+          name={i18n.t('forms.compose', 'Compose')}
+          chatbox
+          attachments
+          counter
+          entry={this.state.compose}
+          onChange={this.handleComposeChanged}
+        ></ComposeElement>
         {renderIssues(this.props)}
       </Dialog>
     );

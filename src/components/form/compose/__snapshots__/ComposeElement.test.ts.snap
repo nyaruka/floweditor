@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ComposeElement renders 1`] = `
+<ComposeElement
+  attachments={true}
+  chatbox={true}
+  counter={true}
+  entry={
+    Object {
+      "value": "",
+    }
+  }
+  name="Compose"
+  onChange={[MockFunction]}
+>
+  <FormElement
+    entry={
+      Object {
+        "value": "",
+      }
+    }
+    name="Compose"
+  >
+    <div
+      className="ele"
+    >
+      <temba-compose
+        attachments={true}
+        chatbox={true}
+        counter={true}
+        name="Compose"
+        onChange={[Function]}
+        value=""
+      />
+    </div>
+  </FormElement>
+</ComposeElement>
+`;

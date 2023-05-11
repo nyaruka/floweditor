@@ -2,8 +2,8 @@
 
 exports[`SendBroadcastForm render should render an empty form with no action 1`] = `
 Object {
-  "message": Object {
-    "value": "",
+  "compose": Object {
+    "value": "{\\"text\\":\\"\\",\\"attachments\\":[]}",
   },
   "recipients": Object {
     "value": Array [],
@@ -66,19 +66,17 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     searchable={true}
   />
   <p />
-  <TextInputElement
-    autocomplete={true}
-    count="SMS"
+  <ComposeElement
+    attachments={true}
+    chatbox={true}
+    counter={true}
     entry={
       Object {
-        "value": "",
+        "value": "{\\"text\\":\\"\\",\\"attachments\\":[]}",
       }
     }
-    focus={true}
-    name="Message"
+    name="Compose"
     onChange={[Function]}
-    showLabel={false}
-    textarea={true}
   />
 </Dialog>
 `;
@@ -166,27 +164,117 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     searchable={true}
   />
   <p />
-  <TextInputElement
-    autocomplete={true}
-    count="SMS"
+  <ComposeElement
+    attachments={true}
+    chatbox={true}
+    counter={true}
     entry={
       Object {
-        "value": "Hello World",
+        "value": "{\\"text\\":\\"Some broadcast message\\",\\"attachments\\":[]}",
       }
     }
-    focus={true}
-    name="Message"
+    name="Compose"
     onChange={[Function]}
-    showLabel={false}
-    textarea={true}
   />
 </Dialog>
 `;
 
+exports[`SendBroadcastForm updates handles invalid compose attachments change 1`] = `
+Object {
+  "compose": Object {
+    "validationFailures": Array [
+      Object {
+        "message": "Maximum allowed attachments is 3 files",
+      },
+    ],
+    "value": "{\\"text\\":\\"Some message with an attachment\\",\\"attachments\\":[{\\"uuid\\":\\"test1\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test1\\",\\"url\\":\\"url_test1\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test2\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test2\\",\\"url\\":\\"url_test2\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test3\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test3\\",\\"url\\":\\"url_test3\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test4\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test4\\",\\"url\\":\\"url_test4\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test5\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test5\\",\\"url\\":\\"url_test5\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test6\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test6\\",\\"url\\":\\"url_test6\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test7\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test7\\",\\"url\\":\\"url_test7\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test8\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test8\\",\\"url\\":\\"url_test8\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test9\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test9\\",\\"url\\":\\"url_test9\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test10\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test10\\",\\"url\\":\\"url_test10\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test11\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test11\\",\\"url\\":\\"url_test11\\",\\"size\\":1024,\\"error\\":null}]}",
+  },
+  "recipients": Object {
+    "value": Array [
+      Object {
+        "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        "name": "Cat Fanciers",
+        "type": "group",
+      },
+      Object {
+        "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        "name": "Cat Facts",
+        "type": "group",
+      },
+      Object {
+        "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+        "missing": false,
+        "name": "Kellan Alexander",
+        "type": "contact",
+      },
+      Object {
+        "id": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        "missing": false,
+        "name": "Norbert Kwizera",
+        "type": "contact",
+      },
+      Object {
+        "id": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "missing": false,
+        "name": "Rowan Seymour",
+        "type": "contact",
+      },
+    ],
+  },
+  "valid": false,
+}
+`;
+
+exports[`SendBroadcastForm updates handles invalid compose text change 1`] = `
+Object {
+  "compose": Object {
+    "validationFailures": Array [
+      Object {
+        "message": "Maximum allowed text is 640 characters",
+      },
+    ],
+    "value": "{\\"text\\":\\"p}h<r0P<?SCIbV1+pwW1Hj8g^J&=Sm2f)K=5LjFFUZ№5@ybpoLZ7DJ(27qdWxQMaO)I1nB4(D%d3c(H)QXOF6F?4>&d{lhd5?0\`Lio!yAGMO№*AxN5{z5s.IO*dy?tm}vXJ#Lf-HlD;xmNp}0<P42=w#ll9)B-e9>Q#'{~Vp<dl:xC9\`T^lhh@TosCZ^:(H<Ji<E(~PojvYk^rPB+poYy^Ne~Su1:9?IgH'4S5Q9v0g№FEIUc~!{S7;746j'Sd@Nfu3=x?CsuR;YLP4j+AOzDARZG?0(Ji(NMg=r%n0Fq?R1?E%Yf\`bcoVZAJ^bl0J'^@;lH>T.HmxYxwS;1?(bfrh?pRdd73:iMxrfx5luQ(}<dCD1b3g'G0CtkB№;8KkbL=>krG{RO%Va4wwr%P>jE*+n(E11}Ju9#<.f^)<MTH09^b{RQv7~H\`#@Hda6{MV&H@xdyEKq#M@nZng8WTU66!F@*!)w*EpQ+65XKuQCaESgq=PHmtqi@l;F?PHvl^g@Z:+}}Xyr\`IC2=3?20^I'qSU*tkyinM^JF.ZI>}~XzRQJn№v3o-w?Vy&gC:c.l(&9{\`M#-'N}{T#7lw8(4:iY621'>C^.&hVZn:R!G}Ek){D#'KkiJWawq#7~GLBN*?V!ncw)d%&(tXj\\",\\"attachments\\":[]}",
+  },
+  "recipients": Object {
+    "value": Array [
+      Object {
+        "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        "name": "Cat Fanciers",
+        "type": "group",
+      },
+      Object {
+        "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        "name": "Cat Facts",
+        "type": "group",
+      },
+      Object {
+        "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+        "missing": false,
+        "name": "Kellan Alexander",
+        "type": "contact",
+      },
+      Object {
+        "id": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        "missing": false,
+        "name": "Norbert Kwizera",
+        "type": "contact",
+      },
+      Object {
+        "id": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "missing": false,
+        "name": "Rowan Seymour",
+        "type": "contact",
+      },
+    ],
+  },
+  "valid": false,
+}
+`;
+
 exports[`SendBroadcastForm updates handles recipent change 1`] = `
 Object {
-  "message": Object {
-    "value": "Hello World",
+  "compose": Object {
+    "value": "{\\"text\\":\\"Some broadcast message\\",\\"attachments\\":[]}",
   },
   "recipients": Object {
     "validationFailures": Array [],
@@ -201,11 +289,53 @@ Object {
 }
 `;
 
-exports[`SendBroadcastForm updates handles text change 1`] = `
+exports[`SendBroadcastForm updates handles valid compose attachments change 1`] = `
 Object {
-  "message": Object {
+  "compose": Object {
     "validationFailures": Array [],
-    "value": "Message to Group",
+    "value": "{\\"text\\":\\"Some message with an attachment\\",\\"attachments\\":[{\\"uuid\\":\\"test1\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test1\\",\\"url\\":\\"url_test1\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test2\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test2\\",\\"url\\":\\"url_test2\\",\\"size\\":1024,\\"error\\":null}]}",
+  },
+  "recipients": Object {
+    "value": Array [
+      Object {
+        "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        "name": "Cat Fanciers",
+        "type": "group",
+      },
+      Object {
+        "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        "name": "Cat Facts",
+        "type": "group",
+      },
+      Object {
+        "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+        "missing": false,
+        "name": "Kellan Alexander",
+        "type": "contact",
+      },
+      Object {
+        "id": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        "missing": false,
+        "name": "Norbert Kwizera",
+        "type": "contact",
+      },
+      Object {
+        "id": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "missing": false,
+        "name": "Rowan Seymour",
+        "type": "contact",
+      },
+    ],
+  },
+  "valid": true,
+}
+`;
+
+exports[`SendBroadcastForm updates handles valid compose text change 1`] = `
+Object {
+  "compose": Object {
+    "validationFailures": Array [],
+    "value": "{\\"text\\":\\"Some message\\",\\"attachments\\":[]}",
   },
   "recipients": Object {
     "value": Array [
@@ -246,10 +376,14 @@ Object {
 exports[`SendBroadcastForm updates should allow switching from router 1`] = `
 Array [
   Object {
+    "attachments": Array [
+      "image/png:url_test1",
+    ],
+    "compose": "{\\"text\\":\\"Some message with an attachment\\",\\"attachments\\":[{\\"uuid\\":\\"test1\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test1\\",\\"url\\":\\"url_test1\\",\\"size\\":1024,\\"error\\":null}]}",
     "contacts": Array [],
     "groups": Array [],
     "legacy_vars": Array [],
-    "text": "Message to Group",
+    "text": "Some message with an attachment",
     "type": "send_broadcast",
     "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
   },

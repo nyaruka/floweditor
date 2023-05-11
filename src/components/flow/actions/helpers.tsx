@@ -1,4 +1,12 @@
-import { Contact, Endpoints, Group, RecipientsAction, FlowIssue, FlowIssueType } from 'flowTypes';
+import {
+  Contact,
+  Endpoints,
+  Group,
+  RecipientsAction,
+  FlowIssue,
+  FlowIssueType,
+  BroadcastMsg
+} from 'flowTypes';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
 import { FormEntry, NodeEditorSettings, ValidationFailure } from 'store/nodeEditor';
@@ -92,6 +100,17 @@ export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: str
     return nodeSettings.originalAction.uuid;
   }
   return createUUID();
+};
+
+export const getCompose = (action: BroadcastMsg = null): string => {
+  if (!action) {
+    return getEmptyComposeValue();
+  }
+  return action.compose;
+};
+
+export const getEmptyComposeValue = (): string => {
+  return JSON.stringify({ text: '', attachments: [] });
 };
 
 export const getRecipients = (action: RecipientsAction): Asset[] => {
@@ -230,4 +249,8 @@ export const getRecipientsByAsset = (assets: Asset[], type: AssetType): any[] =>
     .map((asset: Asset) => {
       return { uuid: asset.id, name: asset.name };
     });
+};
+
+export const getComposeByAsset = (value: string, asset: string): any | any[] => {
+  return JSON.parse(value)[asset];
 };

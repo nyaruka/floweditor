@@ -253,6 +253,15 @@ export interface Wait {
   call_limit_seconds?: number;
 }
 
+export interface ComposeAttachment {
+  uuid: string;
+  content_type: string;
+  url: string;
+  filename: string;
+  size: number;
+  error: string;
+}
+
 export interface Group {
   uuid?: string;
   name?: string;
@@ -377,7 +386,9 @@ export interface PlayAudio extends Action {
 }
 
 export interface BroadcastMsg extends RecipientsAction {
-  text: string;
+  compose: string;
+  text?: string;
+  attachments?: string[];
 }
 
 export interface AddLabels extends Action {
