@@ -66,10 +66,10 @@ export const stateToNode = (
   const newAction: OpenTicket = {
     uuid,
     type: Types.open_ticket,
-    ticketer: {
-      uuid: state.ticketer.value.uuid,
-      name: state.ticketer.value.name
-    },
+    // ticketer: {
+    //   uuid: state.ticketer.value.uuid,
+    //   name: state.ticketer.value.name
+    // },
     body: state.body.value,
     topic: state.topic.value,
     assignee: state.assignee.value,

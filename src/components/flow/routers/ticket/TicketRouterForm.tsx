@@ -44,9 +44,9 @@ export default class TicketRouterForm extends React.Component<
     super(props);
 
     // if we only have one ticketer, initialize our form with it
-    const ticketers = Object.values(this.props.assetStore.ticketers.items);
-    const ticketer = ticketers.length === 1 ? ticketers[0] : null;
-    this.state = nodeToState(this.props.nodeSettings, ticketer);
+    // const ticketers = Object.values(this.props.assetStore.ticketers.items);
+    // const ticketer = ticketers.length === 1 ? ticketers[0] : null;
+    this.state = nodeToState(this.props.nodeSettings, null);
 
     bindCallbacks(this, {
       include: [/^handle/]
@@ -77,11 +77,11 @@ export default class TicketRouterForm extends React.Component<
       ]);
     }
 
-    if (keys.hasOwnProperty('ticketer')) {
-      updates.ticketer = validate(i18n.t('forms.ticketer', 'Ticketer'), keys.ticketer, [
-        shouldRequireIf(submitting)
-      ]);
-    }
+    // if (keys.hasOwnProperty('ticketer')) {
+    //   updates.ticketer = validate(i18n.t('forms.ticketer', 'Ticketer'), keys.ticketer, [
+    //     shouldRequireIf(submitting)
+    //   ]);
+    // }
 
     if (keys.hasOwnProperty('subject')) {
       updates.subject = validate(i18n.t('forms.subject', 'Subject'), keys.subject, []);
@@ -170,8 +170,8 @@ export default class TicketRouterForm extends React.Component<
     const typeConfig = this.props.typeConfig;
 
     // if we only have one ticketer or we have issues, show the ticket chooser
-    const showTicketers =
-      Object.keys(this.props.assetStore.ticketers.items).length > 1 || this.props.issues.length > 0;
+    const showTicketers = false;
+    // Object.keys(this.props.assetStore.ticketers.items).length > 1 || this.props.issues.length > 0;
 
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
@@ -213,7 +213,7 @@ export default class TicketRouterForm extends React.Component<
               name={i18n.t('forms.assignee', 'Assignee')}
               placeholder="Assign to (Optional)"
               valueKey="email"
-              endpoint={this.context.config.endpoints.users}
+              endpoint={this.context.config.endpoints.groups}
               onChange={this.handleAssigneeUpdate}
               clearable={true}
               value={this.state.assignee.value}
