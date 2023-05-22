@@ -154,6 +154,7 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     onChange={[Function]}
     placeholder="Select Contacts"
     searchable={true}
+    shouldExclude={[Function]}
   />
   <p />
   <p>
@@ -326,6 +327,7 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     onChange={[Function]}
     placeholder="Select Contacts"
     searchable={true}
+    shouldExclude={[Function]}
   />
   <p />
   <p>
