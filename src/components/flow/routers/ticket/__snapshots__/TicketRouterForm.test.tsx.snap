@@ -357,10 +357,6 @@ Array [
           },
           "body": "Where are my cookies",
           "result_name": "My Ticket Result",
-          "ticketer": Object {
-            "name": "Email (bob@acme.com)",
-            "uuid": "1165a73a-2ee0-4891-895e-768645194862",
-          },
           "topic": Object {
             "value": Object {
               "name": "General",
