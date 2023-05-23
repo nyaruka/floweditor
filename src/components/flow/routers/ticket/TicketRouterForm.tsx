@@ -213,7 +213,7 @@ export default class TicketRouterForm extends React.Component<
               name={i18n.t('forms.assignee', 'Assignee')}
               placeholder="Assign to (Optional)"
               valueKey="email"
-              endpoint={this.context.config.endpoints.groups}
+              endpoint={this.context.config.endpoints.users}
               onChange={this.handleAssigneeUpdate}
               clearable={true}
               value={this.state.assignee.value}
