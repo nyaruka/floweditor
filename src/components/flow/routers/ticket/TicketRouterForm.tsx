@@ -3,7 +3,7 @@ import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import { nodeToState, stateToNode } from './helpers';
-import { createResultNameInput } from 'components/flow/routers/widgets';
+// import { createResultNameInput } from 'components/flow/routers/widgets';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { FormState, mergeForm, StringEntry, FormEntry } from 'store/nodeEditor';
@@ -93,11 +93,11 @@ export default class TicketRouterForm extends React.Component<
       ]);
     }
 
-    if (keys.hasOwnProperty('resultName')) {
-      updates.resultName = validate(i18n.t('forms.result_name', 'Result Name'), keys.resultName, [
-        shouldRequireIf(submitting)
-      ]);
-    }
+    // if (keys.hasOwnProperty('resultName')) {
+    //   updates.resultName = validate(i18n.t('forms.result_name', 'Result Name'), keys.resultName, [
+    //     shouldRequireIf(submitting)
+    //   ]);
+    // }
 
     const updated = mergeForm(this.state, updates);
 
@@ -236,8 +236,8 @@ export default class TicketRouterForm extends React.Component<
             textarea={true}
           />
         </div>
-
-        {createResultNameInput(this.state.resultName, this.handleResultNameUpdate)}
+        {/* We will not need results in our  context */}
+        {/* {createResultNameInput(this.state.resultName, this.handleResultNameUpdate)} */}
         {renderIssues(this.props)}
       </Dialog>
     );

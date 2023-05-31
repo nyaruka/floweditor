@@ -26,7 +26,7 @@ export const nodeToState = (
     : { value: null };
   let subject = { value: '@run.flow.name' };
   let body = { value: '@results' };
-  let resultName = { value: 'Result' };
+  let resultName = { value: 'result' };
   let assignee: FormEntry = { value: null };
   let topic: FormEntry = { value: null };
 
