@@ -170,7 +170,8 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
 
   private handleExcludeSheets(sheet: any) {
     const action = this.state.action_type.value.value;
-    if (action === 'ALL' || action === sheet.type) {
+
+    if (sheet.type === 'ALL' || action === sheet.type) {
       return false;
     } else if (!sheet.type) {
       return false;
