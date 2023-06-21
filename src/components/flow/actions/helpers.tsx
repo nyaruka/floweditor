@@ -116,6 +116,9 @@ export const getComposeActionToState = (action: SendMsg | BroadcastMsg = null): 
   if (!action) {
     return getEmptyComposeValue();
   }
+  if (!action.compose) {
+    return JSON.stringify({ text: action.text, attachments: [] });
+  }
   return action.compose;
 };
 
