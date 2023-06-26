@@ -45,11 +45,15 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
   }
 
   public handleGroupAdded(group: Asset): void {
+    const groups = (this.state.groups.value || [])
+      .concat(group)
+      .filter((g: Asset) => g.id !== 'created');
+
     // update our store with our new group
     this.props.addAsset('groups', group);
 
     // try to add the group
-    this.handleGroupsChanged((this.state.groups.value || []).concat(group), false);
+    this.handleGroupsChanged(groups, false);
   }
 
   public handleCreateAssetFromInput(input: string): any {
