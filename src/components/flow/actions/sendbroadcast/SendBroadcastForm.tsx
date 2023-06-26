@@ -59,7 +59,7 @@ export default class SendBroadcastForm extends React.Component<
         updates.compose.value = keys.compose;
         if (updates.compose.validationFailures.length > 0) {
           let composeErrMsg = updates.compose.validationFailures[0].message;
-          composeErrMsg = composeErrMsg.replace('Compose is', 'Text or attachments are');
+          composeErrMsg = composeErrMsg.replace('Compose is', 'Message text is');
           updates.compose.validationFailures[0].message = composeErrMsg;
         }
       } else {
@@ -69,10 +69,12 @@ export default class SendBroadcastForm extends React.Component<
         // validate inner compose text value
         const composeTextValue = getComposeByAsset(keys.compose, AssetType.ComposeText);
         const composeTextResult = validate(i18n.t('forms.compose', 'Compose'), composeTextValue, [
-          MaxOf640Chars
+          MaxOf640Chars,
+          shouldRequireIf(submitting)
         ]);
         if (composeTextResult.validationFailures.length > 0) {
           let textErrMsg = composeTextResult.validationFailures[0].message;
+          textErrMsg = textErrMsg.replace('Compose is', 'Message text is');
           textErrMsg = textErrMsg.replace('Compose cannot be more than', 'Maximum allowed text is');
           composeTextResult.validationFailures[0].message = textErrMsg;
           updates.compose.validationFailures = [
