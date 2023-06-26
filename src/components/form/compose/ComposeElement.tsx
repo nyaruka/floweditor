@@ -47,7 +47,7 @@ export default class ComposeElement extends React.Component<ComposeProps> {
 
   public handleChange(event: any): void {
     if (this.props.onChange) {
-      this.props.onChange(event.detail);
+      this.props.onChange(event.target.value);
     }
   }
 

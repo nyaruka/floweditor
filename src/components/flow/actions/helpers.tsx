@@ -16,33 +16,6 @@ import shared from 'components/shared.module.scss';
 import { showHelpArticle } from 'external';
 import { IssueProps } from '../props';
 
-export const renderIssues = (issueProps: IssueProps): JSX.Element => {
-  const { issues, helpArticles } = issueProps;
-  if (!issues || issues.length === 0) {
-    return null;
-  }
-
-  return (
-    <div style={{ padding: '10px 0px' }}>
-      {issues.map((issue: FlowIssue, num: Number) => {
-        const key = issue.node_uuid + issue.action_uuid + num;
-        return (
-          <div
-            style={{ margin: '6px 0px', display: 'flex', fontSize: '14px', color: 'tomato' }}
-            key={key}
-          >
-            <div
-              style={{ marginRight: '8px', marginTop: '-2px', fontSize: '18px' }}
-              className={`fe-warning`}
-            />
-            <div>{renderIssue(issue, helpArticles)}</div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
 export const renderIssue = (
   issue: FlowIssue,
   helpArticles: { [key: string]: string } = {}
@@ -95,11 +68,42 @@ export const renderIssue = (
   return message;
 };
 
+export const renderIssues = (issueProps: IssueProps): JSX.Element => {
+  const { issues, helpArticles } = issueProps;
+  if (!issues || issues.length === 0) {
+    return null;
+  }
+
+  return (
+    <div style={{ padding: '10px 0px' }}>
+      {issues.map((issue: FlowIssue, num: Number) => {
+        const key = issue.node_uuid + issue.action_uuid + num;
+        return (
+          <div
+            style={{ margin: '6px 0px', display: 'flex', fontSize: '14px', color: 'tomato' }}
+            key={key}
+          >
+            <div
+              style={{ marginRight: '8px', marginTop: '-2px', fontSize: '18px' }}
+              className={`fe-warning`}
+            />
+            <div>{renderIssue(issue, helpArticles)}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: string): string => {
   if (nodeSettings.originalAction && nodeSettings.originalAction.type === currentType) {
     return nodeSettings.originalAction.uuid;
   }
   return createUUID();
+};
+
+export const getEmptyComposeValue = (): string => {
+  return JSON.stringify({ text: '', attachments: [] });
 };
 
 export const getCompose = (action: BroadcastMsg = null): string => {
@@ -110,10 +114,6 @@ export const getCompose = (action: BroadcastMsg = null): string => {
     return JSON.stringify({ text: action.text, attachments: [] });
   }
   return action.compose;
-};
-
-export const getEmptyComposeValue = (): string => {
-  return JSON.stringify({ text: '', attachments: [] });
 };
 
 export const getRecipients = (action: RecipientsAction): Asset[] => {
@@ -138,22 +138,6 @@ export const getRecipients = (action: RecipientsAction): Asset[] => {
   );
 
   return selected;
-};
-
-export const renderAssetList = (
-  assets: Asset[],
-  max: number = 10,
-  endpoints: Endpoints
-): JSX.Element[] => {
-  // show our missing ones first
-  return assets.reduce((elements, asset, idx) => {
-    if (idx <= max - 2 || assets.length === max) {
-      elements.push(renderAsset(asset, endpoints));
-    } else if (idx === max - 1) {
-      elements.push(<div key="ellipses">+{assets.length - max + 1} more</div>);
-    }
-    return elements;
-  }, []);
 };
 
 export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
@@ -223,6 +207,22 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
       {assetBody}
     </div>
   );
+};
+
+export const renderAssetList = (
+  assets: Asset[],
+  max: number = 10,
+  endpoints: Endpoints
+): JSX.Element[] => {
+  // show our missing ones first
+  return assets.reduce((elements, asset, idx) => {
+    if (idx <= max - 2 || assets.length === max) {
+      elements.push(renderAsset(asset, endpoints));
+    } else if (idx === max - 1) {
+      elements.push(<div key="ellipses">+{assets.length - max + 1} more</div>);
+    }
+    return elements;
+  }, []);
 };
 
 export const getAllErrors = (entry: FormEntry): ValidationFailure[] => {
