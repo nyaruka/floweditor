@@ -72,6 +72,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
       argument: this.state.argument.value,
       min: this.state.min.value,
       max: this.state.max.value,
+      state: this.state.state.value,
+      district: this.state.district.value,
       intent: this.state.intent.value,
       confidence: this.state.confidence.value,
       exitName: this.state.categoryName.value,
@@ -146,6 +148,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
       argument: this.state.argument.value,
       min: this.state.min.value,
       max: this.state.max.value,
+      state: this.state.state.value,
+      district: this.state.district.value,
       intent: this.state.intent.value,
       confidence: this.state.confidence.value,
       exitName: this.state.categoryName.value,
@@ -400,6 +404,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 onChange={this.handleStateChanged}
                 style={TextInputStyle.small}
                 entry={this.state.state}
+                autocomplete={true}
               />
               <span className={styles.divider} data-draggable={true}>
                 and
@@ -410,6 +415,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 onChange={this.handleDistrictChanged}
                 style={TextInputStyle.small}
                 entry={this.state.district}
+                autocomplete={true}
               />
             </>
           );
