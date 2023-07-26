@@ -86,7 +86,7 @@ export default class ResultRouterForm extends React.Component<
   }
 
   private handleCasesUpdated(cases: CaseProps[]): void {
-    this.handleUpdate({ cases });
+    this.setState({ cases });
   }
 
   private handleResultChanged(selected: Asset[], submitting = false): boolean {
