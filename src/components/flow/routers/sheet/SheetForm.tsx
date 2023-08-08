@@ -26,7 +26,7 @@ export interface SheetFormState extends FormState {
   row_data: FormEntry[];
 }
 
-const MAX_ATTACHMENTS = 10;
+const MAX_ATTACHMENTS = 30;
 
 export const RenderData = ({
   index,
