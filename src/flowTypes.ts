@@ -497,7 +497,7 @@ export interface CallWebhook extends Action {
 }
 
 export interface OpenTicket extends Action {
-  ticketer: Ticketer;
+  ticketer?: Ticketer;
   subject?: string;
   topic?: Topic;
   body: string;

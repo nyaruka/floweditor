@@ -6,7 +6,8 @@ const OpenTicketComp: React.SFC<OpenTicket> = (
   { ticketer, subject, topic },
   context: any
 ): JSX.Element => {
-  const showTicketer = ticketer.name.indexOf(context.config.brand) === -1;
+  const showTicketer = false;
+  //  ticketer.name.indexOf(context.config.brand) === -1;
   return (
     <div>
       <div>{subject ? subject : topic ? topic.name : null}</div>

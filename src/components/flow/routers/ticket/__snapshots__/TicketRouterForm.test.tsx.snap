@@ -110,34 +110,6 @@ exports[`TicketRouterForm render should render 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="optional_text_input"
-        >
-          <div
-            class="ele"
-          >
-            <div
-              class="label"
-            >
-              Result Name
-            </div>
-            <div
-              class="wrapper normal"
-            >
-              <input
-                data-testid="Result Name"
-                name="Result Name"
-                value="Result"
-              />
-            </div>
-            <div
-              class="help_text"
-            >
-              By naming the result, you can reference it later using @results.result
-               
-            </div>
-          </div>
-        </div>
       </div>
       <div
         class="footer"
@@ -280,34 +252,6 @@ exports[`TicketRouterForm updates should save changes 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="optional_text_input"
-        >
-          <div
-            class="ele"
-          >
-            <div
-              class="label"
-            >
-              Result Name
-            </div>
-            <div
-              class="wrapper normal"
-            >
-              <input
-                data-testid="Result Name"
-                name="Result Name"
-                value="Result"
-              />
-            </div>
-            <div
-              class="help_text"
-            >
-              By naming the result, you can reference it later using @results.result
-               
-            </div>
-          </div>
-        </div>
       </div>
       <div
         class="footer"
@@ -356,11 +300,7 @@ Array [
             },
           },
           "body": "Where are my cookies",
-          "result_name": "My Ticket Result",
-          "ticketer": Object {
-            "name": "Email (bob@acme.com)",
-            "uuid": "1165a73a-2ee0-4891-895e-768645194862",
-          },
+          "result_name": "Result",
           "topic": Object {
             "value": Object {
               "name": "General",
@@ -405,7 +345,7 @@ Array [
           },
         ],
         "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-        "operand": "@results.my_ticket_result",
+        "operand": "@results.result",
         "type": "switch",
       },
       "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
