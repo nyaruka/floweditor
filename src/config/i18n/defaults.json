@@ -45,7 +45,7 @@
     },
     "send_broadcast": {
       "description": "Send a staff member a message",
-      "name": "Send Broadcast",
+      "name": "Send message to staff",
       "placeholder": "Send a staff member a message"
     },
     "send_email": {

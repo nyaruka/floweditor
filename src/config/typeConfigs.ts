@@ -303,7 +303,7 @@ export const typeConfigList: Type[] = [
 
   {
     type: Types.send_broadcast,
-    name: i18n.t('actions.send_broadcast.name', 'Send Broadcast'),
+    name: i18n.t('actions.send_broadcast.name', 'Send message to staff'),
     description: i18n.t('actions.send_broadcast.description', 'Send a staff member a message'),
     form: SendBroadcastForm,
     localization: KeyLocalizationForm,
