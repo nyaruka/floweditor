@@ -137,7 +137,7 @@ Array [
     "localizeableKeys": Array [
       "text",
     ],
-    "name": "Send Broadcast",
+    "name": "Send message to staff",
     "type": "send_broadcast",
   },
   Object {
@@ -651,7 +651,7 @@ Object {
     "localizeableKeys": Array [
       "text",
     ],
-    "name": "Send Broadcast",
+    "name": "Send message to staff",
     "type": "send_broadcast",
   },
   "send_email": Object {

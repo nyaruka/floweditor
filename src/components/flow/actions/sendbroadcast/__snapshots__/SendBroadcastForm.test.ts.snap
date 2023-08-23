@@ -116,7 +116,7 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
       },
     ]
   }
-  title="Send Broadcast"
+  title="Send message to staff"
 >
   <TypeList
     __className=""
@@ -130,7 +130,7 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
         "localizeableKeys": Array [
           "text",
         ],
-        "name": "Send Broadcast",
+        "name": "Send message to staff",
         "type": "send_broadcast",
       }
     }
@@ -260,7 +260,7 @@ exports[`SendBroadcastForm render should render self, children with base props 1
       },
     ]
   }
-  title="Send Broadcast"
+  title="Send message to staff"
 >
   <TypeList
     __className=""
@@ -274,7 +274,7 @@ exports[`SendBroadcastForm render should render self, children with base props 1
         "localizeableKeys": Array [
           "text",
         ],
-        "name": "Send Broadcast",
+        "name": "Send message to staff",
         "type": "send_broadcast",
       }
     }
