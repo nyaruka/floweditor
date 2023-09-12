@@ -1,6 +1,9 @@
 import { Action, Case, Category, Language, MsgTemplating } from 'flowTypes';
 import { Asset } from 'store/flowContext';
 
+// list of keys that should always be treated as an array
+const ARRAY_KEYS = ['attachments'];
+
 export class LocalizedObject {
   public localizedKeys: { [key: string]: boolean } = {};
 
@@ -40,7 +43,7 @@ export class LocalizedObject {
       this.localized = true;
     }
 
-    if (Array.isArray(this.localizedObject[key])) {
+    if (Array.isArray(this.localizedObject[key]) || ARRAY_KEYS.includes(key)) {
       this.localizedObject[key] = value;
     } else {
       if (value.length === 1) {
