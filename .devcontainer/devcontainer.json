@@ -1,0 +1,14 @@
+{
+	"name": "floweditor",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"forwardPorts": [
+		3000,
+		6000
+	],
+	"remoteUser": "node",
+	"postCreateCommand": "sudo chown node /workspaces/floweditor && yarn install"
+	// "features": {},
+	// "customizations": {},
+}
