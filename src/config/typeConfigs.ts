@@ -63,6 +63,8 @@ import i18n from 'config/i18n';
 import SchemeRouterForm from 'components/flow/routers/scheme/SchemeRouterForm';
 import TicketRouterForm from 'components/flow/routers/ticket/TicketRouterForm';
 import OpenTicketComp from 'components/flow/actions/openticket/OpenTicket';
+import RequestOptInForm from 'components/flow/actions/requestoptin/RequestOptInForm';
+import RequestOptInComp from 'components/flow/actions/requestoptin/RequestOptIn';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -164,12 +166,12 @@ export const SCHEMES: Scheme[] = [
   {
     scheme: 'vk',
     name: i18n.t('schemes.vk.name', 'VK'),
-    path: i18n.t('schemes.vk.path', 'VK ID'),
+    path: i18n.t('schemes.vk.path', 'VK ID')
   },
   {
     scheme: 'discord',
     name: i18n.t('schemes.discord.name', 'Discord'),
-    path: i18n.t('schemes.discord.path', 'Discord ID'),
+    path: i18n.t('schemes.discord.path', 'Discord ID')
   },
   {
     scheme: 'webchat',
@@ -180,7 +182,7 @@ export const SCHEMES: Scheme[] = [
   {
     scheme: 'rocketchat',
     name: i18n.t('schemes.rocketchat.name', 'RocketChat'),
-    path: i18n.t('schemes.rocketchat.path', 'RocketChat ID'),
+    path: i18n.t('schemes.rocketchat.path', 'RocketChat ID')
   },
   {
     scheme: 'ext',
@@ -514,6 +516,14 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     form: SchemeRouterForm
+  },
+  {
+    type: Types.request_optin,
+    name: i18n.t('actions.request_optin.name', 'Request Opt-In'),
+    description: i18n.t('actions.request_optin.description', 'Send an Opt-In request'),
+    form: RequestOptInForm,
+    component: RequestOptInComp,
+    filter: FeatureFilter.HAS_OPTINS
   }
   // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];
