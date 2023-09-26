@@ -191,7 +191,6 @@ export default class MsgLocalizationForm extends React.Component<
       const attachments: any = mutate(this.state.attachments, {
         $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
       });
-      console.log(attachments);
       this.setState({ attachments });
 
       const uploadError: string = '';
