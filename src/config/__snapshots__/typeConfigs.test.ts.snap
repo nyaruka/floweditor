@@ -435,7 +435,7 @@ Array [
   },
   Object {
     "component": [Function],
-    "description": "Send an Opt-In request",
+    "description": "Send an opt-in request",
     "filter": "optins",
     "form": [Function],
     "name": "Request Opt-In",
@@ -593,7 +593,7 @@ Object {
   },
   "request_optin": Object {
     "component": [Function],
-    "description": "Send an Opt-In request",
+    "description": "Send an opt-in request",
     "filter": "optins",
     "form": [Function],
     "name": "Request Opt-In",

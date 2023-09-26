@@ -72,7 +72,6 @@ export default class AddLabelsForm extends React.PureComponent<
   }
 
   public handleOptInCreated(optin: Asset): void {
-    console.log(optin);
     this.handleOptInChanged([optin]);
   }
 
@@ -82,21 +81,21 @@ export default class AddLabelsForm extends React.PureComponent<
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <p data-spec={controlLabelSpecId}>
-          <Trans i18nKey="forms.request_optin_summary">Select the Opt-In to request</Trans>
+          <Trans i18nKey="forms.request_optin_summary">Select the opt-in to request</Trans>
         </p>
 
         <AssetSelector
           name={i18n.t('forms.request_optin.title', 'Request Opt-In')}
           placeholder={i18n.t(
             'enter_to_create_optin',
-            'Enter the name of an existing Opt-In or create a new one'
+            'Enter the name of an existing opt-in or create a new one'
           )}
           assets={this.props.assetStore.optins}
           entry={this.state.optin}
           searchable={true}
           expressions={true}
           onChange={this.handleOptInChanged}
-          createPrefix={i18n.t('create_optin', 'Create Opt-In') + ': '}
+          createPrefix={i18n.t('create_optin', 'Create opt-in') + ': '}
           createAssetFromInput={this.handleCreateAssetFromInput}
           onAssetCreated={this.handleOptInCreated}
         />
