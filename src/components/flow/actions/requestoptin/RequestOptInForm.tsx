@@ -72,10 +72,8 @@ export default class AddLabelsForm extends React.PureComponent<
   }
 
   public handleOptInCreated(optin: Asset): void {
-    // update our store with our new group
-    this.props.addAsset('optins', optin);
-
-    this.handleOptInChanged(this.state.optin.value);
+    console.log(optin);
+    this.handleOptInChanged([optin]);
   }
 
   public render(): JSX.Element {

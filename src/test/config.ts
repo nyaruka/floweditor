@@ -20,6 +20,7 @@ const config: FlowEditorConfig = {
   brand: 'RapidPro',
   endpoints: {
     resthooks: '/assets/resthooks.json',
+    optins: '/assets/optins.json',
     flows: '/assets/flows.json',
     globals: '/assets/globals.json',
     groups: '/assets/groups.json',
