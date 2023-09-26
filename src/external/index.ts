@@ -311,6 +311,11 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         type: AssetType.Label,
         items: {}
       },
+      optins: {
+        endpoint: getURL(endpoints.optins),
+        type: AssetType.OptIn,
+        items: {}
+      },
       results: {
         type: AssetType.Result,
         items: {}
