@@ -520,7 +520,7 @@ export const typeConfigList: Type[] = [
   {
     type: Types.request_optin,
     name: i18n.t('actions.request_optin.name', 'Request Opt-In'),
-    description: i18n.t('actions.request_optin.description', 'Send an Opt-In request'),
+    description: i18n.t('actions.request_optin.description', 'Send an opt-in request'),
     form: RequestOptInForm,
     component: RequestOptInComp,
     filter: FeatureFilter.HAS_OPTINS
