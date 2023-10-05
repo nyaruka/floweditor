@@ -18,58 +18,15 @@ exports[`SendMsgForm render should render 1`] = `
   tabs={
     Array [
       Object {
-        "body": <React.Fragment>
-          <p>
-            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
-          </p>
-          <AssetSelector
-            entry={
-              Object {
-                "value": null,
-              }
-            }
-            formClearable={true}
-            name="template"
-            noOptionsMessage="No templates found"
-            onChange={[Function]}
-            searchable={true}
-            shouldExclude={[Function]}
-          />
-        </React.Fragment>,
+        "body": <CheckboxElement
+          checked={false}
+          description="Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
+          name="All Destinations"
+          onChange={[Function]}
+          title="All Destinations"
+        />,
         "checked": false,
-        "hasErrors": false,
-        "name": "WhatsApp",
-      },
-      Object {
-        "body": <React.Fragment>
-          <p>
-            Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".
-          </p>
-          <MultiChoiceInput
-            entry={
-              Object {
-                "value": "",
-              }
-            }
-            helpText={
-              <Trans
-                i18nKey="forms.add_quick_reply"
-              >
-                Add a new Quick Reply and press enter.
-              </Trans>
-            }
-            items={
-              Object {
-                "value": Array [],
-              }
-            }
-            name="Quick Reply"
-            onChange={[Function]}
-          />
-        </React.Fragment>,
-        "checked": false,
-        "hasErrors": false,
-        "name": "Quick Replies",
+        "name": "Advanced",
       },
       Object {
         "body": <React.Fragment>
@@ -133,16 +90,58 @@ exports[`SendMsgForm render should render 1`] = `
         "name": "Attachments",
       },
       Object {
-        "body": <CheckboxElement
-          checked={false}
-          description="Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
-          labelClassName="checkbox"
-          name="All Destinations"
-          onChange={[Function]}
-          title="All Destinations"
-        />,
+        "body": <React.Fragment>
+          <p>
+            Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".
+          </p>
+          <MultiChoiceInput
+            entry={
+              Object {
+                "value": "",
+              }
+            }
+            helpText={
+              <Trans
+                i18nKey="forms.add_quick_reply"
+              >
+                Add a new Quick Reply and press enter.
+              </Trans>
+            }
+            items={
+              Object {
+                "value": Array [],
+              }
+            }
+            name="Quick Reply"
+            onChange={[Function]}
+          />
+        </React.Fragment>,
         "checked": false,
-        "name": "Advanced",
+        "hasErrors": false,
+        "name": "Quick Replies",
+      },
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
+          </p>
+          <AssetSelector
+            entry={
+              Object {
+                "value": null,
+              }
+            }
+            formClearable={true}
+            name="template"
+            noOptionsMessage="No templates found"
+            onChange={[Function]}
+            searchable={true}
+            shouldExclude={[Function]}
+          />
+        </React.Fragment>,
+        "checked": false,
+        "hasErrors": false,
+        "name": "WhatsApp",
       },
     ]
   }

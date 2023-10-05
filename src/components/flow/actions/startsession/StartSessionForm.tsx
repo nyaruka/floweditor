@@ -173,7 +173,6 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
         <CheckboxElement
           name={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
           title={i18n.t('forms.skip_contacts_in_a_flow', 'Skip contacts currently in a flow')}
-          labelClassName={styles.checkbox}
           checked={this.state.exclusions.in_a_flow}
           description={i18n.t(
             'forms.skip_contacts_in_a_flow_description',

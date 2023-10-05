@@ -82,8 +82,7 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
           <CheckboxElement
             name={i18n.t('forms.timeout', 'Timeout')}
             checked={this.isChecked()}
-            description={this.getInstructions()}
-            checkboxClassName={styles.checkbox}
+            title={this.getInstructions()}
             onChange={this.handleChecked}
           />
         </div>

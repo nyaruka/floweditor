@@ -1,5 +1,4 @@
 import './global.module.scss';
-import 'static/fonts/floweditor/style.css';
 
 import FlowEditor from 'components';
 import React from 'react';

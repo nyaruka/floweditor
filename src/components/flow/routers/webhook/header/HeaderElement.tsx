@@ -96,7 +96,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
   private getRemoveIco(): JSX.Element {
     return (
       <div className={styles.remove_ico} onClick={this.handleRemove} data-spec={removeIcoSpecId}>
-        <span className="fe-x" />
+        <temba-icon name="delete_small"></temba-icon>
       </div>
     );
   }

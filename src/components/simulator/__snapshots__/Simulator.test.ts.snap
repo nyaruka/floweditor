@@ -9,7 +9,7 @@ exports[`Simulator renders 1`] = `
     color="#2db379"
     custom={true}
     header="Simulator"
-    icon="fe-smartphone"
+    icon="simulator"
     label="Run in Simulator"
     onHide={[Function]}
     onShow={[Function]}
@@ -38,9 +38,13 @@ exports[`Simulator renders 1`] = `
               className="header"
             >
               <div
-                className="close fe-x"
+                className="close"
                 onClick={[Function]}
-              />
+              >
+                <temba-icon
+                  name="close"
+                />
+              </div>
             </div>
             <div
               className="messages"
@@ -73,8 +77,8 @@ exports[`Simulator renders 1`] = `
               <div
                 className="show_attachments_button"
               >
-                <div
-                  className="fe-paperclip"
+                <temba-icon
+                  name="attachment"
                   onClick={[Function]}
                 />
               </div>
@@ -82,25 +86,39 @@ exports[`Simulator renders 1`] = `
             <div
               className="attachment_buttons "
             >
-              <div
-                className="fe-x"
+              <temba-icon
+                name="close"
                 onClick={[Function]}
               />
               <div
-                className="fe-picture2"
+                style={
+                  Object {
+                    "flexGrow": 1,
+                  }
+                }
+              />
+              <temba-icon
+                name="attachment_image"
+                onClick={[Function]}
+              />
+              <temba-icon
+                name="attachment_video"
+                onClick={[Function]}
+              />
+              <temba-icon
+                name="attachment_audio"
+                onClick={[Function]}
+              />
+              <temba-icon
+                name="attachment_location"
                 onClick={[Function]}
               />
               <div
-                className="fe-video"
-                onClick={[Function]}
-              />
-              <div
-                className="fe-mic"
-                onClick={[Function]}
-              />
-              <div
-                className="fe-map-marker"
-                onClick={[Function]}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               />
             </div>
             <div
@@ -121,8 +139,8 @@ exports[`Simulator renders 1`] = `
                   className="context-button"
                   onClick={[Function]}
                 >
-                  <span
-                    className="fe-at-sign"
+                  <temba-icon
+                    name="expressions"
                   />
                 </div>
               </div>

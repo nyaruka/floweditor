@@ -3,6 +3,7 @@
 .ele {
   width: 100%;
   position: relative;
+
   &.border {
     border: 1px solid #e6e6e6;
     -webkit-border-radius: 5px;
@@ -10,16 +11,17 @@
     border-radius: 5px;
     padding: 10px;
   }
+
   &:focus {
     outline: none;
   }
 
-  > .error_list {
+  >.error_list {
     position: fixed;
     z-index: 1;
     margin-top: 7px;
 
-    > .error {
+    >.error {
       visibility: hidden;
       position: absolute;
       background: #fff;
@@ -53,9 +55,10 @@
   }
 
   &:hover {
+
     // we could also show errors if an input gains focus
     // down our tree with &:focus-within here
-    > .error_list > .error {
+    >.error_list>.error {
       visibility: visible;
     }
   }
@@ -79,13 +82,13 @@
     box-shadow: 0 0 0 3px rgba(255, 196, 186, 0.5) !important;
     transition: all 0.3s ease-in-out;
     outline: none;
-    
+
   }
 }
 
 .help_text {
-  color: #ccc;
-  font-size: 11px;
+  color: #aaa;
+  font-size: 12px;
   padding-top: 6px;
   padding-bottom: 10px;
 }

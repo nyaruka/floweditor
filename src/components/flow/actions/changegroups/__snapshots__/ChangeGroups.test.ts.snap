@@ -7,42 +7,90 @@ exports[`ChangeGroupsComp helpers getChangeGroupsMarkup should return ChangeGrou
   <div
     className="node_asset"
   >
-    <React.Fragment>
-      <span
-        className="node_group fe-group"
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
       />
       Early Adopters
-    </React.Fragment>
+    </div>
   </div>
   <div
     className="node_asset"
   >
-    <React.Fragment>
-      <span
-        className="node_group fe-group"
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
       />
       Testers
-    </React.Fragment>
+    </div>
   </div>
   <div
     className="node_asset"
   >
-    <React.Fragment>
-      <span
-        className="node_group fe-group"
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
       />
       Subscribers
-    </React.Fragment>
+    </div>
   </div>
   <div
     className="node_asset"
   >
-    <React.Fragment>
-      <span
-        className="node_group fe-group"
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
       />
       Champions
-    </React.Fragment>
+    </div>
   </div>
 </div>
 `;
@@ -62,42 +110,90 @@ Array [
   <div
     className="node_asset"
   >
-    <React.Fragment>
-      <span
-        className="node_group fe-group"
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
       />
       Early Adopters
-    </React.Fragment>
+    </div>
   </div>,
   <div
     className="node_asset"
   >
-    <React.Fragment>
-      <span
-        className="node_group fe-group"
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
       />
       Testers
-    </React.Fragment>
+    </div>
   </div>,
   <div
     className="node_asset"
   >
-    <React.Fragment>
-      <span
-        className="node_group fe-group"
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
       />
       Subscribers
-    </React.Fragment>
+    </div>
   </div>,
   <div
     className="node_asset"
   >
-    <React.Fragment>
-      <span
-        className="node_group fe-group"
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
       />
       Champions
-    </React.Fragment>
+    </div>
   </div>,
 ]
 `;
@@ -118,37 +214,93 @@ exports[`ChangeGroupsComp render should limit div to max number of groups 1`] = 
     className="node_asset"
     key="23ff7152-b588-43e4-90de-fda77aeaf7c0"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Customers
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
+      />
+      Customers
+    </div>
   </div>
   <div
     className="node_asset"
     key="2429d573-80d7-47f8-879f-f2ba442a1bfd"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Unsatisfied Customers
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
+      />
+      Unsatisfied Customers
+    </div>
   </div>
   <div
     className="node_asset"
     key="cdbf9e01-aaa7-4381-8259-ee042447bcac"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Early Adopters
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
+      />
+      Early Adopters
+    </div>
   </div>
   <div
     className="node_asset"
     key="afaba971-8943-4dd8-860b-3561ed4f1fe1"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Testers
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
+      />
+      Testers
+    </div>
   </div>
   <div
     key="ellipses"
@@ -181,37 +333,93 @@ exports[`ChangeGroupsComp render should render group name 1`] = `
     className="node_asset"
     key="cdbf9e01-aaa7-4381-8259-ee042447bcac"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Early Adopters
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
+      />
+      Early Adopters
+    </div>
   </div>
   <div
     className="node_asset"
     key="afaba971-8943-4dd8-860b-3561ed4f1fe1"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Testers
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
+      />
+      Testers
+    </div>
   </div>
   <div
     className="node_asset"
     key="33b28bac-b588-43e4-90de-fda77aeaf7c0"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Subscribers
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
+      />
+      Subscribers
+    </div>
   </div>
   <div
     className="node_asset"
     key="e0cccbcf-49be-4eef-88a7-ce2150a6d902"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Champions
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="group"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
+      />
+      Champions
+    </div>
   </div>
 </div>
 `;

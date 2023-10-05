@@ -145,7 +145,7 @@ export class RevisionExplorer extends React.Component<
           className="revisions"
           header={i18n.t('revisions.header', 'Revisions')}
           color="#8e5ea7"
-          icon="fe-time"
+          icon="revisions"
           label={i18n.t('revisions.label', 'Revision History')}
           top="170px"
           popTop="40px"

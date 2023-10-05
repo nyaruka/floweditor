@@ -52,7 +52,7 @@ exports[`SayMsgForm render should render 1`] = `
   />
   <UploadButton
     endpoint="/assets/attachments.json"
-    icon="fe-mic"
+    icon="recording"
     onUploadChanged={[Function]}
     removeText="Remove Recording"
     uploadText="Upload Recording"

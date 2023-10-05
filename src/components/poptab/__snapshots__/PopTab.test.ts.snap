@@ -25,8 +25,9 @@ exports[`PopTab render should render base component 1`] = `
       <div
         className="icon"
       >
-        <span
-          className="fe-history"
+        <temba-icon
+          name="fe-history"
+          size="1.7"
         />
       </div>
       <div
@@ -55,9 +56,13 @@ exports[`PopTab render should render base component 1`] = `
       }
     >
       <div
-        className="close fe-x"
+        className="close"
         onClick={[Function]}
-      />
+      >
+        <temba-icon
+          name="close"
+        />
+      </div>
       <div
         className="header_label"
       >

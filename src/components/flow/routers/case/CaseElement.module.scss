@@ -119,24 +119,17 @@ input:focus {
 .dnd_icon {
   color: #aaa;
   font-weight: bold;
-  padding-top: 9px;
   padding-right: 2px;
   padding-left: 5px;
-  float: left;
   opacity: 0;
-  font-size: 9px;
-  line-height: 9px;
 }
 
 .remove_icon {
   color: #aaa;
-  padding-top: 8px;
   float: right;
   opacity: 0;
-  line-height: 12px;
   cursor: pointer;
   margin-left: 2px;
-  font-size: 9px;
   z-index: 3000;
 }
 

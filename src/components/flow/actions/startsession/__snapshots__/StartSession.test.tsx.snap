@@ -12,10 +12,16 @@ exports[`StartSessionComp render should render a long list of both contacts and 
         <div
           class="node_asset"
         >
-          <span
-            class="node_group fe-group"
-          />
-          Cat Fanciers
+          <div
+            style="display: inline-flex;"
+          >
+            <temba-icon
+              classname="node_group"
+              name="group"
+              style="margin-right: 4px;"
+            />
+            Cat Fanciers
+          </div>
         </div>
         <div
           class="node_asset"
@@ -44,16 +50,22 @@ exports[`StartSessionComp render should render a long list of both contacts and 
         <div
           class="node_asset"
         >
-          <span
-            class="node_label fe-split"
-          />
-          <a
-            href="/flow/editor/flow_uuid"
-            rel="noopener noreferrer"
-            target="_blank"
+          <div
+            style="display: inline-flex;"
           >
-            Flow to Start
-          </a>
+            <temba-icon
+              classname="node_group"
+              name="flow"
+              style="margin-right: 4px;"
+            />
+            <a
+              href="/flow/editor/flow_uuid"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Flow to Start
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -73,10 +85,16 @@ exports[`StartSessionComp render should render all props 1`] = `
         <div
           class="node_asset"
         >
-          <span
-            class="node_group fe-group"
-          />
-          Cat Fanciers
+          <div
+            style="display: inline-flex;"
+          >
+            <temba-icon
+              classname="node_group"
+              name="group"
+              style="margin-right: 4px;"
+            />
+            Cat Fanciers
+          </div>
         </div>
         <div
           class="node_asset"
@@ -95,16 +113,22 @@ exports[`StartSessionComp render should render all props 1`] = `
         <div
           class="node_asset"
         >
-          <span
-            class="node_label fe-split"
-          />
-          <a
-            href="/flow/editor/flow_uuid"
-            rel="noopener noreferrer"
-            target="_blank"
+          <div
+            style="display: inline-flex;"
           >
-            Flow to Start
-          </a>
+            <temba-icon
+              classname="node_group"
+              name="flow"
+              style="margin-right: 4px;"
+            />
+            <a
+              href="/flow/editor/flow_uuid"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Flow to Start
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -129,16 +153,22 @@ exports[`StartSessionComp render should render creating a new contact 1`] = `
         <div
           class="node_asset"
         >
-          <span
-            class="node_label fe-split"
-          />
-          <a
-            href="/flow/editor/flow_uuid"
-            rel="noopener noreferrer"
-            target="_blank"
+          <div
+            style="display: inline-flex;"
           >
-            Flow to Start
-          </a>
+            <temba-icon
+              classname="node_group"
+              name="flow"
+              style="margin-right: 4px;"
+            />
+            <a
+              href="/flow/editor/flow_uuid"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Flow to Start
+            </a>
+          </div>
         </div>
       </div>
     </div>
