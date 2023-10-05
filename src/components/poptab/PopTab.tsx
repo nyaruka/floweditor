@@ -74,7 +74,7 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
             onClick={this.handleTabClick}
           >
             <div className={styles.icon}>
-              <span className={this.props.icon} />
+              <temba-icon name={this.props.icon} size="1.7"></temba-icon>
             </div>
             <div className={styles.label}>{this.props.label}</div>
           </div>
@@ -89,7 +89,9 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
           }}
         >
           <div className={styles.header} style={{ background: this.props.color }}>
-            <div className={styles.close + ' fe-x'} onClick={this.handleClose} />
+            <div className={styles.close} onClick={this.handleClose}>
+              <temba-icon name="close"></temba-icon>
+            </div>
             <div className={styles.header_label}>{this.props.header}</div>
           </div>
           <div className={styles.body} style={{ background: this.props.color }}>

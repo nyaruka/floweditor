@@ -154,26 +154,25 @@ export const renderUpload = (
         />
       </div>
       <div className={styles.url}>
-        <span className={styles.upload}>
+        <div className={styles.upload} style={{ display: 'flex' }}>
           <Pill
-            icon="fe-download"
+            icon="download"
             text="Download"
             large={true}
             onClick={() => {
               window.open(attachment.url, '_blank');
             }}
+            style={{ marginRight: '7px' }}
           />
-          <div className={styles.remove_upload}>
-            <Pill
-              icon="fe-x"
-              text="Remove"
-              large={true}
-              onClick={() => {
-                onAttachmentRemoved(index);
-              }}
-            />
-          </div>
-        </span>
+          <Pill
+            icon="x"
+            text="Remove"
+            large={true}
+            onClick={() => {
+              onAttachmentRemoved(index);
+            }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -234,7 +233,7 @@ export const renderAttachment = (
           </div>
           <div className={styles.remove}>
             <Pill
-              icon="fe-x"
+              icon="x"
               text=" Remove"
               large={true}
               onClick={() => {

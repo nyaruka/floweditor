@@ -12,5 +12,7 @@ declare namespace JSX {
     'temba-charcount': any;
     'temba-loading': any;
     'temba-compose': any;
+    'temba-icon': any;
+    'temba-sortable-list': any;
   }
 }

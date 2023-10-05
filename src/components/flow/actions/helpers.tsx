@@ -76,17 +76,17 @@ export const renderIssues = (issueProps: IssueProps): JSX.Element => {
 
   return (
     <div style={{ padding: '10px 0px' }}>
-      {issues.map((issue: FlowIssue, num: Number) => {
+      {issues.map((issue: FlowIssue, num: number) => {
         const key = issue.node_uuid + issue.action_uuid + num;
         return (
           <div
             style={{ margin: '6px 0px', display: 'flex', fontSize: '14px', color: 'tomato' }}
             key={key}
           >
-            <div
+            <temba-icon
               style={{ marginRight: '8px', marginTop: '-2px', fontSize: '18px' }}
-              className={`fe-warning`}
-            />
+              name="issue"
+            ></temba-icon>
             <div>{renderIssue(issue, helpArticles)}</div>
           </div>
         );
@@ -153,24 +153,36 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
       break;
     case AssetType.Group:
       assetBody = (
-        <>
-          <span className={`${shared.node_group} fe-group`} />
+        <div style={{ display: 'inline-flex' }}>
+          <temba-icon
+            style={{ marginRight: 4 }}
+            name="group"
+            className={`${shared.node_group}`}
+          ></temba-icon>
           {asset.name}
-        </>
+        </div>
       );
       break;
     case AssetType.Label:
       assetBody = (
-        <>
-          <span className={`${shared.node_label} fe-label`} />
+        <div style={{ display: 'inline-flex' }}>
+          <temba-icon
+            style={{ marginRight: 4 }}
+            name="label"
+            className={`${shared.node_group}`}
+          ></temba-icon>
           {asset.name}
-        </>
+        </div>
       );
       break;
     case AssetType.Flow:
       assetBody = (
-        <>
-          <span className={`${shared.node_label} fe-split`} />
+        <div style={{ display: 'inline-flex' }}>
+          <temba-icon
+            style={{ marginRight: 4 }}
+            name="flow"
+            className={`${shared.node_group}`}
+          ></temba-icon>
           <a
             onMouseDown={(e: any) => {
               e.preventDefault();
@@ -186,7 +198,7 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
           >
             {asset.name}
           </a>
-        </>
+        </div>
       );
       break;
     case AssetType.Ticketer:

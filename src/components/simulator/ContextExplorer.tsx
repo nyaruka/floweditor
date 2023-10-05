@@ -167,13 +167,16 @@ export default class ContextExplorer extends React.Component<
           <div className={keyStyles}>
             {name}
             <div className={styles.key_summary}>{keySummary}</div>
-            <div
-              className={styles.clipboard + ' fe-clipboard-empty'}
-              onClick={(evt: React.MouseEvent<HTMLDivElement>) => {
-                evt.stopPropagation();
-                this.handleCopyPath(name, path);
-              }}
-            ></div>
+            <span className={styles.clipboard}>
+              <temba-icon
+                name="copy"
+                size="1"
+                onClick={(evt: React.MouseEvent<HTMLDivElement>) => {
+                  evt.stopPropagation();
+                  this.handleCopyPath(name, path);
+                }}
+              ></temba-icon>
+            </span>
           </div>
           <div className={styles.str_value}>{text}</div>
         </div>
@@ -238,7 +241,7 @@ export default class ContextExplorer extends React.Component<
               this.handleToggleHide();
             }}
           >
-            <div className={this.state.showEmpty ? 'fe-eye' : 'fe-eye-crossed'}></div>
+            <temba-icon name={this.state.showEmpty ? 'show' : 'hide'}></temba-icon>
           </div>
         </div>
       </div>

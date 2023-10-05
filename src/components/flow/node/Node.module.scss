@@ -4,9 +4,11 @@
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.3) rotate(2deg);
   }
+
   100% {
     transform: scale(1);
   }
@@ -34,6 +36,7 @@
     font-size: 8px;
     font-family: monospace;
     left: 16px;
+
     &:hover {
       background: #ffffffff;
     }
@@ -85,6 +88,7 @@
     .save_result {
       background: #fff;
       padding: 10px 10px;
+
       // width: inherit;
       .result_name {
         font-weight: 500;
@@ -103,6 +107,7 @@
 
     .exit_table {
       border: 0px solid red;
+
       .exits {
         box-shadow: 0px -2px 0px -1px $borders;
         display: flex;
@@ -116,17 +121,19 @@
       right: $node_padding / 2 + px;
       bottom: $node_padding / 2 + px;
       visibility: hidden;
-      color: $blue;
+      color: #fff;
       text-decoration: none;
-      background: #fff;
-      border-radius: 5px;
+      background: $blue;
+      border-radius: 50%;
       line-height: 8px;
       font-size: 14px;
     }
+
     &:hover {
       .add {
         visibility: visible;
       }
+
       .drag_group {
         visibility: visible;
       }

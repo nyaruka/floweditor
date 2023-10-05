@@ -1,79 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CheckboxElement should render a checkbox element with title, description 1`] = `
-Array [
-  Object {
-    "checked": true,
-  },
-]
-`;
-
-exports[`CheckboxElement should render a checkbox element with title, description 2`] = `
-<label
-  className="label label"
-  onClick={[Function]}
->
-  <span
-    className="fe-check-square checkbox"
-    data-spec="checkbox"
-  />
-  <div
-    className="title"
-    data-spec="title"
-  >
-    Checkbox
-  </div>
-  <div
-    className="description"
-    data-spec="description"
-  >
-    All Destinations
-  </div>
-</label>
-`;
-
-exports[`CheckboxElement should render a checkbox element with title, description 3`] = `
-<label
-  className="label label"
-  onClick={[Function]}
->
-  <span
-    className="fe-check-square checkbox"
-    data-spec="checkbox"
-  />
-  <div
-    className="title"
-    data-spec="title"
-  />
-  <div
-    className="description_solo"
-    data-spec="description"
-  >
-    Continue when there is no response
-  </div>
-</label>
-`;
-
 exports[`CheckboxElement should render a checkbox element with title, description: unchecked 1`] = `
-<label
-  className="label label"
-  onClick={[Function]}
+<CheckboxElement
+  checkboxClassName="checkbox"
+  checked={false}
+  description="All Destinations"
+  labelClassName="label"
+  name="Checkbox"
+  onChange={[MockFunction]}
+  title="Checkbox"
 >
-  <span
-    className="fe-square checkbox"
-    data-spec="checkbox"
+  <temba-checkbox
+    help_text="All Destinations"
+    label="Checkbox"
   />
-  <div
-    className="title"
-    data-spec="title"
-  >
-    Checkbox
-  </div>
-  <div
-    className="description"
-    data-spec="description"
-  >
-    All Destinations
-  </div>
-</label>
+</CheckboxElement>
 `;

@@ -13,13 +13,17 @@ exports[`TicketRouterForm render should render 1`] = `
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Open Ticket
+            <div
+              class="title"
+            >
+              Open Ticket
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
-          <div
-            class="subtitle"
-          />
         </div>
       </div>
       <div
@@ -150,15 +154,23 @@ exports[`TicketRouterForm render should render 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>
@@ -181,13 +193,17 @@ exports[`TicketRouterForm updates should save changes 1`] = `
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Open Ticket
+            <div
+              class="title"
+            >
+              Open Ticket
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
-          <div
-            class="subtitle"
-          />
         </div>
       </div>
       <div
@@ -318,15 +334,23 @@ exports[`TicketRouterForm updates should save changes 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>

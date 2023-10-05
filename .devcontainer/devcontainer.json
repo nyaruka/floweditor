@@ -12,7 +12,13 @@
 		"--hostname=floweditor"
 	],
 	"remoteUser": "node",
-	"postCreateCommand": "sudo chown node /workspaces/floweditor && yarn install"
+	"postCreateCommand": "sudo chown node /workspaces/floweditor && yarn install",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"lfs.vscode-emacs-friendly"
+			]
+		}
+	}
 	// "features": {},
-	// "customizations": {},
 }

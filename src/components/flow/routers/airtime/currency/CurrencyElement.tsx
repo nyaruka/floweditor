@@ -91,7 +91,7 @@ export default class CurrencyElement extends React.Component<CurrencyElementProp
             this.props.onRemove(this.props.index);
           }}
         >
-          <span className="fe-x" />
+          <temba-icon name="delete_small"></temba-icon>
         </div>
       ) : null;
 

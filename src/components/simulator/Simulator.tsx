@@ -682,7 +682,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           this.sendAttachment('audio/mp3:' + AUDIO_A);
         }}
       >
-        <div className={styles.audio_icon + ' fe-mic'} />
+        <temba-icon name="attachment_audio" size="2" className={styles.audio_icon}></temba-icon>
         <div className={styles.audio_message}>Upload Audio</div>
       </div>
     );
@@ -864,12 +864,12 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
   private getAttachmentButton(icon: string, drawerType: DrawerType): JSX.Element {
     return (
-      <div
-        className={icon}
+      <temba-icon
+        name={icon}
         onClick={() => {
           this.showAttachmentDrawer(drawerType);
         }}
-      />
+      ></temba-icon>
     );
   }
 
@@ -882,11 +882,13 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           (this.state.attachmentOptionsVisible ? styles.visible : '')
         }
       >
-        <div className="fe-x" onClick={this.handleHideAttachments} />
-        {this.getAttachmentButton('fe-picture2', DrawerType.images)}
-        {this.getAttachmentButton('fe-video', DrawerType.videos)}
-        {this.getAttachmentButton('fe-mic', DrawerType.audio)}
-        {this.getAttachmentButton('fe-map-marker', DrawerType.location)}
+        <temba-icon name="close" onClick={this.handleHideAttachments}></temba-icon>
+        <div style={{ flexGrow: 1 }}></div>
+        {this.getAttachmentButton('attachment_image', DrawerType.images)}
+        {this.getAttachmentButton('attachment_video', DrawerType.videos)}
+        {this.getAttachmentButton('attachment_audio', DrawerType.audio)}
+        {this.getAttachmentButton('attachment_location', DrawerType.location)}
+        <div style={{ flexGrow: 2 }}></div>
       </div>
     );
   }
@@ -952,7 +954,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           className="simulator"
           header={i18n.t('simulator.header', 'Simulator')}
           color="#2db379"
-          icon="fe-smartphone"
+          icon="simulator"
           label={i18n.t('simulator.label', 'Simulator')}
           top="220px"
           popTop="0px"
@@ -968,7 +970,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
                 <div className={styles.screen}>
                   <div className={styles.header}>
-                    <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
+                    <div className={styles.close} onClick={this.onToggle}>
+                      <temba-icon name="close"></temba-icon>
+                    </div>
                   </div>
                   <div className={styles.messages} style={messagesStyle}>
                     {messages}
@@ -991,15 +995,15 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                       }
                     />
                     <div className={styles.show_attachments_button}>
-                      <div
-                        className="fe-paperclip"
+                      <temba-icon
+                        name="attachment"
                         onClick={() => {
                           this.setState({
                             attachmentOptionsVisible: true,
                             drawerOpen: false
                           });
                         }}
-                      />
+                      ></temba-icon>
                     </div>
                   </div>
                   {this.getAttachmentOptions()}
@@ -1015,7 +1019,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                             });
                           }}
                         >
-                          <span className="fe-at-sign"></span>
+                          <temba-icon name="expressions"></temba-icon>
                         </div>
                       </div>
                     ) : (
@@ -1028,7 +1032,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                             });
                           }}
                         >
-                          <span className="fe-x"></span>
+                          <temba-icon name="close"></temba-icon>
                         </div>
                       </div>
                     )}

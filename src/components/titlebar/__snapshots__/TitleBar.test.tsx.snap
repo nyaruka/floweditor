@@ -15,8 +15,9 @@ exports[`TitleBar render confirmation should render confirmation markup 1`] = `
           class="up_button"
           data-testid="move-icon"
         >
-          <span
-            class="fe-arrow-up"
+          <temba-icon
+            name="up"
+            size="1.2"
           />
         </div>
         <div
@@ -28,8 +29,9 @@ exports[`TitleBar render confirmation should render confirmation markup 1`] = `
           class="remove_button"
           data-testid="remove-icon"
         >
-          <span
-            class="fe-x"
+          <temba-icon
+            name="delete_small"
+            size="1.2"
           />
         </div>
       </div>
@@ -50,8 +52,9 @@ exports[`TitleBar render confirmation should render confirmation markup 1`] = `
           class="remove_button"
           data-testid="confirm-removal"
         >
-          <span
-            class="fe-x"
+          <temba-icon
+            name="delete_small"
+            size="1.2"
           />
         </div>
       </div>
@@ -75,8 +78,9 @@ exports[`TitleBar render move icon should call onMoveUp 1`] = `
           class="up_button"
           data-testid="move-icon"
         >
-          <span
-            class="fe-arrow-up"
+          <temba-icon
+            name="up"
+            size="1.2"
           />
         </div>
         <div
@@ -108,8 +112,9 @@ exports[`TitleBar render move icon should render move icon 1`] = `
         class="up_button"
         data-testid="move-icon"
       >
-        <span
-          class="fe-arrow-up"
+        <temba-icon
+          name="up"
+          size="1.2"
         />
       </div>
       <div
@@ -141,8 +146,9 @@ exports[`TitleBar render remove icon should render remove icon 1`] = `
           class="up_button"
           data-testid="move-icon"
         >
-          <span
-            class="fe-arrow-up"
+          <temba-icon
+            name="up"
+            size="1.2"
           />
         </div>
         <div
@@ -154,8 +160,9 @@ exports[`TitleBar render remove icon should render remove icon 1`] = `
           class="remove_button"
           data-testid="remove-icon"
         >
-          <span
-            class="fe-x"
+          <temba-icon
+            name="delete_small"
+            size="1.2"
           />
         </div>
       </div>

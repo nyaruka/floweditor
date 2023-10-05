@@ -7,32 +7,39 @@ exports[`ClassifyRouterForm defaults to correct result name: initial result name
       class="dialog"
     >
       <div
-        class="tabs"
-      >
-        <div
-          class="tab "
-        >
-          Classifier Input
-           
-          <span
-            class="tab_icon fe-check"
-          />
-        </div>
-      </div>
-      <div
         class="header split_by_intent"
       >
         <div
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Split by Intent
+            <div
+              class="title"
+            >
+              Split by Intent
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
           <div
-            class="subtitle"
-          />
+            class="tabs"
+          >
+            <div
+              class="tab "
+              style="display: flex;"
+            >
+              <div>
+                Classifier Input
+              </div>
+              <temba-icon
+                name="check"
+                style="margin-left: 8px;"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -110,9 +117,10 @@ exports[`ClassifyRouterForm defaults to correct result name: initial result name
                   class="kase has_top_intent"
                   data-draggable="true"
                 >
-                  <span
-                    class="fe-chevrons-expand dnd_icon"
+                  <temba-icon
+                    class="dnd_icon"
                     data-draggable="true"
+                    name="sort"
                   />
                   <div
                     class="choice"
@@ -205,10 +213,14 @@ exports[`ClassifyRouterForm defaults to correct result name: initial result name
                       </div>
                     </div>
                   </div>
-                  <span
-                    class="fe-x remove_icon"
-                    data-testid="remove-case-42ebf1d0-a43e-4ba6-9577-c863b20c88c4"
-                  />
+                  <div
+                    class="remove_icon"
+                  >
+                    <temba-icon
+                      data-testid="remove-case-42ebf1d0-a43e-4ba6-9577-c863b20c88c4"
+                      name="delete_small"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -254,15 +266,23 @@ exports[`ClassifyRouterForm defaults to correct result name: initial result name
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>
@@ -279,32 +299,39 @@ exports[`ClassifyRouterForm should render: default render 1`] = `
       class="dialog"
     >
       <div
-        class="tabs"
-      >
-        <div
-          class="tab "
-        >
-          Classifier Input
-           
-          <span
-            class="tab_icon fe-check"
-          />
-        </div>
-      </div>
-      <div
         class="header split_by_intent"
       >
         <div
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Split by Intent
+            <div
+              class="title"
+            >
+              Split by Intent
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
           <div
-            class="subtitle"
-          />
+            class="tabs"
+          >
+            <div
+              class="tab "
+              style="display: flex;"
+            >
+              <div>
+                Classifier Input
+              </div>
+              <temba-icon
+                name="check"
+                style="margin-left: 8px;"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -382,9 +409,10 @@ exports[`ClassifyRouterForm should render: default render 1`] = `
                   class="kase has_top_intent"
                   data-draggable="true"
                 >
-                  <span
-                    class="fe-chevrons-expand dnd_icon"
+                  <temba-icon
+                    class="dnd_icon"
                     data-draggable="true"
+                    name="sort"
                   />
                   <div
                     class="choice"
@@ -477,10 +505,14 @@ exports[`ClassifyRouterForm should render: default render 1`] = `
                       </div>
                     </div>
                   </div>
-                  <span
-                    class="fe-x remove_icon"
-                    data-testid="remove-case-2dc85899-0577-4f1b-a620-f12094e34b5e"
-                  />
+                  <div
+                    class="remove_icon"
+                  >
+                    <temba-icon
+                      data-testid="remove-case-2dc85899-0577-4f1b-a620-f12094e34b5e"
+                      name="delete_small"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -526,15 +558,23 @@ exports[`ClassifyRouterForm should render: default render 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>
@@ -551,32 +591,39 @@ exports[`ClassifyRouterForm updates the result name: updated result name 1`] = `
       class="dialog"
     >
       <div
-        class="tabs"
-      >
-        <div
-          class="tab "
-        >
-          Classifier Input
-           
-          <span
-            class="tab_icon fe-check"
-          />
-        </div>
-      </div>
-      <div
         class="header split_by_intent"
       >
         <div
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Split by Intent
+            <div
+              class="title"
+            >
+              Split by Intent
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
           <div
-            class="subtitle"
-          />
+            class="tabs"
+          >
+            <div
+              class="tab "
+              style="display: flex;"
+            >
+              <div>
+                Classifier Input
+              </div>
+              <temba-icon
+                name="check"
+                style="margin-left: 8px;"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -654,9 +701,10 @@ exports[`ClassifyRouterForm updates the result name: updated result name 1`] = `
                   class="kase has_top_intent"
                   data-draggable="true"
                 >
-                  <span
-                    class="fe-chevrons-expand dnd_icon"
+                  <temba-icon
+                    class="dnd_icon"
                     data-draggable="true"
+                    name="sort"
                   />
                   <div
                     class="choice"
@@ -749,10 +797,14 @@ exports[`ClassifyRouterForm updates the result name: updated result name 1`] = `
                       </div>
                     </div>
                   </div>
-                  <span
-                    class="fe-x remove_icon"
-                    data-testid="remove-case-70ac6ea6-803a-4c33-81c7-dc26803c313f"
-                  />
+                  <div
+                    class="remove_icon"
+                  >
+                    <temba-icon
+                      data-testid="remove-case-70ac6ea6-803a-4c33-81c7-dc26803c313f"
+                      name="delete_small"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -798,15 +850,23 @@ exports[`ClassifyRouterForm updates the result name: updated result name 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>
