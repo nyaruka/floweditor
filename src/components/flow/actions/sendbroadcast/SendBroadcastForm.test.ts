@@ -69,7 +69,7 @@ describe(SendBroadcastForm.name, () => {
       const { instance, props } = setup(true, {
         $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
       });
-      const compose = JSON.stringify({ text: 'Some message', attachments: [] });
+      const compose = JSON.stringify({ und: { text: 'Some message', attachments: [] } });
       instance.handleComposeChanged(compose);
       expect(instance.state).toMatchSnapshot();
     });
@@ -78,7 +78,7 @@ describe(SendBroadcastForm.name, () => {
       const { instance, props } = setup(true, {
         $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
       });
-      const compose = JSON.stringify({ text: getInvalidText(), attachments: [] });
+      const compose = JSON.stringify({ und: { text: getInvalidText(), attachments: [] } });
       instance.handleComposeChanged(compose);
       expect(instance.state.compose.validationFailures[0].message).toContain(
         'Maximum allowed text is 640 characters'
@@ -92,7 +92,7 @@ describe(SendBroadcastForm.name, () => {
       });
       const text = 'Some message with an attachment';
       const attachments = getTestAttachments();
-      const compose = JSON.stringify({ text: text, attachments: attachments });
+      const compose = JSON.stringify({ und: { text: text, attachments: attachments } });
       instance.handleComposeChanged(compose);
       expect(instance.state).toMatchSnapshot();
     });
@@ -103,7 +103,7 @@ describe(SendBroadcastForm.name, () => {
       });
       const text = 'Some message with an attachment';
       const attachments = getTestAttachments(11);
-      const compose = JSON.stringify({ text: text, attachments: attachments });
+      const compose = JSON.stringify({ und: { text: text, attachments: attachments } });
       instance.handleComposeChanged(compose);
       expect(instance.state.compose.validationFailures[0].message).toContain(
         'Maximum allowed attachments is 3 files'
@@ -120,7 +120,7 @@ describe(SendBroadcastForm.name, () => {
       instance.handleRecipientsChanged([{ id: 'group-0', name: 'My Group' }]);
       const text = 'Some message with an attachment';
       const attachments = getTestAttachments(1);
-      const compose = JSON.stringify({ text: text, attachments: attachments });
+      const compose = JSON.stringify({ und: { text: text, attachments: attachments } });
       instance.handleComposeChanged(compose);
       instance.handleSave();
 
