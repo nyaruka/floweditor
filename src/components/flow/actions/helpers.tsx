@@ -267,5 +267,6 @@ export const getRecipientsByAsset = (assets: Asset[], type: AssetType): any[] =>
 };
 
 export const getComposeByAsset = (value: string, asset: string): any | any[] => {
-  return JSON.parse(value)[asset];
+  const compose = JSON.parse(value);
+  return compose['und'][asset];
 };

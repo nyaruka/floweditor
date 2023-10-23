@@ -46,9 +46,11 @@ export default class ComposeElement extends React.Component<ComposeProps> {
   }
 
   public handleChange(event: any): void {
-    if (this.props.onChange) {
-      this.props.onChange(event.target.value);
-    }
+    window.setTimeout(() => {
+      if (this.props.onChange) {
+        this.props.onChange(event.target.value);
+      }
+    }, 0);
   }
 
   public render(): JSX.Element {

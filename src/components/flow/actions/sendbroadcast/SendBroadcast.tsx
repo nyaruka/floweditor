@@ -36,7 +36,10 @@ const SendBroadcastComp: React.SFC<BroadcastMsg> = (
             <div className="placeholder">{PLACEHOLDER}</div>
           )}
           {action.attachments && action.attachments.length > 0 ? (
-            <div className={`${styles.attachment} fe-paperclip`} />
+            <temba-icon
+              name="attachment"
+              style={{ marginTop: '0.4em', display: 'block' }}
+            ></temba-icon>
           ) : null}
         </div>
       </div>
