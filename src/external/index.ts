@@ -393,7 +393,7 @@ export const getFlowDetails = (revisions: Assets, id: string = null): Promise<Fl
       }
 
       if (revisionToLoad) {
-        const url = `${revisions.endpoint}${revisionToLoad}?version=${SPEC_VERSION}`;
+        const url = `${revisions.endpoint}${revisionToLoad}/?version=${SPEC_VERSION}`;
         axios
           .get(url)
           .then((response: AxiosResponse) => {
