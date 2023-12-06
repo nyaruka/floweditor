@@ -13,6 +13,7 @@ import AppState from 'store/state';
 import {
   AddAsset,
   addAsset,
+  addNodeEditingState,
   DispatchWithState,
   GetState,
   HandleTypeConfigChange,
@@ -57,6 +58,7 @@ export interface NodeEditorStoreProps {
   onUpdateAction: OnUpdateAction;
   onUpdateRouter: OnUpdateRouter;
   updateUserAddingAction: UpdateUserAddingAction;
+  addNodeEditingState: any;
 }
 
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
@@ -76,6 +78,7 @@ export interface FormProps {
   typeConfig?: Type;
   onTypeChange?(config: Type): void;
   onClose?(canceled: boolean): void;
+  resetNodeEditing: any;
 }
 
 /* export interface LocalizationProps {
@@ -128,6 +131,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     this.props.onUpdateAction(action, onUpdated);
   }
 
+  private handleResetNodeEditing(): void {
+    this.props.addNodeEditingState();
+  }
+
   private updateRouter(renderNode: RenderNode): void {
     this.props.onUpdateRouter(renderNode);
   }
@@ -171,6 +178,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         assetStore: this.props.assetStore,
         addAsset: this.handleAddAsset,
         updateAction: this.updateAction,
+        resetNodeEditing: this.handleResetNodeEditing,
         updateRouter: this.updateRouter,
         nodeSettings: this.props.settings,
         helpArticles: this.props.helpArticles,
@@ -218,6 +226,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
   bindActionCreators(
     {
       addAsset,
+      addNodeEditingState,
       resetNodeEditingState,
       mergeEditorState,
       handleTypeConfigChange,

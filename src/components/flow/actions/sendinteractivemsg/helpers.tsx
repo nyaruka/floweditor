@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { getActionUUID } from 'components/flow/actions/helpers';
-import { Types } from 'config/interfaces';
+import { Operators, Types } from 'config/interfaces';
 import * as React from 'react';
 import { Label, SendInteractiveMsg } from 'flowTypes';
 import { NodeEditorSettings } from 'store/nodeEditor';
@@ -8,6 +8,8 @@ import styles from './SendInteractiveMsg.module.scss';
 import { ReactComponent as ButtonIcon } from './icons/button.svg';
 
 import { SendInteractiveMsgFormState } from './SendInteractiveMsgForm';
+import { createUUID } from 'utils';
+import { stateToNode } from 'components/flow/routers/response/helpers';
 
 export const initializeForm = (settings: NodeEditorSettings): SendInteractiveMsgFormState => {
   if (settings.originalAction && settings.originalAction.type === Types.send_interactive_msg) {
@@ -124,6 +126,77 @@ export const stateToAction = (
   }
 
   return result;
+};
+
+export const stateToRouter = (
+  settings: NodeEditorSettings,
+  state: SendInteractiveMsgFormState
+): any => {
+  let cases = [];
+
+  const content = state.interactives.value.interactive_content;
+  let options = [''];
+  if (content) {
+    if (content.type === 'quick_reply')
+      content.options.forEach((option: any) => {
+        options.push(option.title);
+      });
+
+    if (content.type === 'list') {
+      content.items.forEach((item: any) => {
+        item.options.forEach((option: any) => {
+          options.push(option.title);
+        });
+      });
+    }
+    if (content.type === 'location_request_message') {
+      const uuid = createUUID();
+      const values: any = {
+        uuid,
+        categoryName: `Has location`,
+        kase: {
+          arguments: [],
+          type: Operators.has_location,
+          uuid,
+          category_uuid: null
+        },
+        valid: true
+      };
+      cases.push(values);
+    }
+  }
+
+  const generateCases = options.map((option: string) => {
+    const uuid = createUUID();
+    const values: any = {
+      uuid,
+      categoryName: `${option.charAt(0).toUpperCase()}${option.slice(1)}`,
+      kase: {
+        arguments: [option],
+        type: Operators.has_any_word,
+        uuid,
+        category_uuid: null
+      },
+      valid: true
+    };
+    return values;
+  });
+
+  cases = cases.concat(generateCases);
+
+  let result: any = {
+    cases,
+    resultName: {
+      value: ''
+    },
+    timeout: -1,
+    expression: '',
+    valid: true
+  };
+
+  const final = stateToNode(settings, result);
+
+  return final;
 };
 
 export const getHeader = (message: any) => {

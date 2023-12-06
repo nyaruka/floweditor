@@ -6,9 +6,10 @@ import { hasErrors } from 'components/flow/actions/helpers';
 import {
   getMsgBody,
   initializeForm as stateToForm,
-  stateToAction
+  stateToAction,
+  stateToRouter
 } from 'components/flow/actions/sendinteractivemsg/helpers';
-import { ActionFormProps } from 'components/flow/props';
+import { ActionFormProps, RouterFormProps } from 'components/flow/props';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
@@ -25,6 +26,7 @@ import { getAsset } from 'external';
 import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 import mutate from 'immutability-helper';
 import CheckboxElement from 'components/form/checkbox/CheckboxElement';
+import { FormProps } from 'components/nodeeditor/NodeEditor';
 
 // const MAX_ATTACHMENTS = 10;
 export interface SendInteractiveMsgFormState extends FormState {
@@ -44,10 +46,10 @@ const additionalOption = {
 };
 
 export default class SendMsgForm extends React.Component<
-  ActionFormProps,
+  ActionFormProps & RouterFormProps & FormProps,
   SendInteractiveMsgFormState
 > {
-  constructor(props: ActionFormProps) {
+  constructor(props: ActionFormProps & RouterFormProps & FormProps) {
     super(props);
     this.state = stateToForm(this.props.nodeSettings);
     bindCallbacks(this, {
@@ -141,7 +143,12 @@ export default class SendMsgForm extends React.Component<
 
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
+      if (this.props.nodeSettings.originalNode.ghost) {
+        this.props.resetNodeEditing();
+        this.props.updateRouter(stateToRouter(this.props.nodeSettings, this.state));
+      }
       // notify our modal we are done
+
       this.props.onClose(false);
     } else {
       this.setState({ valid });
