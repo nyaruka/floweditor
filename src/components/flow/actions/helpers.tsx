@@ -111,7 +111,7 @@ export const getCompose = (action: BroadcastMsg = null): string => {
     return getEmptyComposeValue();
   }
   if (!action.compose) {
-    return JSON.stringify({ text: action.text, attachments: [] });
+    return JSON.stringify({ und: { text: action.text, attachments: [] } });
   }
   return action.compose;
 };
