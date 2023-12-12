@@ -277,11 +277,11 @@
   </body>
 
   <script>
-    var base = '/.netlify/functions/';
+     var base = 'http://localhost:4000/flow-editor/';
 
-    const frontendUrl = window.location.origin;
+const frontendUrl = window.location.origin;
 
-    var uuid = 'a4f64f1b-85bc-477e-b706-de313a022979';
+var uuid = '3fa22108-f464-41e5-81d9-d8a298854429';
     var config = {
       flow: uuid,
       flowType: 'messaging',
@@ -351,7 +351,7 @@
         users: base + 'users',
         flows: base + 'flows',
         sheets: base + 'sheets',
-        revisions: base + 'revisions',
+        revisions: base + 'revisions/' + uuid,
         recents: base + 'recents/',
         languages: base + 'languages',
         environment: base + 'environment',
@@ -362,7 +362,7 @@
         attachments: base + 'flow-attachment',
         activity: base + 'activity',
         validateMedia: base + 'validate-media',
-        interactives: base + 'interactives',
+        interactives: base + 'interactive-templates',
         contact: frontendUrl + '/chat/',
         editor: '/',
         simulateStart: null,

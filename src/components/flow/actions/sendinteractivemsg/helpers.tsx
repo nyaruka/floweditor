@@ -177,6 +177,13 @@ export const getMsgBody = (message: any) => {
           ))}
         </div>
       );
+    } else if (message.type === 'location_request_message') {
+      body = (
+        <div>
+          <span className="fe-map-marker" />
+          {message.body.text}
+        </div>
+      );
     }
   }
   return body;
