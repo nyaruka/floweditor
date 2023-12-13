@@ -58,7 +58,7 @@ export interface NodeEditorStoreProps {
   onUpdateAction: OnUpdateAction;
   onUpdateRouter: OnUpdateRouter;
   updateUserAddingAction: UpdateUserAddingAction;
-  addNodeEditingState: any;
+  addNodeEditingState: NoParamsAC;
 }
 
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
