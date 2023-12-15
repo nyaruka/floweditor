@@ -33,8 +33,10 @@ import {
   CharactersLessThan,
   MaxOfTenItems,
   Required,
+  ValidField,
   shouldRequireIf,
-  validate
+  validate,
+  validateIf
 } from 'store/validators';
 import { range } from 'utils';
 
@@ -106,15 +108,32 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       text?: string;
       sendAll?: boolean;
       quickReplies?: string[];
+      template?: FormEntry;
     },
     submitting = false
   ): boolean {
     const updates: Partial<SendMsgFormState> = {};
     if (keys.hasOwnProperty('text')) {
       updates.message = validate(i18n.t('forms.message', 'Message'), keys.text, [
-        shouldRequireIf(submitting),
+        validateIf(ValidField(this.props.assetStore), submitting),
+        shouldRequireIf(
+          submitting && !this.state.template.value && this.state.attachments.length === 0
+        ),
         CharactersLessThan(4096, '4096 characters')
       ]);
+    }
+
+    if (keys.hasOwnProperty('template')) {
+      if (
+        keys.template.value &&
+        ['image', 'video', 'document'].includes(keys.template.value.type) &&
+        this.state.attachments.length === 0
+      ) {
+        updates.template = {
+          ...keys.template,
+          validationFailures: [{ message: 'Attachment is required for media template' }]
+        };
+      }
     }
 
     if (keys.hasOwnProperty('sendAll')) {
@@ -140,6 +159,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
   public handleMessageUpdate(message: string, name: string, submitting = false): boolean {
     return this.handleUpdate({ text: message }, submitting);
+  }
+
+  public handleTemplateUpdate(template: FormEntry, submitting = false): boolean {
+    return this.handleUpdate({ template }, submitting);
   }
 
   public handleQuickRepliesUpdate(quickReplies: string[]): boolean {
@@ -170,16 +193,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       valid = valid && !hasErrors(updated);
     });
 
-    if (valid && template.value && !this.state.message.value) {
-      valid = true;
-    }
+    valid = valid && this.handleMessageUpdate(this.state.message.value, 'message', true);
 
-    if (!template.value) {
-      // message box can be empty if the attachments are present
-      valid =
-        (valid && this.handleMessageUpdate(this.state.message.value, null, true)) ||
-        this.state.attachments.length > 0;
-    }
+    valid = valid && this.handleTemplateUpdate(template, true);
 
     valid = valid && !hasErrors(this.state.quickReplyEntry);
 
@@ -378,15 +394,15 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleAttachmentUploading(isUploading: boolean) {
-    const uploadError: string = '';
+    const uploadError = '';
     console.log(uploadError);
     this.setState({ uploadError });
 
     if (isUploading) {
-      const uploadInProgress: boolean = true;
+      const uploadInProgress = true;
       this.setState({ uploadInProgress });
     } else {
-      const uploadInProgress: boolean = false;
+      const uploadInProgress = false;
       this.setState({ uploadInProgress });
     }
   }
@@ -402,18 +418,18 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       });
       this.setState({ attachments });
 
-      const uploadError: string = '';
+      const uploadError = '';
 
       this.setState({ uploadError });
     }
 
-    const uploadInProgress: boolean = false;
+    const uploadInProgress = false;
     this.setState({ uploadInProgress });
   }
 
   private handleAttachmentUploadFailed(error: AxiosError) {
     //nginx returns a 300+ if there's an error
-    let uploadError: string = '';
+    let uploadError = '';
     const status = error.response.status;
     if (status >= 500) {
       uploadError = i18n.t('file_upload_failed_generic', 'File upload failed, please try again');
@@ -424,7 +440,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
     this.setState({ uploadError });
 
-    const uploadInProgress: boolean = false;
+    const uploadInProgress = false;
     this.setState({ uploadInProgress });
   }
 
@@ -513,7 +529,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         name: 'WhatsApp',
         body: this.renderTemplateConfig(),
         checked: this.state.template.value != null,
-        hasErrors: !!this.state.templateVariables.find((entry: StringEntry) => hasErrors(entry))
+        hasErrors:
+          !!this.state.templateVariables.find((entry: StringEntry) => hasErrors(entry)) ||
+          hasErrors(this.state.template)
       };
       tabs.splice(0, 0, templates);
     }

@@ -1,5 +1,5 @@
 import * as headerUtils from 'http-headers-validation';
-import { Asset } from 'store/flowContext';
+import { Asset, AssetStore } from 'store/flowContext';
 import { FormEntry, ValidationFailure } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
 import i18n from 'config/i18n';
@@ -303,6 +303,45 @@ export const IsValidIntent = (classifier: Asset): ValidatorFunc => (
       }
     }
     return { failures: [], value: input };
+  }
+  return { failures: [], value: input };
+};
+
+function isFormatCorrect(text: string, contactFields: string[], resultFields: string[]): any {
+  // Regular expression to find all occurrences of @contact and @result fields in the text
+  const pattern = /@contact\.fields\.([a-zA-Z_]+)|@results\.([a-zA-Z_]+)/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(text)) !== null) {
+    console.log(match);
+    // Check if the match is a contact field and if it is in the contactFields array
+    if (match[1] && !contactFields.includes(match[1])) {
+      return { valid: false, value: match[1], type: 'contact' };
+    }
+
+    // Check if the match is a result field and if it is in the resultFields array
+    if (match[2] && !resultFields.includes(match[2])) {
+      return { valid: false, value: match[2], type: 'results' };
+    }
+  }
+
+  return { valid: true };
+}
+
+export const ValidField = (store: AssetStore): ValidatorFunc => (
+  name: string,
+  input: FormInput
+) => {
+  const contactFields = Object.keys(store.fields.items);
+  const resultFields = Object.keys(store.results.items);
+  resultFields.push(...['parent', 'child']);
+  const correct = isFormatCorrect(input.toString(), contactFields, resultFields);
+
+  if (!correct.valid) {
+    return {
+      value: input,
+      failures: [{ message: `${correct.value} is not a valid ${correct.type} field variable` }]
+    };
   }
   return { failures: [], value: input };
 };
