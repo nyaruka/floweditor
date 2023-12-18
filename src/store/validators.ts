@@ -313,7 +313,6 @@ function isFormatCorrect(text: string, contactFields: string[], resultFields: st
   let match: RegExpExecArray | null;
 
   while ((match = pattern.exec(text)) !== null) {
-    console.log(match);
     // Check if the match is a contact field and if it is in the contactFields array
     if (match[1] && !contactFields.includes(match[1])) {
       return { valid: false, value: match[1], type: 'contact' };
@@ -335,12 +334,16 @@ export const ValidField = (store: AssetStore): ValidatorFunc => (
   const contactFields = Object.keys(store.fields.items);
   const resultFields = Object.keys(store.results.items);
   resultFields.push(...['parent', 'child']);
-  const correct = isFormatCorrect(input.toString(), contactFields, resultFields);
+  const format = isFormatCorrect(input.toString(), contactFields, resultFields);
 
-  if (!correct.valid) {
+  if (!format.valid) {
     return {
       value: input,
-      failures: [{ message: `${correct.value} is not a valid ${correct.type} field variable` }]
+      failures: [
+        {
+          message: `${format.value} is not a valid ${format.type} field variable`
+        }
+      ]
     };
   }
   return { failures: [], value: input };
