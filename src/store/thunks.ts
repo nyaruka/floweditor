@@ -708,6 +708,36 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
   dispatch(updateNodeEditorSettings(null));
 };
 
+export const addNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {
+  const {
+    flowContext: { nodes },
+    nodeEditor: {
+      settings: { originalNode, originalAction, localizations }
+    }
+  } = getState();
+
+  // check for exit value as well
+  const node = Object.keys(nodes).find(
+    node =>
+      Object.keys(nodes[node].inboundConnections)[0] ===
+      Object.keys(originalNode.inboundConnections)[0]
+  );
+
+  const exit = nodes[node].node.exits[0].uuid;
+
+  const fakeNode = { ...originalNode };
+  fakeNode.inboundConnections = {};
+  fakeNode.inboundConnections[exit] = nodes[node].node.uuid;
+  fakeNode.ui = {
+    position: {
+      left: originalNode.ui.position.left + 250,
+      top: originalNode.ui.position.top + 150
+    }
+  };
+
+  dispatch(updateNodeEditorSettings({ originalNode: fakeNode, originalAction, localizations }));
+};
+
 export const onUpdateAction = (
   action: AnyAction,
   onUpdated?: (dispatch: DispatchWithState, getState: GetState) => void
