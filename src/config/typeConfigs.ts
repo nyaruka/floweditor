@@ -164,12 +164,12 @@ export const SCHEMES: Scheme[] = [
   {
     scheme: 'vk',
     name: i18n.t('schemes.vk.name', 'VK'),
-    path: i18n.t('schemes.vk.path', 'VK ID'),
+    path: i18n.t('schemes.vk.path', 'VK ID')
   },
   {
     scheme: 'discord',
     name: i18n.t('schemes.discord.name', 'Discord'),
-    path: i18n.t('schemes.discord.path', 'Discord ID'),
+    path: i18n.t('schemes.discord.path', 'Discord ID')
   },
   {
     scheme: 'webchat',
@@ -180,7 +180,7 @@ export const SCHEMES: Scheme[] = [
   {
     scheme: 'rocketchat',
     name: i18n.t('schemes.rocketchat.name', 'RocketChat'),
-    path: i18n.t('schemes.rocketchat.path', 'RocketChat ID'),
+    path: i18n.t('schemes.rocketchat.path', 'RocketChat ID')
   },
   {
     scheme: 'ext',
@@ -406,8 +406,7 @@ export const typeConfigList: Type[] = [
     localizeableKeys: ['exits'],
     component: OpenTicketComp,
     aliases: [Types.split_by_ticket],
-    visibility: VISIBILITY_ONLINE,
-    filter: FeatureFilter.HAS_TICKETER
+    visibility: VISIBILITY_ONLINE
   },
   {
     type: Types.transfer_airtime,

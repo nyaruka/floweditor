@@ -15,7 +15,7 @@ const config: FlowEditorConfig = {
   showDownload: true,
   flowType: FlowTypes.MESSAGING,
   mutable: true,
-  filters: ['whatsapp', 'airtime', 'resthook', 'classifier', 'ticketer'],
+  filters: ['whatsapp', 'airtime', 'resthook', 'classifier'],
   help: {},
   brand: 'RapidPro',
   endpoints: {
@@ -32,7 +32,6 @@ const config: FlowEditorConfig = {
     environment: '/assets/environment.json',
     revisions: '/assets/revisions.json',
     classifiers: '/assets/classifiers.json',
-    ticketers: '/assets/ticketers.json',
     attachments: '/assets/attachments.json',
     recents: '/assets/recents.json',
     templates: '/assets/templates.json',

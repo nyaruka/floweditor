@@ -69,7 +69,6 @@ export interface EventProps {
   urns?: string[];
   service?: string;
   classifier?: { uuid: string; name: string };
-  ticketer?: { uuid: string; name: string };
   ticket?: { topic: Topic; body: string };
   hint?: Hint;
   timeout_seconds?: number;

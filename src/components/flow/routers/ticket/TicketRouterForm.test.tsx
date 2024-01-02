@@ -33,7 +33,7 @@ describe(TicketRouterForm.name, () => {
       const okButton = getByText('Ok');
       const resultName = getByTestId('Result Name');
 
-      // our ticketer, body and result name are required
+      // our body and result name are required
       fireChangeText(resultName, '');
       fireEvent.click(okButton);
       expect(ticketForm.updateRouter).not.toBeCalled();

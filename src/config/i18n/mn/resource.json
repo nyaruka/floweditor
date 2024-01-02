@@ -140,8 +140,7 @@
     "placeholder_plural": "Одоо байгаа [[name]]-г сонгох эсвэл шинээр оруулна уу"
   },
   "assets": {
-    "classifier": "[[name]] ангилагч руу дуудлага хийх",
-    "ticketer": "[[name]] дээр шинэ тасалбар нээх"
+    "classifier": "[[name]] ангилагч руу дуудлага хийх"
   },
   "body": "Их бие",
   "buttons": {
@@ -306,7 +305,6 @@
     "template": "загвар",
     "the_maximum": "хамгийн их",
     "the_minimum": "хамгийн бага",
-    "ticketer": "Тасалбар түгээгч",
     "timeout": "Завсарлага",
     "timeout_1 day": "1 өдөр",
     "timeout_1 hour": "1 цаг",

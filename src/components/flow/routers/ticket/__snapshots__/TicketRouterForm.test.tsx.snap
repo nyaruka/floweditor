@@ -43,12 +43,11 @@ exports[`TicketRouterForm render should render 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"open_ticket\\",\\"name\\":\\"Open Ticket\\",\\"description\\":\\"Open a ticket with a human agent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_ticket\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"],\\"filter\\":\\"ticketer\\"}]"
+                values="[{\\"type\\":\\"open_ticket\\",\\"name\\":\\"Open Ticket\\",\\"description\\":\\"Open a ticket with a human agent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_ticket\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
               />
             </div>
           </div>
         </div>
-        
         <div
           style="display: flex; width: 100%; margin-top: 0.5em;"
         >
@@ -211,12 +210,11 @@ exports[`TicketRouterForm updates should save changes 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"open_ticket\\",\\"name\\":\\"Open Ticket\\",\\"description\\":\\"Open a ticket with a human agent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_ticket\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"],\\"filter\\":\\"ticketer\\"}]"
+                values="[{\\"type\\":\\"open_ticket\\",\\"name\\":\\"Open Ticket\\",\\"description\\":\\"Open a ticket with a human agent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_ticket\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
               />
             </div>
           </div>
         </div>
-        
         <div
           style="display: flex; width: 100%; margin-top: 0.5em;"
         >
@@ -354,10 +352,6 @@ Array [
           },
           "body": "Where are my cookies",
           "result_name": "My Ticket Result",
-          "ticketer": Object {
-            "name": "Email (bob@acme.com)",
-            "uuid": "1165a73a-2ee0-4891-895e-768645194862",
-          },
           "topic": Object {
             "value": Object {
               "name": "General",

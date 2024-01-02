@@ -17,13 +17,7 @@ export const getOriginalAction = (settings: NodeEditorSettings): OpenTicket => {
   }
 };
 
-export const nodeToState = (
-  settings: NodeEditorSettings,
-  initialTicketer: any
-): TicketRouterFormState => {
-  let ticketer: FormEntry = initialTicketer
-    ? { value: { uuid: initialTicketer.id, name: initialTicketer.name } }
-    : { value: null };
+export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState => {
   let subject = { value: '@run.flow.name' };
   let body = { value: '@results' };
   let resultName = { value: 'Result' };
@@ -32,7 +26,6 @@ export const nodeToState = (
 
   if (getType(settings.originalNode) === Types.split_by_ticket) {
     const action = getOriginalAction(settings) as OpenTicket;
-    ticketer = { value: action.ticketer };
     subject = { value: action.subject };
     body = { value: action.body };
     topic = { value: action.topic };
@@ -43,7 +36,6 @@ export const nodeToState = (
   const state: TicketRouterFormState = {
     assignee,
     topic,
-    ticketer,
     subject,
     body,
     resultName,
@@ -66,10 +58,6 @@ export const stateToNode = (
   const newAction: OpenTicket = {
     uuid,
     type: Types.open_ticket,
-    ticketer: {
-      uuid: state.ticketer.value.uuid,
-      name: state.ticketer.value.name
-    },
     body: state.body.value,
     topic: state.topic.value,
     assignee: state.assignee.value,

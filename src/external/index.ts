@@ -338,11 +338,6 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         type: AssetType.Template,
         items: {}
       },
-      ticketers: {
-        endpoint: getURL(endpoints.ticketers),
-        type: AssetType.Ticketer,
-        items: {}
-      },
       currencies: {
         type: AssetType.Currency,
         id: 'id',
@@ -353,7 +348,7 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
 
     // prefetch some of our assets
     const fetches: any[] = [];
-    ['languages', 'fields', 'groups', 'labels', 'globals', 'classifiers', 'ticketers'].forEach(
+    ['languages', 'fields', 'groups', 'labels', 'globals', 'classifiers'].forEach(
       (storeId: string) => {
         const store = assetStore[storeId];
         fetches.push(
