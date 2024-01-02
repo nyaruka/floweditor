@@ -18,54 +18,6 @@ exports[`WebhookRouterForm should render 1`] = `
   tabs={
     Array [
       Object {
-        "body": <React.Fragment>
-          <p
-            className="info"
-          >
-            <Trans
-              i18nKey="forms.webhook_header_summary"
-            >
-              Add any additional headers below that you would like to send along with your request.
-            </Trans>
-          </p>
-          <div>
-            <HeaderElement
-              entry={
-                Object {
-                  "value": Object {
-                    "name": "Accept",
-                    "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
-                    "value": "application/json",
-                  },
-                }
-              }
-              index={0}
-              onChange={[Function]}
-              onRemove={[Function]}
-            />
-          </div>
-          <div>
-            <HeaderElement
-              entry={
-                Object {
-                  "value": Object {
-                    "name": "",
-                    "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
-                    "value": "",
-                  },
-                }
-              }
-              index={1}
-              onChange={[Function]}
-              onRemove={[Function]}
-            />
-          </div>
-        </React.Fragment>,
-        "checked": true,
-        "hasErrors": false,
-        "name": "HTTP Headers",
-      },
-      Object {
         "body": <div
           className="body_form"
         >
@@ -112,6 +64,54 @@ exports[`WebhookRouterForm should render 1`] = `
         </div>,
         "checked": false,
         "name": "GET Body",
+      },
+      Object {
+        "body": <React.Fragment>
+          <p
+            className="info"
+          >
+            <Trans
+              i18nKey="forms.webhook_header_summary"
+            >
+              Add any additional headers below that you would like to send along with your request.
+            </Trans>
+          </p>
+          <div>
+            <HeaderElement
+              entry={
+                Object {
+                  "value": Object {
+                    "name": "Accept",
+                    "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+                    "value": "application/json",
+                  },
+                }
+              }
+              index={0}
+              onChange={[Function]}
+              onRemove={[Function]}
+            />
+          </div>
+          <div>
+            <HeaderElement
+              entry={
+                Object {
+                  "value": Object {
+                    "name": "",
+                    "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+                    "value": "",
+                  },
+                }
+              }
+              index={1}
+              onChange={[Function]}
+              onRemove={[Function]}
+            />
+          </div>
+        </React.Fragment>,
+        "checked": true,
+        "hasErrors": false,
+        "name": "HTTP Headers",
       },
     ]
   }
@@ -372,38 +372,47 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
       class="dialog"
     >
       <div
-        class="tabs"
-      >
-        <div
-          class="tab "
-        >
-          HTTP Headers
-           
-          <span
-            class="tab_icon fe-check"
-          />
-        </div>
-        <div
-          class="tab "
-        >
-          GET Body
-           
-        </div>
-      </div>
-      <div
         class="header call_webhook"
       >
         <div
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Call Webhook
+            <div
+              class="title"
+            >
+              Call Webhook
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
           <div
-            class="subtitle"
-          />
+            class="tabs"
+          >
+            <div
+              class="tab "
+              style="display: flex;"
+            >
+              <div>
+                GET Body
+              </div>
+            </div>
+            <div
+              class="tab "
+              style="display: flex;"
+            >
+              <div>
+                HTTP Headers
+              </div>
+              <temba-icon
+                name="check"
+                style="margin-left: 8px;"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -542,15 +551,23 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>

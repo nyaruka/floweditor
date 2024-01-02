@@ -63,6 +63,8 @@ import i18n from 'config/i18n';
 import SchemeRouterForm from 'components/flow/routers/scheme/SchemeRouterForm';
 import TicketRouterForm from 'components/flow/routers/ticket/TicketRouterForm';
 import OpenTicketComp from 'components/flow/actions/openticket/OpenTicket';
+import RequestOptInForm from 'components/flow/actions/requestoptin/RequestOptInForm';
+import RequestOptInComp from 'components/flow/actions/requestoptin/RequestOptIn';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -513,6 +515,14 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     form: SchemeRouterForm
+  },
+  {
+    type: Types.request_optin,
+    name: i18n.t('actions.request_optin.name', 'Request Opt-In'),
+    description: i18n.t('actions.request_optin.description', 'Send an opt-in request'),
+    form: RequestOptInForm,
+    component: RequestOptInComp,
+    filter: FeatureFilter.HAS_OPTINS
   }
   // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];

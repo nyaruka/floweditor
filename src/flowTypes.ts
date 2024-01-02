@@ -34,6 +34,7 @@ export interface Endpoints {
   revisions: string;
   activity: string;
   labels: string;
+  optins: string;
   channels: string;
   classifiers: string;
   users: string;
@@ -58,6 +59,7 @@ export interface FlowEditorConfig {
   path?: string;
   headers?: any;
   brand: string;
+
   onLoad?: () => void;
   onActivityClicked?: (uuid: string) => void;
   onChangeLanguage?: (code: string, name: string) => void;
@@ -291,6 +293,11 @@ export interface Label {
   name_match?: string;
 }
 
+export interface OptIn {
+  uuid: string;
+  name: string;
+}
+
 export interface Flow {
   uuid: string;
   name: string;
@@ -392,6 +399,13 @@ export interface BroadcastMsg extends RecipientsAction {
 
 export interface AddLabels extends Action {
   labels: Label[];
+}
+
+export interface RequestOptIn extends Action {
+  optin: {
+    uuid: string;
+    name: string;
+  };
 }
 
 export interface AddURN extends Action {

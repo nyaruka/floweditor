@@ -377,7 +377,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
             className={styles.add}
             {...createClickHandler(this.handleAddToNode, this.handleShouldCancelClick)}
           >
-            <span className="fe-add" />
+            <temba-icon name="add" size="1"></temba-icon>
           </div>
         );
       }

@@ -38,9 +38,13 @@ const Pill: React.SFC<PillProps> = (props: PillProps): JSX.Element => {
       onClick={props.onClick}
       className={pillStyles.join(' ')}
     >
-      {text}
+      <div>{text}</div>
       {props.icon ? (
-        <span data-advanced={props.advanced} className={styles.icon + ' ' + props.icon} />
+        <temba-icon
+          data-advanced={props.advanced}
+          name={props.icon}
+          style={{ marginLeft: '7px' }}
+        ></temba-icon>
       ) : null}
     </div>
   );

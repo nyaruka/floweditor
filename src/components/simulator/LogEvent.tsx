@@ -155,13 +155,7 @@ const renderAttachment = (attachment: string): JSX.Element => {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div
-              className="fe-document-file-pdf"
-              style={{
-                textDecoration: 'none',
-                fontSize: '20px'
-              }}
-            />
+            <temba-icon name="pdf"></temba-icon>
             <div style={{ marginLeft: '5px', lineHeight: '16px' }}>
               {i18n.t('document', 'Document')}
             </div>

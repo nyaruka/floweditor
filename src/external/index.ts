@@ -311,6 +311,11 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         type: AssetType.Label,
         items: {}
       },
+      optins: {
+        endpoint: getURL(endpoints.optins),
+        type: AssetType.OptIn,
+        items: {}
+      },
       results: {
         type: AssetType.Result,
         items: {}
@@ -383,7 +388,7 @@ export const getFlowDetails = (revisions: Assets, id: string = null): Promise<Fl
       }
 
       if (revisionToLoad) {
-        const url = `${revisions.endpoint}${revisionToLoad}?version=${SPEC_VERSION}`;
+        const url = `${revisions.endpoint}${revisionToLoad}/?version=${SPEC_VERSION}`;
         axios
           .get(url)
           .then((response: AxiosResponse) => {

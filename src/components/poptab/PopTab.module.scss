@@ -11,11 +11,12 @@
       box-shadow: 0px 0px 8px 0px #666;
     }
 
-    z-index: $z_pop_tabs + 1;
+    z-index: $z_pop_tabs +1;
 
     .tab_wrapper {
       .tab {
         left: 0px;
+
         &:hover {
           left: 0px;
         }
@@ -26,22 +27,24 @@
   .tab_wrapper {
     .tab {
       position: absolute;
-      
+
       top: 140px;
       right: 275px;
       width: 2rem;
-      
+
       padding: 6px 8px;
-      
+
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;
       cursor: pointer;
       transition: width 0.1s ease-out;
 
-      display:flex;
+      display: flex;
+      align-items: center;
 
       &:hover {
         width: 7rem;
+
         .label {
           opacity: 1;
           transition: opacity 0.4s;
@@ -50,11 +53,7 @@
       }
 
       .icon {
-        width: 25px;
-        color: #fff;
-        font-weight: bold;
-        font-size: 25px;
-        margin-top:5px;
+        color: rgba(255, 255, 255, .95);
       }
 
       .label {
@@ -62,8 +61,6 @@
         color: #fff;
         opacity: 0;
         pointer-events: none;
-
-
       }
     }
   }
@@ -87,11 +84,13 @@
     .header {
       color: #fff;
       height: 26px;
+
       .header_label {
         font-size: 13px;
         font-weight: 400;
         padding: 5px 10px;
       }
+
       .close {
         cursor: pointer;
         font-size: 16px;
@@ -103,10 +102,12 @@
         }
       }
     }
+
     opacity: 0;
     border: 4px solid;
     border-radius: 4px;
     position: relative;
-    transition: right 0.2s ease-out, opacity 0.5s;
+    transition: right 0.2s ease-out,
+    opacity 0.5s;
   }
 }

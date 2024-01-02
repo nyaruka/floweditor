@@ -72,6 +72,7 @@ export enum AssetType {
   Label = 'label',
   Language = 'language',
   NameMatch = 'name_match',
+  OptIn = 'optin',
   Remove = 'remove',
   Resthook = 'resthook',
   Result = 'result',

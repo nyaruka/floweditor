@@ -6,16 +6,22 @@ exports[`StartFlowComp render should render flow name 1`] = `
     <div
       class="node_asset"
     >
-      <span
-        class="node_label fe-split"
-      />
-      <a
-        href="/flow/editor/b1f332f3-bdd3-4891-aec5-1843a712dbf1"
-        rel="noopener noreferrer"
-        target="_blank"
+      <div
+        style="display: inline-flex;"
       >
-        Colors
-      </a>
+        <temba-icon
+          classname="node_group"
+          name="flow"
+          style="margin-right: 4px;"
+        />
+        <a
+          href="/flow/editor/b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Colors
+        </a>
+      </div>
     </div>
   </div>
 </body>

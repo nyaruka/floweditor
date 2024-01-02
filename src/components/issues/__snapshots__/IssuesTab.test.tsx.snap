@@ -23,8 +23,9 @@ exports[`IssuesTab renders 1`] = `
             <div
               class="icon"
             >
-              <span
-                class="fe-warning"
+              <temba-icon
+                name="issue"
+                size="1.7"
               />
             </div>
             <div
@@ -43,8 +44,12 @@ exports[`IssuesTab renders 1`] = `
             style="background: tomato;"
           >
             <div
-              class="close fe-x"
-            />
+              class="close"
+            >
+              <temba-icon
+                name="close"
+              />
+            </div>
             <div
               class="header_label"
             >
@@ -89,8 +94,9 @@ exports[`IssuesTab renders missing dependencies 1`] = `
             <div
               class="icon"
             >
-              <span
-                class="fe-warning"
+              <temba-icon
+                name="issue"
+                size="1.7"
               />
             </div>
             <div
@@ -109,8 +115,12 @@ exports[`IssuesTab renders missing dependencies 1`] = `
             style="background: tomato;"
           >
             <div
-              class="close fe-x"
-            />
+              class="close"
+            >
+              <temba-icon
+                name="close"
+              />
+            </div>
             <div
               class="header_label"
             >

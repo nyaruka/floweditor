@@ -416,7 +416,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         <CheckboxElement
           name={i18n.t('forms.all_destinations', 'All Destinations')}
           title={i18n.t('forms.all_destinations', 'All Destinations')}
-          labelClassName={styles.checkbox}
           checked={this.state.sendAll}
           description={i18n.t(
             'forms.all_destinations_description',
@@ -448,6 +447,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       };
       tabs.splice(0, 0, templates);
     }
+
+    tabs.reverse();
 
     return (
       <Dialog
