@@ -1023,6 +1023,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
       );
     }
 
+    renderNode.node = mutators.uniquifyNode(renderNode.node);
     // didn't recognize that action, let's add a new router node
     // if we are appendeng in, see if we need to route through
     const switchRouter = getSwitchRouter(renderNode.node);
@@ -1035,12 +1036,17 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
       );
 
       exitToUpdate.destination_uuid = originalNode.node.exits[0].destination_uuid;
+      if (exitToUpdate.destination_uuid) {
+        updated[exitToUpdate.destination_uuid].inboundConnections = {
+          [exitToUpdate.uuid]: renderNode.node.uuid
+        };
+      }
     }
 
     renderNode.inboundConnections = {
       [originalNode.node.exits[0].uuid]: originalNode.node.uuid
     };
-    renderNode.node = mutators.uniquifyNode(renderNode.node);
+
     renderNode.ui.position.top += NODE_SPACING;
     updated = mutators.mergeNode(updated, renderNode);
   } else {
