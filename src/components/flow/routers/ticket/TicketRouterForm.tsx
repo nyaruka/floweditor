@@ -14,8 +14,6 @@ import {
   StartIsNonNumeric,
   validate
 } from 'store/validators';
-import AssetSelector from 'components/form/assetselector/AssetSelector';
-import { Asset } from 'store/flowContext';
 import styles from './TicketRouterForm.module.scss';
 import i18n from 'config/i18n';
 import TextInputElement from 'components/form/textinput/TextInputElement';
@@ -26,7 +24,6 @@ import { Topic, User } from 'flowTypes';
 export interface TicketRouterFormState extends FormState {
   assignee: FormEntry;
   topic: FormEntry;
-  ticketer: FormEntry;
   subject: StringEntry;
   body: StringEntry;
   resultName: StringEntry;
@@ -43,10 +40,7 @@ export default class TicketRouterForm extends React.Component<
   constructor(props: RouterFormProps) {
     super(props);
 
-    // if we only have one ticketer, initialize our form with it
-    const ticketers = Object.values(this.props.assetStore.ticketers.items);
-    const ticketer = ticketers.length === 1 ? ticketers[0] : null;
-    this.state = nodeToState(this.props.nodeSettings, ticketer);
+    this.state = nodeToState(this.props.nodeSettings);
 
     bindCallbacks(this, {
       include: [/^handle/]
@@ -56,7 +50,6 @@ export default class TicketRouterForm extends React.Component<
     keys: {
       assignee?: User;
       topic?: Topic;
-      ticketer?: Asset;
       subject?: string;
       body?: string;
       resultName?: string;
@@ -73,12 +66,6 @@ export default class TicketRouterForm extends React.Component<
 
     if (keys.hasOwnProperty('topic')) {
       updates.topic = validate(i18n.t('forms.topic', 'Topic'), keys.topic, [
-        shouldRequireIf(submitting)
-      ]);
-    }
-
-    if (keys.hasOwnProperty('ticketer')) {
-      updates.ticketer = validate(i18n.t('forms.ticketer', 'Ticketer'), keys.ticketer, [
         shouldRequireIf(submitting)
       ]);
     }
@@ -104,10 +91,6 @@ export default class TicketRouterForm extends React.Component<
     // update our form
     this.setState(updated);
     return updated.valid;
-  }
-
-  private handleTicketerUpdate(selected: Asset[]): void {
-    this.handleUpdate({ ticketer: selected[0] });
   }
 
   private handleAssigneeUpdate(assignee: User): void {
@@ -142,7 +125,6 @@ export default class TicketRouterForm extends React.Component<
     // validate all fields in case they haven't interacted
     const valid = this.handleUpdate(
       {
-        ticketer: this.state.ticketer.value,
         subject: this.state.subject.value,
         body: this.state.body.value,
         resultName: this.state.resultName.value
@@ -169,30 +151,9 @@ export default class TicketRouterForm extends React.Component<
   private renderEdit(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
-    // if we only have one ticketer or we have issues, show the ticket chooser
-    const showTicketers =
-      Object.keys(this.props.assetStore.ticketers.items).length > 1 || this.props.issues.length > 0;
-
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        {showTicketers ? (
-          <div>
-            <p>
-              <span>Open ticket via... </span>
-            </p>
-            <AssetSelector
-              key="select_ticketer"
-              name={i18n.t('forms.ticketer', 'Ticketer')}
-              placeholder="Select the ticketing service to use"
-              assets={this.props.assetStore.ticketers}
-              onChange={this.handleTicketerUpdate}
-              entry={this.state.ticketer}
-            />
-          </div>
-        ) : (
-          ''
-        )}
 
         <div style={{ display: 'flex', width: '100%', marginTop: '0.5em' }}>
           <div style={{ flexBasis: 250 }}>

@@ -24,7 +24,6 @@ Array [
     "simulateResume": "",
     "simulateStart": "",
     "templates": "/assets/templates.json",
-    "ticketers": "/assets/ticketers.json",
     "topics": "/assets/topics.json",
     "users": "/assets/users.json",
   },

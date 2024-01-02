@@ -274,7 +274,6 @@ Array [
     ],
     "component": [Function],
     "description": "Open a ticket with a human agent",
-    "filter": "ticketer",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
@@ -560,7 +559,6 @@ Object {
     ],
     "component": [Function],
     "description": "Open a ticket with a human agent",
-    "filter": "ticketer",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
@@ -888,7 +886,6 @@ Object {
     ],
     "component": [Function],
     "description": "Open a ticket with a human agent",
-    "filter": "ticketer",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [

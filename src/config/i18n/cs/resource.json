@@ -140,8 +140,7 @@
     "placeholder_plural": "Vyberte stávající [[name]] nebo zadejte nové."
   },
   "assets": {
-    "classifier": "Volání klasifikátoru [[name]]",
-    "ticketer": "Otevřít nový tiket na [[name]]"
+    "classifier": "Volání klasifikátoru [[name]]"
   },
   "body": "Tělo",
   "buttons": {
@@ -306,7 +305,6 @@
     "template": "šablona",
     "the_maximum": "maximum",
     "the_minimum": "minimum",
-    "ticketer": "Tiketovací služba",
     "timeout": "Časový limit",
     "timeout_1 day": "1 den",
     "timeout_1 hour": "1 hodina",

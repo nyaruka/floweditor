@@ -37,7 +37,6 @@ export interface Endpoints {
   optins: string;
   channels: string;
   classifiers: string;
-  ticketers: string;
   users: string;
   topics: string;
   environment: string;
@@ -439,11 +438,6 @@ export interface Classifier {
   name: string;
 }
 
-export interface Ticketer {
-  uuid: string;
-  name: string;
-}
-
 export interface TransferAirtime extends Action {
   amounts: { [name: string]: number };
   result_name: string;
@@ -469,7 +463,6 @@ export interface CallWebhook extends Action {
 }
 
 export interface OpenTicket extends Action {
-  ticketer: Ticketer;
   subject?: string;
   topic?: Topic;
   body: string;

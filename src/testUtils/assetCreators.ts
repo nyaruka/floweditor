@@ -435,10 +435,6 @@ export const createOpenTicketNode = (subject: string, body: string): FlowNode =>
   const action: OpenTicket = {
     uuid: utils.createUUID(),
     type: Types.open_ticket,
-    ticketer: {
-      name: 'Email (bob@acme.com)',
-      uuid: '1165a73a-2ee0-4891-895e-768645194862'
-    },
     subject: subject,
     body: body,
     result_name: 'Result'

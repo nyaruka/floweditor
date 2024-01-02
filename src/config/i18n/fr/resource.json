@@ -140,8 +140,7 @@
     "placeholder_plural": "Sélectionnez [[name]] existant ou saisissez-en un nouveau"
   },
   "assets": {
-    "classifier": "Appeler le classificateur [[name]]",
-    "ticketer": "Open a new Ticket on [[name]]"
+    "classifier": "Appeler le classificateur [[name]]"
   },
   "body": "Corps",
   "buttons": {
@@ -306,7 +305,6 @@
     "template": "modèle",
     "the_maximum": "le maximum",
     "the_minimum": "le minimum",
-    "ticketer": "Ticketer",
     "timeout": "Temps mort",
     "timeout_1 day": "1 jour",
     "timeout_1 hour": "1 heure",

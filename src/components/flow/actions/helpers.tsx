@@ -201,13 +201,6 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
         </div>
       );
       break;
-    case AssetType.Ticketer:
-      assetBody = (
-        <Trans i18nKey="assets.ticketer" values={{ name: asset.name }}>
-          Open a new Ticket on [[name]]
-        </Trans>
-      );
-      break;
   }
 
   if (!assetBody) {
