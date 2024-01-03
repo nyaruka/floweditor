@@ -217,7 +217,7 @@
     "email_recipient_name": "Destinatario",
     "email_recipient_placeholder": "Para",
     "email_recipient_prompt": "Introducir la dirección de correo electrónico",
-    "enter_a_body": "Introducir cuerpo",
+    "enter_a_body": "Introducir cuerpo (opcional)",
     "enter_a_subject": "Introducir asunto",
     "enter_a_url": "Introducir URL",
     "enter_field_value": "Ingrese un nuevo valor para [[field]]",

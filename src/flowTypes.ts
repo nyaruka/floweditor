@@ -465,7 +465,7 @@ export interface CallWebhook extends Action {
 export interface OpenTicket extends Action {
   subject?: string;
   topic?: Topic;
-  body: string;
+  body?: string;
   result_name: string;
   assignee?: User;
 }

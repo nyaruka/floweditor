@@ -75,9 +75,7 @@ export default class TicketRouterForm extends React.Component<
     }
 
     if (keys.hasOwnProperty('body')) {
-      updates.body = validate(i18n.t('forms.body', 'Body'), keys.body, [
-        shouldRequireIf(submitting)
-      ]);
+      updates.body = validate(i18n.t('forms.body', 'Body'), keys.body, []);
     }
 
     if (keys.hasOwnProperty('resultName')) {
@@ -172,7 +170,7 @@ export default class TicketRouterForm extends React.Component<
             <TembaSelect
               key="select_assignee"
               name={i18n.t('forms.assignee', 'Assignee')}
-              placeholder="Assign to (Optional)"
+              placeholder="Assign to (optional)"
               valueKey="email"
               endpoint={this.context.config.endpoints.users}
               onChange={this.handleAssigneeUpdate}
@@ -190,7 +188,7 @@ export default class TicketRouterForm extends React.Component<
         <div className={styles.body}>
           <TextInputElement
             name={i18n.t('forms.body', 'Body')}
-            placeholder={i18n.t('forms.enter_a_body', 'Enter a body')}
+            placeholder={i18n.t('forms.enter_a_body', 'Enter a body (optional)')}
             entry={this.state.body}
             onChange={this.handleBodyUpdate}
             autocomplete={true}

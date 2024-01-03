@@ -88,7 +88,7 @@ exports[`TicketRouterForm render should render 1`] = `
                 expressions=""
                 name="Assignee"
                 namekey="name"
-                placeholder="Assign to (Optional)"
+                placeholder="Assign to (optional)"
                 valuekey="email"
                 values="[]"
               />
@@ -107,7 +107,7 @@ exports[`TicketRouterForm render should render 1`] = `
               <input
                 data-testid="Body"
                 name="Body"
-                placeholder="Enter a body"
+                placeholder="Enter a body (optional)"
                 value="Where are my cookies"
               />
             </div>
@@ -267,7 +267,7 @@ exports[`TicketRouterForm updates should save changes 1`] = `
                 expressions=""
                 name="Assignee"
                 namekey="name"
-                placeholder="Assign to (Optional)"
+                placeholder="Assign to (optional)"
                 valuekey="email"
                 values="[]"
               />
@@ -286,7 +286,7 @@ exports[`TicketRouterForm updates should save changes 1`] = `
               <input
                 data-testid="Body"
                 name="Body"
-                placeholder="Enter a body"
+                placeholder="Enter a body (optional)"
                 value="Where are my cookies"
               />
             </div>
