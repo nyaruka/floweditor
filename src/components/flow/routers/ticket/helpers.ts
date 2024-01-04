@@ -20,7 +20,7 @@ export const getOriginalAction = (settings: NodeEditorSettings): OpenTicket => {
 export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState => {
   let subject = { value: '@run.flow.name' };
   let body = { value: '' };
-  let resultName = { value: '' };
+  let resultName = { value: 'Result' };
   let assignee: FormEntry = { value: null };
   let topic: FormEntry = { value: null };
 
