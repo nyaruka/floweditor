@@ -217,7 +217,7 @@
     "email_recipient_name": "Recipient",
     "email_recipient_placeholder": "To",
     "email_recipient_prompt": "Enter email address",
-    "enter_a_body": "Enter a body",
+    "enter_a_body": "Enter a body (optional)",
     "enter_a_subject": "Enter a subject",
     "enter_a_url": "Enter a URL",
     "enter_field_value": "Enter a new value for [[field]]",
