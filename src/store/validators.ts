@@ -309,7 +309,7 @@ export const IsValidIntent = (classifier: Asset): ValidatorFunc => (
 
 function isFormatCorrect(text: string, contactFields: string[], resultFields: string[]): any {
   // Regular expression to find all occurrences of @contact and @result fields in the text
-  const pattern = /@contact\.fields\.([a-zA-Z_]+)|@results\.([a-zA-Z_]+)/g;
+  const pattern = /@contact\.fields\.([a-zA-Z0-9_]+)|@results\.([a-zA-Z0-9_]+)/g;
   let match: RegExpExecArray | null;
 
   while ((match = pattern.exec(text)) !== null) {
@@ -333,7 +333,7 @@ export const ValidField = (store: AssetStore): ValidatorFunc => (
 ) => {
   const contactFields = Object.keys(store.fields.items);
   const resultFields = Object.keys(store.results.items);
-  resultFields.push(...['parent', 'child']);
+  resultFields.push(...['parent', 'child', 'flow_keyword']);
   const format = isFormatCorrect(input.toString(), contactFields, resultFields);
 
   if (!format.valid) {
