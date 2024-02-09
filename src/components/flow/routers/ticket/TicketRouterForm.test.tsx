@@ -31,12 +31,12 @@ describe(TicketRouterForm.name, () => {
       expect(baseElement).toMatchSnapshot();
 
       const okButton = getByText('Ok');
-      // const resultName = getByTestId('Result Name');
+      const resultName = getByTestId('Result Name');
 
-      // our ticketer, body and result name are required
-      // fireChangeText(resultName, '');
-      // fireEvent.click(okButton);
-      // expect(ticketForm.updateRouter).not.toBeCalled();
+      // our body and result name are required
+      fireChangeText(resultName, '');
+      fireEvent.click(okButton);
+      expect(ticketForm.updateRouter).not.toBeCalled();
 
       // we need a topic
       fireTembaSelect(getByTestId('temba_select_assignee'), {

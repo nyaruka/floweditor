@@ -3,20 +3,16 @@ import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { initializeForm, stateToAction } from 'components/flow/actions/sendbroadcast/helpers';
 import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
-import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
-
 import TypeList from 'components/nodeeditor/TypeList';
 import { hasUseableTranslation } from 'components/form/assetselector/helpers';
 import { fakePropType } from 'config/ConfigProvider';
 import mutate from 'immutability-helper';
 import * as React from 'react';
-import { Asset } from 'store/flowContext';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
-import { AssetArrayEntry, FormState, mergeForm, FormEntry, StringEntry } from 'store/nodeEditor';
-import { shouldRequireIf, validate, Required } from 'store/validators';
-import i18n from 'config/i18n';
+import { FormEntry } from 'store/nodeEditor';
+import { Required } from 'store/validators';
 
-import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
+import { hasErrors } from 'components/flow/actions/helpers';
 import { Template, TemplateTranslation } from 'flowTypes';
 import { createUUID, range } from 'utils';
 import styles from './SendBroadcastForm.module.scss';
@@ -28,11 +24,15 @@ import { ImCross } from 'react-icons/im';
 import { fetchAsset } from 'external';
 import axios from 'axios';
 
+import { Asset, AssetType } from 'store/flowContext';
+import { AssetArrayEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
+import { MaxOf640Chars, MaxOfThreeItems, shouldRequireIf, validate } from 'store/validators';
+import i18n from 'config/i18n';
+import { getComposeByAsset, getEmptyComposeValue, renderIssues } from '../helpers';
+import ComposeElement from 'components/form/compose/ComposeElement';
+
 export interface SendBroadcastFormState extends FormState {
-  template: FormEntry;
-  templateVariables: StringEntry[];
-  templateTranslation?: TemplateTranslation;
-  message: StringEntry;
+  compose: StringEntry;
   recipients: AssetArrayEntry;
   attachments: Attachment[];
   validAttachment: boolean;
@@ -61,39 +61,89 @@ export default class SendBroadcastForm extends React.Component<
     bindCallbacks(this, {
       include: [/^on/, /^handle/]
     });
-    if (this.state.template.value !== null) {
-      fetchAsset(this.props.assetStore.templates, this.state.template.value.uuid).then(
-        (asset: Asset) => {
-          if (asset && asset.content) {
-            this.handleTemplateChanged([{ ...this.state.template.value, ...asset.content }]);
-          }
-        }
-      );
-    }
+    // if (this.state.template.value !== null) {
+    //   fetchAsset(this.props.assetStore.templates, this.state.template.value.uuid).then(
+    //     (asset: Asset) => {
+    //       if (asset && asset.content) {
+    //         this.handleTemplateChanged([{ ...this.state.template.value, ...asset.content }]);
+    //       }
+    //     }
+    //   );
+    // }
   }
 
   public handleRecipientsChanged(recipients: Asset[]): boolean {
     return this.handleUpdate({ recipients });
   }
 
-  public handleMessageUpdate(text: string): boolean {
-    return this.handleUpdate({ text });
+  public handleComposeChanged(compose: string): boolean {
+    return this.handleUpdate({ compose });
   }
 
   private handleUpdate(
-    keys: { text?: string; recipients?: Asset[]; template?: string },
+    keys: { compose?: string; recipients?: Asset[] },
     submitting = false
   ): boolean {
     const updates: Partial<SendBroadcastFormState> = {};
 
-    if (keys.hasOwnProperty('recipients')) {
-      updates.recipients = validate(i18n.t('forms.recipients', 'Recipients'), keys.recipients!, [
-        shouldRequireIf(submitting)
-      ]);
+    if (keys.hasOwnProperty('compose')) {
+      // validate empty compose value
+      if (keys.compose === getEmptyComposeValue()) {
+        updates.compose = validate(i18n.t('forms.compose', 'Compose'), '', [
+          shouldRequireIf(submitting)
+        ]);
+        updates.compose.value = keys.compose;
+        if (updates.compose.validationFailures.length > 0) {
+          let composeErrMsg = updates.compose.validationFailures[0].message;
+          composeErrMsg = composeErrMsg.replace('Compose is', 'Message text is');
+          updates.compose.validationFailures[0].message = composeErrMsg;
+        }
+      } else {
+        updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose, [
+          shouldRequireIf(submitting)
+        ]);
+        // validate inner compose text value
+        const composeTextValue = getComposeByAsset(keys.compose, AssetType.ComposeText);
+        const composeTextResult = validate(i18n.t('forms.compose', 'Compose'), composeTextValue, [
+          MaxOf640Chars,
+          shouldRequireIf(submitting)
+        ]);
+        if (composeTextResult.validationFailures.length > 0) {
+          let textErrMsg = composeTextResult.validationFailures[0].message;
+          textErrMsg = textErrMsg.replace('Compose is', 'Message text is');
+          textErrMsg = textErrMsg.replace('Compose cannot be more than', 'Maximum allowed text is');
+          composeTextResult.validationFailures[0].message = textErrMsg;
+          updates.compose.validationFailures = [
+            ...updates.compose.validationFailures,
+            ...composeTextResult.validationFailures
+          ];
+        }
+        // validate inner compose attachments value
+        const composeAttachmentsValue = getComposeByAsset(
+          keys.compose,
+          AssetType.ComposeAttachments
+        );
+        const composeAttachmentsResult = validate(
+          i18n.t('forms.compose', 'Compose'),
+          composeAttachmentsValue,
+          [MaxOfThreeItems]
+        );
+        if (composeAttachmentsResult.validationFailures.length > 0) {
+          let attachmentsErrMsg = composeAttachmentsResult.validationFailures[0].message;
+          attachmentsErrMsg = attachmentsErrMsg
+            .replace('Compose cannot have more than', 'Maximum allowed attachments is')
+            .replace('entries', 'files');
+          composeAttachmentsResult.validationFailures[0].message = attachmentsErrMsg;
+          updates.compose.validationFailures = [
+            ...updates.compose.validationFailures,
+            ...composeAttachmentsResult.validationFailures
+          ];
+        }
+      }
     }
 
-    if (keys.hasOwnProperty('template')) {
-      updates.template = validate(i18n.t('forms.templates', 'Template'), keys.template!, [
+    if (keys.hasOwnProperty('recipients')) {
+      updates.recipients = validate(i18n.t('forms.recipients', 'Recipients'), keys.recipients!, [
         shouldRequireIf(submitting)
       ]);
     }
@@ -138,38 +188,43 @@ export default class SendBroadcastForm extends React.Component<
   }
 
   private handleSave(): void {
-    if (this.state.attachments.length > 0) {
-      this.handleAxios(this.state.attachments[0]);
+    // validate in case they never updated an empty field
+    const valid = this.handleUpdate(
+      {
+        compose: this.state.compose.value!,
+        recipients: this.state.recipients.value!
+      },
+      true
+    );
 
-      this.setState({ validAttachment: true, attachmentError: null });
+    // this.setState({ validAttachment: true, attachmentError: null });
+
+    // // validate in case they never updated an empty field
+    // let valid = this.handleUpdate(
+    //   {
+    //     text: this.state.message.value,
+    //     recipients: this.state.recipients.value,
+    //     template: this.state.template.value
+    //   },
+    //   true
+    // );
+
+    // let templateVariables = this.state.templateVariables;
+    // // make sure we don't have untouched template variables
+    // this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
+    //   const updated = validate(`Variable ${num + 1}`, variable.value, [Required]);
+    //   templateVariables = mutate(templateVariables, {
+    //     [num]: { $merge: updated }
+    //   }) as StringEntry[];
+    //   valid = valid && !hasErrors(updated);
+    // });
+
+    if (valid) {
+      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
+      // notify our modal we are done
+      this.props.onClose(false);
     } else {
-      // validate in case they never updated an empty field
-      let valid = this.handleUpdate(
-        {
-          text: this.state.message.value,
-          recipients: this.state.recipients.value,
-          template: this.state.template.value
-        },
-        true
-      );
-
-      let templateVariables = this.state.templateVariables;
-      // make sure we don't have untouched template variables
-      this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
-        const updated = validate(`Variable ${num + 1}`, variable.value, [Required]);
-        templateVariables = mutate(templateVariables, {
-          [num]: { $merge: updated }
-        }) as StringEntry[];
-        valid = valid && !hasErrors(updated);
-      });
-
-      if (valid) {
-        this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
-        // notify our modal we are done
-        this.props.onClose(false);
-      } else {
-        this.setState({ templateVariables, valid });
-      }
+      this.setState({ valid });
     }
   }
 
@@ -187,90 +242,90 @@ export default class SendBroadcastForm extends React.Component<
     };
   }
 
-  private handleTemplateChanged(selected: any[]): void {
-    const template = selected ? selected[0] : null;
+  // private handleTemplateChanged(selected: any[]): void {
+  //   const template = selected ? selected[0] : null;
 
-    if (!template) {
-      this.setState({
-        template: { value: null },
-        templateTranslation: null,
-        templateVariables: []
-      });
-    } else {
-      const templateTranslation = template.translations[0];
+  //   if (!template) {
+  //     this.setState({
+  //       template: { value: null },
+  //       templateTranslation: null,
+  //       templateVariables: []
+  //     });
+  //   } else {
+  //     const templateTranslation = template.translations[0];
 
-      const templateVariables =
-        this.state.templateVariables.length === 0 ||
-        (this.state.template.value && this.state.template.value.uuid !== template.uuid)
-          ? range(0, templateTranslation.variable_count).map(() => {
-              return {
-                value: ''
-              };
-            })
-          : this.state.templateVariables;
-      this.setState({
-        template: { value: template },
-        templateTranslation,
-        templateVariables
-      });
-    }
-  }
+  //     const templateVariables =
+  //       this.state.templateVariables.length === 0 ||
+  //       (this.state.template.value && this.state.template.value.uuid !== template.uuid)
+  //         ? range(0, templateTranslation.variable_count).map(() => {
+  //             return {
+  //               value: ''
+  //             };
+  //           })
+  //         : this.state.templateVariables;
+  //     this.setState({
+  //       template: { value: template },
+  //       templateTranslation,
+  //       templateVariables
+  //     });
+  //   }
+  // }
 
-  private handleTemplateVariableChanged(updatedText: string, num: number): void {
-    const entry = validate(`Variable ${num + 1}`, updatedText, [Required]);
-    const templateVariables = mutate(this.state.templateVariables, {
-      $merge: { [num]: entry }
-    }) as StringEntry[];
-    this.setState({ templateVariables });
-  }
+  // private handleTemplateVariableChanged(updatedText: string, num: number): void {
+  //   const entry = validate(`Variable ${num + 1}`, updatedText, [Required]);
+  //   const templateVariables = mutate(this.state.templateVariables, {
+  //     $merge: { [num]: entry }
+  //   }) as StringEntry[];
+  //   this.setState({ templateVariables });
+  // }
 
-  private renderTemplateConfig(): JSX.Element {
-    return (
-      <>
-        <p>
-          {i18n.t(
-            'forms.whatsapp_warning',
-            'Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.'
-          )}
-        </p>
-        <AssetSelector
-          name={i18n.t('forms.template', 'template')}
-          noOptionsMessage="No templates found"
-          assets={this.props.assetStore.templates}
-          entry={this.state.template}
-          onChange={this.handleTemplateChanged}
-          shouldExclude={this.handleShouldExcludeTemplate}
-          searchable={true}
-          formClearable={true}
-        />
-        {this.state.templateTranslation ? (
-          <>
-            <div className={styles.template_text}>{this.state.templateTranslation.content}</div>
-            {range(0, this.state.templateTranslation.variable_count).map((num: number): any => {
-              return (
-                <div className={styles.variable} key={'tr_arg_' + num}>
-                  <TextInputElement
-                    name={`${i18n.t('forms.variable', 'Variable')} ${num + 1}`}
-                    showLabel={false}
-                    placeholder={`${i18n.t('forms.variable', 'Variable')} ${num + 1}`}
-                    onChange={(updatedText: string): any => {
-                      this.handleTemplateVariableChanged(updatedText, num);
-                    }}
-                    entry={
-                      this.state.templateVariables[num] === undefined
-                        ? { value: '' }
-                        : this.state.templateVariables[num]
-                    }
-                    autocomplete={true}
-                  />
-                </div>
-              );
-            })}
-          </>
-        ) : null}
-      </>
-    );
-  }
+  // private renderTemplateConfig(): JSX.Element {
+  //   return (
+  //     <>
+  //       <p>
+  //         {i18n.t(
+  //           'forms.whatsapp_warning',
+  //           'Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.'
+  //         )}
+  //       </p>
+  //       <AssetSelector
+  //         name={i18n.t('forms.template', 'template')}
+  //         noOptionsMessage="No templates found"
+  //         assets={this.props.assetStore.templates}
+  //         entry={this.state.template}
+  //         onChange={this.handleTemplateChanged}
+  //         shouldExclude={this.handleShouldExcludeTemplate}
+  //         searchable={true}
+  //         formClearable={true}
+  //       />
+  //       {this.state.templateTranslation ? (
+  //         <>
+  //           <div className={styles.template_text}>{this.state.templateTranslation.content}</div>
+  //           {range(0, this.state.templateTranslation.variable_count).map((num: number): any => {
+  //             return (
+  //               <div className={styles.variable} key={'tr_arg_' + num}>
+  //                 <TextInputElement
+  //                   name={`${i18n.t('forms.variable', 'Variable')} ${num + 1}`}
+  //                   showLabel={false}
+  //                   placeholder={`${i18n.t('forms.variable', 'Variable')} ${num + 1}`}
+  //                   onChange={(updatedText: string): any => {
+  //                     this.handleTemplateVariableChanged(updatedText, num);
+  //                   }}
+  //                   entry={
+  //                     this.state.templateVariables[num] === undefined
+  //                       ? { value: '' }
+  //                       : this.state.templateVariables[num]
+  //                   }
+  //                   autocomplete={true}
+  //                 />
+  //               </div>
+  //             );
+  //           })}
+  //         </>
+  //       ) : null}
+  //     </>
+  //   );
+  // }
 
   public handleAttachmentRemoved(index: number): void {
     // we found a match, merge us in
@@ -317,7 +372,7 @@ export default class SendBroadcastForm extends React.Component<
           {index > -1 ? (
             <>
               <div className={styles.url}>
-                <TextInputElement
+                {/* <TextInputElement
                   placeholder="URL"
                   name={i18n.t('forms.url', 'URL')}
                   style={TextInputStyle.small}
@@ -329,7 +384,7 @@ export default class SendBroadcastForm extends React.Component<
                   }}
                   entry={{ value: attachment.url }}
                   autocomplete={true}
-                />
+                /> */}
               </div>
               <div className={styles.remove}>
                 <Pill
@@ -397,25 +452,25 @@ export default class SendBroadcastForm extends React.Component<
 
     const shouldExclude = (asset: Asset): boolean => asset.type === 'group';
 
-    const templates: any = {
-      name: 'WhatsApp',
-      body: this.renderTemplateConfig(),
-      checked: this.state.template.value != null,
-      hasErrors: !!this.state.templateVariables.find((entry: StringEntry) => hasErrors(entry))
-    };
+    // const templates: any = {
+    //   name: 'WhatsApp',
+    //   body: this.renderTemplateConfig(),
+    //   checked: this.state.template.value != null,
+    //   hasErrors: !!this.state.templateVariables.find((entry: StringEntry) => hasErrors(entry))
+    // };
 
-    const attachments: Tab = {
-      name: 'Attachments',
-      body: this.renderAttachments(),
-      checked: this.state.attachments.length > 0,
-      hasErrors: this.checkAttachmentErrors()
-    };
+    // const attachments: Tab = {
+    //   name: 'Attachments',
+    //   body: this.renderAttachments(),
+    //   checked: this.state.attachments.length > 0,
+    //   hasErrors: this.checkAttachmentErrors()
+    // };
     return (
       <Dialog
         title={typeConfig.name}
         headerClass={typeConfig.type}
         buttons={this.getButtons()}
-        tabs={[templates, attachments]}
+        tabs={[]}
       >
         <TypeList
           __className=""
@@ -436,8 +491,14 @@ export default class SendBroadcastForm extends React.Component<
           onChange={this.handleRecipientsChanged}
         />
         <p />
-        <p>Step 2: Select a template on the WhatsApp tab</p>
-
+        <ComposeElement
+          name={i18n.t('forms.compose', 'Compose')}
+          chatbox
+          attachments
+          counter
+          entry={this.state.compose}
+          onChange={this.handleComposeChanged}
+        ></ComposeElement>
         {renderIssues(this.props)}
       </Dialog>
     );

@@ -5,7 +5,9 @@ exports[`Pill renders 1`] = `
   className="pill"
   data-advanced={false}
 >
-  This is my...
+  <div>
+    This is my...
+  </div>
 </div>
 `;
 
@@ -14,6 +16,8 @@ exports[`Pill treats @ text differently 1`] = `
   className="pill"
   data-advanced={false}
 >
-  @(exp)
+  <div>
+    @(exp)
+  </div>
 </div>
 `;

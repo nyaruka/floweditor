@@ -65,6 +65,156 @@ const getAttachmentTypeOption = (type: string): SelectOption => {
   return EXTENDED_TYPE_OPTIONS.find((option: SelectOption) => option.value === type);
 };
 
+export const renderUpload = (
+  index: number,
+  attachment: Attachment,
+  onAttachmentRemoved: (index: number) => void,
+  onAttachmentChanged: any
+): JSX.Element => {
+  return (
+    <div
+      className={styles.url_attachment}
+      key={index > -1 ? 'url_attachment_' + index : createUUID()}
+    >
+      <div className={styles.attachment_container}>
+        <div className={styles.type}>
+          <SelectElement
+            key={'attachment_type_' + index}
+            style={TembaSelectStyle.small}
+            name={i18n.t('forms.type_options', 'Type Options')}
+            placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
+            entry={{
+              value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
+            }}
+            onChange={(option: any) => {
+              onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
+            }}
+            options={EXTENDED_TYPE_OPTIONS}
+          />
+        </div>
+        <div className={styles.type_choice}>
+          <SelectElement
+            key={'attachment_type_' + index}
+            name={i18n.t('forms.type', 'Type')}
+            style={TembaSelectStyle.small}
+            entry={{
+              value: {
+                name:
+                  attachment.url && attachment.url.length > 20
+                    ? `${attachment.url.slice(0, 20)}...`
+                    : attachment.url
+              }
+            }}
+            options={EXTENDED_TYPE_OPTIONS}
+            disabled={true}
+          />
+        </div>
+      </div>
+      <div className={styles.url}>
+        <div className={styles.upload} style={{ display: 'flex' }}>
+          <Pill
+            icon="download"
+            text="Download"
+            large={true}
+            onClick={() => {
+              window.open(attachment.url, '_blank');
+            }}
+            style={{ marginRight: '7px' }}
+          />
+          <Pill
+            icon="x"
+            text="Remove"
+            large={true}
+            onClick={() => {
+              onAttachmentRemoved(index);
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const renderAttachment = (
+  attachmentsEnabled: boolean,
+  index: number,
+  attachment: Attachment,
+  uploadInProgress: boolean,
+  uploadError: string,
+  onAttachmentChanged: (index: number, type: string, url: string) => void,
+  onAttachmentRemoved: (index: number) => void
+): JSX.Element => {
+  const isEmptyOption = attachment.type === '';
+  const isUploadError = uploadError && uploadError.length > 0;
+  return (
+    <>
+      <div className={styles.url_attachment} key={'url_attachment_' + index}>
+        <div className={styles.type_choice}>
+          <SelectElement
+            key={'attachment_type_' + index}
+            style={TembaSelectStyle.small}
+            name={i18n.t('forms.type_options', 'Type Options')}
+            placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
+            entry={{
+              value: isEmptyOption ? null : getAttachmentTypeOption(attachment.type)
+            }}
+            onChange={(option: any) => {
+              if (option.value === 'upload') {
+                window.setTimeout(() => {
+                  filePicker.click();
+                }, 0);
+              } else {
+                onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
+              }
+            }}
+            options={attachmentsEnabled ? NEW_TYPE_OPTIONS : EXTENDED_TYPE_OPTIONS}
+          />
+        </div>
+        {renderIf(isEmptyOption && uploadInProgress)(
+          <temba-loading id={styles.upload_in_progress} units="3" size="8"></temba-loading>
+        )}
+        {renderIf(isEmptyOption && isUploadError)(
+          <div className={styles.upload_error}>{uploadError}</div>
+        )}
+        {isEmptyOption ? null : (
+          <>
+            <div className={styles.url}>
+              <TextInputElement
+                placeholder="URL"
+                name={i18n.t('forms.url', 'URL')}
+                style={TextInputStyle.small}
+                onChange={(value: string) => {
+                  onAttachmentChanged(index, attachment.type, value);
+                }}
+                entry={{ value: attachment.url }}
+                autocomplete={true}
+              />
+            </div>
+            <div className={styles.remove}>
+              <Pill
+                icon="x"
+                text=" Remove"
+                large={true}
+                onClick={() => {
+                  onAttachmentRemoved(index);
+                }}
+              />
+            </div>
+          </>
+        )}
+      </div>
+      <div>
+        {attachment.valid && !attachment.validationFailures && attachment.url ? (
+          <div className={styles.loading}>
+            Checking URL validity
+            <Loading size={10} units={3} color="#999999" />
+          </div>
+        ) : null}
+      </div>
+    </>
+  );
+};
+
 export const handleUploadFile = (
   endpoint: string,
   files: FileList,
@@ -161,151 +311,6 @@ export const renderAttachments = (
           handleUploadFile(endpoint, e.target.files, onUploading, onUploaded, onUploadFailed);
         }}
       />
-    </>
-  );
-};
-
-export const renderUpload = (
-  index: number,
-  attachment: Attachment,
-  onAttachmentRemoved: (index: number) => void,
-  onAttachmentChanged: any
-): JSX.Element => {
-  return (
-    <div
-      className={styles.url_attachment}
-      key={index > -1 ? 'url_attachment_' + index : createUUID()}
-    >
-      <div className={styles.attachment_container}>
-        <div className={styles.type}>
-          <SelectElement
-            key={'attachment_type_' + index}
-            style={TembaSelectStyle.small}
-            name={i18n.t('forms.type_options', 'Type Options')}
-            placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
-            entry={{
-              value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
-            }}
-            onChange={(option: any) => {
-              onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
-            }}
-            options={EXTENDED_TYPE_OPTIONS}
-          />
-        </div>
-        <div className={styles.type_choice}>
-          <SelectElement
-            key={'attachment_type_' + index}
-            name={i18n.t('forms.type', 'Type')}
-            style={TembaSelectStyle.small}
-            entry={{
-              value: {
-                name:
-                  attachment.url && attachment.url.length > 20
-                    ? `${attachment.url.slice(0, 20)}...`
-                    : attachment.url
-              }
-            }}
-            options={EXTENDED_TYPE_OPTIONS}
-            disabled={true}
-          />
-        </div>
-      </div>
-      <div className={styles.url}>
-        <span className={styles.upload}>
-          <Pill
-            icon="fe-download"
-            text="Download"
-            large={true}
-            onClick={() => {
-              window.open(attachment.url, '_blank');
-            }}
-          />
-          <div className={styles.remove_upload}>
-            <Pill
-              icon="fe-x"
-              text="Remove"
-              large={true}
-              onClick={() => {
-                onAttachmentRemoved(index);
-              }}
-            />
-          </div>
-        </span>
-      </div>
-    </div>
-  );
-};
-
-export const renderAttachment = (
-  attachmentsEnabled: boolean,
-  index: number,
-  attachment: Attachment,
-  uploadInProgress: boolean,
-  uploadError: string,
-  onAttachmentChanged: (index: number, type: string, url: string) => void,
-  onAttachmentRemoved: (index: number) => void
-): JSX.Element => {
-  const isEmptyOption = attachment.type === '';
-  const isUploadError = uploadError && uploadError.length > 0;
-  return (
-    <>
-      <div className={styles.url_attachment} key={'url_attachment_' + index}>
-        <div className={styles.type_choice}>
-          <SelectElement
-            key={'attachment_type_' + index}
-            style={TembaSelectStyle.small}
-            name={i18n.t('forms.type_options', 'Type Options')}
-            placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
-            entry={{
-              value: isEmptyOption ? null : getAttachmentTypeOption(attachment.type)
-            }}
-            onChange={(option: any) => {
-              if (option.value === 'upload') {
-                window.setTimeout(() => {
-                  filePicker.click();
-                }, 0);
-              } else {
-                onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
-              }
-            }}
-            options={attachmentsEnabled ? NEW_TYPE_OPTIONS : EXTENDED_TYPE_OPTIONS}
-          />
-        </div>
-        {renderIf(isEmptyOption && uploadInProgress)(
-          <temba-loading id={styles.upload_in_progress} units="3" size="8"></temba-loading>
-        )}
-        {renderIf(isEmptyOption && isUploadError)(
-          <div className={styles.upload_error}>{uploadError}</div>
-        )}
-        {isEmptyOption ? null : (
-          <div className={styles.url}>
-            <TextInputElement
-              placeholder="URL"
-              name={i18n.t('forms.url', 'URL')}
-              style={TextInputStyle.small}
-              onChange={(value: string) => {
-                onAttachmentChanged(index, attachment.type, value);
-              }}
-              entry={{ value: attachment.url }}
-              autocomplete={true}
-            />
-          </div>
-        )}
-        {attachment.validationFailures && attachment.validationFailures.length > 0 ? (
-          <div className={styles.error}>
-            <ImCross className={styles.crossIcon} />
-            {attachment.validationFailures[0].message}
-          </div>
-        ) : null}
-      </div>
-      <div>
-        {attachment.valid && !attachment.validationFailures && attachment.url ? (
-          <div className={styles.loading}>
-            Checking URL validity
-            <Loading size={10} units={3} color="#999999" />
-          </div>
-        ) : null}
-      </div>
     </>
   );
 };

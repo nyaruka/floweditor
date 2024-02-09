@@ -19,6 +19,7 @@
       border-radius: 0px;
     }
   }
+
   clear: both;
 }
 
@@ -52,7 +53,8 @@
   &.send_interactive_msg,
   &.wait_for_result,
   &.enter_flow,
-  &.link_google_sheet {
+  &.link_google_sheet &.request_optin,
+  &.enter_flow {
     width: $node_min_width - $action_padding * 2;
     padding: $action_padding;
   }
@@ -78,6 +80,7 @@
   .overlay {
     display: block;
   }
+
   .body {
     background: #fff !important;
   }

@@ -12,9 +12,10 @@ exports[`CaseElement operator changes should handle updates 1`] = `
         class="kase has_phone"
         data-draggable="true"
       >
-        <span
-          class="fe-chevrons-expand dnd_icon"
+        <temba-icon
+          class="dnd_icon"
           data-draggable="true"
+          name="sort"
         />
         <div
           class="choice"
@@ -59,10 +60,14 @@ exports[`CaseElement operator changes should handle updates 1`] = `
             </div>
           </div>
         </div>
-        <span
-          class="fe-x remove_icon"
-          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
-        />
+        <div
+          class="remove_icon"
+        >
+          <temba-icon
+            data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+            name="delete_small"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -83,9 +88,10 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
         class="kase has_number_between"
         data-draggable="true"
       >
-        <span
-          class="fe-chevrons-expand dnd_icon"
+        <temba-icon
+          class="dnd_icon"
           data-draggable="true"
+          name="sort"
         />
         <div
           class="choice"
@@ -163,10 +169,14 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
             </div>
           </div>
         </div>
-        <span
-          class="fe-x remove_icon"
-          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
-        />
+        <div
+          class="remove_icon"
+        >
+          <temba-icon
+            data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+            name="delete_small"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -188,9 +198,10 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
         class="kase has_number"
         data-draggable="true"
       >
-        <span
-          class="fe-chevrons-expand dnd_icon"
+        <temba-icon
+          class="dnd_icon"
           data-draggable="true"
+          name="sort"
         />
         <div
           class="choice"
@@ -235,10 +246,14 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
             </div>
           </div>
         </div>
-        <span
-          class="fe-x remove_icon"
-          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
-        />
+        <div
+          class="remove_icon"
+        >
+          <temba-icon
+            data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+            name="delete_small"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -257,9 +272,10 @@ exports[`CaseElement render renders no argument rules 1`] = `
         class="kase has_number"
         data-draggable="true"
       >
-        <span
-          class="fe-chevrons-expand dnd_icon"
+        <temba-icon
+          class="dnd_icon"
           data-draggable="true"
+          name="sort"
         />
         <div
           class="choice"
@@ -304,10 +320,14 @@ exports[`CaseElement render renders no argument rules 1`] = `
             </div>
           </div>
         </div>
-        <span
-          class="fe-x remove_icon"
-          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
-        />
+        <div
+          class="remove_icon"
+        >
+          <temba-icon
+            data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+            name="delete_small"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -325,9 +345,10 @@ exports[`CaseElement render should render empty case 1`] = `
         class="kase has_any_word"
         data-draggable="true"
       >
-        <span
-          class="fe-chevrons-expand dnd_icon"
+        <temba-icon
+          class="dnd_icon"
           data-draggable="true"
+          name="sort"
         />
         <div
           class="choice"
@@ -387,10 +408,14 @@ exports[`CaseElement render should render empty case 1`] = `
             </div>
           </div>
         </div>
-        <span
-          class="fe-x remove_icon"
-          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
-        />
+        <div
+          class="remove_icon"
+        >
+          <temba-icon
+            data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+            name="delete_small"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -414,9 +439,10 @@ exports[`CaseElement update handles argument change 1`] = `
         class="kase has_any_word"
         data-draggable="true"
       >
-        <span
-          class="fe-chevrons-expand dnd_icon"
+        <temba-icon
+          class="dnd_icon"
           data-draggable="true"
+          name="sort"
         />
         <div
           class="choice"
@@ -476,10 +502,14 @@ exports[`CaseElement update handles argument change 1`] = `
             </div>
           </div>
         </div>
-        <span
-          class="fe-x remove_icon"
-          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
-        />
+        <div
+          class="remove_icon"
+        >
+          <temba-icon
+            data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+            name="delete_small"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -504,9 +534,10 @@ exports[`CaseElement update handles multiple argument change 1`] = `
         class="kase has_number_between"
         data-draggable="true"
       >
-        <span
-          class="fe-chevrons-expand dnd_icon"
+        <temba-icon
+          class="dnd_icon"
           data-draggable="true"
+          name="sort"
         />
         <div
           class="choice"
@@ -584,10 +615,14 @@ exports[`CaseElement update handles multiple argument change 1`] = `
             </div>
           </div>
         </div>
-        <span
-          class="fe-x remove_icon"
-          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
-        />
+        <div
+          class="remove_icon"
+        >
+          <temba-icon
+            data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+            name="delete_small"
+          />
+        </div>
       </div>
     </div>
   </div>

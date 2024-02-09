@@ -30,36 +30,46 @@ $reset_color: #666;
       outline-color: transparent;
       outline-style: none;
     }
+
     &::-webkit-input-placeholder {
       color: $placeholder_color;
     }
+
     &::-moz-placeholder {
       color: $placeholder_color;
     }
+
     &:-ms-input-placeholder {
       color: $placeholder_color;
     }
+
     &:-moz-placeholder {
       color: $placeholder_color;
     }
   }
+
   input:disabled {
     background: lighten(#e6e6e6, 5%);
     cursor: not-allowed;
     $disabled_color: darken($placeholder_color, 5%);
+
     &::-webkit-input-placeholder {
       color: $disabled_color;
     }
+
     &::-moz-placeholder {
       color: $disabled_color;
     }
+
     &:-ms-input-placeholder {
       color: $disabled_color;
     }
+
     &:-moz-placeholder {
       color: $disabled_color;
     }
   }
+
   height: 500px;
   width: 260px;
   cursor: pointer;
@@ -90,14 +100,17 @@ $reset_color: #666;
         position: absolute;
         color: #ddd;
         cursor: pointer;
+
         &:hover {
           color: #fff;
         }
       }
+
       .time {
         display: inline-block;
         visibility: hidden;
       }
+
       .battery {
         display: inline-block;
         visibility: hidden;
@@ -105,6 +118,7 @@ $reset_color: #666;
         position: absolute;
         font-size: 13px;
       }
+
       .wifi {
         visibility: hidden;
         display: inline-block;
@@ -174,6 +188,7 @@ $reset_color: #666;
       position: relative;
       transition: height 0.3s linear;
     }
+
     .controls {
       z-index: 100;
       background: #444;
@@ -189,6 +204,7 @@ $reset_color: #666;
           box-shadow: none;
           border: none;
         }
+
         border-radius: 4px;
         border: none;
         outline: none;
@@ -211,13 +227,14 @@ $reset_color: #666;
       padding: 0px 5px;
       position: absolute;
       top: 11px;
-      right: 4px;
+      right: 8px;
       cursor: pointer;
-      transform: rotate(20deg);
+
 
       transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.075);
+
       &:hover {
-        transform: rotate(0deg) scale(1.1);
+        transform: scale(1.1);
         color: #333;
       }
     }
@@ -228,25 +245,24 @@ $reset_color: #666;
       transition: bottom 200ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
       width: 100%;
       background: #666;
-      height: 40px;
       color: #e6e6e6;
       z-index: 100;
       text-align: center;
+      display: flex;
 
       &.visible {
-        bottom: 30px;
+        bottom: 40px;
       }
 
-      div {
-        display: inline-block;
+      temba-icon {
+        padding: 0.6em;
+        border-radius: var(--curvature);
+        margin: 0.4em;
+      }
+
+      temba-icon:hover {
+        background: #888;
         cursor: pointer;
-        padding-left: 7px;
-        padding-right: 7px;
-        padding-top: 10px;
-        font-size: 15px;
-        &:hover {
-          color: #ccc;
-        }
       }
     }
   }
@@ -265,7 +281,7 @@ $reset_color: #666;
   z-index: 50;
   background: #555;
   transition: bottom 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  padding-bottom: 20px;
+  padding-bottom: 30px;
 
   .drawer_header {
     height: 10px;
@@ -285,19 +301,16 @@ $reset_color: #666;
     color: $light_gray;
     cursor: pointer;
     text-align: center;
+    display: flex;
+    align-items: center;
 
     &:hover {
       background: #777;
     }
-    .audio_icon {
-      display: inline;
-      font-size: 26px;
-    }
+
     .audio_message {
-      display: inline;
       font-size: 15px;
       padding-left: 3px;
-      vertical-align: super;
     }
   }
 
@@ -314,6 +327,7 @@ $reset_color: #666;
     .keys {
       color: $light_gray;
       padding: 5px;
+
       .row {
         width: 100%;
         margin: 0;
@@ -382,6 +396,7 @@ $reset_color: #666;
   transition-delay: 300ms;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
+
   .simulator_tab_icon {
     position: absolute;
     font-size: 34px;
@@ -389,6 +404,7 @@ $reset_color: #666;
     padding: 8px 0px;
     margin-left: 3px;
   }
+
   .simulator_tab_text {
     position: absolute;
     left: 40px;
@@ -404,6 +420,7 @@ $reset_color: #666;
 .simulator_tab:hover {
   right: -10px;
   transition: right 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
   .simulator_tab_text {
     opacity: 0.99;
     transition: opacity 500ms;
@@ -431,6 +448,7 @@ $reset_color: #666;
     background: #444;
 
     transition: transform 0.1s linear;
+
     &:hover {
       background: #333;
       transform: scale(1.05);

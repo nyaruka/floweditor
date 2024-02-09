@@ -6,23 +6,23 @@ import { Asset, AssetType } from 'store/flowContext';
 export const getIconForAssetType = (asset: Asset): JSX.Element => {
   switch (asset.type) {
     case AssetType.Group:
-      return <span className="fe-group" />;
+      return <temba-icon name="group"></temba-icon>;
     case AssetType.Label:
-      return <span className="fe-label" />;
+      return <temba-icon name="label"></temba-icon>;
     case AssetType.Flow:
-      return <span className="fe-split" />;
+      return <temba-icon name="flow"></temba-icon>;
     case AssetType.Scheme:
-      return <span className="fe-connection" />;
+      return <temba-icon name="scheme"></temba-icon>;
     case AssetType.Template:
       if (hasPendingTranslation(asset.content as Template)) {
-        return <span className="fe-hourglass" />;
+        return <span className="pending" />;
       } else {
-        return <span className="fe-check" />;
+        return <temba-icon name="check"></temba-icon>;
       }
     case AssetType.Remove:
       return (
         <>
-          <span className="fe-trash" />
+          <temba-icon name="delete"></temba-icon>
           &nbsp;
         </>
       );

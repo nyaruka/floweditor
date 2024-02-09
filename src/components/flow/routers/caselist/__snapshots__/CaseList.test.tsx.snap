@@ -20,9 +20,10 @@ exports[`CaseList render should render empty list 1`] = `
               class="kase has_any_word"
               data-draggable="true"
             >
-              <span
-                class="fe-chevrons-expand dnd_icon"
+              <temba-icon
+                class="dnd_icon"
                 data-draggable="true"
+                name="sort"
               />
               <div
                 class="choice"
@@ -82,10 +83,14 @@ exports[`CaseList render should render empty list 1`] = `
                   </div>
                 </div>
               </div>
-              <span
-                class="fe-x remove_icon"
-                data-testid="remove-case-477ac8b4-25e2-483a-8686-2d1332c4da1c"
-              />
+              <div
+                class="remove_icon"
+              >
+                <temba-icon
+                  data-testid="remove-case-477ac8b4-25e2-483a-8686-2d1332c4da1c"
+                  name="delete_small"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -117,9 +122,10 @@ exports[`CaseList render should render list of cases 1`] = `
               class="kase has_any_word"
               data-draggable="true"
             >
-              <span
-                class="fe-chevrons-expand dnd_icon"
+              <temba-icon
+                class="dnd_icon"
                 data-draggable="true"
+                name="sort"
               />
               <div
                 class="choice"
@@ -179,10 +185,14 @@ exports[`CaseList render should render list of cases 1`] = `
                   </div>
                 </div>
               </div>
-              <span
-                class="fe-x remove_icon"
-                data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
-              />
+              <div
+                class="remove_icon"
+              >
+                <temba-icon
+                  data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+                  name="delete_small"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -196,9 +206,10 @@ exports[`CaseList render should render list of cases 1`] = `
               class="kase has_any_word"
               data-draggable="true"
             >
-              <span
-                class="fe-chevrons-expand dnd_icon"
+              <temba-icon
+                class="dnd_icon"
                 data-draggable="true"
+                name="sort"
               />
               <div
                 class="choice"
@@ -258,10 +269,14 @@ exports[`CaseList render should render list of cases 1`] = `
                   </div>
                 </div>
               </div>
-              <span
-                class="fe-x remove_icon"
-                data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
-              />
+              <div
+                class="remove_icon"
+              >
+                <temba-icon
+                  data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
+                  name="delete_small"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -275,9 +290,10 @@ exports[`CaseList render should render list of cases 1`] = `
               class="kase has_any_word"
               data-draggable="true"
             >
-              <span
-                class="fe-chevrons-expand dnd_icon"
+              <temba-icon
+                class="dnd_icon"
                 data-draggable="true"
+                name="sort"
               />
               <div
                 class="choice"
@@ -337,10 +353,14 @@ exports[`CaseList render should render list of cases 1`] = `
                   </div>
                 </div>
               </div>
-              <span
-                class="fe-x remove_icon"
-                data-testid="remove-case-1e47a1e1-3c67-4df5-adf1-da542c789adb"
-              />
+              <div
+                class="remove_icon"
+              >
+                <temba-icon
+                  data-testid="remove-case-1e47a1e1-3c67-4df5-adf1-da542c789adb"
+                  name="delete_small"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -375,9 +395,10 @@ exports[`CaseList updates changes default operator on add 1`] = `
               class="kase has_number_gt"
               data-draggable="true"
             >
-              <span
-                class="fe-chevrons-expand dnd_icon"
+              <temba-icon
+                class="dnd_icon"
                 data-draggable="true"
+                name="sort"
               />
               <div
                 class="choice"
@@ -437,10 +458,14 @@ exports[`CaseList updates changes default operator on add 1`] = `
                   </div>
                 </div>
               </div>
-              <span
-                class="fe-x remove_icon"
-                data-testid="remove-case-132de855-4042-4dc1-a18f-cc2e6a8f790a"
-              />
+              <div
+                class="remove_icon"
+              >
+                <temba-icon
+                  data-testid="remove-case-132de855-4042-4dc1-a18f-cc2e6a8f790a"
+                  name="delete_small"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -454,9 +479,10 @@ exports[`CaseList updates changes default operator on add 1`] = `
               class="kase has_number_gt"
               data-draggable="true"
             >
-              <span
-                class="fe-chevrons-expand dnd_icon"
+              <temba-icon
+                class="dnd_icon"
                 data-draggable="true"
+                name="sort"
               />
               <div
                 class="choice"
@@ -516,10 +542,14 @@ exports[`CaseList updates changes default operator on add 1`] = `
                   </div>
                 </div>
               </div>
-              <span
-                class="fe-x remove_icon"
-                data-testid="remove-case-2dc85899-0577-4f1b-a620-f12094e34b5e"
-              />
+              <div
+                class="remove_icon"
+              >
+                <temba-icon
+                  data-testid="remove-case-2dc85899-0577-4f1b-a620-f12094e34b5e"
+                  name="delete_small"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -552,9 +582,10 @@ exports[`CaseList updates should remove cases 1`] = `
               class="kase has_any_word"
               data-draggable="true"
             >
-              <span
-                class="fe-chevrons-expand dnd_icon"
+              <temba-icon
+                class="dnd_icon"
                 data-draggable="true"
+                name="sort"
               />
               <div
                 class="choice"
@@ -614,10 +645,14 @@ exports[`CaseList updates should remove cases 1`] = `
                   </div>
                 </div>
               </div>
-              <span
-                class="fe-x remove_icon"
-                data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
-              />
+              <div
+                class="remove_icon"
+              >
+                <temba-icon
+                  data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
+                  name="delete_small"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -631,9 +666,10 @@ exports[`CaseList updates should remove cases 1`] = `
               class="kase has_any_word"
               data-draggable="true"
             >
-              <span
-                class="fe-chevrons-expand dnd_icon"
+              <temba-icon
+                class="dnd_icon"
                 data-draggable="true"
+                name="sort"
               />
               <div
                 class="choice"
@@ -693,10 +729,14 @@ exports[`CaseList updates should remove cases 1`] = `
                   </div>
                 </div>
               </div>
-              <span
-                class="fe-x remove_icon"
-                data-testid="remove-case-1e47a1e1-3c67-4df5-adf1-da542c789adb"
-              />
+              <div
+                class="remove_icon"
+              >
+                <temba-icon
+                  data-testid="remove-case-1e47a1e1-3c67-4df5-adf1-da542c789adb"
+                  name="delete_small"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -730,9 +770,10 @@ exports[`CaseList updates should update cases 1`] = `
               class="kase has_any_word"
               data-draggable="true"
             >
-              <span
-                class="fe-chevrons-expand dnd_icon"
+              <temba-icon
+                class="dnd_icon"
                 data-draggable="true"
+                name="sort"
               />
               <div
                 class="choice"
@@ -792,10 +833,14 @@ exports[`CaseList updates should update cases 1`] = `
                   </div>
                 </div>
               </div>
-              <span
-                class="fe-x remove_icon"
-                data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
-              />
+              <div
+                class="remove_icon"
+              >
+                <temba-icon
+                  data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+                  name="delete_small"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -809,9 +854,10 @@ exports[`CaseList updates should update cases 1`] = `
               class="kase has_any_word"
               data-draggable="true"
             >
-              <span
-                class="fe-chevrons-expand dnd_icon"
+              <temba-icon
+                class="dnd_icon"
                 data-draggable="true"
+                name="sort"
               />
               <div
                 class="choice"
@@ -871,10 +917,14 @@ exports[`CaseList updates should update cases 1`] = `
                   </div>
                 </div>
               </div>
-              <span
-                class="fe-x remove_icon"
-                data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
-              />
+              <div
+                class="remove_icon"
+              >
+                <temba-icon
+                  data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
+                  name="delete_small"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -888,9 +938,10 @@ exports[`CaseList updates should update cases 1`] = `
               class="kase has_any_word"
               data-draggable="true"
             >
-              <span
-                class="fe-chevrons-expand dnd_icon"
+              <temba-icon
+                class="dnd_icon"
                 data-draggable="true"
+                name="sort"
               />
               <div
                 class="choice"
@@ -950,10 +1001,14 @@ exports[`CaseList updates should update cases 1`] = `
                   </div>
                 </div>
               </div>
-              <span
-                class="fe-x remove_icon"
-                data-testid="remove-case-1e47a1e1-3c67-4df5-adf1-da542c789adb"
-              />
+              <div
+                class="remove_icon"
+              >
+                <temba-icon
+                  data-testid="remove-case-1e47a1e1-3c67-4df5-adf1-da542c789adb"
+                  name="delete_small"
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -99,13 +99,29 @@ exports[`ResultRouterForm should render 1`] = `
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Split by Flow Result
+            <div
+              class="title"
+            >
+              Split by Flow Result
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
           <div
-            class="subtitle"
-          />
+            class="tabs"
+          >
+            <div
+              class="tab "
+              style="display: flex;"
+            >
+              <div>
+                Advanced
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -183,9 +199,10 @@ exports[`ResultRouterForm should render 1`] = `
                   class="kase has_any_word"
                   data-draggable="true"
                 >
-                  <span
-                    class="fe-chevrons-expand dnd_icon"
+                  <temba-icon
+                    class="dnd_icon"
                     data-draggable="true"
+                    name="sort"
                   />
                   <div
                     class="choice"
@@ -245,10 +262,14 @@ exports[`ResultRouterForm should render 1`] = `
                       </div>
                     </div>
                   </div>
-                  <span
-                    class="fe-x remove_icon"
-                    data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
-                  />
+                  <div
+                    class="remove_icon"
+                  >
+                    <temba-icon
+                      data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+                      name="delete_small"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -277,15 +298,23 @@ exports[`ResultRouterForm should render 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>

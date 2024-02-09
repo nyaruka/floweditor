@@ -47,6 +47,7 @@ import { FeatureFilter } from 'config/interfaces';
 import i18n from 'config/i18n';
 import { Attachment, renderAttachments, validateURL } from './attachments';
 import { AddLabelsFormState } from '../addlabels/AddLabelsForm';
+import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 
 export interface SendMsgFormState extends FormState {
   message: StringEntry;
@@ -91,7 +92,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     if (this.state.template.value !== null && this.state.template.value.name !== 'Expression') {
       fetchAsset(this.props.assetStore.templates, this.state.template.value.uuid).then(
         (asset: Asset) => {
-          if (asset !== null) {
+          if (asset) {
+            console.log(asset);
             this.handleTemplateChanged([{ ...this.state.template.value, ...asset.content }]);
           }
         }
@@ -522,6 +524,24 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       hasErrors: this.state.attachments.length > 0 && this.state.attachments[0].valid
     };
 
+    // Not needed in context of Glific
+    // const advanced: Tab = {
+    //   name: i18n.t('forms.advanced', 'Advanced'),
+    //   body: (
+    //     <CheckboxElement
+    //       name={i18n.t('forms.all_destinations', 'All Destinations')}
+    //       title={i18n.t('forms.all_destinations', 'All Destinations')}
+    //       checked={this.state.sendAll}
+    //       description={i18n.t(
+    //         'forms.all_destinations_description',
+    //         "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
+    //       )}
+    //       onChange={this.handleSendAllUpdate}
+    //     />
+    //   ),
+    //   checked: this.state.sendAll
+    // };
+
     const tabs = [attachments];
 
     if (hasFeature(this.context.config, FeatureFilter.HAS_WHATSAPP)) {
@@ -535,6 +555,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       };
       tabs.splice(0, 0, templates);
     }
+
+    tabs.reverse();
 
     return (
       <Dialog

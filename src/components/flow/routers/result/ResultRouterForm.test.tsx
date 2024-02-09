@@ -7,6 +7,7 @@ import { mock } from 'testUtils';
 import { createMatchRouter, getRouterFormProps } from 'testUtils/assetCreators';
 import * as utils from 'utils';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
+import { hydrate } from 'react-dom';
 
 const routerNode = createMatchRouter([]);
 routerNode.ui = {
@@ -26,24 +27,26 @@ describe(ResultRouterForm.name, () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  // we are not using delimit option in Glific
+  xit('should show delimit options', () => {
+    const props = getRouterFormProps(routerNode);
+    const { baseElement, getByText } = render(<ResultRouterForm {...props} />);
 
-  // it('should show delimit options', () => {
-  //   const props = getRouterFormProps(routerNode);
-  //   const { baseElement, getByText } = render(<ResultRouterForm {...props} />);
+    // it('should show delimit options', () => {
+    //   const props = getRouterFormProps(routerNode);
+    //   const { baseElement, getByText } = render(<ResultRouterForm {...props} />);
 
-  //   // turn on delimiting
-  //   fireEvent.click(getByText('Advanced'));
-  //   fireEvent.click(getByText('Delimit Result'));
+    //   // turn on delimiting
+    //   fireEvent.click(getByText('Advanced'));
+    //   fireEvent.click(getByText('Delimit Result'));
 
-  //   // return to main view
-  //   fireEvent.click(getByText('Split by Flow Result'));
+    //   // return to main view
+    //   fireEvent.click(getByText('Split by Flow Result'));
 
-  //   // should have delimit options
-  //   getByText('delimited by');
+    //   // should have delimit options
+    //   getByText('delimited by');
 
-  //   expect(baseElement).toMatchSnapshot();
-  // });
+    //   expect(baseElement).toMatchSnapshot();
+  });
 
   it('should create the right operand on save', () => {
     const props = getRouterFormProps(routerNode);

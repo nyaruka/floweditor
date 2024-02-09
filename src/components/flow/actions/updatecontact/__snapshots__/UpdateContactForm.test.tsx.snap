@@ -14,13 +14,17 @@ exports[`UpdateContactForm should render channel 1`] = `
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Update Contact
+            <div
+              class="title"
+            >
+              Update Contact
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
-          <div
-            class="subtitle"
-          />
         </div>
       </div>
       <div
@@ -108,15 +112,23 @@ exports[`UpdateContactForm should render channel 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>
@@ -140,13 +152,17 @@ exports[`UpdateContactForm should render field 1`] = `
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Update Contact
+            <div
+              class="title"
+            >
+              Update Contact
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
-          <div
-            class="subtitle"
-          />
         </div>
       </div>
       <div
@@ -228,15 +244,23 @@ exports[`UpdateContactForm should render field 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>
@@ -263,13 +287,17 @@ exports[`UpdateContactForm should render language 1`] = `
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Update Contact
+            <div
+              class="title"
+            >
+              Update Contact
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
-          <div
-            class="subtitle"
-          />
         </div>
       </div>
       <div
@@ -356,15 +384,23 @@ exports[`UpdateContactForm should render language 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>
@@ -390,13 +426,17 @@ exports[`UpdateContactForm should render name 1`] = `
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Update Contact
+            <div
+              class="title"
+            >
+              Update Contact
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
-          <div
-            class="subtitle"
-          />
         </div>
       </div>
       <div
@@ -478,15 +518,23 @@ exports[`UpdateContactForm should render name 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>

@@ -130,8 +130,7 @@ export default class UpdateContactForm extends React.Component<
           case ContactProperties.Name:
             return this.handleUpdate({
               field: selection,
-              type: Types.set_contact_name,
-              name: ''
+              type: Types.set_contact_name
             });
           case ContactProperties.Language:
             return this.handleUpdate({
@@ -152,8 +151,7 @@ export default class UpdateContactForm extends React.Component<
       }
       return this.handleUpdate({
         type: Types.set_contact_field,
-        field: selection,
-        fieldValue: ''
+        field: selection
       });
     }
   }

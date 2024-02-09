@@ -1,5 +1,7 @@
 import {
   getActionUUID,
+  getCompose,
+  getComposeByAsset,
   getExpressions,
   getRecipients,
   getRecipientsByAsset
@@ -7,7 +9,8 @@ import {
 import { SendBroadcastFormState } from 'components/flow/actions/sendbroadcast/SendBroadcastForm';
 import { Types } from 'config/interfaces';
 import { Attachment } from 'components/flow/actions/sendmsg/attachments';
-import { BroadcastMsg, SendMsg, MsgTemplating } from 'flowTypes';
+import { SendMsg, MsgTemplating } from 'flowTypes';
+import { BroadcastMsg, ComposeAttachment } from 'flowTypes';
 import { AssetType } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { createUUID } from 'utils';
@@ -68,68 +71,52 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
       if (localized.isLocalized()) {
         action = settings.localizations[0].getObject() as BroadcastMsg;
       } else {
-        return finalState;
+        return {
+          compose: { value: getCompose() },
+          recipients: { value: [] },
+          valid: true
+        };
       }
     }
 
-    finalState.message = { value: action.text };
-    finalState.recipients = { value: getRecipients(action) };
-
-    return finalState;
+    return {
+      compose: { value: getCompose(action) },
+      recipients: { value: getRecipients(action) },
+      valid: true
+    };
   }
 
-  finalState.valid = false;
-
-  return finalState;
+  return {
+    compose: { value: getCompose() },
+    recipients: { value: [] },
+    valid: false
+  };
 };
 
 export const stateToAction = (
   settings: NodeEditorSettings,
   formState: SendBroadcastFormState
 ): BroadcastMsg => {
-  const attachments = formState.attachments
-    .filter((attachment: Attachment) => attachment.url.trim().length > 0)
-    .map((attachment: Attachment) => `${attachment.type}:${attachment.url}`);
+  const compose = formState.compose.value;
+  const text = getComposeByAsset(compose, AssetType.ComposeText);
+  const attachments = getComposeByAsset(compose, AssetType.ComposeAttachments).map(
+    (attachment: ComposeAttachment) => `${attachment.content_type}:${attachment.url}`
+  );
 
-  let templating: MsgTemplating = null;
-
-  if (formState.template && formState.template.value) {
-    let templatingUUID = createUUID();
-    if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
-      const action = settings.originalAction as SendMsg;
-      if (
-        action.templating &&
-        action.templating.template &&
-        action.templating.template.uuid === formState.template.value.id
-      ) {
-        templatingUUID = action.templating.uuid;
-      }
-    }
-
-    templating = {
-      uuid: templatingUUID,
-      template: {
-        uuid: formState.template.value.uuid,
-        name: formState.template.value.name
-      },
-
-      variables: formState.templateVariables.map((variable: StringEntry) => variable.value)
-    };
-  }
-
-  let result: any = {
-    attachments,
+  return {
     legacy_vars: getExpressions(formState.recipients.value),
     contacts: getRecipientsByAsset(formState.recipients.value, AssetType.Contact),
     groups: getRecipientsByAsset(formState.recipients.value, AssetType.Group),
-    text: formState.message.value,
+    compose: compose,
+    text: text,
+    attachments: attachments,
     type: Types.send_broadcast,
     uuid: getActionUUID(settings, Types.send_broadcast)
   };
 
-  if (templating) {
-    result.templating = templating;
-  }
+  // if (templating) {
+  //   result.templating = templating;
+  // }
 
-  return result;
+  // return result;
 };

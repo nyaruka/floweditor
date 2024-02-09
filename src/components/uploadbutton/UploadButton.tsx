@@ -63,7 +63,7 @@ export default class UploadButton extends React.Component<UploadButtonProps, Upl
         />
         {this.props.url ? (
           <Button
-            iconName="fe-trash"
+            iconName="delete"
             name={this.props.removeText}
             topSpacing={true}
             onClick={this.handleRemoveUpload}

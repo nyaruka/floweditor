@@ -30,9 +30,14 @@ exports[`ContextExplorer should expand and collapse 1`] = `
               <div
                 class="key_summary"
               />
-              <div
-                class="clipboard fe-clipboard-empty"
-              />
+              <span
+                class="clipboard"
+              >
+                <temba-icon
+                  name="copy"
+                  size="1"
+                />
+              </span>
             </div>
             <div
               class="str_value"
@@ -60,9 +65,14 @@ exports[`ContextExplorer should expand and collapse 1`] = `
               >
                 [6]
               </div>
-              <div
-                class="clipboard fe-clipboard-empty"
-              />
+              <span
+                class="clipboard"
+              >
+                <temba-icon
+                  name="copy"
+                  size="1"
+                />
+              </span>
             </div>
             <div
               class="str_value"
@@ -85,9 +95,14 @@ exports[`ContextExplorer should expand and collapse 1`] = `
                 <div
                   class="key_summary"
                 />
-                <div
-                  class="clipboard fe-clipboard-empty"
-                />
+                <span
+                  class="clipboard"
+                >
+                  <temba-icon
+                    name="copy"
+                    size="1"
+                  />
+                </span>
               </div>
               <div
                 class="str_value"
@@ -113,9 +128,14 @@ exports[`ContextExplorer should expand and collapse 1`] = `
                 <div
                   class="key_summary"
                 />
-                <div
-                  class="clipboard fe-clipboard-empty"
-                />
+                <span
+                  class="clipboard"
+                >
+                  <temba-icon
+                    name="copy"
+                    size="1"
+                  />
+                </span>
               </div>
               <div
                 class="str_value"
@@ -141,9 +161,14 @@ exports[`ContextExplorer should expand and collapse 1`] = `
                 <div
                   class="key_summary"
                 />
-                <div
-                  class="clipboard fe-clipboard-empty"
-                />
+                <span
+                  class="clipboard"
+                >
+                  <temba-icon
+                    name="copy"
+                    size="1"
+                  />
+                </span>
               </div>
               <div
                 class="str_value"
@@ -169,9 +194,14 @@ exports[`ContextExplorer should expand and collapse 1`] = `
                 <div
                   class="key_summary"
                 />
-                <div
-                  class="clipboard fe-clipboard-empty"
-                />
+                <span
+                  class="clipboard"
+                >
+                  <temba-icon
+                    name="copy"
+                    size="1"
+                  />
+                </span>
               </div>
               <div
                 class="str_value"
@@ -197,9 +227,14 @@ exports[`ContextExplorer should expand and collapse 1`] = `
                 <div
                   class="key_summary"
                 />
-                <div
-                  class="clipboard fe-clipboard-empty"
-                />
+                <span
+                  class="clipboard"
+                >
+                  <temba-icon
+                    name="copy"
+                    size="1"
+                  />
+                </span>
               </div>
               <div
                 class="str_value"
@@ -225,9 +260,14 @@ exports[`ContextExplorer should expand and collapse 1`] = `
                 <div
                   class="key_summary"
                 />
-                <div
-                  class="clipboard fe-clipboard-empty"
-                />
+                <span
+                  class="clipboard"
+                >
+                  <temba-icon
+                    name="copy"
+                    size="1"
+                  />
+                </span>
               </div>
               <div
                 class="str_value"
@@ -254,9 +294,14 @@ exports[`ContextExplorer should expand and collapse 1`] = `
               <div
                 class="key_summary"
               />
-              <div
-                class="clipboard fe-clipboard-empty"
-              />
+              <span
+                class="clipboard"
+              >
+                <temba-icon
+                  name="copy"
+                  size="1"
+                />
+              </span>
             </div>
             <div
               class="str_value"
@@ -272,8 +317,8 @@ exports[`ContextExplorer should expand and collapse 1`] = `
         <div
           class="empty_toggle"
         >
-          <div
-            class="fe-eye-crossed"
+          <temba-icon
+            name="hide"
           />
         </div>
       </div>
@@ -312,9 +357,14 @@ exports[`ContextExplorer should render 1`] = `
               <div
                 class="key_summary"
               />
-              <div
-                class="clipboard fe-clipboard-empty"
-              />
+              <span
+                class="clipboard"
+              >
+                <temba-icon
+                  name="copy"
+                  size="1"
+                />
+              </span>
             </div>
             <div
               class="str_value"
@@ -342,9 +392,14 @@ exports[`ContextExplorer should render 1`] = `
               >
                 [6]
               </div>
-              <div
-                class="clipboard fe-clipboard-empty"
-              />
+              <span
+                class="clipboard"
+              >
+                <temba-icon
+                  name="copy"
+                  size="1"
+                />
+              </span>
             </div>
             <div
               class="str_value"
@@ -368,9 +423,14 @@ exports[`ContextExplorer should render 1`] = `
               <div
                 class="key_summary"
               />
-              <div
-                class="clipboard fe-clipboard-empty"
-              />
+              <span
+                class="clipboard"
+              >
+                <temba-icon
+                  name="copy"
+                  size="1"
+                />
+              </span>
             </div>
             <div
               class="str_value"
@@ -386,8 +446,8 @@ exports[`ContextExplorer should render 1`] = `
         <div
           class="empty_toggle"
         >
-          <div
-            class="fe-eye-crossed"
+          <temba-icon
+            name="hide"
           />
         </div>
       </div>

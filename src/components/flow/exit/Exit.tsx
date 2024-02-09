@@ -399,9 +399,11 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     const confirm: JSX.Element =
       confirmDelete && this.context.config.mutable ? (
         <div
-          className={styles.confirm_x + ' fe-x'}
+          className={styles.confirm_x}
           {...createClickHandler(this.onDisconnect, () => this.props.dragging)}
-        />
+        >
+          <temba-icon name="delete_small"></temba-icon>
+        </div>
       ) : null;
     const exitClasses: string = cx({
       [styles.exit]: true,

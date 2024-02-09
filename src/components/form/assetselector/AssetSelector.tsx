@@ -161,12 +161,12 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     if (now - this.lastCreation < 1000) {
       return;
     }
-
     this.lastCreation = now;
-    // mark us as loading
+
     const asset: Asset = this.props.createAssetFromInput(input);
 
     if (this.props.assets && this.props.assets.endpoint) {
+      // mark us as loading
       this.setState({ isLoading: true, message: null });
       postNewAsset(this.props.assets, asset)
         .then((result: Asset) => {

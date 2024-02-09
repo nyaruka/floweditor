@@ -53,7 +53,8 @@ import {
   WaitTypes,
   WebhookExitNames,
   HintTypes,
-  CallClassifier
+  CallClassifier,
+  ComposeAttachment
 } from 'flowTypes';
 import Localization from 'services/Localization';
 import { Asset, Assets, AssetType, RenderNode } from 'store/flowContext';
@@ -213,17 +214,23 @@ export const createBroadcastMsgAction = ({
     { uuid: utils.createUUID(), name: 'Norbert Kwizera' },
     { uuid: utils.createUUID(), name: 'Rowan Seymour' }
   ],
-  text = 'Hello World'
+  compose = JSON.stringify({ text: 'Some broadcast message', attachments: [] }),
+  text = 'Some broadcast message',
+  attachments = []
 }: {
   uuid?: string;
   groups?: Group[];
   contacts?: Contact[];
+  compose?: string;
   text?: string;
+  attachments?: string[];
 } = {}): BroadcastMsg => ({
   uuid,
   groups,
   contacts,
+  compose,
   text,
+  attachments,
   type: Types.send_broadcast
 });
 
@@ -428,10 +435,6 @@ export const createOpenTicketNode = (subject: string, body: string): FlowNode =>
   const action: OpenTicket = {
     uuid: utils.createUUID(),
     type: Types.open_ticket,
-    ticketer: {
-      name: 'Email (bob@acme.com)',
-      uuid: '1165a73a-2ee0-4891-895e-768645194862'
-    },
     subject: subject,
     body: body,
     result_name: 'Result'
