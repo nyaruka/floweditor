@@ -20,9 +20,7 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
   let templateVariables: any = [];
 
   const finalState: SendBroadcastFormState = {
-    template,
-    templateVariables,
-    message: { value: '' },
+    compose: { value: '' },
     recipients: { value: [] },
     valid: true,
     attachments: [],
@@ -63,8 +61,8 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
       });
     }
 
-    finalState.template = template;
-    finalState.templateVariables = templateVariables;
+    // finalState.template = template;
+    // finalState.templateVariables = templateVariables;
     // check if our form should use a localized action
     if (settings.localizations && settings.localizations.length > 0) {
       const localized = settings.localizations[0];
@@ -74,7 +72,10 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
         return {
           compose: { value: getCompose() },
           recipients: { value: [] },
-          valid: true
+          valid: true,
+          attachments,
+          validAttachment: true,
+          attachmentError: ''
         };
       }
     }
@@ -82,14 +83,20 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
     return {
       compose: { value: getCompose(action) },
       recipients: { value: getRecipients(action) },
-      valid: true
+      valid: true,
+      attachments,
+      validAttachment: true,
+      attachmentError: ''
     };
   }
 
   return {
     compose: { value: getCompose() },
     recipients: { value: [] },
-    valid: false
+    valid: false,
+    attachments: [],
+    validAttachment: true,
+    attachmentError: ''
   };
 };
 

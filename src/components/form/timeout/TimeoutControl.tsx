@@ -94,10 +94,10 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
             <div className={styles.drop_down}>
               <TembaSelect
                 name={i18n.t('forms.timeout', 'Timeout')}
-                checked={this.isChecked()}
-                description={this.getInstructions()}
-                checkboxClassName={styles.checkbox}
-                onChange={this.handleChecked}
+                style={TembaSelectStyle.small}
+                value={this.getSelected(this.props.timeout)}
+                options={TIMEOUT_OPTIONS}
+                onChange={this.handleTimeoutChanged}
               />
             </div>
           )}

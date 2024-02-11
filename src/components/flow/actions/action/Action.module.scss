@@ -53,7 +53,8 @@
   &.send_interactive_msg,
   &.wait_for_result,
   &.enter_flow,
-  &.link_google_sheet &.request_optin,
+  &.link_google_sheet,
+  &.request_optin,
   &.enter_flow {
     width: $node_min_width - $action_padding * 2;
     padding: $action_padding;

@@ -187,22 +187,22 @@ const SERVER_ERROR = i18n.t(
 );
 
 export const createSaveMonitor = (dispatch: DispatchWithState) => {
-  window.setInterval(() => {
-    if (
-      lastSuccessfulMillis < lastDirtyMillis &&
-      new Date().getTime() - lastDirtyMillis > SAVE_ALERT_MILLIS
-    ) {
-      dispatch(
-        mergeEditorState({
-          modalMessage: {
-            title: "Uh oh, we couldn't save your changes",
-            body: NETWORK_ERROR
-          },
-          saving: false
-        })
-      );
-    }
-  }, 5000);
+  // window.setInterval(() => {
+  //   if (
+  //     lastSuccessfulMillis < lastDirtyMillis &&
+  //     new Date().getTime() - lastDirtyMillis > SAVE_ALERT_MILLIS
+  //   ) {
+  //     dispatch(
+  //       mergeEditorState({
+  //         modalMessage: {
+  //           title: "Uh oh, we couldn't save your changes",
+  //           body: NETWORK_ERROR
+  //         },
+  //         saving: false
+  //       })
+  //     );
+  //   }
+  // }, 5000);
 };
 
 export const createDirty = (

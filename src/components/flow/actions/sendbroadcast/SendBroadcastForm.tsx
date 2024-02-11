@@ -163,9 +163,7 @@ export default class SendBroadcastForm extends React.Component<
 
           valid = this.handleUpdate(
             {
-              text: this.state.message.value,
-              recipients: this.state.recipients.value,
-              template: this.state.template.value
+              recipients: this.state.recipients.value
             },
             true
           );
@@ -494,7 +492,6 @@ export default class SendBroadcastForm extends React.Component<
         <ComposeElement
           name={i18n.t('forms.compose', 'Compose')}
           chatbox
-          attachments
           counter
           entry={this.state.compose}
           onChange={this.handleComposeChanged}
