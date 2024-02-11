@@ -90,8 +90,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     if (this.state.template.value !== null && this.state.template.value.name !== 'Expression') {
       fetchAsset(this.props.assetStore.templates, this.state.template.value.uuid).then(
         (asset: Asset) => {
-          if (asset) {
-            console.log(asset);
+          if (asset !== null) {
             this.handleTemplateChanged([{ ...this.state.template.value, ...asset.content }]);
           }
         }
