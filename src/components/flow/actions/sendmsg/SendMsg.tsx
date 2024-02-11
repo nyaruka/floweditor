@@ -91,7 +91,7 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
   if (action.attachments && action.attachments.length > 0) {
     return (
       <>
-        <div className={`${styles.attachment} fe-paperclip`} />
+        <temba-icon style={{ marginRight: 6, marginTop: 6 }} name="attachment"></temba-icon>
         {labels}
       </>
     );
@@ -99,7 +99,7 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
   if (action.templating && action.templating.template) {
     return (
       <>
-        <div className={`${styles.whatsapp} fe-whatsapp`} />
+        <temba-icon style={{ marginRight: 6, marginTop: 6 }} name="channel_wac"></temba-icon>
         {labels}
       </>
     );

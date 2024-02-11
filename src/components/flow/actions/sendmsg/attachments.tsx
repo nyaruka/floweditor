@@ -204,12 +204,18 @@ export const renderAttachment = (
         )}
       </div>
       <div>
-        {attachment.valid && !attachment.validationFailures && attachment.url ? (
+        {attachment.valid && !attachment.validationFailures && attachment.url && (
           <div className={styles.loading}>
             Checking URL validity
             <Loading size={10} units={3} color="#999999" />
           </div>
-        ) : null}
+        )}
+        {attachment.validationFailures && attachment.validationFailures.length > 0 && (
+          <div className={styles.error}>
+            <ImCross className={styles.crossIcon} />
+            {attachment.validationFailures[0].message}
+          </div>
+        )}
       </div>
     </>
   );

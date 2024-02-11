@@ -47,7 +47,6 @@ import { FeatureFilter } from 'config/interfaces';
 import i18n from 'config/i18n';
 import { Attachment, renderAttachments, validateURL } from './attachments';
 import { AddLabelsFormState } from '../addlabels/AddLabelsForm';
-import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 
 export interface SendMsgFormState extends FormState {
   message: StringEntry;
@@ -79,7 +78,6 @@ const additionalOption = {
 };
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
-  private filePicker: any;
   private timeout: any;
 
   constructor(props: ActionFormProps) {
@@ -397,7 +395,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
   private handleAttachmentUploading(isUploading: boolean) {
     const uploadError = '';
-    console.log(uploadError);
     this.setState({ uploadError });
 
     if (isUploading) {
