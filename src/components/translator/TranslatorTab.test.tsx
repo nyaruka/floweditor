@@ -49,9 +49,14 @@ const createMessageNode = (
 
   if (variables.length > 0) {
     sendMsg.templating = {
-      uuid: createUUID(),
       template: { uuid: createUUID(), name: 'My Template' },
-      variables
+      components: [
+        {
+          uuid: createUUID(),
+          name: 'body',
+          params: variables
+        }
+      ]
     };
   }
 
@@ -99,13 +104,12 @@ describe(TranslatorTab.name, () => {
   it('finds message translations', () => {
     const { baseElement, getByText, rerender } = render(<TranslatorTab {...translatorProps} />);
 
-    const updates = createMessageNode('Hello World!', ['yes', 'no'], ['var1', 'var2']);
+    const updates = createMessageNode('Hello World!', ['yes', 'no']);
     rerender(<TranslatorTab {...translatorProps} {...updates} />);
 
     // we pulled out all the localizable bits
     getByText('Hello World!');
     getByText('Quick Replies');
-    getByText('Template Variables');
 
     getByText('0%');
     expect(baseElement).toMatchSnapshot();

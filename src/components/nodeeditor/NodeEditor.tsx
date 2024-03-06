@@ -68,6 +68,7 @@ export interface FormProps {
 
   addAsset(assetType: string, asset: Asset): void;
 
+  language: Asset;
   assetStore: AssetStore;
   issues: FlowIssue[];
   helpArticles: { [key: string]: string };
@@ -151,6 +152,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             onClose: this.close,
             language: this.props.language,
             helpArticles: this.props.helpArticles,
+            assetStore: this.props.assetStore,
             issues: this.props.issues.filter(
               (issue: FlowIssue) => issue.language === this.props.language.id
             )
@@ -176,7 +178,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         issues: this.props.issues.filter((issue: FlowIssue) => !issue.language),
         typeConfig: this.props.typeConfig,
         onTypeChange: this.props.handleTypeConfigChange,
-        onClose: this.close
+        onClose: this.close,
+        language: this.props.language
       };
 
       return (

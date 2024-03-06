@@ -1,4 +1,3 @@
-import { Template } from 'flowTypes';
 import { Asset, REMOVE_VALUE_ASSET } from 'store/flowContext';
 
 /**
@@ -21,14 +20,4 @@ export const sortByName = (a: Asset, b: Asset): number => {
     return a.name.localeCompare(b.name);
   }
   return 0;
-};
-
-export const hasPendingTranslation = (template: Template) => {
-  return !!template.translations.find(translation => translation.status === 'pending');
-};
-
-export const hasUseableTranslation = (template: Template) => {
-  return !!template.translations.find(
-    translation => translation.status === 'pending' || translation.status === 'approved'
-  );
 };

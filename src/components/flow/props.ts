@@ -15,6 +15,7 @@ export interface ActionFormProps extends IssueProps {
   nodeSettings: NodeEditorSettings;
   typeConfig: Type;
   assetStore: AssetStore;
+  language: Asset;
 
   addAsset(assetType: string, asset: Asset): void;
 
@@ -49,6 +50,7 @@ export interface LocalizationFormProps extends IssueProps {
   updateLocalizations(languageCode: string, localizations: any[]): void;
   onClose(canceled: boolean): void;
   helpArticles: { [key: string]: string };
+  assetStore: AssetStore;
 }
 
 export const NAME_PROPERTY: Asset = {

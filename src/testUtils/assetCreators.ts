@@ -467,12 +467,14 @@ export const getLocalizationFormProps = (
       }),
       originalAction: action,
       localizations: [Localization.translate(action, language, translations)]
-    }
+    },
+    assetStore: {}
   };
 };
 
 export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
   assetStore: {
+    templates: { items: {}, type: AssetType.Template, endpoint: 'assets/templates.json' },
     channels: { items: {}, type: AssetType.Channel },
     fields: { items: {}, type: AssetType.Field },
     languages: { items: {}, type: AssetType.Language },
@@ -488,6 +490,7 @@ export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
   onTypeChange: jest.fn(),
   issues: [],
   typeConfig: getTypeConfig(action.type),
+  language: null,
   nodeSettings: {
     originalNode: createRenderNode({
       actions: [action],
