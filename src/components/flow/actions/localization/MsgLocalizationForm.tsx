@@ -136,10 +136,20 @@ export default class MsgLocalizationForm extends React.Component<
         Object.keys(this.state.params).forEach((key: any) => {
           const component = components.find((c: any) => c.name === key);
           if (component) {
-            localizations.push({
-              uuid: component.uuid,
-              translations: { params: this.state.params[key] }
-            });
+            const params = this.state.params[key];
+
+            // if each string in params is empty string, set params to null
+            if (params.every((p: string) => p.trim() === '')) {
+              localizations.push({
+                uuid: component.uuid,
+                translations: null
+              });
+            } else {
+              localizations.push({
+                uuid: component.uuid,
+                translations: { params }
+              });
+            }
           }
         });
       }

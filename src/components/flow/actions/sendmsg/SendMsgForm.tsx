@@ -17,11 +17,9 @@ import SelectElement, { SelectOption } from 'components/form/select/SelectElemen
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
-// import { fetchAsset } from 'external';
 import { TemplateTranslation } from 'flowTypes';
 import mutate from 'immutability-helper';
 import * as React from 'react';
-// import { Asset } from 'store/flowContext';
 import {
   FormState,
   mergeForm,
