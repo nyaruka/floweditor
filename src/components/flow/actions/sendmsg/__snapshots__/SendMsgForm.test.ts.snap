@@ -125,22 +125,20 @@ exports[`SendMsgForm render should render 1`] = `
           <p>
             Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
           </p>
-          <AssetSelector
-            entry={
+          <TembaComponent
+            eventHandlers={
               Object {
-                "value": null,
+                "temba-content-changed": [Function],
+                "temba-context-changed": [Function],
               }
             }
-            formClearable={true}
-            name="template"
-            noOptionsMessage="No templates found"
-            onChange={[Function]}
-            searchable={true}
-            shouldExclude={[Function]}
+            lang={null}
+            tag="temba-template-editor"
+            template={null}
+            url="assets/templates.json"
           />
         </React.Fragment>,
         "checked": false,
-        "hasErrors": false,
         "name": "WhatsApp",
       },
     ]
@@ -158,7 +156,6 @@ exports[`SendMsgForm render should render 1`] = `
         "localizeableKeys": Array [
           "text",
           "quick_replies",
-          "templating.variables",
         ],
         "massageForDisplay": [Function],
         "name": "Send Message",
@@ -207,6 +204,7 @@ Object {
     "validationFailures": Array [],
     "value": "What is your favorite color?",
   },
+  "paramsByTemplate": Object {},
   "quickReplies": Object {
     "validationFailures": Array [],
     "value": Array [
@@ -222,7 +220,6 @@ Object {
   "template": Object {
     "value": null,
   },
-  "templateVariables": Array [],
   "topic": Object {
     "value": undefined,
   },

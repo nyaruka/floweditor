@@ -261,20 +261,6 @@ exports[`TranslatorTab finds message translations 1`] = `
                       Quick Replies
                     </div>
                   </div>
-                  <div
-                    class="item"
-                  >
-                    <div
-                      class="text from_text"
-                    >
-                      var1, var2
-                    </div>
-                    <div
-                      class="text attribute"
-                    >
-                      Template Variables
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

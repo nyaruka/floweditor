@@ -281,11 +281,11 @@ Object {
   "message": Object {
     "value": "",
   },
+  "params": Object {},
   "quickReplies": Object {
     "validationFailures": Array [],
     "value": Array [],
   },
-  "templateVariables": Array [],
   "templating": null,
   "uploadError": "",
   "uploadInProgress": false,
@@ -317,6 +317,7 @@ Object {
     "validationFailures": Array [],
     "value": "What is your favorite color?",
   },
+  "params": Object {},
   "quickReplies": Object {
     "validationFailures": Array [],
     "value": Array [
@@ -325,7 +326,6 @@ Object {
       "blue",
     ],
   },
-  "templateVariables": Array [],
   "templating": null,
   "uploadError": "",
   "uploadInProgress": false,

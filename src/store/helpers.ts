@@ -187,9 +187,9 @@ export const getLocalizations = (
     if (action.type === Types.send_msg) {
       const sendMsgAction = action as SendMsg;
       if (sendMsgAction.templating) {
-        localizations.push(
-          Localization.translate(sendMsgAction.templating, language, translations)
-        );
+        sendMsgAction.templating.components.forEach((component: any) => {
+          localizations.push(Localization.translate(component, language, translations));
+        });
       }
     }
   }

@@ -1,8 +1,8 @@
-import { Action, Case, Category, Language, MsgTemplating } from 'flowTypes';
+import { Action, Case, Category, Language, MsgTemplateComponent } from 'flowTypes';
 import { Asset } from 'store/flowContext';
 
 // list of keys that should always be treated as an array
-const ARRAY_KEYS = ['attachments'];
+const ARRAY_KEYS = ['attachments', 'components'];
 
 export class LocalizedObject {
   public localizedKeys: { [key: string]: boolean } = {};
@@ -13,7 +13,7 @@ export class LocalizedObject {
   private name: string;
   private language: Language;
 
-  constructor(object: Action | Category | Case | MsgTemplating, { id, name }: Asset) {
+  constructor(object: Action | Category | Case | MsgTemplateComponent, { id, name }: Asset) {
     this.localizedObject = object;
     this.iso = id;
     this.language = { iso: this.iso, name };
@@ -58,14 +58,14 @@ export class LocalizedObject {
     return this.localized;
   }
 
-  public getObject(): Action | Case | Category | MsgTemplating {
+  public getObject(): Action | Case | Category {
     return this.localizedObject;
   }
 }
 
 export default class Localization {
   public static translate(
-    object: Action | Category | Case | MsgTemplating,
+    object: Action | Category | Case | MsgTemplateComponent,
     language: Asset,
     translations?: { [uuid: string]: any }
   ): LocalizedObject {
