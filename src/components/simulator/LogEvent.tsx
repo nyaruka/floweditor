@@ -101,12 +101,24 @@ const getStyleForDirection = (direction: Direction): string => {
   return direction === Direction.MO ? styles.msg_received : styles.send_msg;
 };
 
+const renderWarning = (warning: string): JSX.Element => {
+  return (
+    <div className={styles.warning}>
+      <span>Warning: {warning}</span>
+    </div>
+  );
+};
+
 const renderError = (error: string): JSX.Element => {
   return (
     <div className={styles.error}>
       <span>Error: {error}</span>
     </div>
   );
+};
+
+const renderInfoStyles = (allStyles: any[]): string => {
+  return allStyles.join(' ');
 };
 
 const renderInfo = (info: string, extraStyles?: any[]): JSX.Element => {
@@ -119,9 +131,6 @@ const renderInfo = (info: string, extraStyles?: any[]): JSX.Element => {
       <span dangerouslySetInnerHTML={{ __html: info }} />
     </div>
   );
-};
-const renderInfoStyles = (allStyles: any[]): string => {
-  return allStyles.join(' ');
 };
 
 const renderAttachment = (attachment: string): JSX.Element => {
@@ -381,6 +390,8 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         return renderMessage(this.props.msg.text, this.props.msg.attachments, Direction.MT);
       case 'ivr_created':
         return renderMessage(this.props.msg.text, this.props.msg.attachments, Direction.MT);
+      case 'warning':
+        return renderWarning(this.props.text);
       case 'error':
         return renderError(this.props.text);
       case 'failure':
@@ -391,7 +402,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         return this.renderGroupsChanged();
       case 'contact_urns_changed':
         return renderInfo('Added a URN for the contact');
-      case 'contact_field_changed':
+      case 'contact_field_changed': {
         const value = this.getValue(this.props.value);
         if (value !== '') {
           return renderInfo(
@@ -407,6 +418,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
             })
           );
         }
+      }
       case 'run_result_changed':
         return renderInfo(
           i18n.t('simulator.run_result_changed', 'Set result "[[field]]" to "[[value]]"', {
@@ -423,9 +435,10 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
       case 'email_created':
       case 'email_sent':
         return this.renderEmailSent();
-      case 'broadcast_created':
+      case 'broadcast_created': {
         const translation = this.props.translations[this.props.base_language];
         return renderMessage(translation.text, translation.attachments, Direction.MT);
+      }
       case 'resthook_called':
         return renderInfo(
           i18n.t('simulator.resthook_called', 'Triggered flow event "[[resthook]]"', {
@@ -475,7 +488,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
             topic: this.props.ticket.topic.name
           })
         );
-      case 'airtime_transferred':
+      case 'airtime_transferred': {
         const event = this.props as AirtimeTransferEvent;
         return (
           <>
@@ -494,6 +507,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
             )}
           </>
         );
+      }
     }
 
     // should only get here if we are get an unexpected event

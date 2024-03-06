@@ -406,3 +406,22 @@ exports[`LogEvent should render ticket_opened event 1`] = `
   </div>
 </body>
 `;
+
+exports[`LogEvent should render warning event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="warning"
+      >
+        <span>
+          Warning: 
+          I'm an warning
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;

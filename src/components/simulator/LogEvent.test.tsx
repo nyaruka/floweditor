@@ -101,6 +101,13 @@ describe(LogEvent.name, () => {
       ...commonEventProps
     });
   });
+  it('should render warning event', () => {
+    testEventRender({
+      type: 'warning',
+      text: "I'm an warning",
+      ...commonEventProps
+    });
+  });
   it('should render error event', () => {
     testEventRender({
       type: 'error',
