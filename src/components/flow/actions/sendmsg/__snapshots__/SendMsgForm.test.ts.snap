@@ -165,6 +165,7 @@ exports[`SendMsgForm render should render 1`] = `
     onChange={[MockFunction]}
   />
   <TextInputElement
+    __className="message"
     autocomplete={true}
     counter=".sms-counter"
     entry={

@@ -37,6 +37,7 @@ import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
 import { Attachment, renderAttachments } from './attachments';
 import { TembaComponent } from 'temba/TembaComponent';
+import styles from './SendMsgForm.module.scss';
 
 export interface SendMsgFormState extends FormState {
   message: StringEntry;
@@ -400,6 +401,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <TextInputElement
+          __className={styles.message}
           name={i18n.t('forms.message', 'Message')}
           showLabel={false}
           counter=".sms-counter"

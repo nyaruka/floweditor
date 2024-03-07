@@ -92,28 +92,38 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
 
   let templating: MsgTemplating = null;
   if (state.template && state.template.value) {
-    const components = Object.keys(state.templateTranslation.components).map((key: string) => {
-      let uuid = createUUID();
+    const originalAction =
+      settings.originalAction.type === Types.send_msg ? (settings.originalAction as SendMsg) : null;
 
-      // try looking up the uuid from the original action
-      if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
-        const originalAction = settings.originalAction as SendMsg;
-        if (originalAction.templating) {
-          const originalComponent = originalAction.templating.components.find(
-            (component: any) => component.name === key
-          );
-          if (originalComponent) {
-            uuid = originalComponent.uuid;
+    let components =
+      originalAction.templating && originalAction.templating.components
+        ? originalAction.templating.components
+        : [];
+
+    if (state.templateTranslation) {
+      components = Object.keys(state.templateTranslation.components).map((key: string) => {
+        let uuid = createUUID();
+
+        // try looking up the uuid from the original action
+        if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
+          const originalAction = settings.originalAction as SendMsg;
+          if (originalAction.templating) {
+            const originalComponent = originalAction.templating.components.find(
+              (component: any) => component.name === key
+            );
+            if (originalComponent) {
+              uuid = originalComponent.uuid;
+            }
           }
         }
-      }
 
-      return {
-        uuid,
-        name: key,
-        params: state.paramsByTemplate[state.template.value.uuid][key]
-      };
-    });
+        return {
+          uuid,
+          name: key,
+          params: state.paramsByTemplate[state.template.value.uuid][key]
+        };
+      });
+    }
 
     templating = {
       template: {
