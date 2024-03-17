@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { react as bindCallbacks } from 'auto-bind';
 import Button from 'components/button/Button';
 import { Canvas } from 'components/canvas/Canvas';
@@ -147,7 +148,8 @@ export class Flow extends React.PureComponent<FlowStoreProps, {}> {
   }
 
   public isMobile() {
-    return (window as any).isMobile();
+    const win = window as any;
+    return win.isMobile && win.isMobile();
   }
 
   public componentDidMount(): void {

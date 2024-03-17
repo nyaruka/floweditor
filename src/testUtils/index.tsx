@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // TODO: Remove use of Function
 // tslint:disable:ban-types
 import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';

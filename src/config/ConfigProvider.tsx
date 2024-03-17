@@ -28,8 +28,8 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
 
   constructor(props: ConfigProviderProps) {
     super(props);
-
-    if ((window as any).isMobile()) {
+    const win = window as any;
+    if (win.isMobile && win.isMobile()) {
       this.props.config.mutable = false;
     }
 
