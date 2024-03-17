@@ -49,6 +49,11 @@ export const getConfigProviderContext = (
   flowType: FlowTypes = FlowTypes.MESSAGING
 ): ConfigProviderContext => {
   const flowEditorConfig = getFlowEditorConfig(flowType);
+  const win = window as any;
+  if (win.isMobile && win.isMobile()) {
+    flowEditorConfig.mutable = false;
+  }
+
   const configProviderContext = { config: flowEditorConfig };
   return configProviderContext;
 };

@@ -146,6 +146,10 @@ export class Flow extends React.PureComponent<FlowStoreProps, {}> {
     return (this.ghost = ref);
   }
 
+  public isMobile() {
+    return (window as any).isMobile();
+  }
+
   public componentDidMount(): void {
     this.Plumber.bind('connection', (event: ConnectionEvent) =>
       this.props.updateConnection(event.sourceId, event.targetId)
@@ -407,7 +411,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, {}> {
         {this.getNodeEditor()}
 
         <Canvas
-          mutable={this.context.config.mutable}
+          mutable={!this.isMobile() && this.context.config.mutable}
           draggingNew={!!this.props.ghostNode && !this.props.nodeEditorSettings}
           newDragElement={this.getDragNode()}
           onDragging={this.handleDragging}
