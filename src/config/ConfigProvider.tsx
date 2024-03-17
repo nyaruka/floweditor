@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FlowEditorConfig } from 'flowTypes';
 import * as React from 'react';
 
@@ -27,6 +28,10 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
 
   constructor(props: ConfigProviderProps) {
     super(props);
+    const win = window as any;
+    if (win.isMobile && win.isMobile()) {
+      this.props.config.mutable = false;
+    }
 
     if (React.Children.count(props.children) > 1) {
       throw new Error(SINGLE_CHILD_ERROR);

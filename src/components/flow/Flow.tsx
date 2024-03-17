@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { react as bindCallbacks } from 'auto-bind';
 import Button from 'components/button/Button';
 import { Canvas } from 'components/canvas/Canvas';
@@ -144,6 +145,11 @@ export class Flow extends React.PureComponent<FlowStoreProps, {}> {
 
   private ghostRef(ref: any): any {
     return (this.ghost = ref);
+  }
+
+  public isMobile() {
+    const win = window as any;
+    return win.isMobile && win.isMobile();
   }
 
   public componentDidMount(): void {
@@ -407,7 +413,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, {}> {
         {this.getNodeEditor()}
 
         <Canvas
-          mutable={this.context.config.mutable}
+          mutable={!this.isMobile() && this.context.config.mutable}
           draggingNew={!!this.props.ghostNode && !this.props.nodeEditorSettings}
           newDragElement={this.getDragNode()}
           onDragging={this.handleDragging}
