@@ -339,13 +339,19 @@ export interface RecipientsAction extends Action {
   legacy_vars?: string[];
 }
 
+export interface Component {
+  name: string;
+  params: string[];
+  content: string;
+}
+
 export interface TemplateTranslation {
   channel: Channel;
   content: string;
   language: string;
   status: string;
   variable_count: number;
-  components: { [key: string]: { params: string[]; content: string } };
+  components: Component[];
 }
 
 export interface TemplateOptions {
