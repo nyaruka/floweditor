@@ -3,7 +3,7 @@
 import { getActionUUID } from 'components/flow/actions/helpers';
 import { SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from 'config/interfaces';
-import { MsgTemplating, SendMsg } from 'flowTypes';
+import { Component, MsgTemplating, SendMsg } from 'flowTypes';
 import { FormEntry, NodeEditorSettings } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { Attachment } from './attachments';
@@ -18,7 +18,6 @@ export const TOPIC_OPTIONS: SelectOption[] = [
 
 export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState => {
   let template: FormEntry = { value: null };
-
   if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
     const action = settings.originalAction as SendMsg;
     const attachments: Attachment[] = [];
@@ -49,6 +48,7 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
         paramsByTemplate = {
           [action.templating.template.uuid]: {}
         };
+
         action.templating.components.forEach((component: any) => {
           paramsByTemplate[action.templating.template.uuid][component.name] = component.params;
         });
@@ -101,15 +101,14 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
         : [];
 
     if (state.templateTranslation) {
-      components = Object.keys(state.templateTranslation.components).map((key: string) => {
+      components = state.templateTranslation.components.map((comp: Component) => {
         let uuid = createUUID();
-
         // try looking up the uuid from the original action
         if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
           const originalAction = settings.originalAction as SendMsg;
           if (originalAction.templating) {
             const originalComponent = originalAction.templating.components.find(
-              (component: any) => component.name === key
+              (component: any) => component.name === comp.name
             );
             if (originalComponent) {
               uuid = originalComponent.uuid;
@@ -119,8 +118,8 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
 
         return {
           uuid,
-          name: key,
-          params: state.paramsByTemplate[state.template.value.uuid][key]
+          name: comp.name,
+          params: state.paramsByTemplate[state.template.value.uuid][comp.name]
         };
       });
     }
