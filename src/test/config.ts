@@ -30,7 +30,6 @@ const config: FlowEditorConfig = {
     labels: '/assets/labels.json',
     languages: '/assets/languages.json',
     channels: '/assets/channels.json',
-    environment: '/assets/environment.json',
     revisions: '/assets/revisions.json',
     classifiers: '/assets/classifiers.json',
     attachments: '/assets/attachments.json',
