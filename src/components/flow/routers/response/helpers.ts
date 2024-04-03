@@ -63,6 +63,8 @@ export const stateToNode = (
   const optionalRouter: Pick<Router, 'result_name'> = {};
   if (state.resultName.value) {
     optionalRouter.result_name = state.resultName.value;
+  } else {
+    optionalRouter.result_name = 'result';
   }
 
   const wait = { type: WaitTypes.msg } as Wait;

@@ -409,6 +409,7 @@ Array [
         ],
         "default_category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
         "operand": "@input.text",
+        "result_name": "result",
         "type": "switch",
         "wait": Object {
           "type": "msg",
