@@ -360,7 +360,7 @@ export default class SendMsgForm extends React.Component<
           <CheckboxElement
             name={i18n.t('forms.timeout', 'Timeout')}
             checked={this.state.isChecked}
-            description={'Use dynamic fields (BETA)'}
+            description={'Use dynamic fields'}
             onChange={value => {
               this.setState({ isChecked: value });
             }}
