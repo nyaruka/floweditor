@@ -50,7 +50,7 @@ export const initializeForm = (
     channel: { value: null },
     language: { value: null },
     status: { value: CONTACT_STATUS_ACTIVE },
-    field: { value: LANGUAGE_PROPERTY },
+    field: { value: null },
     fieldValue: { value: '' }
   };
 

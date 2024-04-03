@@ -309,6 +309,7 @@ export default class UpdateContactForm extends React.Component<
         <p>{i18n.t('forms.select_what_to_update', 'Select what to update')}</p>
         <AssetSelector
           name={i18n.t('forms.contact_field', 'Contact Field')}
+          placeholder="Select"
           assets={this.props.assetStore.fields}
           additionalOptions={getContactProperties(this.context.config.flowType)}
           entry={this.state.field}
