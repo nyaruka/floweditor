@@ -40,7 +40,6 @@ export interface Endpoints {
   classifiers: string;
   users: string;
   topics: string;
-  environment: string;
   languages: string;
   templates: string;
   simulateStart: string;

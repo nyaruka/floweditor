@@ -9,7 +9,6 @@ Array [
     "classifiers": "/assets/classifiers.json",
     "contacts": "/assets/recipients.json",
     "editor": "/flow/editor",
-    "environment": "/assets/environment.json",
     "fields": "/assets/fields.json",
     "flows": "/assets/flows.json",
     "globals": "/assets/globals.json",
