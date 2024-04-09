@@ -8,8 +8,12 @@
 		6000
 	],
 	"runArgs": [
-		"--network=textit_default",
-		"--hostname=floweditor"
+		"--network",
+		"textit_default",
+		"--hostname",
+		"floweditor",
+		"--name",
+		"floweditor"
 	],
 	"remoteUser": "node",
 	"postCreateCommand": "sudo chown node /workspaces/floweditor && yarn install",
