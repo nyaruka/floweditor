@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto+Mono:300|Roboto:200,300,400,500"
-    />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:300|Roboto:200,300,400,500" />
+  <script src="./static/temba-components/temba-components.js"></script>
 
-    <!--
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -24,246 +23,246 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Nyaruka Flow Editor</title>
-    <style>
-      html input {
-        font-weight: 300;
-      }
+  <title>Nyaruka Flow Editor</title>
+  <style>
+    html input {
+      font-weight: 300;
+    }
 
-      html.dragging * {
-        user-select: none;  
-        pointer-events: none;
-      }
+    html.dragging * {
+      user-select: none;
+      pointer-events: none;
+    }
 
-      html {
+    html {
 
-        --font-family: 'Roboto', Helvetica, Arial, sans-serif;
-        --primary-rgb: 35, 135, 202;
-        --secondary-rgb: 140, 51, 140;
-        --tertiary-rgb: 135, 202, 35;
+      --font-family: 'Roboto', Helvetica, Arial, sans-serif;
+      --primary-rgb: 35, 135, 202;
+      --secondary-rgb: 140, 51, 140;
+      --tertiary-rgb: 135, 202, 35;
 
-        --focus-rgb: 82, 168, 236;
-        --error-rgb: 255, 99, 71;
-        --success-rgb: 102, 186, 104;
+      --focus-rgb: 82, 168, 236;
+      --error-rgb: 255, 99, 71;
+      --success-rgb: 102, 186, 104;
 
-        --selection-light-rgb: 240, 240, 240;
-        --selection-dark-rgb: 180, 180, 180;
+      --selection-light-rgb: 240, 240, 240;
+      --selection-dark-rgb: 180, 180, 180;
 
-        --select-input-height: inherit;
+      --select-input-height: inherit;
 
-        --curvature: 6px;
-        --curvature-widget: 6px;
-        --color-focus: #a4cafe;
-        --color-widget-bg: #fff;
-        --color-widget-bg-focused: #fff;
-        --color-widget-border: rgb(225, 225, 225);
+      --curvature: 6px;
+      --curvature-widget: 6px;
+      --color-focus: #a4cafe;
+      --color-widget-bg: #fff;
+      --color-widget-bg-focused: #fff;
+      --color-widget-border: rgb(225, 225, 225);
 
-        --color-options-bg: var(--color-widget-bg);
+      --color-options-bg: var(--color-widget-bg);
 
-        /* primary colors, should be dark */
-        --color-selection: #f0f6ff;
-        --color-row-hover: rgba(var(--selection-light-rgb), .4);
+      /* primary colors, should be dark */
+      --color-selection: #f0f6ff;
+      --color-row-hover: rgba(var(--selection-light-rgb), .4);
 
-        --widget-box-shadow-focused: 0 0 0 3px rgba(164, 202, 254, .45);
-        --widget-box-shadow-focused-error: 0 0 0 3px rgba(var(--error-rgb), 0.3);
+      --widget-box-shadow-focused: 0 0 0 3px rgba(164, 202, 254, .45);
+      --widget-box-shadow-focused-error: 0 0 0 3px rgba(var(--error-rgb), 0.3);
 
-        --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        --shadow-widget: 0 3px 20px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-widget: 0 3px 20px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
 
-        /* page text, borders, widgets */
-        --color-text: #555;
-        --color-widget-text: #555;
-        --color-borders: rgba(0, 0, 0, 0.07);
-        --color-placeholder: #ccc;
+      /* page text, borders, widgets */
+      --color-text: #555;
+      --color-widget-text: #555;
+      --color-borders: rgba(0, 0, 0, 0.07);
+      --color-placeholder: #ccc;
 
-        /* light colors, panel backgrounds, selection, etc */
-        --color-primary-light: #eee;
-        --color-secondary-light: #ccc;
+      /* light colors, panel backgrounds, selection, etc */
+      --color-primary-light: #eee;
+      --color-secondary-light: #ccc;
 
-        /* dark colors, nav bar, buttons, etc */
-        --color-primary-dark: rgb(var(--primary-rgb));
-        --color-secondary-dark: rgb(var(--secondary-rgb));
+      /* dark colors, nav bar, buttons, etc */
+      --color-primary-dark: rgb(var(--primary-rgb));
+      --color-secondary-dark: rgb(var(--secondary-rgb));
 
-        --color-available: #00f100;
+      --color-available: #00f100;
 
-        --color-tertiary: rgb(var(--tertiary-rgb));
+      --color-tertiary: rgb(var(--tertiary-rgb));
 
-        /* light text goes over dark, dark over lights */
-        --color-text-light: rgba(255, 255, 255, 1);
-        --color-text-dark: rgba(0, 0, 0, 0.5);
-        --color-text-dark-secondary: rgba(0, 0, 0, 0.25);
+      /* light text goes over dark, dark over lights */
+      --color-text-light: rgba(255, 255, 255, 1);
+      --color-text-dark: rgba(0, 0, 0, 0.5);
+      --color-text-dark-secondary: rgba(0, 0, 0, 0.25);
 
-        /* solid overlays with text */
-        --color-overlay-dark: rgba(0, 0, 0, 0.2);
-        --color-overlay-dark-text: rgba(255, 255, 255, 0.9);
-        --color-overlay-light: rgba(0, 0, 0, 0.035);
-        --color-overlay-light-text: rgba(0, 0, 0, 0.6);
+      /* solid overlays with text */
+      --color-overlay-dark: rgba(0, 0, 0, 0.2);
+      --color-overlay-dark-text: rgba(255, 255, 255, 0.9);
+      --color-overlay-light: rgba(0, 0, 0, 0.035);
+      --color-overlay-light-text: rgba(0, 0, 0, 0.6);
 
-        /* links, buttons, and label badges */
-        --color-link-primary: rgba(var(--primary-rgb), 0.8);
-        --color-link-primary-hover: rgba(var(--primary-rgb), 0.9);
-        --color-link-secondary: rgba(var(--secondary-rgb), 0.8);
-        --color-link-secondary-hover: rgba(var(--secondary-rgb), 0.9);
-        --color-button-primary: var(--color-primary-dark);
-        --color-button-primary-text: var(--color-text-light);
-        --color-button-light: rgb(246, 248, 250);
-        --color-button-light-text: rgb(36, 41, 47);
-        --color-button-secondary: var(--color-secondary-light);
-        --color-button-secondary-text: var(--color-text-dark);
+      /* links, buttons, and label badges */
+      --color-link-primary: rgba(var(--primary-rgb), 0.8);
+      --color-link-primary-hover: rgba(var(--primary-rgb), 0.9);
+      --color-link-secondary: rgba(var(--secondary-rgb), 0.8);
+      --color-link-secondary-hover: rgba(var(--secondary-rgb), 0.9);
+      --color-button-primary: var(--color-primary-dark);
+      --color-button-primary-text: var(--color-text-light);
+      --color-button-light: rgb(246, 248, 250);
+      --color-button-light-text: rgb(36, 41, 47);
+      --color-button-secondary: var(--color-secondary-light);
+      --color-button-secondary-text: var(--color-text-dark);
 
-        --color-button-destructive: rgb(var(--error-rgb));
-        --color-button-destructive-text: var(--color-text-light);
+      --color-button-destructive: rgb(var(--error-rgb));
+      --color-button-destructive-text: var(--color-text-light);
 
-        --color-button-attention: #2ecc71;
+      --color-button-attention: #2ecc71;
 
-        --color-label-primary: var(--color-primary-dark);
-        --color-label-primary-text: var(--color-text-light);
-        --color-label-secondary: var(--color-secondary-dark);
-        --color-label-secondary-text: var(--color-text-light);
-        --color-label-tertiary: var(--color-tertiary);
-        --color-label-tertiary-text: var(--color-text-light);
+      --color-label-primary: var(--color-primary-dark);
+      --color-label-primary-text: var(--color-text-light);
+      --color-label-secondary: var(--color-secondary-dark);
+      --color-label-secondary-text: var(--color-text-light);
+      --color-label-tertiary: var(--color-tertiary);
+      --color-label-tertiary-text: var(--color-text-light);
 
-        --color-nav-unselected: #fff;
-        --color-nav-selected-bg: #fff;
-        --color-nav-selected-text: var(--color-primary-dark);
+      --color-nav-unselected: #fff;
+      --color-nav-selected-bg: #fff;
+      --color-nav-selected-text: var(--color-primary-dark);
 
-        --color-info: rgb(238, 246, 255);
-        --color-info-border: rgb(74, 163, 223);
+      --color-info: rgb(238, 246, 255);
+      --color-info-border: rgb(74, 163, 223);
 
-        --color-warning: rgb(255, 253, 218);
-        --color-warning-border: rgb(251, 246, 176);
+      --color-warning: rgb(255, 253, 218);
+      --color-warning-border: rgb(251, 246, 176);
 
-        --color-error: rgb(var(--error-rgb));
-        --color-alert: rgb(var(--error-rgb));
+      --color-error: rgb(var(--error-rgb));
+      --color-alert: rgb(var(--error-rgb));
 
-        --font-size: 14px;
-        --button-font-size: 1.125rem;
+      --font-size: 14px;
+      --button-font-size: 1.125rem;
 
-        --icon-color: var(--text-color);
-        --icon-color-circle-hover: rgba(245, 245, 245, .8);
-        
-        --transition-speed: 250ms;
-        --event-padding: 0.5em 1em;
-        --temba-select-selected-padding: 9px;
-        --temba-select-selected-line-height: 16px;
-        --temba-select-selected-font-size: 13px;
+      --icon-color: var(--text-color);
+      --icon-color-circle-hover: rgba(245, 245, 245, .8);
 
-        --help-text-margin-top: 0px;
-        --help-text-margin-left: 0.3em;
-        --help-text-size: 0.85em;
-        --color-text-help: rgb(120,120,120);
-        --label-size: 14px;
-        
-        --header-bg: var(--color-primary-dark);
-        --header-text: var(--color-text-light);
-        
-        --temba-textinput-padding: 9px;
-        --temba-textinput-font-size: 13px;
+      --transition-speed: 250ms;
+      --event-padding: 0.5em 1em;
+      --temba-select-selected-padding: 9px;
+      --temba-select-selected-line-height: 16px;
+      --temba-select-selected-font-size: 13px;
 
-        --options-block-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-        --options-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        --dropdown-shadow: rgb(0 0 0 / 30%) 0px 0px 60px, rgb(0 0 0 / 12%) 0px 6px 12px;
+      --help-text-margin-top: 0px;
+      --help-text-margin-left: 0.3em;
+      --help-text-size: 0.85em;
+      --color-text-help: rgb(120, 120, 120);
+      --label-size: 14px;
 
-        font-size: var(--font-size);
-        font-weight: 300;
-        font-family: var(--font-family);
+      --header-bg: var(--color-primary-dark);
+      --header-text: var(--color-text-light);
 
-        --button-y: 6px;  
-        --button-x: 14px;
+      --temba-textinput-padding: 9px;
+      --temba-textinput-font-size: 13px;
 
-        --control-margin-bottom: 15px;
+      --options-block-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+      --options-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --dropdown-shadow: rgb(0 0 0 / 30%) 0px 0px 60px, rgb(0 0 0 / 12%) 0px 6px 12px;
 
-        --menu-padding: 1em;
-        --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      font-size: var(--font-size);
+      font-weight: 300;
+      font-family: var(--font-family);
 
-      }
+      --button-y: 6px;
+      --button-x: 14px;
 
-      temba-button {
-        --button-bg: var(--color-primary-dark);
-        --button-text: var(--color-text-light);
-        --button-border: none;
-        --button-shadow: var(--widget-box-shadow);
-      }
+      --control-margin-bottom: 15px;
 
-      temba-button:hover {
-        --button-bg-img: linear-gradient(to bottom, rgba(var(--primary-rgb),.1), transparent, transparent);
-      }
+      --menu-padding: 1em;
+      --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-      temba-button.active {
-        --button-bg-img: linear-gradient(to bottom, transparent, rgba(0,0,0,.05));
-      }
+    }
 
-      temba-button.light {
-        --button-bg: #fff;
-        --button-text: #999;
-        --button-border: none;
-        --button-shadow: var(--widget-box-shadow);
+    temba-button {
+      --button-bg: var(--color-primary-dark);
+      --button-text: var(--color-text-light);
+      --button-border: none;
+      --button-shadow: var(--widget-box-shadow);
+    }
 
-      }
+    temba-button:hover {
+      --button-bg-img: linear-gradient(to bottom, rgba(var(--primary-rgb), .1), transparent, transparent);
+    }
 
-      temba-button.light:hover {
-        --button-bg-img: linear-gradient(to bottom, transparent, rgba(0,0,0,.001));
-      }
+    temba-button.active {
+      --button-bg-img: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .05));
+    }
 
-      temba-button.light.active {
-        --button-bg-img: linear-gradient(to bottom, transparent, rgba(0,0,0,.02));
-      }
+    temba-button.light {
+      --button-bg: #fff;
+      --button-text: #999;
+      --button-border: none;
+      --button-shadow: var(--widget-box-shadow);
+
+    }
+
+    temba-button.light:hover {
+      --button-bg-img: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .001));
+    }
+
+    temba-button.light.active {
+      --button-bg-img: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .02));
+    }
 
 
-      temba-select:focus {
-        outline: none;
-        box-shadow: none;
-      }
+    temba-select:focus {
+      outline: none;
+      box-shadow: none;
+    }
 
-      .flatpickr-calendar {
-        margin-top: 28px;
-        margin-bottom: 28px;
-        margin-left: -13px;
-      }
+    .flatpickr-calendar {
+      margin-top: 28px;
+      margin-bottom: 28px;
+      margin-left: -13px;
+    }
 
-      .input {
-        border-radius: var(--curvature-widget);
-        cursor: text;
-        background: var(--color-widget-bg);
-        border: 1px solid var(--color-widget-border);
-        transition: all ease-in-out 200ms;
-        display: flex;
-        flex-direction: row;
-        align-items: stretch;
-        box-shadow: var(--widget-box-shadow);
-        caret-color: var(--input-caret);
-        padding: var(--temba-textinput-padding);
-      }
+    .input {
+      border-radius: var(--curvature-widget);
+      cursor: text;
+      background: var(--color-widget-bg);
+      border: 1px solid var(--color-widget-border);
+      transition: all ease-in-out 200ms;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      box-shadow: var(--widget-box-shadow);
+      caret-color: var(--input-caret);
+      padding: var(--temba-textinput-padding);
+    }
 
-      .input:focus {
-        outline: none;
-        border-color: var(--color-focus);
-        background: var(--color-widget-bg-focused);
-        box-shadow: var(--widget-box-shadow-focused);
-      }
+    .input:focus {
+      outline: none;
+      border-color: var(--color-focus);
+      background: var(--color-widget-bg-focused);
+      box-shadow: var(--widget-box-shadow-focused);
+    }
 
-      temba-dropdown {
-        opacity: 0;
-      }
+    temba-dropdown {
+      opacity: 0;
+    }
 
-      temba-dropdown:defined {
-        opacity: 1;
-      }
+    temba-dropdown:defined {
+      opacity: 1;
+    }
 
-      temba-menu {
-        display: none;
-      }
+    temba-menu {
+      display: none;
+    }
 
-      temba-menu:defined{
-        display: block;
-      }
-    </style>
-  </head>
+    temba-menu:defined {
+      display: block;
+    }
+  </style>
+</head>
 
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="floweditor"></div>
-    <!--
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="floweditor"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -273,51 +272,52 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
 
-  <script>
-    var base = '/.netlify/functions/';
-    var config = {
-      flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
-      flowType: 'message',
-      localStorage: true,
-      mutable: true,
-      filters: ['facebook', 'whatsapp', 'airtime', 'resthook', 'classifier', 'ticketer'],
-      help: {
-        legacy_extra: 'help.html',
-        missing_dependency: 'help.html',
-        invalid_regex: 'help.html'
-      },
-      endpoints: {
-        globals: base + 'globals',
-        groups: base + 'groups',
-        fields: base + 'fields',
-        labels: base + 'labels',
-        optins: base + 'optins',
-        channels: base + 'channels',
-        classifiers: base + 'classifiers',
-        ticketers: base + 'ticketers',
-        resthooks: base + 'resthooks',
-        templates: base + 'templates',
-        flows: base + 'flows',
-        revisions: base + 'revisions',
-        recents: base + 'recents',
-        languages: base + 'languages',
-        environment: base + 'environment',
-        recipients: base + 'recipients',
-        contacts: base + 'recipients',
-        functions: base + 'functions',
-        completion: base + 'completion',
-        attachments: base + 'attachments',
-        activity: base + 'activity',
+<script>
+  var base = '/.netlify/functions/';
+  var config = {
+    flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
+    flowType: 'message',
+    localStorage: true,
+    mutable: true,
+    filters: ['facebook', 'whatsapp', 'airtime', 'resthook', 'classifier', 'ticketer'],
+    help: {
+      legacy_extra: 'help.html',
+      missing_dependency: 'help.html',
+      invalid_regex: 'help.html'
+    },
+    endpoints: {
+      globals: base + 'globals',
+      groups: base + 'groups',
+      fields: base + 'fields',
+      labels: base + 'labels',
+      optins: base + 'optins',
+      channels: base + 'channels',
+      classifiers: base + 'classifiers',
+      ticketers: base + 'ticketers',
+      resthooks: base + 'resthooks',
+      templates: base + 'templates',
+      flows: base + 'flows',
+      revisions: base + 'revisions',
+      recents: base + 'recents',
+      languages: base + 'languages',
+      environment: base + 'environment',
+      recipients: base + 'recipients',
+      contacts: base + 'recipients',
+      functions: base + 'functions',
+      completion: base + 'completion',
+      attachments: base + 'attachments',
+      activity: base + 'activity',
 
-        editor: '/',
+      editor: '/',
 
-        simulateStart: null,
-        simulateResume: null
-      }
-    };
+      simulateStart: null,
+      simulateResume: null
+    }
+  };
 
-    showFlowEditor(document.getElementById('floweditor'), config);
-  </script>
+  showFlowEditor(document.getElementById('floweditor'), config);
+</script>
+
 </html>
