@@ -13,7 +13,6 @@ export const merged =
           classifiers: 'classifiers',
           fields: 'fields',
           labels: 'labels',
-          environment: 'environment',
           editor: 'editor',
           activity: '',
           engine: ''
@@ -28,7 +27,6 @@ export const merged =
           classifiers: '/assets/classifiers',
           fields: '/assets/fields',
           labels: '/assets/labels',
-          environment: '/assets/environment',
           editor: 'editor',
           activity: '',
           engine: ''
