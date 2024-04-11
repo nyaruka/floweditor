@@ -10,7 +10,7 @@ import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
 import { Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import { Router, RouterTypes, SwitchRouter, Wait, WaitTypes } from 'flowTypes';
-import { RenderNode } from 'store/flowContext';
+import { AssetStore, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
 export const nodeToState = (settings: NodeEditorSettings): ResponseRouterFormState => {
@@ -52,6 +52,7 @@ export const nodeToState = (settings: NodeEditorSettings): ResponseRouterFormSta
 
 export const stateToNode = (
   settings: NodeEditorSettings,
+  assetStore: AssetStore,
   state: ResponseRouterFormState
 ): RenderNode => {
   const { cases, exits, defaultCategory, timeoutCategory, caseConfig, categories } = resolveRoutes(
@@ -61,10 +62,13 @@ export const stateToNode = (
   );
 
   const optionalRouter: Pick<Router, 'result_name'> = {};
+  const resultCount = Object.keys(assetStore.results ? assetStore.results.items : {}).length;
+  const resultName = `result_${resultCount + 1}`;
+
   if (state.resultName.value) {
     optionalRouter.result_name = state.resultName.value;
   } else {
-    optionalRouter.result_name = 'result';
+    optionalRouter.result_name = resultName;
   }
 
   const wait = { type: WaitTypes.msg } as Wait;

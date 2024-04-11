@@ -10,7 +10,7 @@ import { ReactComponent as ButtonIcon } from './icons/button.svg';
 import { SendInteractiveMsgFormState } from './SendInteractiveMsgForm';
 import { createUUID } from 'utils';
 import { stateToNode } from 'components/flow/routers/response/helpers';
-import { RenderNode } from 'store/flowContext';
+import { AssetStore, RenderNode } from 'store/flowContext';
 
 export const initializeForm = (settings: NodeEditorSettings): SendInteractiveMsgFormState => {
   if (settings.originalAction && settings.originalAction.type === Types.send_interactive_msg) {
@@ -131,6 +131,7 @@ export const stateToAction = (
 
 export const stateToRouter = (
   settings: NodeEditorSettings,
+  assetStore: AssetStore,
   state: SendInteractiveMsgFormState
 ): RenderNode => {
   let cases = [];
@@ -166,7 +167,6 @@ export const stateToRouter = (
       cases.push(values);
     }
   }
-
   const generateCases = options.map((option: string) => {
     const uuid = createUUID();
     const values: any = {
@@ -195,7 +195,7 @@ export const stateToRouter = (
     valid: true
   };
 
-  const renderedNode = stateToNode(settings, result);
+  const renderedNode = stateToNode(settings, assetStore, result);
 
   return renderedNode;
 };
