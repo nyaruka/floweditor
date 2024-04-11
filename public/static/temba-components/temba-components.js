@@ -2013,7 +2013,6 @@
         font-family: var(--font-family);
         padding: 0px;
         margin-left: 8px;
-        font-weight: 300;
         font-size: 14px;
         line-height: 19px;
         flex-grow: 1;
@@ -2223,7 +2222,6 @@
         line-height: normal;
         cursor: var(--input-cursor);
         resize: none;
-        font-weight: 300;
         width: 100%;
       }
 
@@ -2236,7 +2234,6 @@
 
       .textinput::placeholder {
         color: var(--color-placeholder);
-        font-weight: 300;
       }
 
       .grow-wrap {
@@ -2258,7 +2255,6 @@
         line-height: normal;
         cursor: text;
         resize: none;
-        font-weight: 300;
         width: 100%;
         visibility: hidden;
         word-break: break-word;
@@ -2396,6 +2392,7 @@
       let i = Z`
       <input
         class="textinput"
+        autocomplete="off"
         name=${this.name}
         type="${this.password || this.type === $e.Password ? 'password' : this.type}"
         maxlength="${ve(this.maxlength)}"
@@ -12242,7 +12239,6 @@
       }
 
       .searchable input {
-        font-weight: 300;
         visibility: visible;
         cursor: pointer;
         background: none;
@@ -12271,7 +12267,6 @@
 
       .searchbox::placeholder {
         color: var(--color-placeholder);
-        font-weight: 300;
         font-size: 1em;
         line-height: var(--temba-select-selected-line-height);
         padding-left: 1px;
@@ -12281,7 +12276,6 @@
         font-size: var(--temba-select-selected-font-size);
         color: var(--color-placeholder);
         display: none;
-        font-weight: 300;
         line-height: var(--temba-select-selected-line-height);
       }
 
@@ -12665,7 +12659,7 @@
             ? this.addValue(this.staticOptions[0])
             : this.setValues([this.staticOptions[0]])),
           this.searchable && 0 === this.staticOptions.length && (this.quietMillis = 200);
-      }, 0);
+      }, 100);
     }
     handleArrowClick(t) {
       this.visibleOptions.length > 0 &&
@@ -13277,7 +13271,6 @@
         align-items: center;
         font-size: 20px;
         padding: 12px 20px;
-        font-weight: 300;
         color: var(--header-text);
         background: var(--header-bg);
       }
@@ -13606,7 +13599,6 @@
         padding: 10px;
         margin-bottom: 10px;
         border-radius: 6px;
-        font-weight: 300;
       }
 
       .step-ball {
@@ -13984,7 +13976,6 @@
       .secondary-button {
         background: transparent;
         color: var(--color-text);
-        font-weight: 300;
       }
 
       .destructive-button {
@@ -19748,15 +19739,13 @@
       }
 
       .name {
-        font-size: 1.5rem;
+        font-size: var(--contact-name-font-size, 1.5rem);
         overflow: hidden;
         max-height: 2rem;
         line-height: 2rem;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 1;
         text-overflow: ellipsis;
-        display: -webkit-box;
-        margin: auto;
       }
     `;
     }
@@ -21323,6 +21312,7 @@
       return r`
       :host {
         overflow-y: auto !important;
+        --contact-name-font-size: 1em;
       }
 
       @media only screen and (max-height: 768px) {
@@ -21411,7 +21401,7 @@
           Z`
         <div class="row" style="${e}display:flex;align-items:center">
           <div
-            style="width: 12em;white-space:nowrap;overflow: hidden; text-overflow: ellipsis;"
+            style="width:16em;white-space:nowrap;overflow: hidden; text-overflow: ellipsis;"
           >
             <temba-contact-name
               name=${t.contact.name || t.contact.anon_display}
@@ -21736,7 +21726,6 @@
         color: var(--color-widget-text);
         border: 0px;
         font-family: var(--font-family);
-        font-weight: 300;
         outline: none;
         width: 100%;
         font-size: 13px;
@@ -23835,6 +23824,36 @@
         --curvature: 0.6em;
         --color-primary: hsla(208, 70%, 55%, 1);
         font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+        font-weight: 400;
+        font-size: 1.1em;
+        --toggle-speed: 80ms;
+      }
+
+      .header {
+        background: var(--color-primary);
+        height: 3em;
+        display: flex;
+        align-items: center;
+        width: 100%;
+      }
+
+      .header slot {
+        flex-grow: 1;
+        padding: 1em;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2em;
+        display: block;
+      }
+
+      .header .close-button {
+        margin: 0.5em;
+        color: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+      }
+
+      .header .close-button:hover {
+        cursor: pointer;
+        color: rgba(255, 255, 255, 1);
       }
 
       .block {
@@ -23892,9 +23911,9 @@
           rgba(0, 0, 0, 0.2) 0px 1px 2px 0px,
           inset 0 0 0 0.25em rgba(0, 0, 0, 0.1);
         cursor: pointer;
-        transition: box-shadow 0.2s ease-out;
+        transition: box-shadow var(--toggle-speed) ease-out;
         position: absolute;
-        bottom: 1em;
+        bottom: 0.5em;
         right: 1em;
       }
 
@@ -23914,12 +23933,14 @@
         padding-bottom: 0.5em;
         background: #fafafa;
         border-radius: var(--curvature);
+        max-width: 70%;
       }
 
       .bubble .name {
-        font-size: 0.9em;
+        font-size: 0.95em;
         font-weight: 400;
-        margin-bottom: 0.5em;
+        color: #888;
+        margin-bottom: 0.25em;
       }
 
       .outgoing .bubble {
@@ -23930,10 +23951,12 @@
         background: var(--color-primary);
         color: white;
         border-top-right-radius: 0;
+        text-align: right;
       }
 
       .message {
         margin-bottom: 0.5em;
+        line-height: 1.2em;
       }
 
       .chat {
@@ -23944,16 +23967,16 @@
         box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 7px 0px,
           rgba(0, 0, 0, 0.2) 0px 1px 2px 0px, rgba(0, 0, 0, 0.1) 5em 5em 5em 5em;
         position: absolute;
-        bottom: 2em;
+        bottom: 3em;
         right: 1em;
-        transition: all 0.2s ease-out;
+        transition: all var(--toggle-speed) ease-out;
         transform: scale(0.9);
         pointer-events: none;
         opacity: 0;
       }
 
       .chat.open {
-        bottom: 6em;
+        bottom: 5em;
         opacity: 1;
         transform: scale(1);
         pointer-events: initial;
@@ -23985,7 +24008,7 @@
         position: absolute;
         max-width: 50vw;
         width: 28rem;
-        transition: opacity 0.1s ease-out;
+        transition: opacity var(--toggle-speed) ease-out;
       }
 
       .messages:after {
@@ -24003,7 +24026,7 @@
         max-width: 50vw;
         width: 28rem;
         margin-right: 5em;
-        transition: opacity 0.1s ease-out;
+        transition: opacity var(--toggle-speed) ease-out;
       }
 
       .scroll-at-top .messages:before {
@@ -24017,6 +24040,8 @@
       .input {
         border: none;
         flex-grow: 1;
+        color: #333;
+        font-size: 1em;
       }
 
       .input:focus {
@@ -24096,17 +24121,17 @@
       this.urn && (e = `${e}?chat_id=${this.urn}`),
         (this.sock = new WebSocket(e)),
         (this.sock.onclose = function(e) {
-          t.status = vh.DISCONNECTED;
+          console.log('Socket closed', e), (t.status = vh.DISCONNECTED);
         }),
         (this.sock.onmessage = function(e) {
-          t.status = vh.CONNECTED;
+          console.log(e), (t.status = vh.CONNECTED);
           const i = JSON.parse(e.data);
           'chat_started' === i.type
-            ? (t.urn !== i.identifier && (t.messages = []),
-              (t.urn = i.identifier),
+            ? (t.urn !== i.chat_id && (t.messages = []),
+              (t.urn = i.chat_id),
               t.requestUpdate('messages'))
             : 'chat_resumed' === i.type
-            ? (t.urn = i.identifier)
+            ? (t.urn = i.chat_id)
             : 'msg_out' === i.type &&
               ((i.timestamp = new Date().getTime()), t.addMessage(i), t.requestUpdate('messages'));
         });
@@ -24121,7 +24146,7 @@
       }
     }
     writeToLocal() {
-      if ((console.log('Writing to localStorage..'), this.urn)) {
+      if (this.urn) {
         const t = { urn: this.urn, messages: this.messages, version: 1 };
         localStorage.setItem('temba-chat', JSON.stringify(t));
       }
@@ -24144,11 +24169,7 @@
       }
       t.has('status') && this.status === vh.CONNECTED && this.focusInput(),
         t.has('channel') && this.restoreFromLocal(),
-        t.has('messages') &&
-          (console.log('messages changed', this.messages),
-          this.writeToLocal(),
-          console.log(this.messages),
-          this.scrollToBottom());
+        t.has('messages') && (this.writeToLocal(), this.scrollToBottom());
     }
     addMessage(t) {
       let e = this.messages.length > 0 ? this.messages[this.messages.length - 1] : [];
@@ -24232,6 +24253,7 @@
         (this.hideTopScroll = 0 === t.target.scrollTop);
     }
     handleClickInputPanel(t) {
+      t.preventDefault(), t.stopPropagation();
       this.shadowRoot.querySelector('.input').focus();
     }
     toggleChat() {
@@ -24244,6 +24266,15 @@
         this.hideBottomScroll ? 'scroll-at-bottom' : ''
       } ${this.open ? 'open' : ''}"
       >
+        <div class="header">
+          <slot name="header"></slot>
+          <temba-icon
+            name="close"
+            size="1.3"
+            class="close-button"
+            @click=${this.toggleChat}
+          ></temba-icon>
+        </div>
         <div class="messages">
           <div class="scroll" @scroll=${this.handleScroll}>
             ${
@@ -25335,7 +25366,7 @@ background: #ccc;
                     ((e = ge.tickets), (i = 'New unassigned ticket')),
                 Z`<div
         style="color:${'#333'};display:flex;align-items:flex-start;flex-direction:row;font-weight:${
-                  t.is_seen ? 300 : 400
+                  t.is_seen ? 400 : 500
                 }"
       >
         ${
