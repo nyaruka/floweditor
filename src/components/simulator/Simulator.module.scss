@@ -184,9 +184,9 @@ $reset_color: #666;
       padding: 10px;
       overflow-y: auto;
       overflow-x: hidden;
-      font-weight: 300;
       position: relative;
       transition: height 0.3s linear;
+      box-sizing: content-box;
     }
 
     .controls {
@@ -205,12 +205,12 @@ $reset_color: #666;
           border: none;
         }
 
+        box-sizing: content-box !important;
         border-radius: 4px;
         border: none;
         outline: none;
         box-shadow: none;
         font-size: 12px !important;
-        font-weight: 300;
         height: 13px;
         width: 195px;
         padding: 6px 8px;
@@ -224,10 +224,10 @@ $reset_color: #666;
     .show_attachments_button {
       display: inline-block;
       vertical-align: sub;
-      padding: 0px 5px;
+      padding: 0px;
       position: absolute;
       top: 11px;
-      right: 8px;
+      right: 2px;
       cursor: pointer;
 
 

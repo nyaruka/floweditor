@@ -10,8 +10,7 @@
   --temba-textinput-font-size: 12px !important;
 }
 
-.normal {
-}
+.normal {}
 
 .option_list {
   overflow-y: auto;
@@ -26,7 +25,6 @@
 .option_summary {
   font-size: 12px;
   padding: 3px 0;
-  font-weight: 300;
 
   p {
     margin: 0px !important;
@@ -172,7 +170,6 @@
   color: $gray !important;
   font-family: 'Roboto', sans-serif;
   font-size: 14px !important;
-  font-weight: 300 !important;
   border: 1px solid $light_gray;
   box-sizing: border-box !important;
   width: 100%;

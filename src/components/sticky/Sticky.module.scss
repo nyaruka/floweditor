@@ -14,15 +14,19 @@
 .yellow {
   @include color-choice($sticky_yellow);
 }
+
 .blue {
   @include color-choice($sticky_blue);
 }
+
 .purple {
   @include color-choice($sticky_purple);
 }
+
 .gray {
   @include color-choice($sticky_gray);
 }
+
 .green {
   @include color-choice($sticky_green);
 }
@@ -95,6 +99,7 @@
       .remove_button {
         color: $removal_confirmation;
       }
+
       textarea.title {
         visibility: hidden;
       }
@@ -113,6 +118,7 @@
       background: rgba(0, 0, 0, 0.05);
 
       position: relative;
+
       &:hover {
         .remove_button {
           visibility: visible;
@@ -172,7 +178,6 @@
         background: none;
         resize: none !important;
         color: $text_color;
-        font-weight: 300;
         font-size: 12px;
         width: 154px;
         height: inherit;
