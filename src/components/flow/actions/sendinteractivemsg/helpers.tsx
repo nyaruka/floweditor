@@ -131,8 +131,8 @@ export const stateToAction = (
 
 export const stateToRouter = (
   settings: NodeEditorSettings,
-  assetStore: AssetStore,
-  state: SendInteractiveMsgFormState
+  state: SendInteractiveMsgFormState,
+  assetStore: AssetStore
 ): RenderNode => {
   let cases = [];
 
@@ -195,7 +195,7 @@ export const stateToRouter = (
     valid: true
   };
 
-  const renderedNode = stateToNode(settings, assetStore, result);
+  const renderedNode = stateToNode(settings, result, assetStore);
 
   return renderedNode;
 };

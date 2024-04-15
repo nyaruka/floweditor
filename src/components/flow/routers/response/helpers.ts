@@ -52,8 +52,8 @@ export const nodeToState = (settings: NodeEditorSettings): ResponseRouterFormSta
 
 export const stateToNode = (
   settings: NodeEditorSettings,
-  assetStore: AssetStore,
-  state: ResponseRouterFormState
+  state: ResponseRouterFormState,
+  assetStore: AssetStore
 ): RenderNode => {
   const { cases, exits, defaultCategory, timeoutCategory, caseConfig, categories } = resolveRoutes(
     state.cases,
