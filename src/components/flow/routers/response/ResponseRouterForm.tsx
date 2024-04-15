@@ -71,7 +71,7 @@ export default class ResponseRouterForm extends React.Component<
   private handleSave(): void {
     if (this.state.valid && !hasErrors(this.state.resultName)) {
       this.props.updateRouter(
-        stateToNode(this.props.nodeSettings, this.props.assetStore, this.state)
+        stateToNode(this.props.nodeSettings, this.state, this.props.assetStore)
       );
       this.props.onClose(false);
     }
