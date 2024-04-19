@@ -454,6 +454,8 @@ export interface LinkSheets extends Action {
   action_type: string;
   row_data?: string[];
   range?: string;
+  subsheet?: string;
+  starting_cell?: string;
   name: string;
   result_name?: string;
 }

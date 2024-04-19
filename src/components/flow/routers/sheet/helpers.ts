@@ -24,6 +24,8 @@ export const nodeToState = (settings: NodeEditorSettings): SheetFormState => {
   let result_name: StringEntry = { value: 'sheet' };
   let row: StringEntry = { value: '' };
   let range: StringEntry = { value: '' };
+  let starting_cell: StringEntry = { value: '' };
+  let subsheet: StringEntry = { value: '' };
   let row_data: FormEntry[] = [];
   let action_type: FormEntry = { value: ACTION_OPTIONS[0] };
   let sheet: FormEntry = { value: null };
@@ -50,6 +52,8 @@ export const nodeToState = (settings: NodeEditorSettings): SheetFormState => {
 
       row.value = callSheet.row;
       range.value = callSheet.range;
+      starting_cell.value = callSheet.range.split('!')[1].split(':')[0];
+      subsheet.value = callSheet.range.split('!')[0];
       result_name.value = callSheet.result_name;
       sheet.value = {};
       sheet.value.id = callSheet.sheet_id;
@@ -65,12 +69,14 @@ export const nodeToState = (settings: NodeEditorSettings): SheetFormState => {
     valid: true,
     action_type,
     row_data,
-    range
+    range,
+    subsheet,
+    starting_cell
   };
 };
 
 export const stateToNode = (settings: NodeEditorSettings, state: SheetFormState): any => {
-  const { sheet, result_name, row, row_data, action_type, range } = state;
+  const { sheet, result_name, row, row_data, action_type, subsheet, starting_cell } = state;
   let newAction;
   const uuid = getActionUUID(settings, Types.link_google_sheet);
   const actionType = action_type.value.value;
@@ -95,7 +101,7 @@ export const stateToNode = (settings: NodeEditorSettings, state: SheetFormState)
         sheet_id: sheet.value.id,
         name: sheet.value.name,
         action_type: actionType,
-        range: range.value,
+        range: `${subsheet.value}!${starting_cell.value}:${starting_cell.value}`,
         type: Types.link_google_sheet,
         result_name: '',
         uuid
