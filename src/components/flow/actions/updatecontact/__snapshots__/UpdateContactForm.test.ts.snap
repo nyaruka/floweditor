@@ -69,17 +69,14 @@ exports[`UpdateContactForm render should render an empty form with different act
     createPrefix="Create Contact Field: "
     entry={
       Object {
-        "value": Object {
-          "id": "language",
-          "name": "Language",
-          "type": "property",
-        },
+        "value": null,
       }
     }
     getName={[Function]}
     name="Contact Field"
     onAssetCreated={[Function]}
     onChange={[Function]}
+    placeholder="Select"
     searchable={true}
     sortFunction={[Function]}
   />
@@ -171,17 +168,14 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
     createPrefix="Create Contact Field: "
     entry={
       Object {
-        "value": Object {
-          "id": "language",
-          "name": "Language",
-          "type": "property",
-        },
+        "value": null,
       }
     }
     getName={[Function]}
     name="Contact Field"
     onAssetCreated={[Function]}
     onChange={[Function]}
+    placeholder="Select"
     searchable={true}
     sortFunction={[Function]}
   />
