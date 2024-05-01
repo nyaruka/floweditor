@@ -486,6 +486,7 @@ export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
   helpArticles: {},
   addAsset: jest.fn(),
   updateAction: jest.fn(),
+  removeLocalizations: jest.fn(),
   onClose: jest.fn(),
   onTypeChange: jest.fn(),
   issues: [],
