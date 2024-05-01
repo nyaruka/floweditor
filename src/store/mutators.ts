@@ -612,7 +612,9 @@ export const removeLocalizations = (
   if (keys) {
     newDef = mutate(newDef, {
       localization: {
-        $apply: (localization: { [key: string]: { [key: string]: string[] } }) => {
+        $apply: (localization: {
+          [key: string]: { [key: string]: { [key: string]: string[] } };
+        }) => {
           const newLocalization = { ...localization };
           for (const lang of Object.keys(localization)) {
             const langDef = localization[lang];
