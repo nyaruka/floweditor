@@ -45,7 +45,7 @@ export default class Loading extends React.Component<LoadingProps, LoadingState>
       <div
         className={styles.loading}
         style={{
-          width: this.props.size * this.props.units * 2,
+          width: this.props.size * this.props.units * 2 + this.props.size * 1.5,
           height: this.props.size
         }}
       >
