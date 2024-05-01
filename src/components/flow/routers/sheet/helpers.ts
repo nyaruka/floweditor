@@ -52,8 +52,12 @@ export const nodeToState = (settings: NodeEditorSettings): SheetFormState => {
 
       row.value = callSheet.row;
       range.value = callSheet.range;
-      starting_cell.value = callSheet.range.split('!')[1].split(':')[0];
-      subsheet.value = callSheet.range.split('!')[0];
+      starting_cell.value = callSheet.range.includes('!')
+        ? callSheet.range.split('!')[1].split(':')[0]
+        : callSheet.range;
+      subsheet.value = callSheet.range.includes('!')
+        ? callSheet.range.split('!')[0]
+        : callSheet.range;
       result_name.value = callSheet.result_name;
       sheet.value = {};
       sheet.value.id = callSheet.sheet_id;
