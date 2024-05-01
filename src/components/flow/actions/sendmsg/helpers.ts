@@ -3,11 +3,10 @@
 import { getActionUUID } from 'components/flow/actions/helpers';
 import { SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from 'config/interfaces';
-import { Component, MsgTemplating, SendMsg } from 'flowTypes';
+import { SendMsg } from 'flowTypes';
 import { FormEntry, NodeEditorSettings } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { Attachment } from './attachments';
-import { createUUID } from 'utils';
 
 export const TOPIC_OPTIONS: SelectOption[] = [
   { value: 'event', name: 'Event' },
@@ -34,30 +33,10 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
       attachments.push(attachment);
     });
 
-    let paramsByTemplate: any = {};
-    if (action.templating) {
-      const msgTemplate = action.templating.template;
-      template = {
-        value: {
-          uuid: msgTemplate.uuid,
-          name: msgTemplate.name
-        }
-      };
-
-      if (action.templating.components && action.templating.components.length > 0) {
-        paramsByTemplate = {
-          [action.templating.template.uuid]: {}
-        };
-
-        action.templating.components.forEach((component: any) => {
-          paramsByTemplate[action.templating.template.uuid][component.name] = component.params;
-        });
-      }
-    }
-
     return {
       topic: { value: TOPIC_OPTIONS.find(option => option.value === action.topic) },
-      template,
+      template: { value: action.template },
+      templateVariables: { value: action.template_variables },
       attachments,
       uploadInProgress: false,
       uploadError: '',
@@ -65,21 +44,20 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
       quickReplies: { value: action.quick_replies || [] },
       quickReplyEntry: { value: '' },
       sendAll: action.all_urns,
-      paramsByTemplate,
       valid: true
     };
   }
 
   return {
     topic: { value: null },
-    template,
+    template: { value: template },
     attachments: [],
     uploadInProgress: false,
     uploadError: '',
     message: { value: '' },
     quickReplies: { value: [] },
     quickReplyEntry: { value: '' },
-    paramsByTemplate: {},
+    templateVariables: { value: [] },
     sendAll: false,
     valid: false
   };
@@ -90,49 +68,6 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
     .filter((attachment: Attachment) => attachment.url.trim().length > 0)
     .map((attachment: Attachment) => `${attachment.type}:${attachment.url}`);
 
-  let templating: MsgTemplating = null;
-  if (state.template && state.template.value) {
-    const originalAction =
-      settings.originalAction.type === Types.send_msg ? (settings.originalAction as SendMsg) : null;
-
-    let components =
-      originalAction.templating && originalAction.templating.components
-        ? originalAction.templating.components
-        : [];
-
-    if (state.templateTranslation) {
-      components = state.templateTranslation.components.map((comp: Component) => {
-        let uuid = createUUID();
-        // try looking up the uuid from the original action
-        if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
-          const originalAction = settings.originalAction as SendMsg;
-          if (originalAction.templating) {
-            const originalComponent = originalAction.templating.components.find(
-              (component: any) => component.name === comp.name
-            );
-            if (originalComponent) {
-              uuid = originalComponent.uuid;
-            }
-          }
-        }
-
-        return {
-          uuid,
-          name: comp.name,
-          params: state.paramsByTemplate[state.template.value.uuid][comp.name]
-        };
-      });
-    }
-
-    templating = {
-      template: {
-        uuid: state.template.value.uuid,
-        name: state.template.value.name
-      },
-      components
-    };
-  }
-
   const result: SendMsg = {
     attachments,
     text: state.message.value,
@@ -142,8 +77,9 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
     uuid: getActionUUID(settings, Types.send_msg)
   };
 
-  if (templating) {
-    result.templating = templating;
+  if (state.template.value) {
+    result.template = state.template.value;
+    result.template_variables = state.templateVariables.value;
   }
 
   if (state.topic.value) {

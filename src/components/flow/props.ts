@@ -25,6 +25,8 @@ export interface ActionFormProps extends IssueProps {
     onUpdated?: (dispatch: DispatchWithState, getState: GetState) => void
   ): void;
 
+  removeLocalizations(uuid: string, keys?: string[]): void;
+
   // modal notifiers
   onTypeChange(config: Type): void;
   onClose(canceled: boolean): void;

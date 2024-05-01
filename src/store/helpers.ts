@@ -23,7 +23,6 @@ import {
   UIMetaData,
   Wait,
   WaitTypes,
-  SendMsg,
   FlowIssue,
   FlowIssueType
 } from 'flowTypes';
@@ -183,15 +182,6 @@ export const getLocalizations = (
 
   if (action) {
     localizations.push(Localization.translate(action, language, translations));
-    // check for localized template variables]
-    if (action.type === Types.send_msg) {
-      const sendMsgAction = action as SendMsg;
-      if (sendMsgAction.templating) {
-        sendMsgAction.templating.components.forEach((component: any) => {
-          localizations.push(Localization.translate(component, language, translations));
-        });
-      }
-    }
   }
 
   // Account for localized categories

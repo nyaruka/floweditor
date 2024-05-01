@@ -9,7 +9,7 @@ import MultiChoiceInput from 'components/form/multichoice/MultiChoice';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import UploadButton from 'components/uploadbutton/UploadButton';
 import { fakePropType } from 'config/ConfigProvider';
-import { SendMsg, MsgTemplating } from 'flowTypes';
+import { SendMsg } from 'flowTypes';
 import * as React from 'react';
 import mutate from 'immutability-helper';
 import { FormState, mergeForm, StringArrayEntry, StringEntry } from 'store/nodeEditor';
@@ -27,8 +27,8 @@ export interface MsgLocalizationFormState extends FormState {
   message: StringEntry;
   quickReplies: StringArrayEntry;
   audio: StringEntry;
-  params: any;
-  templating: MsgTemplating;
+  template?: { uuid: string; name: string };
+  templateVariables: string[];
   attachments: Attachment[];
   uploadInProgress: boolean;
   uploadError: string;
@@ -93,7 +93,7 @@ export default class MsgLocalizationForm extends React.Component<
   }
 
   private handleSave(): void {
-    const { message: text, quickReplies, audio, attachments } = this.state;
+    const { message: text, quickReplies, audio, attachments, templateVariables } = this.state;
 
     // make sure we are valid for saving, only quick replies can be invalid
     const typeConfig = determineTypeConfig(this.props.nodeSettings);
@@ -120,39 +120,16 @@ export default class MsgLocalizationForm extends React.Component<
         translations.audio_url = audio.value;
       }
 
+      if (templateVariables) {
+        translations.template_variables = templateVariables;
+      }
+
       const localizations = [
         {
           uuid: this.props.nodeSettings.originalAction!.uuid,
           translations
         }
       ];
-
-      // save our template components
-      const templating = (this.props.nodeSettings.originalAction as SendMsg).templating;
-      if (this.state.params && templating) {
-        const components = templating.components;
-
-        // find the matching component for our params
-        Object.keys(this.state.params).forEach((key: any) => {
-          const component = components.find((c: any) => c.name === key);
-          if (component) {
-            const params = this.state.params[key];
-
-            // if each string in params is empty string, set params to null
-            if (params.every((p: string) => p.trim() === '')) {
-              localizations.push({
-                uuid: component.uuid,
-                translations: null
-              });
-            } else {
-              localizations.push({
-                uuid: component.uuid,
-                translations: { params }
-              });
-            }
-          }
-        });
-      }
       this.props.updateLocalizations(this.props.language.id, localizations);
 
       // notify our modal we are done
@@ -175,7 +152,7 @@ export default class MsgLocalizationForm extends React.Component<
   }
 
   private handleTemplateVariableChanged(event: any): void {
-    this.setState({ params: event.detail.params });
+    this.setState({ templateVariables: event.detail.variables });
   }
 
   private handleAttachmentUploading(isUploading: boolean) {
@@ -260,54 +237,6 @@ export default class MsgLocalizationForm extends React.Component<
     const typeConfig = determineTypeConfig(this.props.nodeSettings);
     const tabs: Tab[] = [];
 
-    if (this.state.templating) {
-      tabs.push({
-        name: 'WhatsApp',
-        body: (
-          <>
-            <p>
-              {i18n.t(
-                'forms.whatsapp_warning',
-                'Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.'
-              )}
-            </p>
-            {this.state.templating ? (
-              <TembaComponent
-                tag="temba-template-editor"
-                eventHandlers={{
-                  'temba-content-changed': this.handleTemplateVariableChanged
-                }}
-                template={this.state.templating.template.uuid}
-                url={this.props.assetStore.templates.endpoint}
-                lang={this.props.language.id}
-                params={JSON.stringify(this.state.params)}
-                translating={true}
-              ></TembaComponent>
-            ) : null}
-          </>
-        ),
-        checked: true //hasLocalizedValue
-      });
-    }
-
-    if (typeConfig.localizeableKeys!.indexOf('quick_replies') > -1) {
-      tabs.push({
-        name: i18n.t('forms.attachments', 'Attachments'),
-        body: renderAttachments(
-          this.context.config.endpoints.attachments,
-          this.state.attachments,
-          this.state.uploadInProgress,
-          this.state.uploadError,
-          this.handleAttachmentUploading,
-          this.handleAttachmentUploaded,
-          this.handleAttachmentUploadFailed,
-          this.handleAttachmentChanged,
-          this.handleAttachmentRemoved
-        ),
-        checked: this.state.attachments.length > 0
-      });
-    }
-
     if (typeConfig.localizeableKeys!.indexOf('quick_replies') > -1) {
       tabs.push({
         name: i18n.t('forms.quick_replies', 'Quick Replies'),
@@ -332,6 +261,24 @@ export default class MsgLocalizationForm extends React.Component<
       });
     }
 
+    if (typeConfig.localizeableKeys!.indexOf('quick_replies') > -1) {
+      tabs.push({
+        name: i18n.t('forms.attachments', 'Attachments'),
+        body: renderAttachments(
+          this.context.config.endpoints.attachments,
+          this.state.attachments,
+          this.state.uploadInProgress,
+          this.state.uploadError,
+          this.handleAttachmentUploading,
+          this.handleAttachmentUploaded,
+          this.handleAttachmentUploadFailed,
+          this.handleAttachmentChanged,
+          this.handleAttachmentRemoved
+        ),
+        checked: this.state.attachments.length > 0
+      });
+    }
+
     let audioButton: JSX.Element | null = null;
     if (typeConfig.localizeableKeys!.indexOf('audio_url') > 0) {
       audioButton = (
@@ -346,8 +293,37 @@ export default class MsgLocalizationForm extends React.Component<
       );
     }
 
-    const translation = i18n.t('forms.translation', 'Translation');
+    if (this.state.template) {
+      tabs.push({
+        name: 'WhatsApp',
+        body: (
+          <>
+            <p>
+              {i18n.t(
+                'forms.whatsapp_warning',
+                'Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.'
+              )}
+            </p>
+            {this.state.template ? (
+              <TembaComponent
+                tag="temba-template-editor"
+                eventHandlers={{
+                  'temba-content-changed': this.handleTemplateVariableChanged
+                }}
+                template={this.state.template.uuid}
+                url={this.props.assetStore.templates.endpoint}
+                lang={this.props.language.id}
+                variables={JSON.stringify(this.state.templateVariables)}
+                translating={true}
+              ></TembaComponent>
+            ) : null}
+          </>
+        ),
+        checked: this.state.templateVariables.length > 0
+      });
+    }
 
+    const translation = i18n.t('forms.translation', 'Translation');
     return (
       <Dialog
         title={typeConfig.name}

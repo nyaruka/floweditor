@@ -84,6 +84,7 @@ Array [
     "localizeableKeys": Array [
       "text",
       "quick_replies",
+      "template_variables",
     ],
     "massageForDisplay": [Function],
     "name": "Send Message",
@@ -647,6 +648,7 @@ Object {
     "localizeableKeys": Array [
       "text",
       "quick_replies",
+      "template_variables",
     ],
     "massageForDisplay": [Function],
     "name": "Send Message",

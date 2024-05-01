@@ -21,6 +21,8 @@ import {
   MergeEditorState,
   mergeEditorState,
   NoParamsAC,
+  OnRemoveLocalizations,
+  onRemoveLocalizations,
   onUpdateAction,
   OnUpdateAction,
   OnUpdateLocalizations,
@@ -53,6 +55,7 @@ export interface NodeEditorStoreProps {
   resetNodeEditingState: NoParamsAC;
   issues: FlowIssue[];
   mergeEditorState: MergeEditorState;
+  onRemoveLocalizations: OnRemoveLocalizations;
   onUpdateLocalizations: OnUpdateLocalizations;
   onUpdateAction: OnUpdateAction;
   onUpdateRouter: OnUpdateRouter;
@@ -67,6 +70,7 @@ export interface FormProps {
   updateAction(action: AnyAction): void;
 
   addAsset(assetType: string, asset: Asset): void;
+  removeLocalizations(uuid: string, keys?: string[]): void;
 
   language: Asset;
   assetStore: AssetStore;
@@ -94,12 +98,16 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     super(props);
 
     bindCallbacks(this, {
-      include: [/^close/, /^update/, /^handle/]
+      include: [/^close/, /^update/, /^handle/, /^remove/]
     });
   }
 
   private updateLocalizations(language: string, changes: LocalizationUpdates) {
     this.props.onUpdateLocalizations(language, changes);
+  }
+
+  private removeLocalizations(uuid: string, keys?: string[]) {
+    this.props.onRemoveLocalizations(uuid, keys);
   }
 
   public close(canceled: boolean): void {
@@ -173,6 +181,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         addAsset: this.handleAddAsset,
         updateAction: this.updateAction,
         updateRouter: this.updateRouter,
+        removeLocalizations: this.removeLocalizations,
         nodeSettings: this.props.settings,
         helpArticles: this.props.helpArticles,
         issues: this.props.issues.filter((issue: FlowIssue) => !issue.language),
@@ -224,6 +233,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
       mergeEditorState,
       handleTypeConfigChange,
       onUpdateLocalizations,
+      onRemoveLocalizations,
       onUpdateAction,
       onUpdateRouter,
       updateUserAddingAction

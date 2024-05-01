@@ -28,6 +28,7 @@ exports[`SayMsgForm render should render 1`] = `
         "localizeableKeys": Array [
           "text",
           "quick_replies",
+          "template_variables",
         ],
         "massageForDisplay": [Function],
         "name": "Send Message",

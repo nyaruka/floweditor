@@ -124,6 +124,8 @@ export type OnUpdateLocalizations = (
   changes: LocalizationUpdates
 ) => Thunk<FlowDefinition>;
 
+export type OnRemoveLocalizations = (uuid: string, keys?: string[]) => Thunk<FlowDefinition>;
+
 export type UpdateSticky = (stickyUUID: string, sticky: StickyNote) => Thunk<void>;
 
 export type OnUpdateAction = (
@@ -478,6 +480,19 @@ export const handleLanguageChange: HandleLanguageChange = language => (dispatch,
   if (!isEqual(language, currentLanguage)) {
     dispatch(mergeEditorState({ language }));
   }
+};
+
+export const onRemoveLocalizations = (uuid: string, keys?: string[]) => (
+  dispatch: DispatchWithState,
+  getState: GetState
+): FlowDefinition => {
+  const {
+    flowContext: { definition }
+  } = getState();
+  const updated = mutators.removeLocalizations(definition, uuid, keys);
+  dispatch(updateDefinition(updated));
+  markDirty();
+  return updated;
 };
 
 export const onUpdateLocalizations = (language: string, changes: LocalizationUpdates) => (
