@@ -4,7 +4,7 @@ import { FlowTypes, Operators, Types, ContactStatus } from 'config/interfaces';
 import { ExclusionsCheckboxEntry } from 'store/nodeEditor';
 
 // we don't concern ourselves with patch versions
-export const SPEC_VERSION = '13.4';
+export const SPEC_VERSION = '13.5';
 
 export interface Languages {
   [iso: string]: string;
@@ -379,7 +379,11 @@ export interface SendMsg extends Action {
   quick_replies?: string[];
   attachments?: string[];
   topic?: string;
-  templating?: MsgTemplating;
+  template?: {
+    uuid: string;
+    name: string;
+  };
+  template_variables?: string[];
 }
 
 export interface SayMsg extends Action {

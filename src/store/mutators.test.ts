@@ -22,7 +22,8 @@ import {
   updateNodeDimensions,
   updatePosition,
   removeResultReference,
-  removeResultFromStore
+  removeResultFromStore,
+  removeLocalizations
 } from 'store/mutators';
 import { createMatchRouter, createSendMsgAction } from 'testUtils/assetCreators';
 import { createUUID } from 'utils';
@@ -237,6 +238,63 @@ describe('mutators', () => {
     updated = updateLocalization(updated, 'spa', [{ uuid: 'node0_action0', translations: null }]);
     expect(updated.localization.spa).toEqual({});
     expect(updated).toMatchSnapshot();
+  });
+
+  it('should remove localizations', () => {
+    // add some localizations
+    let localized = updateLocalization(definition, 'spa', [
+      {
+        uuid: 'node0_action0',
+        translations: {
+          text: ['espanol'],
+          template_variables: ['var1', 'var2']
+        }
+      }
+    ]);
+    localized = updateLocalization(localized, 'fr', [
+      {
+        uuid: 'node0_action0',
+        translations: {
+          text: ['sur la table'],
+          template_variables: ['var1', 'var2']
+        }
+      }
+    ]);
+
+    // makes sure we have localizations
+    expect(localized.localization).toEqual({
+      fr: {
+        node0_action0: {
+          text: ['sur la table'],
+          template_variables: ['var1', 'var2']
+        }
+      },
+      spa: {
+        node0_action0: {
+          text: ['espanol'],
+          template_variables: ['var1', 'var2']
+        }
+      }
+    });
+
+    // now lets remove the template variables from all languages
+    const untemplated = removeLocalizations(localized, 'node0_action0', ['template_variables']);
+    expect(untemplated.localization).toEqual({
+      fr: {
+        node0_action0: {
+          text: ['sur la table']
+        }
+      },
+      spa: {
+        node0_action0: {
+          text: ['espanol']
+        }
+      }
+    });
+
+    // now try removing all localizations for the node
+    const unlocalized = removeLocalizations(localized, 'node0_action0');
+    expect(unlocalized.localization).toEqual({});
   });
 
   describe('loop detection', () => {

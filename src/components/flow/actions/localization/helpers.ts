@@ -30,8 +30,8 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
   const state: MsgLocalizationFormState = {
     message: { value: '' },
     quickReplies: { value: [] },
-    params: {},
-    templating: null,
+    template: null,
+    templateVariables: [],
     audio: { value: null },
     valid: true,
     attachments: [],
@@ -47,8 +47,8 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
     settings.localizations &&
     settings.localizations.length > 0
   ) {
-    if (settings.originalAction && (settings.originalAction as any).templating) {
-      state.templating = (settings.originalAction as any).templating;
+    if (settings.originalAction && (settings.originalAction as any).template) {
+      state.template = (settings.originalAction as any).template;
     }
 
     for (const localized of settings.localizations) {
@@ -78,12 +78,12 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
             });
           }
 
+          if ('template_variables' in localized.localizedKeys) {
+            state.templateVariables = action.template_variables || [];
+          }
+
           state.attachments = attachments;
           state.valid = true;
-        }
-
-        if (localized.localizedKeys.params) {
-          state.params[localizedObject.name] = localizedObject.params;
         }
       }
     }

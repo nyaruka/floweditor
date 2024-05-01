@@ -19,6 +19,33 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
     Array [
       Object {
         "body": <React.Fragment>
+          <MultiChoiceInput
+            helpText={
+              <Trans
+                i18nKey="forms.localized_quick_replies"
+                values={
+                  Object {
+                    "language": "Spanish",
+                  }
+                }
+              >
+                Add a new [[language]] Quick Reply and press enter.
+              </Trans>
+            }
+            items={
+              Object {
+                "value": Array [],
+              }
+            }
+            name="Quick Reply"
+            onChange={[Function]}
+          />
+        </React.Fragment>,
+        "checked": false,
+        "name": "Quick Replies",
+      },
+      Object {
+        "body": <React.Fragment>
           <p>
             Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
@@ -77,33 +104,6 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
         </React.Fragment>,
         "checked": false,
         "name": "Attachments",
-      },
-      Object {
-        "body": <React.Fragment>
-          <MultiChoiceInput
-            helpText={
-              <Trans
-                i18nKey="forms.localized_quick_replies"
-                values={
-                  Object {
-                    "language": "Spanish",
-                  }
-                }
-              >
-                Add a new [[language]] Quick Reply and press enter.
-              </Trans>
-            }
-            items={
-              Object {
-                "value": Array [],
-              }
-            }
-            name="Quick Reply"
-            onChange={[Function]}
-          />
-        </React.Fragment>,
-        "checked": false,
-        "name": "Quick Replies",
       },
     ]
   }
@@ -155,6 +155,33 @@ exports[`MsgLocalizationForm render should render 1`] = `
     Array [
       Object {
         "body": <React.Fragment>
+          <MultiChoiceInput
+            helpText={
+              <Trans
+                i18nKey="forms.localized_quick_replies"
+                values={
+                  Object {
+                    "language": "Spanish",
+                  }
+                }
+              >
+                Add a new [[language]] Quick Reply and press enter.
+              </Trans>
+            }
+            items={
+              Object {
+                "value": Array [],
+              }
+            }
+            name="Quick Reply"
+            onChange={[Function]}
+          />
+        </React.Fragment>,
+        "checked": false,
+        "name": "Quick Replies",
+      },
+      Object {
+        "body": <React.Fragment>
           <p>
             Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
@@ -214,33 +241,6 @@ exports[`MsgLocalizationForm render should render 1`] = `
         "checked": false,
         "name": "Attachments",
       },
-      Object {
-        "body": <React.Fragment>
-          <MultiChoiceInput
-            helpText={
-              <Trans
-                i18nKey="forms.localized_quick_replies"
-                values={
-                  Object {
-                    "language": "Spanish",
-                  }
-                }
-              >
-                Add a new [[language]] Quick Reply and press enter.
-              </Trans>
-            }
-            items={
-              Object {
-                "value": Array [],
-              }
-            }
-            name="Quick Reply"
-            onChange={[Function]}
-          />
-        </React.Fragment>,
-        "checked": false,
-        "name": "Quick Replies",
-      },
     ]
   }
   title="Send Message"
@@ -281,12 +281,12 @@ Object {
   "message": Object {
     "value": "",
   },
-  "params": Object {},
   "quickReplies": Object {
     "validationFailures": Array [],
     "value": Array [],
   },
-  "templating": null,
+  "template": null,
+  "templateVariables": Array [],
   "uploadError": "",
   "uploadInProgress": false,
   "valid": true,
@@ -300,6 +300,7 @@ Array [
     Object {
       "translations": Object {
         "attachments": Array [],
+        "template_variables": Array [],
       },
       "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
     },
@@ -317,7 +318,6 @@ Object {
     "validationFailures": Array [],
     "value": "What is your favorite color?",
   },
-  "params": Object {},
   "quickReplies": Object {
     "validationFailures": Array [],
     "value": Array [
@@ -326,7 +326,8 @@ Object {
       "blue",
     ],
   },
-  "templating": null,
+  "template": null,
+  "templateVariables": Array [],
   "uploadError": "",
   "uploadInProgress": false,
   "valid": true,
@@ -345,6 +346,7 @@ Array [
           "green",
           "blue",
         ],
+        "template_variables": Array [],
         "text": "What is your favorite color?",
       },
       "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",

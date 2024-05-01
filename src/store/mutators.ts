@@ -601,6 +601,69 @@ export const mergeNodeEditorSettings = (
 export const pruneDefinition = (definition: FlowDefinition): FlowDefinition =>
   mutate(definition, { nodes: [], _ui: { $merge: { nodes: {} } } });
 
+/** Remove all localizations for a givin uuid optionally limitide by provided keys */
+export const removeLocalizations = (
+  definition: FlowDefinition,
+  uuid: string,
+  keys?: string[]
+): FlowDefinition => {
+  let newDef = definition;
+
+  if (keys) {
+    newDef = mutate(newDef, {
+      localization: {
+        $apply: (localization: { [key: string]: { [key: string]: string[] } }) => {
+          const newLocalization = { ...localization };
+          for (const lang of Object.keys(localization)) {
+            const langDef = localization[lang];
+            if (langDef[uuid]) {
+              const newLangDef = { ...langDef };
+              for (const key of keys) {
+                delete newLangDef[uuid][key];
+              }
+              newLocalization[lang] = newLangDef;
+            }
+          }
+          return newLocalization;
+        }
+      }
+    });
+  } else {
+    // if keys aren't provided, remove everything for that uuid
+    newDef = mutate(newDef, {
+      localization: {
+        $apply: (localization: { [key: string]: { [key: string]: string[] } }) => {
+          const newLocalization = { ...localization };
+          for (const lang of Object.keys(localization)) {
+            const langDef = localization[lang];
+            if (langDef[uuid]) {
+              delete langDef[uuid];
+            }
+            newLocalization[lang] = langDef;
+          }
+          return newLocalization;
+        }
+      }
+    });
+  }
+
+  // if a language has no keys remaining, remove it entirely
+  newDef = mutate(newDef, {
+    localization: {
+      $apply: (localization: { [key: string]: { [key: string]: string[] } }) => {
+        const newLocalization = { ...localization };
+        for (const lang of Object.keys(localization)) {
+          if (Object.keys(localization[lang]).length === 0) {
+            delete newLocalization[lang];
+          }
+        }
+        return newLocalization;
+      }
+    }
+  });
+  return newDef;
+};
+
 /**
  * Update the localization in the definition with the provided changes for a language
  * @param definition

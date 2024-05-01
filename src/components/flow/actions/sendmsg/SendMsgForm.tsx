@@ -47,12 +47,12 @@ export interface SendMsgFormState extends FormState {
   attachments: Attachment[];
   uploadInProgress: boolean;
   uploadError: string;
-  template: FormEntry;
   topic: SelectOptionEntry;
   templateTranslation?: TemplateTranslation;
 
   // template uuid to dict of component key to array
-  paramsByTemplate: { [uuid: string]: { [key: string]: [] } };
+  template: FormEntry;
+  templateVariables: StringArrayEntry;
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
@@ -129,6 +129,23 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
+
+      // if we had a template and it doen't match our new template
+      if (this.props.nodeSettings.originalAction) {
+        const originalTemplate = (this.props.nodeSettings.originalAction as any).template;
+        if (originalTemplate) {
+          if (
+            (this.state.template.value &&
+              this.state.template.value.uuid !== originalTemplate.uuid) ||
+            !this.state.template.value
+          ) {
+            this.props.removeLocalizations(this.props.nodeSettings.originalAction.uuid, [
+              'template_variables'
+            ]);
+          }
+        }
+      }
+
       // notify our modal we are done
       this.props.onClose(false);
     }
@@ -145,27 +162,17 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleTemplateChanged(event: any): void {
-    const { template, translation, params } = event.detail;
-
-    const newParams: { [uuid: string]: {} } = { ...this.state.paramsByTemplate };
-    if (template && newParams[template.uuid] === undefined) {
-      newParams[template.uuid] = params;
-    }
+    const { template, translation, variables } = event.detail;
 
     this.setState({
-      template: { value: template },
-      templateTranslation: translation,
-      paramsByTemplate: newParams
+      template: { value: template ? { uuid: template.uuid, name: template.name } : null },
+      templateVariables: { value: variables },
+      templateTranslation: translation
     });
   }
 
   private handleTemplateVariableChanged(event: any): void {
-    const { template, params } = event.detail;
-    if (template) {
-      const newParams: { [uuid: string]: {} } = { ...this.state.paramsByTemplate };
-      newParams[template.uuid] = params;
-      this.setState({ paramsByTemplate: newParams });
-    }
+    this.setState({ templateVariables: { value: event.detail.variables } });
   }
 
   private renderTopicConfig(): JSX.Element {
@@ -215,9 +222,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           }}
           template={uuid}
           url={this.props.assetStore.templates.endpoint}
-          params={
-            this.state.paramsByTemplate ? JSON.stringify(this.state.paramsByTemplate[uuid]) : ''
-          }
+          variables={JSON.stringify(this.state.templateVariables.value)}
           lang={
             this.props.language
               ? this.props.language.id !== 'base'
@@ -376,7 +381,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         name: 'WhatsApp',
         body: this.renderTemplateConfig(),
         checked: this.state.template.value != null
-        // hasErrors: !!this.state.templateVariables.find((entry: StringEntry) => hasErrors(entry))
       };
       tabs.splice(0, 0, templates);
     }

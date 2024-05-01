@@ -156,6 +156,7 @@ exports[`SendMsgForm render should render 1`] = `
         "localizeableKeys": Array [
           "text",
           "quick_replies",
+          "template_variables",
         ],
         "massageForDisplay": [Function],
         "name": "Send Message",
@@ -191,6 +192,10 @@ Array [
     "all_urns": false,
     "attachments": Array [],
     "quick_replies": Array [],
+    "template": Object {
+      "value": null,
+    },
+    "template_variables": Array [],
     "text": "What is your favorite color?",
     "type": "send_msg",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
@@ -205,7 +210,6 @@ Object {
     "validationFailures": Array [],
     "value": "What is your favorite color?",
   },
-  "paramsByTemplate": Object {},
   "quickReplies": Object {
     "validationFailures": Array [],
     "value": Array [
@@ -219,7 +223,10 @@ Object {
   },
   "sendAll": true,
   "template": Object {
-    "value": null,
+    "value": undefined,
+  },
+  "templateVariables": Object {
+    "value": undefined,
   },
   "topic": Object {
     "value": undefined,
