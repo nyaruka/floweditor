@@ -136,6 +136,7 @@ exports[`SendMsgForm render should render 1`] = `
             tag="temba-template-editor"
             template={null}
             url="assets/templates.json"
+            variables="[]"
           />
         </React.Fragment>,
         "checked": false,
@@ -192,10 +193,6 @@ Array [
     "all_urns": false,
     "attachments": Array [],
     "quick_replies": Array [],
-    "template": Object {
-      "value": null,
-    },
-    "template_variables": Array [],
     "text": "What is your favorite color?",
     "type": "send_msg",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
@@ -222,12 +219,8 @@ Object {
     "value": "",
   },
   "sendAll": true,
-  "template": Object {
-    "value": undefined,
-  },
-  "templateVariables": Object {
-    "value": undefined,
-  },
+  "template": null,
+  "templateVariables": Array [],
   "topic": Object {
     "value": undefined,
   },
