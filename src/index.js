@@ -20,7 +20,6 @@ window.showFlowEditor = (ele, config) => {
   if (config.httpTimeout) {
     setHTTPTimeout(config.httpTimeout);
   }
-
   ReactDOM.unmountComponentAtNode(ele);
   ReactDOM.render(<FlowEditor config={config} />, ele);
 };

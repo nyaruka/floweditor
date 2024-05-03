@@ -25,8 +25,7 @@ import {
   mergeForm,
   StringArrayEntry,
   StringEntry,
-  SelectOptionEntry,
-  FormEntry
+  SelectOptionEntry
 } from 'store/nodeEditor';
 import { MaxOfTenItems, shouldRequireIf, validate } from 'store/validators';
 
@@ -51,8 +50,8 @@ export interface SendMsgFormState extends FormState {
   templateTranslation?: TemplateTranslation;
 
   // template uuid to dict of component key to array
-  template: FormEntry;
-  templateVariables: StringArrayEntry;
+  template: { uuid: string; name: string };
+  templateVariables: string[];
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
@@ -135,9 +134,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         const originalTemplate = (this.props.nodeSettings.originalAction as any).template;
         if (originalTemplate) {
           if (
-            (this.state.template.value &&
-              this.state.template.value.uuid !== originalTemplate.uuid) ||
-            !this.state.template.value
+            (this.state.template && this.state.template.uuid !== originalTemplate.uuid) ||
+            !this.state.template
           ) {
             this.props.removeLocalizations(this.props.nodeSettings.originalAction.uuid, [
               'template_variables'
@@ -163,16 +161,15 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
   private handleTemplateChanged(event: any): void {
     const { template, translation, variables } = event.detail;
-
     this.setState({
-      template: { value: template ? { uuid: template.uuid, name: template.name } : null },
-      templateVariables: { value: variables },
+      template: template ? { uuid: template.uuid, name: template.name } : null,
+      templateVariables: variables,
       templateTranslation: translation
     });
   }
 
   private handleTemplateVariableChanged(event: any): void {
-    this.setState({ templateVariables: { value: event.detail.variables } });
+    this.setState({ templateVariables: event.detail.variables });
   }
 
   private renderTopicConfig(): JSX.Element {
@@ -205,7 +202,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private renderTemplateConfig(): JSX.Element {
-    const uuid = this.state.template.value ? this.state.template.value.uuid : null;
+    const uuid = this.state.template ? this.state.template.uuid : null;
     return (
       <>
         <p>
@@ -222,7 +219,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           }}
           template={uuid}
           url={this.props.assetStore.templates.endpoint}
-          variables={JSON.stringify(this.state.templateVariables.value)}
+          variables={JSON.stringify(this.state.templateVariables)}
           lang={
             this.props.language
               ? this.props.language.id !== 'base'
@@ -380,7 +377,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       const templates: Tab = {
         name: 'WhatsApp',
         body: this.renderTemplateConfig(),
-        checked: this.state.template.value != null
+        checked: this.state.template !== null
       };
       tabs.splice(0, 0, templates);
     }
