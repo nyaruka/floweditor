@@ -4,7 +4,7 @@ import { getActionUUID } from 'components/flow/actions/helpers';
 import { SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from 'config/interfaces';
 import { SendMsg } from 'flowTypes';
-import { FormEntry, NodeEditorSettings } from 'store/nodeEditor';
+import { NodeEditorSettings } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { Attachment } from './attachments';
 
@@ -16,10 +16,18 @@ export const TOPIC_OPTIONS: SelectOption[] = [
 ];
 
 export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState => {
-  let template: FormEntry = { value: null };
+  let template: { uuid: string; name: string } = null;
+  let templateVariables: string[] = [];
+
   if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
     const action = settings.originalAction as SendMsg;
     const attachments: Attachment[] = [];
+
+    if (action.template) {
+      template = action.template;
+      templateVariables = action.template_variables || [];
+    }
+
     (action.attachments || []).forEach((attachmentString: string) => {
       const splitPoint = attachmentString.indexOf(':');
 
@@ -35,8 +43,8 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
 
     return {
       topic: { value: TOPIC_OPTIONS.find(option => option.value === action.topic) },
-      template: { value: action.template },
-      templateVariables: { value: action.template_variables },
+      template,
+      templateVariables,
       attachments,
       uploadInProgress: false,
       uploadError: '',
@@ -50,14 +58,14 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
 
   return {
     topic: { value: null },
-    template: { value: template },
+    template,
+    templateVariables,
     attachments: [],
     uploadInProgress: false,
     uploadError: '',
     message: { value: '' },
     quickReplies: { value: [] },
     quickReplyEntry: { value: '' },
-    templateVariables: { value: [] },
     sendAll: false,
     valid: false
   };
@@ -77,9 +85,9 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
     uuid: getActionUUID(settings, Types.send_msg)
   };
 
-  if (state.template.value) {
-    result.template = state.template.value;
-    result.template_variables = state.templateVariables.value;
+  if (state.template) {
+    result.template = state.template;
+    result.template_variables = state.templateVariables;
   }
 
   if (state.topic.value) {
