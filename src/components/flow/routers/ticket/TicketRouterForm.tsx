@@ -1,19 +1,13 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
+import { renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import { nodeToState, stateToNode } from './helpers';
 // import { createResultNameInput } from 'components/flow/routers/widgets';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { FormState, mergeForm, StringEntry, FormEntry } from 'store/nodeEditor';
-import {
-  Alphanumeric,
-  Required,
-  shouldRequireIf,
-  StartIsNonNumeric,
-  validate
-} from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 import styles from './TicketRouterForm.module.scss';
 import i18n from 'config/i18n';
 import TextInputElement from 'components/form/textinput/TextInputElement';
