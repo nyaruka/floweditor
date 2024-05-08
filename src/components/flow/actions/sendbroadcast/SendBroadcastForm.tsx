@@ -451,7 +451,7 @@ export default class SendBroadcastForm extends React.Component<
         title={typeConfig.name}
         headerClass={typeConfig.type}
         buttons={this.getButtons()}
-        tabs={[templates, attachments]}
+        tabs={[attachments, templates]}
       >
         <TypeList
           __className=""

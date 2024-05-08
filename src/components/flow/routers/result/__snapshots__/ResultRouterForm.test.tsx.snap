@@ -110,18 +110,6 @@ exports[`ResultRouterForm should render 1`] = `
               class="subtitle"
             />
           </div>
-          <div
-            class="tabs"
-          >
-            <div
-              class="tab "
-              style="display: flex;"
-            >
-              <div>
-                Advanced
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <div

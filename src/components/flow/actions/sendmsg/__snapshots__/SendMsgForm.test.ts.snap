@@ -18,17 +18,6 @@ exports[`SendMsgForm render should render 1`] = `
   tabs={
     Array [
       Object {
-        "body": <CheckboxElement
-          checked={false}
-          description="Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
-          name="All Destinations"
-          onChange={[Function]}
-          title="All Destinations"
-        />,
-        "checked": false,
-        "name": "Advanced",
-      },
-      Object {
         "body": <React.Fragment>
           <p>
             Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
@@ -100,40 +89,24 @@ exports[`SendMsgForm render should render 1`] = `
       Object {
         "body": <React.Fragment>
           <p>
-            Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".
-          </p>
-          <MultiChoiceInput
-            entry={
-              Object {
-                "value": "",
-              }
-            }
-            helpText={
-              <Trans
-                i18nKey="forms.add_quick_reply"
-              >
-                Add a new Quick Reply and press enter.
-              </Trans>
-            }
-            items={
-              Object {
-                "value": Array [],
-              }
-            }
-            name="Quick Reply"
-            onChange={[Function]}
-          />
-        </React.Fragment>,
-        "checked": false,
-        "hasErrors": false,
-        "name": "Quick Replies",
-      },
-      Object {
-        "body": <React.Fragment>
-          <p>
             Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
           </p>
           <AssetSelector
+            additionalOptions={
+              Array [
+                Object {
+                  "name": "Expression",
+                  "translations": Array [
+                    Object {
+                      "channel": Object {
+                        "name": "WhatsApp",
+                      },
+                      "status": "approved",
+                    },
+                  ],
+                },
+              ]
+            }
             entry={
               Object {
                 "value": null,
@@ -146,6 +119,35 @@ exports[`SendMsgForm render should render 1`] = `
             searchable={true}
             shouldExclude={[Function]}
           />
+          <div
+            className="label_container"
+          >
+            <p>
+              Select the labels to apply to the outgoing message.
+            </p>
+            <AssetSelector
+              assets={
+                Object {
+                  "items": Object {},
+                  "type": "label",
+                }
+              }
+              createAssetFromInput={[Function]}
+              createPrefix="Create Label: "
+              entry={
+                Object {
+                  "value": Array [],
+                }
+              }
+              expressions={true}
+              multi={true}
+              name="Labels"
+              onAssetCreated={[Function]}
+              onChange={[Function]}
+              placeholder="Enter the name of an existing label or create a new one"
+              searchable={true}
+            />
+          </div>
         </React.Fragment>,
         "checked": false,
         "hasErrors": false,
