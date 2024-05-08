@@ -324,7 +324,7 @@ Array [
             },
           },
           "body": "Where are my cookies",
-          "result_name": "My Ticket Result",
+          "result_name": "Result",
           "topic": Object {
             "value": Object {
               "name": "General",

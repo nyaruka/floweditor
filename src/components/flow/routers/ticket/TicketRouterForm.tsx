@@ -107,25 +107,13 @@ export default class TicketRouterForm extends React.Component<
     return this.handleUpdate({ body });
   }
 
-  private handleResultNameUpdate(value: string): void {
-    const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
-      Required,
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
-    this.setState({
-      resultName,
-      valid: this.state.valid && !hasErrors(resultName)
-    });
-  }
-
   private handleSave(): void {
     // validate all fields in case they haven't interacted
     const valid = this.handleUpdate(
       {
+        topic: this.state.topic.value,
         subject: this.state.subject.value,
-        body: this.state.body.value,
-        resultName: this.state.resultName.value
+        body: this.state.body.value
       },
       true
     );

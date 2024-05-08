@@ -31,10 +31,7 @@ describe(TicketRouterForm.name, () => {
       expect(baseElement).toMatchSnapshot();
 
       const okButton = getByText('Ok');
-      const resultName = getByTestId('Result Name');
 
-      // our body and result name are required
-      fireChangeText(resultName, '');
       fireEvent.click(okButton);
       expect(ticketForm.updateRouter).not.toBeCalled();
 

@@ -41,29 +41,6 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
       Object {
         "body": <React.Fragment>
           <p>
-            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
-          </p>
-          <AssetSelector
-            entry={
-              Object {
-                "value": null,
-              }
-            }
-            formClearable={true}
-            name="template"
-            noOptionsMessage="No templates found"
-            onChange={[Function]}
-            searchable={true}
-            shouldExclude={[Function]}
-          />
-        </React.Fragment>,
-        "checked": false,
-        "hasErrors": false,
-        "name": "WhatsApp",
-      },
-      Object {
-        "body": <React.Fragment>
-          <p>
             Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
           <React.Fragment>
@@ -129,6 +106,29 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
         "checked": false,
         "hasErrors": false,
         "name": "Attachments",
+      },
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
+          </p>
+          <AssetSelector
+            entry={
+              Object {
+                "value": null,
+              }
+            }
+            formClearable={true}
+            name="template"
+            noOptionsMessage="No templates found"
+            onChange={[Function]}
+            searchable={true}
+            shouldExclude={[Function]}
+          />
+        </React.Fragment>,
+        "checked": false,
+        "hasErrors": false,
+        "name": "WhatsApp",
       },
     ]
   }
@@ -199,29 +199,6 @@ exports[`SendBroadcastForm render should render self, children with base props 1
       Object {
         "body": <React.Fragment>
           <p>
-            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
-          </p>
-          <AssetSelector
-            entry={
-              Object {
-                "value": null,
-              }
-            }
-            formClearable={true}
-            name="template"
-            noOptionsMessage="No templates found"
-            onChange={[Function]}
-            searchable={true}
-            shouldExclude={[Function]}
-          />
-        </React.Fragment>,
-        "checked": false,
-        "hasErrors": false,
-        "name": "WhatsApp",
-      },
-      Object {
-        "body": <React.Fragment>
-          <p>
             Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
           <React.Fragment>
@@ -287,6 +264,29 @@ exports[`SendBroadcastForm render should render self, children with base props 1
         "checked": false,
         "hasErrors": false,
         "name": "Attachments",
+      },
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
+          </p>
+          <AssetSelector
+            entry={
+              Object {
+                "value": null,
+              }
+            }
+            formClearable={true}
+            name="template"
+            noOptionsMessage="No templates found"
+            onChange={[Function]}
+            searchable={true}
+            shouldExclude={[Function]}
+          />
+        </React.Fragment>,
+        "checked": false,
+        "hasErrors": false,
+        "name": "WhatsApp",
       },
     ]
   }
