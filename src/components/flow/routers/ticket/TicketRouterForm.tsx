@@ -158,6 +158,7 @@ export default class TicketRouterForm extends React.Component<
             <TembaSelect
               key="select_topic"
               name={i18n.t('forms.topic', 'Topic')}
+              placeholder={i18n.t('Select')}
               endpoint={this.context.config.endpoints.topics}
               onChange={this.handleTopicUpdate}
               value={this.state.topic.value}
