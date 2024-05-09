@@ -60,7 +60,7 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
 
     return (
       <div className={containerClasses}>
-        <div className={styles.Languages}>
+        <div className={styles.languages}>
           {languages.map((lang: Asset, idx: number) => {
             return (
               <div key={'lang_' + lang.id} className={styles.language}>
