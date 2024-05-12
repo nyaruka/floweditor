@@ -142,12 +142,12 @@ export default class SendMsgForm extends React.Component<
     }
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
-      if (this.props.nodeSettings.originalNode.ghost) {
-        this.props.resetNodeEditing();
-        this.props.updateRouter(
-          stateToRouter(this.props.nodeSettings, this.state, this.props.assetStore)
-        );
-      }
+      // if (this.props.nodeSettings.originalNode.ghost) {
+      this.props.resetNodeEditing();
+      this.props.updateRouter(
+        stateToRouter(this.props.nodeSettings, this.state, this.props.assetStore)
+      );
+      // }
       // notify our modal we are done
 
       this.props.onClose(false);

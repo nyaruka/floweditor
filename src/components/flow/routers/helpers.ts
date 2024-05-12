@@ -43,6 +43,7 @@ export const createRenderNode = (
   actions: Action[] | Delay[] = [],
   uiConfig: { [key: string]: any } = {}
 ): RenderNode => {
+  console.log({ uuid, actions, router, exits });
   const renderNode: RenderNode = {
     node: {
       uuid,
