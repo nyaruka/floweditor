@@ -38,8 +38,7 @@ export const EMPTY_TEST_ASSETS = {
   labels: { items: {}, type: AssetType.Label },
   results: { items: {}, type: AssetType.Result },
   flows: { items: {}, type: AssetType.Flow },
-  recipients: { items: {}, type: AssetType.Contact || AssetType.Group || AssetType.URN },
-  ticketers: { items: {}, type: AssetType.Ticketer }
+  recipients: { items: {}, type: AssetType.Contact || AssetType.Group || AssetType.URN }
 };
 
 const initial = initialState;

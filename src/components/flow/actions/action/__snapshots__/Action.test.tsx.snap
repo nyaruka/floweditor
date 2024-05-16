@@ -62,7 +62,9 @@ exports[`ActionWrapper can have localized quick replies when empty on default la
                 data-advanced="true"
                 style="margin-left: 4px; margin-top: 4px;"
               >
-                Sí
+                <div>
+                  Sí
+                </div>
               </div>
             </div>
           </div>
@@ -111,8 +113,9 @@ exports[`ActionWrapper renders a base language 1`] = `
               class="remove_button"
               data-testid="remove-icon"
             >
-              <span
-                class="fe-x"
+              <temba-icon
+                name="delete_small"
+                size="1.2"
               />
             </div>
           </div>

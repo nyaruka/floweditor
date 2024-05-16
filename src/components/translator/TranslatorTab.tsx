@@ -293,10 +293,11 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     return (
       <div className={classes}>
         <PopTab
+          className="translations"
           header={`${this.props.language.name} ${i18n.t('translation.label', 'Translations')}`}
           label={i18n.t('translation.header', 'Flow Translation')}
           color="#777"
-          icon="fe-language"
+          icon="language"
           top="120px"
           popTop="100px"
           visible={this.state.visible}
@@ -355,7 +356,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
                 ></div>
               </div>
               <div className={styles.toggle}>
-                <span className="fe-arrow-up"></span>
+                <temba-icon name="up"></temba-icon>
               </div>
             </div>
             <div className={styles.filters}>
@@ -365,7 +366,6 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
                     name={i18n.t('forms.categories', 'categories')}
                     checked={this.state.translationFilters.categories}
                     description={'Categories'}
-                    checkboxClassName={styles.checkbox}
                     onChange={this.toggleCategories}
                   />
                 </div>
@@ -374,7 +374,6 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
                     name={i18n.t('forms.rules', 'rules')}
                     checked={this.state.translationFilters.rules}
                     description={'Rule Arguments'}
-                    checkboxClassName={styles.checkbox}
                     onChange={this.toggleRules}
                   />
                 </div>

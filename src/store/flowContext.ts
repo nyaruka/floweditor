@@ -58,6 +58,8 @@ export interface ContactFields {
 export enum AssetType {
   Channel = 'channel',
   Classifier = 'classifier',
+  ComposeText = 'text',
+  ComposeAttachments = 'attachments',
   Contact = 'contact',
   ContactProperty = 'property',
   Currency = 'currency',
@@ -70,6 +72,7 @@ export enum AssetType {
   Label = 'label',
   Language = 'language',
   NameMatch = 'name_match',
+  OptIn = 'optin',
   Remove = 'remove',
   Resthook = 'resthook',
   Result = 'result',
@@ -77,11 +80,11 @@ export enum AssetType {
   Scheme = 'scheme',
   Template = 'template',
   Ticketer = 'ticketer',
-  URN = 'urn',
   ValidateMedia = 'validate',
   Interactives = 'interactives',
   ContactProfile = 'contact_profile',
-  Sheets = 'sheets'
+  Sheets = 'sheets',
+  URN = 'urn'
 }
 
 export interface Reference {

@@ -74,8 +74,8 @@ exports[`HeaderElement instance methods handleChangeName should update state, ca
       data-spec="remove-icon"
       onClick={[Function]}
     >
-      <span
-        className="fe-x"
+      <temba-icon
+        name="delete_small"
       />
     </div>
   </div>
@@ -153,8 +153,8 @@ exports[`HeaderElement instance methods handleChangeValue should update state, c
       data-spec="remove-icon"
       onClick={[Function]}
     >
-      <span
-        className="fe-x"
+      <temba-icon
+        name="delete_small"
       />
     </div>
   </div>
@@ -229,8 +229,8 @@ exports[`HeaderElement render should render remove icon 1`] = `
       data-spec="remove-icon"
       onClick={[Function]}
     >
-      <span
-        className="fe-x"
+      <temba-icon
+        name="delete_small"
       />
     </div>
   </div>
@@ -302,8 +302,8 @@ exports[`HeaderElement render should render self, children with base props 2`] =
       data-spec="remove-icon"
       onClick={[Function]}
     >
-      <span
-        className="fe-x"
+      <temba-icon
+        name="delete_small"
       />
     </div>
   </div>

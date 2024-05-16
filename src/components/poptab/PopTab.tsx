@@ -4,6 +4,7 @@ import * as React from 'react';
 import styles from './PopTab.module.scss';
 
 export interface PopTabProps {
+  className: string;
   color: string;
   icon: string;
   label: string;
@@ -54,6 +55,8 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
     return (
       <div
         className={
+          this.props.className +
+          ' ' +
           'pop_wrapper ' +
           styles.pop_wrapper +
           ' ' +
@@ -71,14 +74,14 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
             onClick={this.handleTabClick}
           >
             <div className={styles.icon}>
-              <span className={this.props.icon} />
+              <temba-icon name={this.props.icon} size="1.7"></temba-icon>
             </div>
             <div className={styles.label}>{this.props.label}</div>
           </div>
         </div>
         <div
           ref={this.handlePoppedRef}
-          className={styles.popped + ' ' + (this.props.custom ? styles.custom : '')}
+          className={'popped ' + styles.popped + ' ' + (this.props.custom ? styles.custom : '')}
           style={{
             borderColor: this.props.color,
             top: this.props.popTop || 0,
@@ -86,7 +89,9 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
           }}
         >
           <div className={styles.header} style={{ background: this.props.color }}>
-            <div className={styles.close + ' fe-x'} onClick={this.handleClose} />
+            <div className={styles.close} onClick={this.handleClose}>
+              <temba-icon name="close"></temba-icon>
+            </div>
             <div className={styles.header_label}>{this.props.header}</div>
           </div>
           <div className={styles.body} style={{ background: this.props.color }}>

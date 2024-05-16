@@ -1,16 +1,11 @@
-import classNames from 'classnames/bind';
+import { react as bindCallbacks } from 'auto-bind';
 import { FormElementProps } from 'components/form/FormElement';
 import * as React from 'react';
-import { isRealValue, renderIf } from 'utils';
-
-import styles from './CheckboxElement.module.scss';
 
 export interface CheckboxElementProps extends FormElementProps {
   checked: boolean;
   title?: string;
   description?: string;
-  labelClassName?: string;
-  checkboxClassName?: string;
   onChange?(checked: boolean): void;
 }
 
@@ -25,9 +20,8 @@ export const checkboxSpecId = 'checkbox';
 export const titleSpecId = 'title';
 export const descSpecId = 'description';
 
-const cx: any = classNames.bind(styles);
-
 export default class CheckboxElement extends React.Component<CheckboxElementProps, CheckboxState> {
+  private checkbox: HTMLElement;
   constructor(props: any) {
     super(props);
 
@@ -35,21 +29,39 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
       checked: this.props.checked
     };
 
-    this.handleChange = this.handleChange.bind(this);
+    bindCallbacks(this, {
+      include: [/^handle/]
+    });
   }
 
-  private handleChange(event: React.MouseEvent): void {
-    // this null check only for testing, remove after switching to RTL
+  public handleChange(event: any) {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
-
-    this.setState({ checked: !this.state.checked }, () => {
-      if (this.props.onChange) {
-        this.props.onChange(this.state.checked);
+    if (this.checkbox) {
+      const checked = (this.checkbox as any).checked;
+      if (checked !== this.state.checked && checked !== undefined) {
+        this.setState({ checked }, () => {
+          if (this.props.onChange) {
+            this.props.onChange(checked);
+          }
+        });
       }
-    });
+    }
+  }
+
+  public componentDidMount(): void {
+    if (this.props.checked) {
+      this.setState({ checked: this.props.checked });
+    }
+    if (this.checkbox) {
+      this.checkbox.addEventListener('change', this.handleChange);
+    }
+  }
+
+  public componentWillUnmount(): void {
+    this.checkbox.removeEventListener('change', this.handleChange);
   }
 
   /* istanbul ignore next */
@@ -58,27 +70,19 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
   }
 
   public render(): JSX.Element {
-    const checkboxIcon = this.state.checked ? checkedBoxIco : boxIco;
+    const optional: any = {};
+    if (this.state.checked) {
+      optional['checked'] = true;
+    }
     return (
-      <label className={cx(styles.label, this.props.labelClassName)} onClick={this.handleChange}>
-        <span
-          data-spec={checkboxSpecId}
-          className={cx(checkboxIcon, this.props.checkboxClassName)}
-        />
-        {renderIf(isRealValue(this.props.title))(
-          <div data-spec={titleSpecId} className={styles.title}>
-            {this.props.title}
-          </div>
-        )}
-        {renderIf(isRealValue(this.props.description))(
-          <div
-            data-spec={descSpecId}
-            className={this.props.title ? styles.description : styles.description_solo}
-          >
-            {this.props.description}
-          </div>
-        )}
-      </label>
+      <temba-checkbox
+        ref={(ele: any) => {
+          this.checkbox = ele;
+        }}
+        {...optional}
+        label={this.props.title}
+        help_text={this.props.description}
+      ></temba-checkbox>
     );
   }
 }

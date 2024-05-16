@@ -7,29 +7,35 @@ exports[`StartSessionForm render should render 1`] = `
       class="dialog"
     >
       <div
-        class="tabs"
-      >
-        <div
-          class="tab "
-        >
-          Advanced
-           
-        </div>
-      </div>
-      <div
         class="header start_session"
       >
         <div
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Start Somebody Else
+            <div
+              class="title"
+            >
+              Start Somebody Else
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
           <div
-            class="subtitle"
-          />
+            class="tabs"
+          >
+            <div
+              class="tab "
+              style="display: flex;"
+            >
+              <div>
+                Advanced
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -138,15 +144,23 @@ exports[`StartSessionForm render should render 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>
@@ -202,7 +216,6 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
         "body": <CheckboxElement
           checked={false}
           description="Avoid interrupting a contact who is already in a flow."
-          labelClassName="checkbox"
           name="Skip contacts currently in a flow"
           onChange={[Function]}
           title="Skip contacts currently in a flow"
@@ -317,7 +330,6 @@ exports[`StartSessionForm render should render self, children with base props 1`
         "body": <CheckboxElement
           checked={false}
           description="Avoid interrupting a contact who is already in a flow."
-          labelClassName="checkbox"
           name="Skip contacts currently in a flow"
           onChange={[Function]}
           title="Skip contacts currently in a flow"

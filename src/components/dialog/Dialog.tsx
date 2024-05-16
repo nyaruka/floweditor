@@ -189,23 +189,6 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
     return (
       <div className={activeClasses.join(' ')}>
-        {(this.props.tabs || []).length > 0 ? (
-          <div className={styles.tabs}>
-            {(this.props.tabs || []).map((tab: Tab, index: number) => (
-              <div
-                key={'tab_' + tab.name}
-                className={styles.tab + ' ' + (index === this.state.activeTab ? styles.active : '')}
-                onClick={(evt: React.MouseEvent<HTMLDivElement>) => {
-                  evt.stopPropagation();
-                  this.setState({ activeTab: index });
-                }}
-              >
-                {tab.name} {tab.icon ? <span className={styles.tab_icon + ' ' + tab.icon} /> : null}
-                {tab.checked ? <span className={styles.tab_icon + ' fe-check'} /> : null}
-              </div>
-            ))}
-          </div>
-        ) : null}
         <div
           onClick={() => {
             this.setState({ activeTab: -1 });
@@ -216,11 +199,37 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
           {renderIf(this.props.headerIcon !== undefined)(
             <span className={`${styles.header_icon} ${this.props.headerIcon}`} />
           )}
+
           <div className={styles.title_container}>
-            <div className={styles.title}>{this.props.title}</div>
-            <div className={styles.subtitle}>{this.props.subtitle}</div>
+            <div style={{ flexGrow: 1 }}>
+              <div className={styles.title}>{this.props.title}</div>
+              <div className={styles.subtitle}>{this.props.subtitle}</div>
+            </div>
+            {(this.props.tabs || []).length > 0 ? (
+              <div className={styles.tabs}>
+                {(this.props.tabs || []).map((tab: Tab, index: number) => (
+                  <div
+                    key={'tab_' + tab.name}
+                    style={{ display: 'flex' }}
+                    className={
+                      styles.tab + ' ' + (index === this.state.activeTab ? styles.active : '')
+                    }
+                    onClick={(evt: React.MouseEvent<HTMLDivElement>) => {
+                      evt.stopPropagation();
+                      this.setState({ activeTab: index });
+                    }}
+                  >
+                    <div>{tab.name}</div>
+                    {tab.checked ? (
+                      <temba-icon name="check" style={{ marginLeft: '8px' }}></temba-icon>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
+
         <div className={this.props.noPadding ? '' : styles.content}>
           {this.state.activeTab > -1
             ? this.props.tabs![this.state.activeTab].body

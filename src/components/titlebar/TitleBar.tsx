@@ -96,7 +96,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
           )}
           data-testid={moveIconSpecId}
         >
-          <span className="fe-arrow-up" />
+          <temba-icon name="up" size="1.2"></temba-icon>
         </div>
       );
     } else {
@@ -122,7 +122,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
           )}
           data-testid={removeIconSpecId}
         >
-          <span className="fe-x" />
+          <temba-icon name="delete_small" size="1.2"></temba-icon>
         </div>
       );
     }
@@ -147,7 +147,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
             )}
             data-testid={confirmRemovalSpecId}
           >
-            <span className="fe-x" />
+            <temba-icon name="delete_small" size="1.2"></temba-icon>
           </div>
         </div>
       );

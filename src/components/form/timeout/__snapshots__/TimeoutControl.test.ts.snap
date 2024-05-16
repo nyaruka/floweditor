@@ -9,11 +9,101 @@ exports[`TimeoutControl handles initial values 1`] = `
       className="left_section"
     >
       <CheckboxElement
-        checkboxClassName="checkbox"
         checked={true}
-        description="Continue when there is no response for"
         name="Timeout"
         onChange={[Function]}
+        title="Continue when there is no response for"
+      />
+    </div>
+    <div
+      className="drop_down"
+    >
+      <TembaSelect
+        name="Timeout"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "name": "1 minute",
+              "value": "60",
+            },
+            Object {
+              "name": "2 minutes",
+              "value": "120",
+            },
+            Object {
+              "name": "3 minutes",
+              "value": "180",
+            },
+            Object {
+              "name": "4 minutes",
+              "value": "240",
+            },
+            Object {
+              "name": "5 minutes",
+              "value": "300",
+            },
+            Object {
+              "name": "10 minutes",
+              "value": "600",
+            },
+            Object {
+              "name": "15 minutes",
+              "value": "900",
+            },
+            Object {
+              "name": "1 hour",
+              "value": "3600",
+            },
+            Object {
+              "name": "2 hours",
+              "value": "7200",
+            },
+            Object {
+              "name": "3 hours",
+              "value": "10800",
+            },
+            Object {
+              "name": "6 hours",
+              "value": "21600",
+            },
+            Object {
+              "name": "12 hours",
+              "value": "43200",
+            },
+            Object {
+              "name": "18 hours",
+              "value": "64800",
+            },
+            Object {
+              "name": "1 day",
+              "value": "86400",
+            },
+            Object {
+              "name": "2 days",
+              "value": "172800",
+            },
+            Object {
+              "name": "3 days",
+              "value": "259200",
+            },
+            Object {
+              "name": "1 week",
+              "value": "604800",
+            },
+            Object {
+              "name": "expression",
+              "value": "0",
+            },
+          ]
+        }
+        style="small"
+        value={
+          Object {
+            "name": "1 minute",
+            "value": "60",
+          }
+        }
       />
     </div>
     <div
@@ -120,11 +210,101 @@ exports[`TimeoutControl renders 1`] = `
       className="left_section"
     >
       <CheckboxElement
-        checkboxClassName="checkbox"
         checked={true}
-        description="Continue when there is no response for"
         name="Timeout"
         onChange={[Function]}
+        title="Continue when there is no response for"
+      />
+    </div>
+    <div
+      className="drop_down"
+    >
+      <TembaSelect
+        name="Timeout"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "name": "1 minute",
+              "value": "60",
+            },
+            Object {
+              "name": "2 minutes",
+              "value": "120",
+            },
+            Object {
+              "name": "3 minutes",
+              "value": "180",
+            },
+            Object {
+              "name": "4 minutes",
+              "value": "240",
+            },
+            Object {
+              "name": "5 minutes",
+              "value": "300",
+            },
+            Object {
+              "name": "10 minutes",
+              "value": "600",
+            },
+            Object {
+              "name": "15 minutes",
+              "value": "900",
+            },
+            Object {
+              "name": "1 hour",
+              "value": "3600",
+            },
+            Object {
+              "name": "2 hours",
+              "value": "7200",
+            },
+            Object {
+              "name": "3 hours",
+              "value": "10800",
+            },
+            Object {
+              "name": "6 hours",
+              "value": "21600",
+            },
+            Object {
+              "name": "12 hours",
+              "value": "43200",
+            },
+            Object {
+              "name": "18 hours",
+              "value": "64800",
+            },
+            Object {
+              "name": "1 day",
+              "value": "86400",
+            },
+            Object {
+              "name": "2 days",
+              "value": "172800",
+            },
+            Object {
+              "name": "3 days",
+              "value": "259200",
+            },
+            Object {
+              "name": "1 week",
+              "value": "604800",
+            },
+            Object {
+              "name": "expression",
+              "value": "0",
+            },
+          ]
+        }
+        style="small"
+        value={
+          Object {
+            "name": "expression",
+            "value": "0",
+          }
+        }
       />
     </div>
     <div

@@ -328,6 +328,11 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         type: AssetType.Label,
         items: {}
       },
+      optins: {
+        endpoint: getURL(endpoints.optins),
+        type: AssetType.OptIn,
+        items: {}
+      },
       results: {
         type: AssetType.Result,
         items: {}
@@ -353,11 +358,6 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
       templates: {
         endpoint: getURL(endpoints.templates),
         type: AssetType.Template,
-        items: {}
-      },
-      ticketers: {
-        endpoint: getURL(endpoints.ticketers),
-        type: AssetType.Ticketer,
         items: {}
       },
       currencies: {
@@ -387,7 +387,7 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
 
     // prefetch some of our assets
     const fetches: any[] = [];
-    ['languages', 'fields', 'groups', 'labels', 'globals', 'classifiers', 'ticketers'].forEach(
+    ['languages', 'fields', 'groups', 'labels', 'globals', 'classifiers'].forEach(
       (storeId: string) => {
         const store = assetStore[storeId];
         fetches.push(
@@ -422,7 +422,7 @@ export const getFlowDetails = (revisions: Assets, id: string = null): Promise<Fl
       }
 
       if (revisionToLoad) {
-        const url = `${revisions.endpoint}${revisionToLoad}?version=${SPEC_VERSION}`;
+        const url = `${revisions.endpoint}${revisionToLoad}/?version=${SPEC_VERSION}`;
         axios
           .get(url)
           .then((response: AxiosResponse) => {
