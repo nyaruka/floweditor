@@ -212,6 +212,8 @@ export const stateToRouter = (
 
   const renderedNode = stateToNode(settings, result, assetStore);
 
+  console.log(renderedNode);
+
   return renderedNode;
 };
 
