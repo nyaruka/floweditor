@@ -716,8 +716,6 @@ export const addNodeEditingState = () => (dispatch: DispatchWithState, getState:
     }
   } = getState();
 
-  console.log(originalNode, originalAction, localizations);
-
   if (originalNode.ghost) {
     // check for exit value as well
     const node = Object.keys(nodes).find(
@@ -747,7 +745,7 @@ export const addNodeEditingState = () => (dispatch: DispatchWithState, getState:
     );
   } else {
     const destination_node = nodes[originalNode.node.exits[0].destination_uuid];
-    console.log(destination_node);
+
     dispatch(
       updateNodeEditorSettings({
         originalNode: destination_node,
@@ -1026,8 +1024,6 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
     renderNode.ui.position = previousPosition;
     renderNode.inboundConnections = originalNode.inboundConnections;
   }
-
-  console.log(originalNode);
 
   if (originalNode.ghost) {
     renderNode.inboundConnections = originalNode.inboundConnections;

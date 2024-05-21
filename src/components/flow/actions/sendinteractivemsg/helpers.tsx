@@ -135,7 +135,6 @@ export const stateToRouter = (
   assetStore: AssetStore
 ): RenderNode => {
   let cases = [];
-  const uuid = settings.originalNode.ghost ? createUUID() : settings.originalNode.node.uuid;
 
   const content = state.interactives.value.interactive_content;
   let options = [''];
@@ -186,33 +185,33 @@ export const stateToRouter = (
 
   cases = cases.concat(generateCases);
 
-  let result: any;
+  let result: any = {
+    cases,
+    resultName: {
+      value: ''
+    },
+    timeout: -1,
+    expression: '',
+    valid: true
+  };
+
+  let renderedNode;
 
   if (settings.originalNode.ghost) {
-    result = {
-      cases,
-      resultName: {
-        value: ''
-      },
-      timeout: -1,
-      expression: '',
-      valid: true
-    };
+    renderedNode = stateToNode(settings, result, assetStore);
   } else {
-    result = {
-      cases,
-      resultName: {
-        value: 'result_1'
-      },
-      timeout: -1,
-      expression: '',
-      valid: true
+    settings = {
+      ...settings,
+      originalNode: {
+        ...settings.originalNode,
+        node: {
+          ...settings.originalNode.node,
+          uuid: settings.originalNode.node.exits[0].destination_uuid
+        }
+      }
     };
+    renderedNode = stateToNode(settings, result, assetStore);
   }
-
-  const renderedNode = stateToNode(settings, result, assetStore);
-
-  console.log(renderedNode);
 
   return renderedNode;
 };

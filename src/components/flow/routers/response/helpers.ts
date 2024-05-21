@@ -103,7 +103,5 @@ export const stateToNode = (
     { cases: caseConfig }
   );
 
-  console.log('HEREREE', newRenderNode);
-
   return newRenderNode;
 };

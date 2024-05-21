@@ -43,7 +43,6 @@ export const createRenderNode = (
   actions: Action[] | Delay[] = [],
   uiConfig: { [key: string]: any } = {}
 ): RenderNode => {
-  console.log(JSON.parse(JSON.stringify({ uuid })));
   const renderNode: RenderNode = {
     node: {
       uuid,
@@ -58,7 +57,6 @@ export const createRenderNode = (
     },
     inboundConnections: {}
   };
-  console.log(JSON.parse(JSON.stringify({ renderNode })));
   return renderNode;
 };
 
