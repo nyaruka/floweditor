@@ -11,6 +11,16 @@
   display: inline;
 }
 
+.languages {
+  position: fixed;
+  background-color: #f9f9f9;
+  right: 2em;
+  margin-top: 2em;
+  padding: 0.2rem 1rem;
+  border-radius: 6px;
+  z-index: 999;
+}
+
 .language_link {
   font-size: 12px;
   display: inline;
@@ -20,7 +30,7 @@
   cursor: pointer;
 
   &:hover {
-    color: darken($blue, 20%);
+    color: darken($blue, 50%);
   }
 
   &.active {
