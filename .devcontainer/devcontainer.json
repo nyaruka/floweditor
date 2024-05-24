@@ -3,17 +3,26 @@
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installOhMyZsh": false,
+			"installOhMyZshConfig": false,
+			"configureZshAsDefaultShell": true,
+			"upgradePackages": "true"
+		},
+		"ghcr.io/devcontainers/features/git:1": {
+			"version": "latest",
+			"ppa": "false"
+		}
+	},
 	"forwardPorts": [
 		3000,
 		6000
 	],
 	"runArgs": [
-		"--name",
-		"dev-floweditor",
-		"--network",
-		"textit_default",
-		"--hostname",
-		"floweditor"
+		"--name=dev-floweditor",
+		"--network=textit_default",
+		"--hostname=floweditor"
 	],
 	"remoteUser": "node",
 	"postCreateCommand": "sudo chown node /workspaces/floweditor && yarn install",
@@ -21,8 +30,14 @@
 		"vscode": {
 			"extensions": [
 				"lfs.vscode-emacs-friendly"
-			]
+			],
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "zsh",
+				"editor.formatOnSave": true,
+				"editor.rulers": [
+					120
+				]
+			}
 		}
 	}
-	// "features": {},
 }

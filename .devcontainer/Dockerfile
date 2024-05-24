@@ -1,4 +1,4 @@
-FROM "mcr.microsoft.com/devcontainers/typescript-node:1-16-bullseye"
+FROM "node:16-bullseye"
 
 RUN apt-get update \
     && apt-get install chromium fonts-noto-color-emoji -y --no-install-recommends -qq
