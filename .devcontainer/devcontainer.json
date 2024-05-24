@@ -3,18 +3,7 @@
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
-	"features": {
-		"ghcr.io/devcontainers/features/common-utils:2": {
-			"installOhMyZsh": false,
-			"installOhMyZshConfig": false,
-			"configureZshAsDefaultShell": true,
-			"upgradePackages": "true"
-		},
-		"ghcr.io/devcontainers/features/git:1": {
-			"version": "latest",
-			"ppa": "false"
-		}
-	},
+	"features": {},
 	"forwardPorts": [
 		3000,
 		6000
