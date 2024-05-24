@@ -8,11 +8,11 @@
 		6000
 	],
 	"runArgs": [
+		"--name",
+		"dev-floweditor",
 		"--network",
 		"textit_default",
 		"--hostname",
-		"floweditor",
-		"--name",
 		"floweditor"
 	],
 	"remoteUser": "node",
