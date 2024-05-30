@@ -10,7 +10,7 @@ exports[`IssuesTab renders 1`] = `
         class="mask"
       />
       <div
-        class="pop_wrapper pop_wrapper pop_invisible"
+        class="issues pop_wrapper pop_wrapper pop_invisible"
         style="right: -260px; top: 270px;"
       >
         <div
@@ -23,8 +23,9 @@ exports[`IssuesTab renders 1`] = `
             <div
               class="icon"
             >
-              <span
-                class="fe-warning"
+              <temba-icon
+                name="issue"
+                size="1.7"
               />
             </div>
             <div
@@ -35,7 +36,7 @@ exports[`IssuesTab renders 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: tomato; top: -60px; right: 0px;"
         >
           <div
@@ -43,8 +44,12 @@ exports[`IssuesTab renders 1`] = `
             style="background: tomato;"
           >
             <div
-              class="close fe-x"
-            />
+              class="close"
+            >
+              <temba-icon
+                name="close"
+              />
+            </div>
             <div
               class="header_label"
             >
@@ -78,7 +83,7 @@ exports[`IssuesTab renders missing dependencies 1`] = `
         class="mask"
       />
       <div
-        class="pop_wrapper pop_wrapper pop_invisible"
+        class="issues pop_wrapper pop_wrapper pop_invisible"
         style="right: -260px; top: 270px;"
       >
         <div
@@ -91,8 +96,9 @@ exports[`IssuesTab renders missing dependencies 1`] = `
             <div
               class="icon"
             >
-              <span
-                class="fe-warning"
+              <temba-icon
+                name="issue"
+                size="1.7"
               />
             </div>
             <div
@@ -103,7 +109,7 @@ exports[`IssuesTab renders missing dependencies 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: tomato; top: -60px; right: 0px;"
         >
           <div
@@ -111,8 +117,12 @@ exports[`IssuesTab renders missing dependencies 1`] = `
             style="background: tomato;"
           >
             <div
-              class="close fe-x"
-            />
+              class="close"
+            >
+              <temba-icon
+                name="close"
+              />
+            </div>
             <div
               class="header_label"
             >

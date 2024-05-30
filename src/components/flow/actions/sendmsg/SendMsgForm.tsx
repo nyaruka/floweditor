@@ -78,7 +78,6 @@ const additionalOption = {
 };
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
-  private filePicker: any;
   private timeout: any;
 
   constructor(props: ActionFormProps) {
@@ -395,7 +394,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
   private handleAttachmentUploading(isUploading: boolean) {
     const uploadError = '';
-    console.log(uploadError);
     this.setState({ uploadError });
 
     if (isUploading) {
@@ -522,6 +520,24 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       hasErrors: this.state.attachments.length > 0 && this.state.attachments[0].valid
     };
 
+    // Not needed in context of Glific
+    // const advanced: Tab = {
+    //   name: i18n.t('forms.advanced', 'Advanced'),
+    //   body: (
+    //     <CheckboxElement
+    //       name={i18n.t('forms.all_destinations', 'All Destinations')}
+    //       title={i18n.t('forms.all_destinations', 'All Destinations')}
+    //       checked={this.state.sendAll}
+    //       description={i18n.t(
+    //         'forms.all_destinations_description',
+    //         "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
+    //       )}
+    //       onChange={this.handleSendAllUpdate}
+    //     />
+    //   ),
+    //   checked: this.state.sendAll
+    // };
+
     const tabs = [attachments];
 
     if (hasFeature(this.context.config, FeatureFilter.HAS_WHATSAPP)) {
@@ -535,6 +551,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       };
       tabs.splice(0, 0, templates);
     }
+
+    tabs.reverse();
 
     return (
       <Dialog

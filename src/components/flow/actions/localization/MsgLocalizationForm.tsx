@@ -359,7 +359,7 @@ export default class MsgLocalizationForm extends React.Component<
     if (typeConfig.localizeableKeys!.indexOf('audio_url') > 0) {
       audioButton = (
         <UploadButton
-          icon="fe-mic"
+          icon="recording"
           uploadText="Upload Recording"
           removeText="Remove Recording"
           url={this.state.audio.value}

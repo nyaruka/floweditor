@@ -5,9 +5,13 @@ exports[`Button render should render self, children with base props 1`] = `
   <div>
     <div
       class="btn primary  "
-      style="margin-left: 0px; margin-top: 0px;"
+      style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
     >
-      Save
+      <div
+        style="margin-bottom: 0px;"
+      >
+        Save
+      </div>
     </div>
   </div>
   <temba-store />

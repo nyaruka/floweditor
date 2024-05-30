@@ -23,6 +23,8 @@ export interface SheetFormState extends FormState {
   row: FormEntry;
   action_type: SelectOptionEntry;
   range: FormEntry;
+  starting_cell: FormEntry;
+  subsheet: FormEntry;
   row_data: FormEntry[];
 }
 
@@ -288,12 +290,25 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
                 <div className={styles.row_field}>
                   <TextInputElement
                     showLabel={true}
-                    name={i18n.t('forms.range', 'Sheet range')}
-                    placeholder={i18n.t('forms.enter_sheet_range', 'Sheet1!A1:D30')}
+                    name={i18n.t('forms.subsheet', 'Select Subsheet')}
+                    placeholder={i18n.t('forms.enter_sheet_subsheet', 'Sheet1')}
                     onChange={value => {
-                      this.setState({ range: { value } });
+                      this.setState({ subsheet: { value } });
                     }}
-                    entry={this.state.range}
+                    entry={this.state.subsheet}
+                    autocomplete={true}
+                    focus={true}
+                  />
+                </div>
+                <div className={styles.row_field}>
+                  <TextInputElement
+                    showLabel={true}
+                    name={i18n.t('forms.starting_cell', 'Enter the starting cell')}
+                    placeholder={i18n.t('forms.enter_sheet_cell', 'A1')}
+                    onChange={value => {
+                      this.setState({ starting_cell: { value } });
+                    }}
+                    entry={this.state.starting_cell}
                     helpText={
                       <span>
                         Know more about sheet ranges{' '}

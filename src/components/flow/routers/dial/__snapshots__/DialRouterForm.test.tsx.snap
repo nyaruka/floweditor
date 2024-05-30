@@ -7,29 +7,35 @@ exports[`DialRouterForm should render 1`] = `
       class="dialog"
     >
       <div
-        class="tabs"
-      >
-        <div
-          class="tab "
-        >
-          Advanced
-           
-        </div>
-      </div>
-      <div
         class="header wait_for_dial"
       >
         <div
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Wait for Forwarded Call
+            <div
+              class="title"
+            >
+              Wait for Forwarded Call
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
           <div
-            class="subtitle"
-          />
+            class="tabs"
+          >
+            <div
+              class="tab "
+              style="display: flex;"
+            >
+              <div>
+                Advanced
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -115,15 +121,23 @@ exports[`DialRouterForm should render 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>

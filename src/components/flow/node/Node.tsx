@@ -130,8 +130,8 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
         // move our ghost node into position
         const width = this.ele.getBoundingClientRect().width;
-        const left = e.pageX - width / 2 - 15 - canvasBounds.left;
-        const top = e.pageY - canvasBounds.top - window.scrollY;
+        const left = e.clientX - width / 2 - 15 - canvasBounds.left;
+        const top = e.clientY - canvasBounds.top - window.scrollY;
         const style = this.ele.style;
         style.left = left + 'px';
         style.top = top + 'px';
@@ -404,7 +404,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
               className={styles.add}
               {...createClickHandler(this.handleAddToNode, this.handleShouldCancelClick)}
             >
-              <span className="fe-add" />
+              <temba-icon name="add" size="1"></temba-icon>
             </div>
           </>
         );

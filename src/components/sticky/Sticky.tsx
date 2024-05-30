@@ -212,7 +212,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         <div className={stickyClasses.join(' ')}>
           <div className={titleClasses.join(' ')}>
             <div className={styles.remove_button} onClick={this.handleClickRemove}>
-              <span className="fe-x" />
+              <temba-icon name="delete_small"></temba-icon>
             </div>
             <div className={styles.confirmation}>Remove?</div>
             <TextareaAutosize

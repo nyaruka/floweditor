@@ -70,7 +70,7 @@ describe(HeaderElement.name, () => {
       const removeIcon = getSpecWrapper(wrapper, removeIcoSpecId);
 
       expect(removeIcon.hasClass('remove_ico')).toBeTruthy();
-      expect(wrapper.find('.fe-x').exists()).toBeTruthy();
+      expect(wrapper.find('temba-icon[name="delete_small"]').exists()).toBeTruthy();
       expect(wrapper).toMatchSnapshot();
     });
   });

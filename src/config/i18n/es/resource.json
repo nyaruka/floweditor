@@ -140,8 +140,7 @@
     "placeholder_plural": "Seleccione el [[name]] existente o ingrese uno nuevo"
   },
   "assets": {
-    "classifier": "Llamar clasificador [[name]]",
-    "ticketer": "Abrir nuevo Ticket en [[name]]"
+    "classifier": "Llamar clasificador [[name]]"
   },
   "body": "Cuerpo",
   "buttons": {
@@ -218,7 +217,7 @@
     "email_recipient_name": "Destinatario",
     "email_recipient_placeholder": "Para",
     "email_recipient_prompt": "Introducir la dirección de correo electrónico",
-    "enter_a_body": "Introducir cuerpo",
+    "enter_a_body": "Introducir cuerpo (opcional)",
     "enter_a_subject": "Introducir asunto",
     "enter_a_url": "Introducir URL",
     "enter_field_value": "Ingrese un nuevo valor para [[field]]",
@@ -306,7 +305,6 @@
     "template": "plantilla",
     "the_maximum": "el máximo",
     "the_minimum": "el mínimo",
-    "ticketer": "Ticketer",
     "timeout": "Timeout",
     "timeout_1 day": "1 día",
     "timeout_1 hour": "1 hora",

@@ -13,13 +13,17 @@ exports[`TicketRouterForm render should render 1`] = `
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Open Ticket
+            <div
+              class="title"
+            >
+              Open Ticket
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
-          <div
-            class="subtitle"
-          />
         </div>
       </div>
       <div
@@ -43,12 +47,11 @@ exports[`TicketRouterForm render should render 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"open_ticket\\",\\"name\\":\\"Open Ticket\\",\\"description\\":\\"Open a ticket with a human agent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_ticket\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"],\\"filter\\":\\"ticketer\\"}]"
+                values="[{\\"type\\":\\"open_ticket\\",\\"name\\":\\"Open Ticket\\",\\"description\\":\\"Open a ticket with a human agent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_ticket\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
               />
             </div>
           </div>
         </div>
-        
         <div
           style="display: flex; width: 100%; margin-top: 0.5em;"
         >
@@ -86,7 +89,7 @@ exports[`TicketRouterForm render should render 1`] = `
                 expressions=""
                 name="Assignee"
                 namekey="name"
-                placeholder="Assign to (Optional)"
+                placeholder="Assign to (optional)"
                 valuekey="email"
                 values="[]"
               />
@@ -105,7 +108,7 @@ exports[`TicketRouterForm render should render 1`] = `
               <input
                 data-testid="Body"
                 name="Body"
-                placeholder="Enter a body"
+                placeholder="Enter a body (optional)"
                 value="Where are my cookies"
               />
             </div>
@@ -123,15 +126,23 @@ exports[`TicketRouterForm render should render 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>
@@ -156,13 +167,17 @@ exports[`TicketRouterForm updates should save changes 1`] = `
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Open Ticket
+            <div
+              class="title"
+            >
+              Open Ticket
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
-          <div
-            class="subtitle"
-          />
         </div>
       </div>
       <div
@@ -186,12 +201,11 @@ exports[`TicketRouterForm updates should save changes 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"open_ticket\\",\\"name\\":\\"Open Ticket\\",\\"description\\":\\"Open a ticket with a human agent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_ticket\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"],\\"filter\\":\\"ticketer\\"}]"
+                values="[{\\"type\\":\\"open_ticket\\",\\"name\\":\\"Open Ticket\\",\\"description\\":\\"Open a ticket with a human agent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_ticket\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
               />
             </div>
           </div>
         </div>
-        
         <div
           style="display: flex; width: 100%; margin-top: 0.5em;"
         >
@@ -229,7 +243,7 @@ exports[`TicketRouterForm updates should save changes 1`] = `
                 expressions=""
                 name="Assignee"
                 namekey="name"
-                placeholder="Assign to (Optional)"
+                placeholder="Assign to (optional)"
                 valuekey="email"
                 values="[]"
               />
@@ -248,7 +262,7 @@ exports[`TicketRouterForm updates should save changes 1`] = `
               <input
                 data-testid="Body"
                 name="Body"
-                placeholder="Enter a body"
+                placeholder="Enter a body (optional)"
                 value="Where are my cookies"
               />
             </div>
@@ -266,15 +280,23 @@ exports[`TicketRouterForm updates should save changes 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>

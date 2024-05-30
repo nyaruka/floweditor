@@ -91,29 +91,35 @@ exports[`SubflowRouterForm should init parameter tab 1`] = `
       class="dialog"
     >
       <div
-        class="tabs"
-      >
-        <div
-          class="tab "
-        >
-          Parameters
-           
-        </div>
-      </div>
-      <div
         class="header enter_flow"
       >
         <div
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Enter a Flow
+            <div
+              class="title"
+            >
+              Enter a Flow
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
           <div
-            class="subtitle"
-          />
+            class="tabs"
+          >
+            <div
+              class="tab "
+              style="display: flex;"
+            >
+              <div>
+                Parameters
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -174,15 +180,23 @@ exports[`SubflowRouterForm should init parameter tab 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>
@@ -206,13 +220,17 @@ exports[`SubflowRouterForm should render 1`] = `
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Enter a Flow
+            <div
+              class="title"
+            >
+              Enter a Flow
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
-          <div
-            class="subtitle"
-          />
         </div>
       </div>
       <div
@@ -273,15 +291,23 @@ exports[`SubflowRouterForm should render 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>

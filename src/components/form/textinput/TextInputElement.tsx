@@ -45,7 +45,7 @@ export default class TextInputElement extends React.Component<TextInputProps> {
     };
 
     bindCallbacks(this, {
-      include: [/^on/, /Ref$/, 'setSelection', 'validate', /^has/, /^handle/]
+      include: [/^handle/]
     });
   }
 

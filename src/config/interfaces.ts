@@ -61,6 +61,7 @@ export enum Types {
   wait_for_location = 'wait_for_location',
   wait_for_image = 'wait_for_image',
   wait_for_result = 'wait_for_result',
+  request_optin = 'request_optin',
   missing = 'missing',
   say_msg = 'say_msg',
   play_audio = 'play_audio'
@@ -114,9 +115,9 @@ export enum FeatureFilter {
   HAS_WHATSAPP = 'whatsapp',
   HAS_AIRTIME = 'airtime',
   HAS_CLASSIFIER = 'classifier',
-  HAS_TICKETER = 'ticketer',
   HAS_FACEBOOK = 'facebook',
-  HAS_LOCATIONS = 'locations'
+  HAS_LOCATIONS = 'locations',
+  HAS_OPTINS = 'optins'
 }
 
 export interface FlowTypeVisibility {

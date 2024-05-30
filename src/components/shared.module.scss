@@ -18,6 +18,7 @@
     border-top-right-radius: 3px;
     padding: 10px;
     color: $red;
+
     .icon {
       display: inline-block;
       vertical-align: middle;
@@ -38,6 +39,7 @@
 
 .issue_help {
   cursor: pointer;
+
   &:hover {
     color: lighten($red, 3%);
     text-decoration: underline;
@@ -82,7 +84,8 @@
 
 .msg,
 .say_msg,
-.send_msg {
+.send_msg,
+.request_optin {
   background: $blue;
 }
 
@@ -119,13 +122,11 @@
   $color_1: tomato;
   $color_2: lighten(tomato, 3%);
 
-  background-image: repeating-linear-gradient(
-    120deg,
-    $color_1,
-    $color_1 6px,
-    $color_2 6px,
-    $color_2 18px
-  ) !important;
+  background-image: repeating-linear-gradient(120deg,
+      $color_1,
+      $color_1 6px,
+      $color_2 6px,
+      $color_2 18px) !important;
 }
 
 .missing_asset {
@@ -164,6 +165,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
   .node_group {
     padding-right: 5px;
   }

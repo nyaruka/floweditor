@@ -9,7 +9,7 @@ exports[`TranslatorTab finds email translations 1`] = `
       class=""
     >
       <div
-        class="pop_wrapper pop_wrapper pop_invisible"
+        class="translations pop_wrapper pop_wrapper pop_invisible"
         style="right: -260px; top: 120px;"
       >
         <div
@@ -22,8 +22,9 @@ exports[`TranslatorTab finds email translations 1`] = `
             <div
               class="icon"
             >
-              <span
-                class="fe-language"
+              <temba-icon
+                name="language"
+                size="1.7"
               />
             </div>
             <div
@@ -34,7 +35,7 @@ exports[`TranslatorTab finds email translations 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
@@ -42,8 +43,12 @@ exports[`TranslatorTab finds email translations 1`] = `
             style="background: rgb(119, 119, 119);"
           >
             <div
-              class="close fe-x"
-            />
+              class="close"
+            >
+              <temba-icon
+                name="close"
+              />
+            </div>
             <div
               class="header_label"
             >
@@ -116,8 +121,8 @@ exports[`TranslatorTab finds email translations 1`] = `
                 <div
                   class="toggle"
                 >
-                  <span
-                    class="fe-arrow-up"
+                  <temba-icon
+                    name="up"
                   />
                 </div>
               </div>
@@ -128,36 +133,16 @@ exports[`TranslatorTab finds email translations 1`] = `
                   class="checkboxes"
                 >
                   <div>
-                    <label
-                      class="label"
-                    >
-                      <span
-                        class="fe-check-square checkbox"
-                        data-spec="checkbox"
-                      />
-                      <div
-                        class="description_solo"
-                        data-spec="description"
-                      >
-                        Categories
-                      </div>
-                    </label>
+                    <temba-checkbox
+                      checked="true"
+                      help_text="Categories"
+                    />
                   </div>
                   <div>
-                    <label
-                      class="label"
-                    >
-                      <span
-                        class="fe-check-square checkbox"
-                        data-spec="checkbox"
-                      />
-                      <div
-                        class="description_solo"
-                        data-spec="description"
-                      >
-                        Rule Arguments
-                      </div>
-                    </label>
+                    <temba-checkbox
+                      checked="true"
+                      help_text="Rule Arguments"
+                    />
                   </div>
                 </div>
                 <div
@@ -188,7 +173,7 @@ exports[`TranslatorTab finds message translations 1`] = `
       class=""
     >
       <div
-        class="pop_wrapper pop_wrapper pop_invisible"
+        class="translations pop_wrapper pop_wrapper pop_invisible"
         style="right: -260px; top: 120px;"
       >
         <div
@@ -201,8 +186,9 @@ exports[`TranslatorTab finds message translations 1`] = `
             <div
               class="icon"
             >
-              <span
-                class="fe-language"
+              <temba-icon
+                name="language"
+                size="1.7"
               />
             </div>
             <div
@@ -213,7 +199,7 @@ exports[`TranslatorTab finds message translations 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
@@ -221,8 +207,12 @@ exports[`TranslatorTab finds message translations 1`] = `
             style="background: rgb(119, 119, 119);"
           >
             <div
-              class="close fe-x"
-            />
+              class="close"
+            >
+              <temba-icon
+                name="close"
+              />
+            </div>
             <div
               class="header_label"
             >
@@ -309,8 +299,8 @@ exports[`TranslatorTab finds message translations 1`] = `
                 <div
                   class="toggle"
                 >
-                  <span
-                    class="fe-arrow-up"
+                  <temba-icon
+                    name="up"
                   />
                 </div>
               </div>
@@ -321,36 +311,16 @@ exports[`TranslatorTab finds message translations 1`] = `
                   class="checkboxes"
                 >
                   <div>
-                    <label
-                      class="label"
-                    >
-                      <span
-                        class="fe-check-square checkbox"
-                        data-spec="checkbox"
-                      />
-                      <div
-                        class="description_solo"
-                        data-spec="description"
-                      >
-                        Categories
-                      </div>
-                    </label>
+                    <temba-checkbox
+                      checked="true"
+                      help_text="Categories"
+                    />
                   </div>
                   <div>
-                    <label
-                      class="label"
-                    >
-                      <span
-                        class="fe-check-square checkbox"
-                        data-spec="checkbox"
-                      />
-                      <div
-                        class="description_solo"
-                        data-spec="description"
-                      >
-                        Rule Arguments
-                      </div>
-                    </label>
+                    <temba-checkbox
+                      checked="true"
+                      help_text="Rule Arguments"
+                    />
                   </div>
                 </div>
                 <div
@@ -383,7 +353,7 @@ exports[`TranslatorTab finds split translations 1`] = `
       class=""
     >
       <div
-        class="pop_wrapper pop_wrapper pop_invisible"
+        class="translations pop_wrapper pop_wrapper pop_invisible"
         style="right: -260px; top: 120px;"
       >
         <div
@@ -396,8 +366,9 @@ exports[`TranslatorTab finds split translations 1`] = `
             <div
               class="icon"
             >
-              <span
-                class="fe-language"
+              <temba-icon
+                name="language"
+                size="1.7"
               />
             </div>
             <div
@@ -408,7 +379,7 @@ exports[`TranslatorTab finds split translations 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
@@ -416,8 +387,12 @@ exports[`TranslatorTab finds split translations 1`] = `
             style="background: rgb(119, 119, 119);"
           >
             <div
-              class="close fe-x"
-            />
+              class="close"
+            >
+              <temba-icon
+                name="close"
+              />
+            </div>
             <div
               class="header_label"
             >
@@ -490,8 +465,8 @@ exports[`TranslatorTab finds split translations 1`] = `
                 <div
                   class="toggle"
                 >
-                  <span
-                    class="fe-arrow-up"
+                  <temba-icon
+                    name="up"
                   />
                 </div>
               </div>
@@ -502,36 +477,16 @@ exports[`TranslatorTab finds split translations 1`] = `
                   class="checkboxes"
                 >
                   <div>
-                    <label
-                      class="label"
-                    >
-                      <span
-                        class="fe-check-square checkbox"
-                        data-spec="checkbox"
-                      />
-                      <div
-                        class="description_solo"
-                        data-spec="description"
-                      >
-                        Categories
-                      </div>
-                    </label>
+                    <temba-checkbox
+                      checked="true"
+                      help_text="Categories"
+                    />
                   </div>
                   <div>
-                    <label
-                      class="label"
-                    >
-                      <span
-                        class="fe-check-square checkbox"
-                        data-spec="checkbox"
-                      />
-                      <div
-                        class="description_solo"
-                        data-spec="description"
-                      >
-                        Rule Arguments
-                      </div>
-                    </label>
+                    <temba-checkbox
+                      checked="true"
+                      help_text="Rule Arguments"
+                    />
                   </div>
                 </div>
                 <div
@@ -565,7 +520,7 @@ exports[`TranslatorTab handles partial category translation 1`] = `
       class=""
     >
       <div
-        class="pop_wrapper pop_wrapper pop_invisible"
+        class="translations pop_wrapper pop_wrapper pop_invisible"
         style="right: -260px; top: 120px;"
       >
         <div
@@ -578,8 +533,9 @@ exports[`TranslatorTab handles partial category translation 1`] = `
             <div
               class="icon"
             >
-              <span
-                class="fe-language"
+              <temba-icon
+                name="language"
+                size="1.7"
               />
             </div>
             <div
@@ -590,7 +546,7 @@ exports[`TranslatorTab handles partial category translation 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
@@ -598,8 +554,12 @@ exports[`TranslatorTab handles partial category translation 1`] = `
             style="background: rgb(119, 119, 119);"
           >
             <div
-              class="close fe-x"
-            />
+              class="close"
+            >
+              <temba-icon
+                name="close"
+              />
+            </div>
             <div
               class="header_label"
             >
@@ -672,8 +632,8 @@ exports[`TranslatorTab handles partial category translation 1`] = `
                 <div
                   class="toggle"
                 >
-                  <span
-                    class="fe-arrow-up"
+                  <temba-icon
+                    name="up"
                   />
                 </div>
               </div>
@@ -684,36 +644,16 @@ exports[`TranslatorTab handles partial category translation 1`] = `
                   class="checkboxes"
                 >
                   <div>
-                    <label
-                      class="label"
-                    >
-                      <span
-                        class="fe-check-square checkbox"
-                        data-spec="checkbox"
-                      />
-                      <div
-                        class="description_solo"
-                        data-spec="description"
-                      >
-                        Categories
-                      </div>
-                    </label>
+                    <temba-checkbox
+                      checked="true"
+                      help_text="Categories"
+                    />
                   </div>
                   <div>
-                    <label
-                      class="label"
-                    >
-                      <span
-                        class="fe-check-square checkbox"
-                        data-spec="checkbox"
-                      />
-                      <div
-                        class="description_solo"
-                        data-spec="description"
-                      >
-                        Rule Arguments
-                      </div>
-                    </label>
+                    <temba-checkbox
+                      checked="true"
+                      help_text="Rule Arguments"
+                    />
                   </div>
                 </div>
                 <div
@@ -748,7 +688,7 @@ exports[`TranslatorTab hides completed translations 1`] = `
       class=""
     >
       <div
-        class="pop_wrapper pop_wrapper pop_invisible"
+        class="translations pop_wrapper pop_wrapper pop_invisible"
         style="right: -260px; top: 120px;"
       >
         <div
@@ -761,8 +701,9 @@ exports[`TranslatorTab hides completed translations 1`] = `
             <div
               class="icon"
             >
-              <span
-                class="fe-language"
+              <temba-icon
+                name="language"
+                size="1.7"
               />
             </div>
             <div
@@ -773,7 +714,7 @@ exports[`TranslatorTab hides completed translations 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
@@ -781,8 +722,12 @@ exports[`TranslatorTab hides completed translations 1`] = `
             style="background: rgb(119, 119, 119);"
           >
             <div
-              class="close fe-x"
-            />
+              class="close"
+            >
+              <temba-icon
+                name="close"
+              />
+            </div>
             <div
               class="header_label"
             >
@@ -841,8 +786,8 @@ exports[`TranslatorTab hides completed translations 1`] = `
                 <div
                   class="toggle"
                 >
-                  <span
-                    class="fe-arrow-up"
+                  <temba-icon
+                    name="up"
                   />
                 </div>
               </div>
@@ -853,36 +798,16 @@ exports[`TranslatorTab hides completed translations 1`] = `
                   class="checkboxes"
                 >
                   <div>
-                    <label
-                      class="label"
-                    >
-                      <span
-                        class="fe-check-square checkbox"
-                        data-spec="checkbox"
-                      />
-                      <div
-                        class="description_solo"
-                        data-spec="description"
-                      >
-                        Categories
-                      </div>
-                    </label>
+                    <temba-checkbox
+                      checked="true"
+                      help_text="Categories"
+                    />
                   </div>
                   <div>
-                    <label
-                      class="label"
-                    >
-                      <span
-                        class="fe-check-square checkbox"
-                        data-spec="checkbox"
-                      />
-                      <div
-                        class="description_solo"
-                        data-spec="description"
-                      >
-                        Rule Arguments
-                      </div>
-                    </label>
+                    <temba-checkbox
+                      checked="true"
+                      help_text="Rule Arguments"
+                    />
                   </div>
                 </div>
                 <div
@@ -912,7 +837,7 @@ exports[`TranslatorTab renders 1`] = `
       class=""
     >
       <div
-        class="pop_wrapper pop_wrapper pop_invisible"
+        class="translations pop_wrapper pop_wrapper pop_invisible"
         style="right: -260px; top: 120px;"
       >
         <div
@@ -925,8 +850,9 @@ exports[`TranslatorTab renders 1`] = `
             <div
               class="icon"
             >
-              <span
-                class="fe-language"
+              <temba-icon
+                name="language"
+                size="1.7"
               />
             </div>
             <div
@@ -937,7 +863,7 @@ exports[`TranslatorTab renders 1`] = `
           </div>
         </div>
         <div
-          class="popped "
+          class="popped popped "
           style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
@@ -945,8 +871,12 @@ exports[`TranslatorTab renders 1`] = `
             style="background: rgb(119, 119, 119);"
           >
             <div
-              class="close fe-x"
-            />
+              class="close"
+            >
+              <temba-icon
+                name="close"
+              />
+            </div>
             <div
               class="header_label"
             >
@@ -977,8 +907,8 @@ exports[`TranslatorTab renders 1`] = `
                 <div
                   class="toggle"
                 >
-                  <span
-                    class="fe-arrow-up"
+                  <temba-icon
+                    name="up"
                   />
                 </div>
               </div>
@@ -989,36 +919,16 @@ exports[`TranslatorTab renders 1`] = `
                   class="checkboxes"
                 >
                   <div>
-                    <label
-                      class="label"
-                    >
-                      <span
-                        class="fe-check-square checkbox"
-                        data-spec="checkbox"
-                      />
-                      <div
-                        class="description_solo"
-                        data-spec="description"
-                      >
-                        Categories
-                      </div>
-                    </label>
+                    <temba-checkbox
+                      checked="true"
+                      help_text="Categories"
+                    />
                   </div>
                   <div>
-                    <label
-                      class="label"
-                    >
-                      <span
-                        class="fe-check-square checkbox"
-                        data-spec="checkbox"
-                      />
-                      <div
-                        class="description_solo"
-                        data-spec="description"
-                      >
-                        Rule Arguments
-                      </div>
-                    </label>
+                    <temba-checkbox
+                      checked="true"
+                      help_text="Rule Arguments"
+                    />
                   </div>
                 </div>
                 <div
