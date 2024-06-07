@@ -37,7 +37,6 @@ import { Trans } from 'react-i18next';
 import { Attachment, renderAttachments } from './attachments';
 import { TembaComponent } from 'temba/TembaComponent';
 import styles from './SendMsgForm.module.scss';
-import { valueConatainerSpecId } from 'components/flow/routers/webhook/header/HeaderElement';
 
 export interface SendMsgFormState extends FormState {
   message: StringEntry;
@@ -133,6 +132,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
               return true;
             }
           }
+          return false;
         }
       );
       if (hasMissingAttachment) {
