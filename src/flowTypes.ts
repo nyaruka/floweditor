@@ -349,7 +349,7 @@ export interface TemplateTranslation {
   content: string;
   language: string;
   status: string;
-  variable_count: number;
+  variables: { type: string }[];
   components: Component[];
 }
 

@@ -116,6 +116,32 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     return this.handleUpdate({ sendAll });
   }
 
+  private hasTemplateErrors(): boolean {
+    // if there is an attachment variable, make sure it's not empty
+    const { templateVariables, templateTranslation } = this.state;
+    if (templateTranslation && templateVariables && templateTranslation.variables.length > 0) {
+      const hasMissingAttachment = !!templateTranslation.variables.find(
+        (variable: any, index: number) => {
+          if (
+            variable.type === 'image' ||
+            variable.type === 'document' ||
+            variable.type === 'video' ||
+            variable.type === 'audio'
+          ) {
+            if (templateVariables[index] === '') {
+              return true;
+            }
+          }
+          return false;
+        }
+      );
+      if (hasMissingAttachment) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private handleSave(): void {
     // don't continue if our message already has errors
     if (hasErrors(this.state.message)) {
@@ -124,7 +150,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     // make sure we validate untouched text fields and contact fields
     let valid = this.handleMessageUpdate(this.state.message.value, null, true);
-    valid = valid && !hasErrors(this.state.quickReplyEntry);
+    valid = valid && !hasErrors(this.state.quickReplyEntry) && !this.hasTemplateErrors();
 
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
@@ -377,7 +403,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       const templates: Tab = {
         name: 'WhatsApp',
         body: this.renderTemplateConfig(),
-        checked: this.state.template !== null
+        checked: this.state.template !== null,
+        hasErrors: this.hasTemplateErrors()
       };
       tabs.splice(0, 0, templates);
     }

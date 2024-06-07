@@ -140,6 +140,7 @@ exports[`SendMsgForm render should render 1`] = `
           />
         </React.Fragment>,
         "checked": false,
+        "hasErrors": false,
         "name": "WhatsApp",
       },
     ]
