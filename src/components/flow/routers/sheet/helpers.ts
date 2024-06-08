@@ -5,7 +5,7 @@ import { FormEntry, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
 import { createWebhookBasedNode } from '../helpers';
 
-import { SheetFormState } from '../sheet/SheetForm';
+import { SheetFormState } from './SheetForm';
 import { getType } from 'config/typeConfigs';
 
 export const ACTION_OPTIONS = [{ name: 'Read', value: 'READ' }, { name: 'Write', value: 'WRITE' }];
@@ -52,12 +52,14 @@ export const nodeToState = (settings: NodeEditorSettings): SheetFormState => {
 
       row.value = callSheet.row;
       range.value = callSheet.range;
-      starting_cell.value = callSheet.range.includes('!')
-        ? callSheet.range.split('!')[1].split(':')[0]
-        : callSheet.range;
-      subsheet.value = callSheet.range.includes('!')
-        ? callSheet.range.split('!')[0]
-        : callSheet.range;
+      starting_cell.value =
+        callSheet.range && callSheet.range.includes('!')
+          ? callSheet.range.split('!')[1].split(':')[0]
+          : callSheet.range;
+      subsheet.value =
+        callSheet.range && callSheet.range.includes('!')
+          ? callSheet.range.split('!')[0]
+          : callSheet.range;
       result_name.value = callSheet.result_name;
       sheet.value = {};
       sheet.value.id = callSheet.sheet_id;
