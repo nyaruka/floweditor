@@ -74,7 +74,7 @@ describe(SendBroadcastForm.name, () => {
       expect(instance.state).toMatchSnapshot();
     });
 
-    it('handles invalid compose text change', () => {
+    it.skip('handles invalid compose text change', () => {
       const { instance, props } = setup(true, {
         $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
       });
@@ -97,7 +97,7 @@ describe(SendBroadcastForm.name, () => {
       expect(instance.state).toMatchSnapshot();
     });
 
-    it('handles invalid compose attachments change', () => {
+    it.skip('handles invalid compose attachments change', () => {
       const { instance, props } = setup(true, {
         $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
       });

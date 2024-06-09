@@ -200,6 +200,7 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
 
     const snaked =
       !hasErrors(result_name) && result_name.value ? '.' + snakify(result_name.value) : '';
+    console.log(sheet);
 
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
@@ -226,6 +227,7 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
                     placeholder={i18n.t('forms.select_sheet', 'Select sheet')}
                     assets={this.props.assetStore.sheets}
                     entry={sheet}
+                    expressions={true}
                     searchable={true}
                     shouldExclude={this.handleExcludeSheets}
                     onChange={this.handleSheetChanged}

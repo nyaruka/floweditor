@@ -291,8 +291,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   private handleTopicUpdate(topic: SelectOption) {
     this.setState({ topic: { value: topic } });
   }
-
   private renderLabelOption(): JSX.Element {
+    console.log(this.state.labels);
+
     return (
       <div className={styles.label_container}>
         <p>Select the labels to apply to the outgoing message.</p>

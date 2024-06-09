@@ -19,11 +19,11 @@ import { Attachment, renderAttachments, validateURL } from '../sendmsg/attachmen
 import { fetchAsset } from 'external';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-import { Asset, AssetType } from 'store/flowContext';
+import { Asset } from 'store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
-import { MaxOf640Chars, MaxOfThreeItems, shouldRequireIf, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 import i18n from 'config/i18n';
-import { getComposeByAsset, getEmptyComposeValue, renderIssues } from '../helpers';
+import { renderIssues } from '../helpers';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 
 export interface SendBroadcastFormState extends FormState {

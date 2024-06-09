@@ -1,7 +1,6 @@
 import {
   getActionUUID,
   getCompose,
-  getComposeByAsset,
   getExpressions,
   getRecipients,
   getRecipientsByAsset
