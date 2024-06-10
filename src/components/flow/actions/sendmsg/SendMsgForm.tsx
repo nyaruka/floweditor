@@ -573,7 +573,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           focus={true}
           textarea={true}
         />
-        <temba-charcount class="sms-counter"></temba-charcount>
+        <temba-charcount class={`sms-counter ${styles.counter}`}></temba-charcount>
         {this.renderLabelOption()}
         {renderIssues(this.props)}
       </Dialog>
