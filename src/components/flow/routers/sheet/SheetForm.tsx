@@ -143,6 +143,7 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
   }
 
   private handleActionUpdate(action: SelectOption): boolean {
+    if (action.value === this.state.action_type.value.value) return;
     this.setState({
       action_type: { value: action },
       sheet: { value: { id: '', name: '', url: '' } }
@@ -200,7 +201,6 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
 
     const snaked =
       !hasErrors(result_name) && result_name.value ? '.' + snakify(result_name.value) : '';
-    console.log(sheet);
 
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
