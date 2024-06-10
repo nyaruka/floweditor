@@ -5,7 +5,7 @@ Object {
   "attachmentError": "",
   "attachments": Array [],
   "compose": Object {
-    "value": "{\\"text\\":\\"\\",\\"attachments\\":[]}",
+    "value": "",
   },
   "recipients": Object {
     "value": Array [],
@@ -421,61 +421,6 @@ Object {
 }
 `;
 
-exports[`SendBroadcastForm updates handles invalid compose text change 1`] = `
-Object {
-  "attachmentError": "",
-  "attachments": Array [],
-  "compose": Object {
-    "validationFailures": Array [
-      Object {
-        "message": "Maximum allowed text is 640 characters",
-      },
-    ],
-    "value": "{\\"und\\":{\\"text\\":\\"p}h<r0P<?SCIbV1+pwW1Hj8g^J&=Sm2f)K=5LjFFUZ№5@ybpoLZ7DJ(27qdWxQMaO)I1nB4(D%d3c(H)QXOF6F?4>&d{lhd5?0\`Lio!yAGMO№*AxN5{z5s.IO*dy?tm}vXJ#Lf-HlD;xmNp}0<P42=w#ll9)B-e9>Q#'{~Vp<dl:xC9\`T^lhh@TosCZ^:(H<Ji<E(~PojvYk^rPB+poYy^Ne~Su1:9?IgH'4S5Q9v0g№FEIUc~!{S7;746j'Sd@Nfu3=x?CsuR;YLP4j+AOzDARZG?0(Ji(NMg=r%n0Fq?R1?E%Yf\`bcoVZAJ^bl0J'^@;lH>T.HmxYxwS;1?(bfrh?pRdd73:iMxrfx5luQ(}<dCD1b3g'G0CtkB№;8KkbL=>krG{RO%Va4wwr%P>jE*+n(E11}Ju9#<.f^)<MTH09^b{RQv7~H\`#@Hda6{MV&H@xdyEKq#M@nZng8WTU66!F@*!)w*EpQ+65XKuQCaESgq=PHmtqi@l;F?PHvl^g@Z:+}}Xyr\`IC2=3?20^I'qSU*tkyinM^JF.ZI>}~XzRQJn№v3o-w?Vy&gC:c.l(&9{\`M#-'N}{T#7lw8(4:iY621'>C^.&hVZn:R!G}Ek){D#'KkiJWawq#7~GLBN*?V!ncw)d%&(tXj\\",\\"attachments\\":[]}}",
-  },
-  "recipients": Object {
-    "value": Array [
-      Object {
-        "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
-        "name": "Cat Fanciers",
-        "type": "group",
-      },
-      Object {
-        "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
-        "name": "Cat Facts",
-        "type": "group",
-      },
-      Object {
-        "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-        "missing": false,
-        "name": "Kellan Alexander",
-        "type": "contact",
-      },
-      Object {
-        "id": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-        "missing": false,
-        "name": "Norbert Kwizera",
-        "type": "contact",
-      },
-      Object {
-        "id": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
-        "missing": false,
-        "name": "Rowan Seymour",
-        "type": "contact",
-      },
-    ],
-  },
-  "template": Object {
-    "value": null,
-  },
-  "templateVariables": Array [],
-  "uploadError": "",
-  "uploadInProgress": false,
-  "valid": false,
-  "validAttachment": false,
-}
-`;
-
 exports[`SendBroadcastForm updates handles recipent change 1`] = `
 Object {
   "attachmentError": "",
@@ -508,8 +453,7 @@ Object {
   "attachmentError": "",
   "attachments": Array [],
   "compose": Object {
-    "validationFailures": Array [],
-    "value": "{\\"und\\":{\\"text\\":\\"Some message with an attachment\\",\\"attachments\\":[{\\"uuid\\":\\"test1\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test1\\",\\"url\\":\\"url_test1\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test2\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test2\\",\\"url\\":\\"url_test2\\",\\"size\\":1024,\\"error\\":null}]}}",
+    "value": "{\\"text\\":\\"Some broadcast message\\",\\"attachments\\":[]}",
   },
   "recipients": Object {
     "value": Array [
@@ -559,8 +503,7 @@ Object {
   "attachmentError": "",
   "attachments": Array [],
   "compose": Object {
-    "validationFailures": Array [],
-    "value": "{\\"und\\":{\\"text\\":\\"Some message\\",\\"attachments\\":[]}}",
+    "value": "{\\"text\\":\\"Some broadcast message\\",\\"attachments\\":[]}",
   },
   "recipients": Object {
     "value": Array [

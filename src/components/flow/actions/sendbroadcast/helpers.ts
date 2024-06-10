@@ -1,7 +1,6 @@
 import {
   getActionUUID,
   getCompose,
-  getComposeByAsset,
   getExpressions,
   getRecipients,
   getRecipientsByAsset
@@ -22,7 +21,7 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
   const finalState: SendBroadcastFormState = {
     template,
     templateVariables,
-    compose: { value: getCompose() },
+    compose: { value: '' },
     recipients: { value: [] },
     valid: true,
     attachments: [],
@@ -93,7 +92,9 @@ export const stateToAction = (
   formState: SendBroadcastFormState
 ): BroadcastMsg => {
   const compose = formState.compose.value;
-  const text = getComposeByAsset(compose, AssetType.ComposeText);
+
+  // not needed in glific
+  // const text = getComposeByAsset(compose, AssetType.ComposeText);
   // const attachments = getComposeByAsset(compose, AssetType.ComposeAttachments).map(
   //   (attachment: ComposeAttachment) => `${attachment.content_type}:${attachment.url}`
   // );
@@ -132,7 +133,7 @@ export const stateToAction = (
     contacts: getRecipientsByAsset(formState.recipients.value, AssetType.Contact),
     groups: getRecipientsByAsset(formState.recipients.value, AssetType.Group),
     compose: compose,
-    text: text,
+    text: formState.compose.value,
     attachments: attachments,
     type: Types.send_broadcast,
     uuid: getActionUUID(settings, Types.send_broadcast)
@@ -141,6 +142,5 @@ export const stateToAction = (
   if (templating) {
     result.templating = templating;
   }
-
   return result;
 };

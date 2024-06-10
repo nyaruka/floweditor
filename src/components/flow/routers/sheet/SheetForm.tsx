@@ -143,6 +143,7 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
   }
 
   private handleActionUpdate(action: SelectOption): boolean {
+    if (action.value === this.state.action_type.value.value) return;
     this.setState({
       action_type: { value: action },
       sheet: { value: { id: '', name: '', url: '' } }
@@ -226,6 +227,7 @@ export default class SheetForm extends React.Component<RouterFormProps, SheetFor
                     placeholder={i18n.t('forms.select_sheet', 'Select sheet')}
                     assets={this.props.assetStore.sheets}
                     entry={sheet}
+                    expressions={true}
                     searchable={true}
                     shouldExclude={this.handleExcludeSheets}
                     onChange={this.handleSheetChanged}

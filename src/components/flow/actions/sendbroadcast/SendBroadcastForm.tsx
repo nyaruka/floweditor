@@ -19,11 +19,11 @@ import { Attachment, renderAttachments, validateURL } from '../sendmsg/attachmen
 import { fetchAsset } from 'external';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-import { Asset, AssetType } from 'store/flowContext';
+import { Asset } from 'store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
-import { MaxOf640Chars, MaxOfThreeItems, shouldRequireIf, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 import i18n from 'config/i18n';
-import { getComposeByAsset, getEmptyComposeValue, renderIssues } from '../helpers';
+import { renderIssues } from '../helpers';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 
 export interface SendBroadcastFormState extends FormState {
@@ -82,61 +82,62 @@ export default class SendBroadcastForm extends React.Component<
   ): boolean {
     const updates: Partial<SendBroadcastFormState> = {};
 
-    if (keys.hasOwnProperty('compose')) {
-      // validate empty compose value
-      if (keys.compose === getEmptyComposeValue()) {
-        updates.compose = validate(i18n.t('forms.compose', 'Compose'), '', [
-          shouldRequireIf(submitting)
-        ]);
-        updates.compose.value = keys.compose;
-        if (updates.compose.validationFailures.length > 0) {
-          let composeErrMsg = updates.compose.validationFailures[0].message;
-          composeErrMsg = composeErrMsg.replace('Compose is', 'Message text is');
-          updates.compose.validationFailures[0].message = composeErrMsg;
-        }
-      } else {
-        updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose, [
-          shouldRequireIf(submitting)
-        ]);
-        // validate inner compose text value
-        const composeTextValue = getComposeByAsset(keys.compose, AssetType.ComposeText);
-        const composeTextResult = validate(i18n.t('forms.compose', 'Compose'), composeTextValue, [
-          MaxOf640Chars,
-          shouldRequireIf(submitting)
-        ]);
-        if (composeTextResult.validationFailures.length > 0) {
-          let textErrMsg = composeTextResult.validationFailures[0].message;
-          textErrMsg = textErrMsg.replace('Compose is', 'Message text is');
-          textErrMsg = textErrMsg.replace('Compose cannot be more than', 'Maximum allowed text is');
-          composeTextResult.validationFailures[0].message = textErrMsg;
-          updates.compose.validationFailures = [
-            ...updates.compose.validationFailures,
-            ...composeTextResult.validationFailures
-          ];
-        }
-        // validate inner compose attachments value
-        const composeAttachmentsValue = getComposeByAsset(
-          keys.compose,
-          AssetType.ComposeAttachments
-        );
-        const composeAttachmentsResult = validate(
-          i18n.t('forms.compose', 'Compose'),
-          composeAttachmentsValue,
-          [MaxOfThreeItems]
-        );
-        if (composeAttachmentsResult.validationFailures.length > 0) {
-          let attachmentsErrMsg = composeAttachmentsResult.validationFailures[0].message;
-          attachmentsErrMsg = attachmentsErrMsg
-            .replace('Compose cannot have more than', 'Maximum allowed attachments is')
-            .replace('entries', 'files');
-          composeAttachmentsResult.validationFailures[0].message = attachmentsErrMsg;
-          updates.compose.validationFailures = [
-            ...updates.compose.validationFailures,
-            ...composeAttachmentsResult.validationFailures
-          ];
-        }
-      }
-    }
+    // not needed in Glific
+    // if (keys.hasOwnProperty('compose')) {
+    //   // validate empty compose value
+    //   if (keys.compose === getEmptyComposeValue()) {
+    //     updates.compose = validate(i18n.t('forms.compose', 'Compose'), '', [
+    //       shouldRequireIf(submitting)
+    //     ]);
+    //     updates.compose.value = keys.compose;
+    //     if (updates.compose.validationFailures.length > 0) {
+    //       let composeErrMsg = updates.compose.validationFailures[0].message;
+    //       composeErrMsg = composeErrMsg.replace('Compose is', 'Message text is');
+    //       updates.compose.validationFailures[0].message = composeErrMsg;
+    //     }
+    //   } else {
+    //     updates.compose = validate(i18n.t('forms.compose', 'Compose'), keys.compose, [
+    //       shouldRequireIf(submitting)
+    //     ]);
+    //     // validate inner compose text value
+    //     const composeTextValue = getComposeByAsset(keys.compose, AssetType.ComposeText);
+    //     const composeTextResult = validate(i18n.t('forms.compose', 'Compose'), composeTextValue, [
+    //       MaxOf640Chars,
+    //       shouldRequireIf(submitting)
+    //     ]);
+    //     if (composeTextResult.validationFailures.length > 0) {
+    //       let textErrMsg = composeTextResult.validationFailures[0].message;
+    //       textErrMsg = textErrMsg.replace('Compose is', 'Message text is');
+    //       textErrMsg = textErrMsg.replace('Compose cannot be more than', 'Maximum allowed text is');
+    //       composeTextResult.validationFailures[0].message = textErrMsg;
+    //       updates.compose.validationFailures = [
+    //         ...updates.compose.validationFailures,
+    //         ...composeTextResult.validationFailures
+    //       ];
+    //     }
+    //     // validate inner compose attachments value
+    //     const composeAttachmentsValue = getComposeByAsset(
+    //       keys.compose,
+    //       AssetType.ComposeAttachments
+    //     );
+    //     const composeAttachmentsResult = validate(
+    //       i18n.t('forms.compose', 'Compose'),
+    //       composeAttachmentsValue,
+    //       [MaxOfThreeItems]
+    //     );
+    //     if (composeAttachmentsResult.validationFailures.length > 0) {
+    //       let attachmentsErrMsg = composeAttachmentsResult.validationFailures[0].message;
+    //       attachmentsErrMsg = attachmentsErrMsg
+    //         .replace('Compose cannot have more than', 'Maximum allowed attachments is')
+    //         .replace('entries', 'files');
+    //       composeAttachmentsResult.validationFailures[0].message = attachmentsErrMsg;
+    //       updates.compose.validationFailures = [
+    //         ...updates.compose.validationFailures,
+    //         ...composeAttachmentsResult.validationFailures
+    //       ];
+    //     }
+    //   }
+    // }
 
     if (keys.hasOwnProperty('template')) {
       updates.template = validate(i18n.t('forms.templates', 'Template'), keys.template!, [
@@ -183,7 +184,9 @@ export default class SendBroadcastForm extends React.Component<
         }
       })
       .catch(error => {
-        this.setState({ attachmentError: `The attachment url is invalid!: ${error.toString()}` });
+        this.setState({
+          attachmentError: `The attachment url is invalid!: ${error.toString()}`
+        });
       });
   }
 
@@ -414,7 +417,11 @@ export default class SendBroadcastForm extends React.Component<
     const updated: any = mutate(this.state.attachments, {
       $splice: [[index, 1]]
     });
-    this.setState({ attachments: updated, attachmentError: null, validAttachment: false });
+    this.setState({
+      attachments: updated,
+      attachmentError: null,
+      validAttachment: false
+    });
   }
 
   public render(): JSX.Element {

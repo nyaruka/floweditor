@@ -193,7 +193,7 @@ exports[`SendMsgForm render should render 1`] = `
     textarea={true}
   />
   <temba-charcount
-    class="sms-counter"
+    class="sms-counter counter"
   />
   <div
     className="label_container"
