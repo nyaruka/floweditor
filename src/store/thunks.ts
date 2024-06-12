@@ -1025,7 +1025,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
     renderNode.inboundConnections = originalNode.inboundConnections;
   }
 
-  if (originalNode.ghost) {
+  if (originalNode && originalNode.ghost) {
     renderNode.inboundConnections = originalNode.inboundConnections;
     const { left, top } = originalNode.ui.position;
     renderNode.ui.position = { left, top };
@@ -1034,7 +1034,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
 
   // update our results
   const resultName = getResultName(renderNode.node);
-  if (resultName) {
+  if (originalNode && resultName) {
     let updatedAssets = assetStore;
 
     // remove our original result name

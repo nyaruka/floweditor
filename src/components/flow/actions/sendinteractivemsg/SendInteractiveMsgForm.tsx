@@ -143,7 +143,10 @@ export default class SendMsgForm extends React.Component<
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
 
-      this.props.resetNodeEditing();
+      if (this.props.nodeSettings.originalNode.node.exits[0].destination_uuid) {
+        console.log('here');
+        this.props.resetNodeEditing();
+      }
       this.props.updateRouter(
         stateToRouter(this.props.nodeSettings, this.state, this.props.assetStore)
       );

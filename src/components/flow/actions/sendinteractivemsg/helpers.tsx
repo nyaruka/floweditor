@@ -200,18 +200,22 @@ export const stateToRouter = (
   if (settings.originalNode.ghost) {
     renderedNode = stateToNode(settings, result, assetStore);
   } else {
-    settings = {
-      ...settings,
-      originalNode: {
-        ...settings.originalNode,
-        node: {
-          ...settings.originalNode.node,
-          uuid: settings.originalNode.node.exits[0].destination_uuid
+    if (settings.originalNode.node.exits[0].destination_uuid) {
+      settings = {
+        ...settings,
+        originalNode: {
+          ...settings.originalNode,
+          node: {
+            ...settings.originalNode.node,
+            uuid: settings.originalNode.node.exits[0].destination_uuid
+          }
         }
-      }
-    };
+      };
+    }
     renderedNode = stateToNode(settings, result, assetStore);
   }
+
+  console.log(settings);
 
   return renderedNode;
 };
