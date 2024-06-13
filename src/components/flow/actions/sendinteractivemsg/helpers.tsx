@@ -215,8 +215,6 @@ export const stateToRouter = (
     renderedNode = stateToNode(settings, result, assetStore);
   }
 
-  console.log(settings);
-
   return renderedNode;
 };
 
