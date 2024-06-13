@@ -16,6 +16,7 @@ export const initializeForm = (settings: NodeEditorSettings): SendInteractiveMsg
   if (settings.originalAction && settings.originalAction.type === Types.send_interactive_msg) {
     const action = settings.originalAction as SendInteractiveMsg;
     let { id, name, expression, params, paramsCount } = action;
+    const interactive_content = JSON.parse(action.text);
 
     const labels = action.labels
       ? action.labels.map((label: Label) => {
@@ -37,7 +38,7 @@ export const initializeForm = (settings: NodeEditorSettings): SendInteractiveMsg
     }
 
     const returnValue: SendInteractiveMsgFormState = {
-      interactives: { value: { id, interactive_content: {}, name } },
+      interactives: { value: { id, interactive_content, name } },
       labels: {
         value: labels
       },
@@ -57,7 +58,6 @@ export const initializeForm = (settings: NodeEditorSettings): SendInteractiveMsg
         value: expression
       };
     }
-
     return returnValue;
   }
 
@@ -195,7 +195,25 @@ export const stateToRouter = (
     valid: true
   };
 
-  const renderedNode = stateToNode(settings, result, assetStore);
+  let renderedNode;
+
+  if (settings.originalNode.ghost) {
+    renderedNode = stateToNode(settings, result, assetStore);
+  } else {
+    if (settings.originalNode.node.exits[0].destination_uuid) {
+      settings = {
+        ...settings,
+        originalNode: {
+          ...settings.originalNode,
+          node: {
+            ...settings.originalNode.node,
+            uuid: settings.originalNode.node.exits[0].destination_uuid
+          }
+        }
+      };
+    }
+    renderedNode = stateToNode(settings, result, assetStore);
+  }
 
   return renderedNode;
 };

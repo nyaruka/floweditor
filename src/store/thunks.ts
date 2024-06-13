@@ -716,26 +716,44 @@ export const addNodeEditingState = () => (dispatch: DispatchWithState, getState:
     }
   } = getState();
 
-  // check for exit value as well
-  const node = Object.keys(nodes).find(
-    node =>
-      Object.keys(nodes[node].inboundConnections)[0] ===
-      Object.keys(originalNode.inboundConnections)[0]
-  );
+  if (originalNode.ghost) {
+    // check for exit value as well
+    const node = Object.keys(nodes).find(
+      node =>
+        Object.keys(nodes[node].inboundConnections)[0] ===
+        Object.keys(originalNode.inboundConnections)[0]
+    );
 
-  const exit = nodes[node].node.exits[0].uuid;
+    const exit = nodes[node].node.exits[0].uuid;
 
-  const fakeNode = { ...originalNode };
-  fakeNode.inboundConnections = {};
-  fakeNode.inboundConnections[exit] = nodes[node].node.uuid;
-  fakeNode.ui = {
-    position: {
-      left: originalNode.ui.position.left + 250,
-      top: originalNode.ui.position.top + 150
-    }
-  };
+    const fakeNode = { ...originalNode };
+    fakeNode.inboundConnections = {};
+    fakeNode.inboundConnections[exit] = nodes[node].node.uuid;
+    fakeNode.ui = {
+      position: {
+        left: originalNode.ui.position.left + 250,
+        top: originalNode.ui.position.top + 150
+      }
+    };
 
-  dispatch(updateNodeEditorSettings({ originalNode: fakeNode, originalAction, localizations }));
+    dispatch(
+      updateNodeEditorSettings({
+        originalNode: fakeNode,
+        originalAction,
+        localizations
+      })
+    );
+  } else {
+    const destination_node = nodes[originalNode.node.exits[0].destination_uuid];
+
+    dispatch(
+      updateNodeEditorSettings({
+        originalNode: destination_node,
+        originalAction,
+        localizations
+      })
+    );
+  }
 };
 
 export const onUpdateAction = (
@@ -1007,7 +1025,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
     renderNode.inboundConnections = originalNode.inboundConnections;
   }
 
-  if (originalNode.ghost) {
+  if (originalNode && originalNode.ghost) {
     renderNode.inboundConnections = originalNode.inboundConnections;
     const { left, top } = originalNode.ui.position;
     renderNode.ui.position = { left, top };
@@ -1016,7 +1034,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
 
   // update our results
   const resultName = getResultName(renderNode.node);
-  if (resultName) {
+  if (originalNode && resultName) {
     let updatedAssets = assetStore;
 
     // remove our original result name
