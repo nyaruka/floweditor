@@ -85,6 +85,7 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
           ) : null}
         </div>
         <div className={styles.summary}>{replies}</div>
+        {labels}
       </>
     );
   }
