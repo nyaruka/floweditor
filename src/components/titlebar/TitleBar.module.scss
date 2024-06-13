@@ -21,7 +21,7 @@
 
   .remove_confirm {
     position: relative;
-    margin-top: -27px;
+    margin-top: -28px;
     border: 0px solid $removal_confirmation;
     background: $removal_confirmation;
     padding: 6px 0px;
@@ -38,20 +38,16 @@
   }
 
   .remove_button {
-    padding-right: 3px;
+    padding-right: 0px;
     visibility: hidden;
-    font-size: 15px;
-    line-height: 12px;
     width: 20px;
     right: 0;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.8);
   }
 
   .up_button {
     visibility: hidden;
-    font-size: 10px;
-    line-height: 15px;
-    padding-left: 3px;
+    padding-left: 5px;
     width: 20px;
     left: 0px;
   }
@@ -60,6 +56,7 @@
     .remove_button {
       visibility: visible;
     }
+
     .up_button {
       visibility: visible;
     }

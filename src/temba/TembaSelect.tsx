@@ -165,12 +165,6 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
           }
           return result;
         });
-
-        resolved.forEach((option: any) => {
-          if (!option) {
-            throw new Error('No option found for selection');
-          }
-        });
       }
 
       if (this.props.onChange) {

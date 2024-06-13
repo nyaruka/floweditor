@@ -9,11 +9,10 @@ exports[`TimeoutControl handles initial values 1`] = `
       className="left_section"
     >
       <CheckboxElement
-        checkboxClassName="checkbox"
         checked={true}
-        description="Continue when there is no response for"
         name="Timeout"
         onChange={[Function]}
+        title="Continue when there is no response for"
       />
     </div>
     <div
@@ -120,11 +119,10 @@ exports[`TimeoutControl renders 1`] = `
       className="left_section"
     >
       <CheckboxElement
-        checkboxClassName="checkbox"
         checked={true}
-        description="Continue when there is no response for"
         name="Timeout"
         onChange={[Function]}
+        title="Continue when there is no response for"
       />
     </div>
     <div

@@ -4,6 +4,7 @@
   overflow: hidden;
   border-radius: $curvature;
   margin-top: 8px;
+
   &:focus {
     outline: none;
   }
@@ -12,15 +13,16 @@
     margin-top: 12px;
     background: rgb(250, 250, 250);
   }
+}
 
-  .case_list {
-    margin: 4px 0px;
-    position: relative;
-    overflow-y: auto;
-    max-height: 190px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-  }
+.case_list {
+  margin: 4px 0px;
+  position: relative;
+  overflow-y: auto;
+  max-height: 190px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+
 }
 
 .kase {
@@ -33,9 +35,9 @@
         cursor: default;
       }
     }
+
     .dnd_icon {
       opacity: 0;
-    }  
+    }
   }
-
 }

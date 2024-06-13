@@ -72,6 +72,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
       argument: this.state.argument.value,
       min: this.state.min.value,
       max: this.state.max.value,
+      state: this.state.state.value,
+      district: this.state.district.value,
       intent: this.state.intent.value,
       confidence: this.state.confidence.value,
       exitName: this.state.categoryName.value,
@@ -146,6 +148,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
       argument: this.state.argument.value,
       min: this.state.min.value,
       max: this.state.max.value,
+      state: this.state.state.value,
+      district: this.state.district.value,
       intent: this.state.intent.value,
       confidence: this.state.confidence.value,
       exitName: this.state.categoryName.value,
@@ -400,6 +404,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 onChange={this.handleStateChanged}
                 style={TextInputStyle.small}
                 entry={this.state.state}
+                autocomplete={true}
               />
               <span className={styles.divider} data-draggable={true}>
                 and
@@ -410,6 +415,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 onChange={this.handleDistrictChanged}
                 style={TextInputStyle.small}
                 entry={this.state.district}
+                autocomplete={true}
               />
             </>
           );
@@ -461,7 +467,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
           className={`${styles.kase} ${styles[this.state.operatorConfig.type]}`}
           data-draggable={true}
         >
-          <span className={`fe-chevrons-expand ${styles.dnd_icon}`} data-draggable={true} />
+          <temba-icon name="sort" class={styles.dnd_icon} data-draggable={true}></temba-icon>
           <div className={styles.choice}>
             <TembaSelect
               name={i18n.t('forms.operator', 'operator')}
@@ -493,11 +499,13 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
               showInvalid={hasErrorType(this.state.errors, [/category/])}
             />
           </div>
-          <span
-            data-testid={'remove-case-' + this.props.kase.uuid}
-            className={`fe-x ${styles.remove_icon}`}
-            onClick={this.handleRemoveClicked}
-          />
+          <div className={styles.remove_icon}>
+            <temba-icon
+              data-testid={'remove-case-' + this.props.kase.uuid}
+              name="delete_small"
+              onClick={this.handleRemoveClicked}
+            ></temba-icon>
+          </div>
         </div>
       </FormElement>
     );

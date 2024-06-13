@@ -1,4 +1,12 @@
-import { Contact, Endpoints, Group, RecipientsAction, FlowIssue, FlowIssueType } from 'flowTypes';
+import {
+  Contact,
+  Endpoints,
+  Group,
+  RecipientsAction,
+  FlowIssue,
+  FlowIssueType,
+  BroadcastMsg
+} from 'flowTypes';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
 import { FormEntry, NodeEditorSettings, ValidationFailure } from 'store/nodeEditor';
@@ -7,33 +15,6 @@ import { Trans } from 'react-i18next';
 import shared from 'components/shared.module.scss';
 import { showHelpArticle } from 'external';
 import { IssueProps } from '../props';
-
-export const renderIssues = (issueProps: IssueProps): JSX.Element => {
-  const { issues, helpArticles } = issueProps;
-  if (!issues || issues.length === 0) {
-    return null;
-  }
-
-  return (
-    <div style={{ padding: '10px 0px' }}>
-      {issues.map((issue: FlowIssue, num: Number) => {
-        const key = issue.node_uuid + issue.action_uuid + num;
-        return (
-          <div
-            style={{ margin: '6px 0px', display: 'flex', fontSize: '14px', color: 'tomato' }}
-            key={key}
-          >
-            <div
-              style={{ marginRight: '8px', marginTop: '-2px', fontSize: '18px' }}
-              className={`fe-warning`}
-            />
-            <div>{renderIssue(issue, helpArticles)}</div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
 
 export const renderIssue = (
   issue: FlowIssue,
@@ -87,11 +68,52 @@ export const renderIssue = (
   return message;
 };
 
+export const renderIssues = (issueProps: IssueProps): JSX.Element => {
+  const { issues, helpArticles } = issueProps;
+  if (!issues || issues.length === 0) {
+    return null;
+  }
+
+  return (
+    <div style={{ padding: '10px 0px' }}>
+      {issues.map((issue: FlowIssue, num: number) => {
+        const key = issue.node_uuid + issue.action_uuid + num;
+        return (
+          <div
+            style={{ margin: '6px 0px', display: 'flex', fontSize: '14px', color: 'tomato' }}
+            key={key}
+          >
+            <temba-icon
+              style={{ marginRight: '8px', marginTop: '-2px', fontSize: '18px' }}
+              name="issue"
+            ></temba-icon>
+            <div>{renderIssue(issue, helpArticles)}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: string): string => {
   if (nodeSettings.originalAction && nodeSettings.originalAction.type === currentType) {
     return nodeSettings.originalAction.uuid;
   }
   return createUUID();
+};
+
+export const getEmptyComposeValue = (): string => {
+  return JSON.stringify({ text: '', attachments: [] });
+};
+
+export const getCompose = (action: BroadcastMsg = null): string => {
+  if (!action) {
+    return getEmptyComposeValue();
+  }
+  if (!action.compose) {
+    return JSON.stringify({ und: { text: action.text, attachments: [] } });
+  }
+  return action.compose;
 };
 
 export const getRecipients = (action: RecipientsAction): Asset[] => {
@@ -118,22 +140,6 @@ export const getRecipients = (action: RecipientsAction): Asset[] => {
   return selected;
 };
 
-export const renderAssetList = (
-  assets: Asset[],
-  max: number = 10,
-  endpoints: Endpoints
-): JSX.Element[] => {
-  // show our missing ones first
-  return assets.reduce((elements, asset, idx) => {
-    if (idx <= max - 2 || assets.length === max) {
-      elements.push(renderAsset(asset, endpoints));
-    } else if (idx === max - 1) {
-      elements.push(<div key="ellipses">+{assets.length - max + 1} more</div>);
-    }
-    return elements;
-  }, []);
-};
-
 export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
   let assetBody = null;
 
@@ -147,24 +153,36 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
       break;
     case AssetType.Group:
       assetBody = (
-        <>
-          <span className={`${shared.node_group} fe-group`} />
+        <div style={{ display: 'inline-flex' }}>
+          <temba-icon
+            style={{ marginRight: 4 }}
+            name="group"
+            className={`${shared.node_group}`}
+          ></temba-icon>
           {asset.name}
-        </>
+        </div>
       );
       break;
     case AssetType.Label:
       assetBody = (
-        <>
-          <span className={`${shared.node_label} fe-label`} />
+        <div style={{ display: 'inline-flex' }}>
+          <temba-icon
+            style={{ marginRight: 4 }}
+            name="label"
+            className={`${shared.node_group}`}
+          ></temba-icon>
           {asset.name}
-        </>
+        </div>
       );
       break;
     case AssetType.Flow:
       assetBody = (
-        <>
-          <span className={`${shared.node_label} fe-split`} />
+        <div style={{ display: 'inline-flex' }}>
+          <temba-icon
+            style={{ marginRight: 4 }}
+            name="flow"
+            className={`${shared.node_group}`}
+          ></temba-icon>
           <a
             onMouseDown={(e: any) => {
               e.preventDefault();
@@ -180,14 +198,7 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
           >
             {asset.name}
           </a>
-        </>
-      );
-      break;
-    case AssetType.Ticketer:
-      assetBody = (
-        <Trans i18nKey="assets.ticketer" values={{ name: asset.name }}>
-          Open a new Ticket on [[name]]
-        </Trans>
+        </div>
       );
       break;
   }
@@ -201,6 +212,22 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
       {assetBody}
     </div>
   );
+};
+
+export const renderAssetList = (
+  assets: Asset[],
+  max: number = 10,
+  endpoints: Endpoints
+): JSX.Element[] => {
+  // show our missing ones first
+  return assets.reduce((elements, asset, idx) => {
+    if (idx <= max - 2 || assets.length === max) {
+      elements.push(renderAsset(asset, endpoints));
+    } else if (idx === max - 1) {
+      elements.push(<div key="ellipses">+{assets.length - max + 1} more</div>);
+    }
+    return elements;
+  }, []);
 };
 
 export const getAllErrors = (entry: FormEntry): ValidationFailure[] => {
@@ -230,4 +257,9 @@ export const getRecipientsByAsset = (assets: Asset[], type: AssetType): any[] =>
     .map((asset: Asset) => {
       return { uuid: asset.id, name: asset.name };
     });
+};
+
+export const getComposeByAsset = (value: string, asset: string): any | any[] => {
+  const compose = JSON.parse(value);
+  return compose['und'][asset];
 };

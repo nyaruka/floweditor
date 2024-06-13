@@ -62,23 +62,37 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
               {line}
             </div>
           ))}
-          {action.attachments && action.attachments.length > 0 ? (
-            <div className={`${styles.attachment} fe-paperclip`} />
+          {(action.attachments && action.attachments.length > 0) ||
+          (action.templating && action.templating.template) ||
+          action.topic ? (
+            <div style={{ display: 'inline-flex' }}>
+              {action.attachments && action.attachments.length > 0 ? (
+                <temba-icon style={{ marginRight: 6, marginTop: 6 }} name="attachment"></temba-icon>
+              ) : null}
+              {action.templating && action.templating.template ? (
+                <temba-icon
+                  style={{ marginRight: 6, marginTop: 6 }}
+                  name="channel_wac"
+                ></temba-icon>
+              ) : null}
+              {action.topic ? (
+                <temba-icon
+                  style={{ marginRight: 6, marginTop: 6 }}
+                  name="channel_fba"
+                ></temba-icon>
+              ) : null}
+            </div>
           ) : null}
-          {action.templating && action.templating.template ? (
-            <div className={`${styles.whatsapp} fe-whatsapp`} />
-          ) : null}
-          {action.topic ? <div className={`${styles.facebook} fe-facebook`} /> : null}
-          {labels}
         </div>
         <div className={styles.summary}>{replies}</div>
+        {labels}
       </>
     );
   }
   if (action.attachments && action.attachments.length > 0) {
     return (
       <>
-        <div className={`${styles.attachment} fe-paperclip`} />
+        <temba-icon style={{ marginRight: 6, marginTop: 6 }} name="attachment"></temba-icon>
         {labels}
       </>
     );
@@ -86,7 +100,7 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
   if (action.templating && action.templating.template) {
     return (
       <>
-        <div className={`${styles.whatsapp} fe-whatsapp`} />
+        <temba-icon style={{ marginRight: 6, marginTop: 6 }} name="channel_wac"></temba-icon>
         {labels}
       </>
     );

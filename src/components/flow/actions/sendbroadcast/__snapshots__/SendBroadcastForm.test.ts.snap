@@ -4,7 +4,7 @@ exports[`SendBroadcastForm render should render an empty form with no action 1`]
 Object {
   "attachmentError": "",
   "attachments": Array [],
-  "message": Object {
+  "compose": Object {
     "value": "",
   },
   "recipients": Object {
@@ -14,6 +14,8 @@ Object {
     "value": null,
   },
   "templateVariables": Array [],
+  "uploadError": "",
+  "uploadInProgress": false,
   "valid": false,
   "validAttachment": false,
 }
@@ -36,29 +38,6 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
   headerClass="send_broadcast"
   tabs={
     Array [
-      Object {
-        "body": <React.Fragment>
-          <p>
-            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
-          </p>
-          <AssetSelector
-            entry={
-              Object {
-                "value": null,
-              }
-            }
-            formClearable={true}
-            name="template"
-            noOptionsMessage="No templates found"
-            onChange={[Function]}
-            searchable={true}
-            shouldExclude={[Function]}
-          />
-        </React.Fragment>,
-        "checked": false,
-        "hasErrors": false,
-        "name": "WhatsApp",
-      },
       Object {
         "body": <React.Fragment>
           <p>
@@ -101,6 +80,10 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
                         "name": "PDF Document URL",
                         "value": "document",
                       },
+                      Object {
+                        "name": "Expression",
+                        "value": "expression",
+                      },
                     ]
                   }
                   placeholder="Add Attachment"
@@ -108,11 +91,44 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
                 />
               </div>
             </div>
+            <div />
           </React.Fragment>
+          <input
+            onChange={[Function]}
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+            type="file"
+          />
         </React.Fragment>,
         "checked": false,
         "hasErrors": false,
         "name": "Attachments",
+      },
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
+          </p>
+          <AssetSelector
+            entry={
+              Object {
+                "value": null,
+              }
+            }
+            formClearable={true}
+            name="template"
+            noOptionsMessage="No templates found"
+            onChange={[Function]}
+            searchable={true}
+            shouldExclude={[Function]}
+          />
+        </React.Fragment>,
+        "checked": false,
+        "hasErrors": false,
+        "name": "WhatsApp",
       },
     ]
   }
@@ -183,29 +199,6 @@ exports[`SendBroadcastForm render should render self, children with base props 1
       Object {
         "body": <React.Fragment>
           <p>
-            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
-          </p>
-          <AssetSelector
-            entry={
-              Object {
-                "value": null,
-              }
-            }
-            formClearable={true}
-            name="template"
-            noOptionsMessage="No templates found"
-            onChange={[Function]}
-            searchable={true}
-            shouldExclude={[Function]}
-          />
-        </React.Fragment>,
-        "checked": false,
-        "hasErrors": false,
-        "name": "WhatsApp",
-      },
-      Object {
-        "body": <React.Fragment>
-          <p>
             Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
           <React.Fragment>
@@ -245,6 +238,10 @@ exports[`SendBroadcastForm render should render self, children with base props 1
                         "name": "PDF Document URL",
                         "value": "document",
                       },
+                      Object {
+                        "name": "Expression",
+                        "value": "expression",
+                      },
                     ]
                   }
                   placeholder="Add Attachment"
@@ -252,11 +249,44 @@ exports[`SendBroadcastForm render should render self, children with base props 1
                 />
               </div>
             </div>
+            <div />
           </React.Fragment>
+          <input
+            onChange={[Function]}
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+            type="file"
+          />
         </React.Fragment>,
         "checked": false,
         "hasErrors": false,
         "name": "Attachments",
+      },
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
+          </p>
+          <AssetSelector
+            entry={
+              Object {
+                "value": null,
+              }
+            }
+            formClearable={true}
+            name="template"
+            noOptionsMessage="No templates found"
+            onChange={[Function]}
+            searchable={true}
+            shouldExclude={[Function]}
+          />
+        </React.Fragment>,
+        "checked": false,
+        "hasErrors": false,
+        "name": "WhatsApp",
       },
     ]
   }
@@ -336,37 +366,17 @@ exports[`SendBroadcastForm render should render self, children with base props 1
 </Dialog>
 `;
 
-exports[`SendBroadcastForm updates handles recipent change 1`] = `
+exports[`SendBroadcastForm updates handles invalid compose attachments change 1`] = `
 Object {
   "attachmentError": "",
   "attachments": Array [],
-  "message": Object {
-    "value": "Hello World",
-  },
-  "recipients": Object {
-    "validationFailures": Array [],
-    "value": Array [
+  "compose": Object {
+    "validationFailures": Array [
       Object {
-        "id": "group-0",
-        "name": "My Group",
+        "message": "Maximum allowed attachments is 3 files",
       },
     ],
-  },
-  "template": Object {
-    "value": null,
-  },
-  "templateVariables": Array [],
-  "valid": true,
-  "validAttachment": false,
-}
-`;
-
-exports[`SendBroadcastForm updates handles text change 1`] = `
-Object {
-  "attachmentError": "",
-  "attachments": Array [],
-  "message": Object {
-    "value": "Hello World",
+    "value": "{\\"und\\":{\\"text\\":\\"Some message with an attachment\\",\\"attachments\\":[{\\"uuid\\":\\"test1\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test1\\",\\"url\\":\\"url_test1\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test2\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test2\\",\\"url\\":\\"url_test2\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test3\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test3\\",\\"url\\":\\"url_test3\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test4\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test4\\",\\"url\\":\\"url_test4\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test5\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test5\\",\\"url\\":\\"url_test5\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test6\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test6\\",\\"url\\":\\"url_test6\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test7\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test7\\",\\"url\\":\\"url_test7\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test8\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test8\\",\\"url\\":\\"url_test8\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test9\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test9\\",\\"url\\":\\"url_test9\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test10\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test10\\",\\"url\\":\\"url_test10\\",\\"size\\":1024,\\"error\\":null},{\\"uuid\\":\\"test11\\",\\"content_type\\":\\"image/png\\",\\"type\\":\\"image/png\\",\\"filename\\":\\"name_test11\\",\\"url\\":\\"url_test11\\",\\"size\\":1024,\\"error\\":null}]}}",
   },
   "recipients": Object {
     "value": Array [
@@ -404,6 +414,135 @@ Object {
     "value": null,
   },
   "templateVariables": Array [],
+  "uploadError": "",
+  "uploadInProgress": false,
+  "valid": false,
+  "validAttachment": false,
+}
+`;
+
+exports[`SendBroadcastForm updates handles recipent change 1`] = `
+Object {
+  "attachmentError": "",
+  "attachments": Array [],
+  "compose": Object {
+    "value": "{\\"text\\":\\"Some broadcast message\\",\\"attachments\\":[]}",
+  },
+  "recipients": Object {
+    "validationFailures": Array [],
+    "value": Array [
+      Object {
+        "id": "group-0",
+        "name": "My Group",
+      },
+    ],
+  },
+  "template": Object {
+    "value": null,
+  },
+  "templateVariables": Array [],
+  "uploadError": "",
+  "uploadInProgress": false,
+  "valid": true,
+  "validAttachment": false,
+}
+`;
+
+exports[`SendBroadcastForm updates handles valid compose attachments change 1`] = `
+Object {
+  "attachmentError": "",
+  "attachments": Array [],
+  "compose": Object {
+    "value": "{\\"text\\":\\"Some broadcast message\\",\\"attachments\\":[]}",
+  },
+  "recipients": Object {
+    "value": Array [
+      Object {
+        "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        "name": "Cat Fanciers",
+        "type": "group",
+      },
+      Object {
+        "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        "name": "Cat Facts",
+        "type": "group",
+      },
+      Object {
+        "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+        "missing": false,
+        "name": "Kellan Alexander",
+        "type": "contact",
+      },
+      Object {
+        "id": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        "missing": false,
+        "name": "Norbert Kwizera",
+        "type": "contact",
+      },
+      Object {
+        "id": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "missing": false,
+        "name": "Rowan Seymour",
+        "type": "contact",
+      },
+    ],
+  },
+  "template": Object {
+    "value": null,
+  },
+  "templateVariables": Array [],
+  "uploadError": "",
+  "uploadInProgress": false,
+  "valid": true,
+  "validAttachment": false,
+}
+`;
+
+exports[`SendBroadcastForm updates handles valid compose text change 1`] = `
+Object {
+  "attachmentError": "",
+  "attachments": Array [],
+  "compose": Object {
+    "value": "{\\"text\\":\\"Some broadcast message\\",\\"attachments\\":[]}",
+  },
+  "recipients": Object {
+    "value": Array [
+      Object {
+        "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        "name": "Cat Fanciers",
+        "type": "group",
+      },
+      Object {
+        "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        "name": "Cat Facts",
+        "type": "group",
+      },
+      Object {
+        "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+        "missing": false,
+        "name": "Kellan Alexander",
+        "type": "contact",
+      },
+      Object {
+        "id": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        "missing": false,
+        "name": "Norbert Kwizera",
+        "type": "contact",
+      },
+      Object {
+        "id": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "missing": false,
+        "name": "Rowan Seymour",
+        "type": "contact",
+      },
+    ],
+  },
+  "template": Object {
+    "value": null,
+  },
+  "templateVariables": Array [],
+  "uploadError": "",
+  "uploadInProgress": false,
   "valid": true,
   "validAttachment": false,
 }

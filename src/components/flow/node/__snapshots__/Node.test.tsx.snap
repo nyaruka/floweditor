@@ -72,8 +72,9 @@ exports[`NodeComp renders 1`] = `
           <div
             class="add"
           >
-            <span
-              class="fe-add"
+            <temba-icon
+              name="add"
+              size="1"
             />
           </div>
         </div>
@@ -140,8 +141,9 @@ exports[`NodeComp renders a named random split 1`] = `
                     class="remove_button"
                     data-testid="remove-icon"
                   >
-                    <span
-                      class="fe-x"
+                    <temba-icon
+                      name="delete_small"
+                      size="1.2"
                     />
                   </div>
                 </div>

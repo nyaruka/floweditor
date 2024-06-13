@@ -35,9 +35,9 @@ export interface Endpoints {
   revisions: string;
   activity: string;
   labels: string;
+  optins: string;
   channels: string;
   classifiers: string;
-  ticketers: string;
   users: string;
   topics: string;
   environment: string;
@@ -66,6 +66,7 @@ export interface FlowEditorConfig {
   path?: string;
   headers?: any;
   brand: string;
+
   onLoad?: () => void;
   onActivityClicked?: (uuid: string) => void;
   onChangeLanguage?: (code: string, name: string) => void;
@@ -265,6 +266,15 @@ export interface Wait {
   call_limit_seconds?: number;
 }
 
+export interface ComposeAttachment {
+  uuid: string;
+  content_type: string;
+  url: string;
+  filename: string;
+  size: number;
+  error: string;
+}
+
 export interface Group {
   uuid?: string;
   name?: string;
@@ -293,6 +303,11 @@ export interface Label {
   uuid: string;
   name: string;
   name_match?: string;
+}
+
+export interface OptIn {
+  uuid: string;
+  name: string;
 }
 
 export interface Flow {
@@ -414,10 +429,18 @@ export interface BroadcastMsg extends RecipientsAction {
   text: string;
   attachments?: string[];
   templating?: MsgTemplating;
+  compose: string;
 }
 
 export interface AddLabels extends Action {
   labels: Label[];
+}
+
+export interface RequestOptIn extends Action {
+  optin: {
+    uuid: string;
+    name: string;
+  };
 }
 
 export interface AddURN extends Action {
@@ -454,6 +477,8 @@ export interface LinkSheets extends Action {
   action_type: string;
   row_data?: string[];
   range?: string;
+  subsheet?: string;
+  starting_cell?: string;
   name: string;
   result_name?: string;
 }
@@ -463,11 +488,6 @@ export interface Headers {
 }
 
 export interface Classifier {
-  uuid: string;
-  name: string;
-}
-
-export interface Ticketer {
   uuid: string;
   name: string;
 }
@@ -497,10 +517,9 @@ export interface CallWebhook extends Action {
 }
 
 export interface OpenTicket extends Action {
-  ticketer?: Ticketer;
   subject?: string;
   topic?: Topic;
-  body: string;
+  body?: string;
   result_name: string;
   assignee?: User;
 }

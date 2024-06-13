@@ -238,13 +238,17 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Split Randomly
+            <div
+              class="title"
+            >
+              Split Randomly
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
-          <div
-            class="subtitle"
-          />
         </div>
       </div>
       <div
@@ -395,15 +399,23 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>
@@ -428,13 +440,17 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
           class="title_container"
         >
           <div
-            class="title"
+            style="flex-grow: 1;"
           >
-            Split Randomly
+            <div
+              class="title"
+            >
+              Split Randomly
+            </div>
+            <div
+              class="subtitle"
+            />
           </div>
-          <div
-            class="subtitle"
-          />
         </div>
       </div>
       <div
@@ -559,15 +575,23 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
           >
             <div
               class="btn secondary  "
-              style="margin-left: 0px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 0px; margin-top: 0px;"
             >
-              Cancel
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Cancel
+              </div>
             </div>
             <div
               class="btn primary  "
-              style="margin-left: 10px; margin-top: 0px;"
+              style="display: inline-flex; margin-left: 10px; margin-top: 0px;"
             >
-              Ok
+              <div
+                style="margin-bottom: 0px;"
+              >
+                Ok
+              </div>
             </div>
           </div>
         </div>

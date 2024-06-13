@@ -51,6 +51,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       <div
         ref={onRef}
         style={{
+          display: 'inline-flex',
           marginLeft: leftSpacing ? 10 : 0,
           marginTop: topSpacing ? 10 : 0
         }}
@@ -61,8 +62,10 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
           this.state.active ? styles.active : ''
         }`}
       >
-        {renderIf(iconName != null)(<span style={{ paddingRight: 4 }} className={iconName} />)}
-        {name}
+        {renderIf(iconName != null)(
+          <temba-icon style={{ paddingRight: 5 }} name={iconName}></temba-icon>
+        )}
+        <div style={{ marginBottom: 0 }}>{name}</div>
       </div>
     );
   }

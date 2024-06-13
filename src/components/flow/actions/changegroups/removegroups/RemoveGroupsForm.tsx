@@ -17,7 +17,6 @@ import { shouldRequireIf, validate } from 'store/validators';
 import { renderIf } from 'utils';
 
 import { initializeForm, stateToAction } from './helpers';
-import styles from './RemoveGroupsForm.module.scss';
 import i18n from 'config/i18n';
 import { renderIssues } from '../../helpers';
 
@@ -118,7 +117,7 @@ export default class RemoveGroupsForm extends React.Component<
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
 
         {renderIf(!this.state.removeAll)(
-          <div>
+          <div style={{ marginBottom: '1em' }}>
             <p data-spec={labelSpecId}>{LABEL}</p>
             <AssetSelector
               name={i18n.t('forms.groups', 'Collections')}
@@ -132,11 +131,9 @@ export default class RemoveGroupsForm extends React.Component<
             />
           </div>
         )}
-
         <CheckboxElement
           name={REMOVE_FROM_ALL}
           title={REMOVE_FROM_ALL}
-          labelClassName={this.state.removeAll ? '' : styles.checkbox}
           checked={this.state.removeAll!}
           description={REMOVE_FROM_ALL_DESC}
           onChange={this.handleRemoveAllUpdate}

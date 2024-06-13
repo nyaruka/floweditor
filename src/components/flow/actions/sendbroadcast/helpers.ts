@@ -1,5 +1,6 @@
 import {
   getActionUUID,
+  getCompose,
   getExpressions,
   getRecipients,
   getRecipientsByAsset
@@ -7,7 +8,8 @@ import {
 import { SendBroadcastFormState } from 'components/flow/actions/sendbroadcast/SendBroadcastForm';
 import { Types } from 'config/interfaces';
 import { Attachment } from 'components/flow/actions/sendmsg/attachments';
-import { BroadcastMsg, SendMsg, MsgTemplating } from 'flowTypes';
+import { SendMsg, MsgTemplating } from 'flowTypes';
+import { BroadcastMsg } from 'flowTypes';
 import { AssetType } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { createUUID } from 'utils';
@@ -19,12 +21,14 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
   const finalState: SendBroadcastFormState = {
     template,
     templateVariables,
-    message: { value: '' },
+    compose: { value: '' },
     recipients: { value: [] },
     valid: true,
     attachments: [],
     validAttachment: false,
-    attachmentError: ''
+    attachmentError: '',
+    uploadError: '',
+    uploadInProgress: false
   };
 
   if (settings.originalAction && settings.originalAction.type === Types.send_broadcast) {
@@ -72,7 +76,7 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
       }
     }
 
-    finalState.message = { value: action.text };
+    finalState.compose = { value: getCompose(action) };
     finalState.recipients = { value: getRecipients(action) };
 
     return finalState;
@@ -87,6 +91,14 @@ export const stateToAction = (
   settings: NodeEditorSettings,
   formState: SendBroadcastFormState
 ): BroadcastMsg => {
+  const compose = formState.compose.value;
+
+  // not needed in glific
+  // const text = getComposeByAsset(compose, AssetType.ComposeText);
+  // const attachments = getComposeByAsset(compose, AssetType.ComposeAttachments).map(
+  //   (attachment: ComposeAttachment) => `${attachment.content_type}:${attachment.url}`
+  // );
+
   const attachments = formState.attachments
     .filter((attachment: Attachment) => attachment.url.trim().length > 0)
     .map((attachment: Attachment) => `${attachment.type}:${attachment.url}`);
@@ -116,13 +128,13 @@ export const stateToAction = (
       variables: formState.templateVariables.map((variable: StringEntry) => variable.value)
     };
   }
-
   let result: any = {
-    attachments,
     legacy_vars: getExpressions(formState.recipients.value),
     contacts: getRecipientsByAsset(formState.recipients.value, AssetType.Contact),
     groups: getRecipientsByAsset(formState.recipients.value, AssetType.Group),
-    text: formState.message.value,
+    compose: compose,
+    text: formState.compose.value,
+    attachments: attachments,
     type: Types.send_broadcast,
     uuid: getActionUUID(settings, Types.send_broadcast)
   };
@@ -130,6 +142,5 @@ export const stateToAction = (
   if (templating) {
     result.templating = templating;
   }
-
   return result;
 };

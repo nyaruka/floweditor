@@ -57,7 +57,7 @@ export interface EventProps {
   resthook?: string;
   base_language?: string;
   language?: string;
-  translations?: { [lang: string]: { [text: string]: string } };
+  translations?: { [lang: string]: { text: string; attachments: string[] } };
   groups?: Group[];
   flow?: Flow;
   groups_added?: Group[];
@@ -69,7 +69,6 @@ export interface EventProps {
   urns?: string[];
   service?: string;
   classifier?: { uuid: string; name: string };
-  ticketer?: { uuid: string; name: string };
   ticket?: { topic: Topic; body: string };
   hint?: Hint;
   timeout_seconds?: number;
@@ -156,13 +155,7 @@ const renderAttachment = (attachment: string): JSX.Element => {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div
-              className="fe-document-file-pdf"
-              style={{
-                textDecoration: 'none',
-                fontSize: '20px'
-              }}
-            />
+            <temba-icon name="pdf"></temba-icon>
             <div style={{ marginLeft: '5px', lineHeight: '16px' }}>
               {i18n.t('document', 'Document')}
             </div>
@@ -431,11 +424,8 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
       case 'email_sent':
         return this.renderEmailSent();
       case 'broadcast_created':
-        return renderMessage(
-          this.props.translations[this.props.base_language].text,
-          this.props.msg ? this.props.msg.attachments : [],
-          Direction.MT
-        );
+        const translation = this.props.translations[this.props.base_language];
+        return renderMessage(translation.text, translation.attachments, Direction.MT);
       case 'resthook_called':
         return renderInfo(
           i18n.t('simulator.resthook_called', 'Triggered flow event "[[resthook]]"', {

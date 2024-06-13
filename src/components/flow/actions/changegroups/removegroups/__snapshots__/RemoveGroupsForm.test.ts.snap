@@ -30,7 +30,13 @@ exports[`RemoveGroupsForm render should render 1`] = `
     }
     onChange={[MockFunction]}
   />
-  <div>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+      }
+    }
+  >
     <p
       data-spec="label"
     >
@@ -78,7 +84,6 @@ exports[`RemoveGroupsForm render should render 1`] = `
   <CheckboxElement
     checked={false}
     description="Remove the active contact from all collections they're a member of."
-    labelClassName="checkbox"
     name="Remove from all"
     onChange={[Function]}
     title="Remove from all"

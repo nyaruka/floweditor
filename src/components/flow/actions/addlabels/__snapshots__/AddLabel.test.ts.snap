@@ -6,37 +6,93 @@ exports[`AddLabelsComp should display labels on action 1`] = `
     className="node_asset"
     key="label-0"
   >
-    <span
-      className="node_label fe-label"
-    />
-    Help
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="label"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
+      />
+      Help
+    </div>
   </div>
   <div
     className="node_asset"
     key="label-1"
   >
-    <span
-      className="node_label fe-label"
-    />
-    New
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="label"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
+      />
+      New
+    </div>
   </div>
   <div
     className="node_asset"
     key="label-2"
   >
-    <span
-      className="node_label fe-label"
-    />
-    Feedback
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="label"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
+      />
+      Feedback
+    </div>
   </div>
   <div
     className="node_asset"
     key="label-3"
   >
-    <span
-      className="node_label fe-label"
-    />
-    Needs Attention
+    <div
+      style={
+        Object {
+          "display": "inline-flex",
+        }
+      }
+    >
+      <temba-icon
+        className="node_group"
+        name="label"
+        style={
+          Object {
+            "marginRight": 4,
+          }
+        }
+      />
+      Needs Attention
+    </div>
   </div>
   <div
     key="ellipses"

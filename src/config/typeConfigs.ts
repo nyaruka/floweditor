@@ -73,6 +73,8 @@ import ContactProfileRouterForm from 'components/flow/routers/contactprofile/Con
 import ContactProfileRouter from 'components/flow/routers/contactprofile/ContactProfileRouter';
 import SheetForm from 'components/flow/routers/sheet/SheetForm';
 import Sheet from 'components/flow/routers/sheet/Sheet';
+import RequestOptInForm from 'components/flow/actions/requestoptin/RequestOptInForm';
+import RequestOptInComp from 'components/flow/actions/requestoptin/RequestOptIn';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -452,8 +454,7 @@ export const typeConfigList: Type[] = [
     localizeableKeys: ['exits'],
     component: OpenTicketComp,
     aliases: [Types.split_by_ticket],
-    visibility: VISIBILITY_ONLINE,
-    filter: FeatureFilter.HAS_TICKETER
+    visibility: VISIBILITY_ONLINE
   },
   {
     type: Types.transfer_airtime,
@@ -567,6 +568,14 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     form: SchemeRouterForm
+  },
+  {
+    type: Types.request_optin,
+    name: i18n.t('actions.request_optin.name', 'Request Opt-In'),
+    description: i18n.t('actions.request_optin.description', 'Send an opt-in request'),
+    form: RequestOptInForm,
+    component: RequestOptInComp,
+    filter: FeatureFilter.HAS_OPTINS
   }
   // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];

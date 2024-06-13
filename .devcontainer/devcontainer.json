@@ -1,0 +1,24 @@
+{
+	"name": "floweditor",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"forwardPorts": [
+		3000,
+		6000
+	],
+	"runArgs": [
+		"--network=textit_default",
+		"--hostname=floweditor"
+	],
+	"remoteUser": "node",
+	"postCreateCommand": "sudo chown node /workspaces/floweditor && yarn install",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"lfs.vscode-emacs-friendly"
+			]
+		}
+	}
+	// "features": {},
+}
