@@ -13,7 +13,7 @@ export const PLACEHOLDER = i18n.t('actions.send_msg.placeholder', 'Send a messag
 const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
   const endpoints: any = {};
   let labels = null;
-  console.log(action, 'this.props');
+
   if (action.labels) {
     labels = renderAssetList(
       action.labels.map((label: any) => {
