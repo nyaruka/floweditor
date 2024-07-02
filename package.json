@@ -22,7 +22,6 @@
     "lambda": "yarn run lambda:build && yarn run lambda:serve",
     "prettify": "prettier --write 'src/**/*.{ts,tsx,json,js,css,md}'",
     "netlify": "yarn run build && yarn run lambda:build",
-    "precommit": "lint-staged",
     "preversion": "yarn test --watchAll=false",
     "postversion": "git push --tags && git push origin main",
     "version": "yarn run build && auto-changelog -p && git add CHANGELOG.md",
@@ -158,5 +157,10 @@
     "typescript": "3.4.5",
     "uniqid": "5.0.3",
     "uuid": "3.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
