@@ -293,7 +293,7 @@ export default class MsgLocalizationForm extends React.Component<
       );
     }
 
-    if (this.state.template) {
+    if (this.state.template && this.state.templateVariables.length > 0) {
       tabs.push({
         name: 'WhatsApp',
         body: (
@@ -339,6 +339,7 @@ export default class MsgLocalizationForm extends React.Component<
 
         <TextInputElement
           name={i18n.t('forms.message', 'Message')}
+          __className={styles.message}
           showLabel={false}
           onChange={this.handleMessageUpdate}
           entry={this.state.message}

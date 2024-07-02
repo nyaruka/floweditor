@@ -1,4 +1,5 @@
 import { react as bindCallbacks } from 'auto-bind';
+import styles from 'components/flow/actions/action/Action.module.scss';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { ActionFormProps } from 'components/flow/props';
 import TextInputElement from 'components/form/textinput/TextInputElement';
@@ -82,6 +83,7 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <TextInputElement
+          __className={styles.message}
           name={i18n.t('forms.message', 'Message')}
           showLabel={false}
           onChange={this.handleMessageUpdate}
