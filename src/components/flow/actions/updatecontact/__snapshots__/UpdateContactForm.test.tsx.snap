@@ -227,7 +227,7 @@ exports[`UpdateContactForm should render field 1`] = `
                 data-testid="Field Value"
                 name="Field Value"
                 placeholder="Enter a new value for Age"
-                value="25"
+                value=""
               />
             </div>
           </div>

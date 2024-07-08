@@ -224,6 +224,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt-in",
+      "value": "optin",
+    },
+  },
   "status": Object {
     "value": Object {
       "name": "Active",
@@ -282,6 +288,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt-in",
+      "value": "optin",
+    },
+  },
   "status": Object {
     "value": Object {
       "name": "Active",
@@ -330,6 +342,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt-in",
+      "value": "optin",
+    },
+  },
   "status": Object {
     "value": Object {
       "name": "Active",
@@ -374,6 +392,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt-in",
+      "value": "optin",
+    },
+  },
   "status": Object {
     "value": Object {
       "name": "Active",
@@ -414,13 +438,16 @@ Object {
     },
   },
   "fieldValue": Object {
-    "value": "25",
+    "value": "",
   },
   "language": Object {
     "value": null,
   },
   "name": Object {
     "value": "",
+  },
+  "settings": Object {
+    "value": undefined,
   },
   "status": Object {
     "value": Object {
@@ -466,6 +493,9 @@ Object {
   "name": Object {
     "value": "",
   },
+  "settings": Object {
+    "value": undefined,
+  },
   "status": Object {
     "value": Object {
       "name": "Active",
@@ -501,7 +531,7 @@ Object {
     },
   },
   "fieldValue": Object {
-    "value": "25",
+    "value": "",
   },
   "language": Object {
     "validationFailures": Array [],
@@ -509,6 +539,9 @@ Object {
   },
   "name": Object {
     "value": "",
+  },
+  "settings": Object {
+    "value": undefined,
   },
   "status": Object {
     "value": Object {
@@ -554,6 +587,9 @@ Object {
   "name": Object {
     "value": "Rowan Seymour",
   },
+  "settings": Object {
+    "value": undefined,
+  },
   "status": Object {
     "value": Object {
       "name": "Active",
@@ -598,6 +634,9 @@ Object {
   "name": Object {
     "value": "",
   },
+  "settings": Object {
+    "value": undefined,
+  },
   "status": Object {
     "value": Object {
       "name": "Blocked - remove from groups, ignore forever",
@@ -638,13 +677,16 @@ Object {
     },
   },
   "fieldValue": Object {
-    "value": "25",
+    "value": "",
   },
   "language": Object {
     "value": null,
   },
   "name": Object {
     "value": "",
+  },
+  "settings": Object {
+    "value": undefined,
   },
   "status": Object {
     "value": Object {
