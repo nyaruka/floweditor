@@ -63,6 +63,7 @@
   &.immutable {
     .node {
       cursor: default;
+      pointer-events: none;
     }
   }
 
