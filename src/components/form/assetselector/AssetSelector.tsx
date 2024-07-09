@@ -171,7 +171,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
       postNewAsset(this.props.assets, asset)
         .then((result: Asset) => {
           this.setState({ isLoading: false });
-          this.props.onAssetCreated(result);
+          // this.props.onAssetCreated(result);
           // this.props.onChange([...(this.state.entry.value as any)]);
         })
         .catch(error => {
