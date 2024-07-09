@@ -130,9 +130,9 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
       const toCreate = selected.find((option: any) => option.arbitrary);
       if (toCreate) {
         // filter it out
-        selected = selected.filter((option: any) => !option.arbitrary);
         this.handleCreateOption(toCreate.name);
       } else {
+        selected = selected.filter((option: any) => !option.arbitrary);
         this.props.onChange(selected);
       }
     } else {
@@ -171,7 +171,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
       postNewAsset(this.props.assets, asset)
         .then((result: Asset) => {
           this.setState({ isLoading: false });
-          // this.props.onAssetCreated(result);
+          this.props.onAssetCreated(result);
           // this.props.onChange([...(this.state.entry.value as any)]);
         })
         .catch(error => {
