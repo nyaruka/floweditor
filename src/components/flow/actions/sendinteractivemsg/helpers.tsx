@@ -15,7 +15,7 @@ import { AssetStore, RenderNode } from 'store/flowContext';
 export const initializeForm = (settings: NodeEditorSettings): SendInteractiveMsgFormState => {
   if (settings.originalAction && settings.originalAction.type === Types.send_interactive_msg) {
     const action = settings.originalAction as SendInteractiveMsg;
-    let { id, name, expression, params, paramsCount } = action;
+    let { id, name, expression, params, paramsCount, uuid } = action;
     const interactive_content = JSON.parse(action.text);
 
     const labels = action.labels
@@ -36,9 +36,8 @@ export const initializeForm = (settings: NodeEditorSettings): SendInteractiveMsg
     while (listValues.length < 10) {
       listValues.push({ value: { id: '', label: '' } });
     }
-
     const returnValue: SendInteractiveMsgFormState = {
-      interactives: { value: { id, interactive_content, name } },
+      interactives: { value: { id, interactive_content, name, uuid } },
       labels: {
         value: labels
       },
