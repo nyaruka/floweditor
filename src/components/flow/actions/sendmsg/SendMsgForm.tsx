@@ -552,7 +552,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
 
     tabs.reverse();
-
     return (
       <Dialog
         title={typeConfig.name}
