@@ -62,11 +62,7 @@ export default class SendMsgForm extends React.Component<
   };
 
   private handleInteractivesChanged(selected: any[]): void {
-    let interactiveMsg = selected ? selected[0] : null;
-    interactiveMsg = {
-      ...interactiveMsg,
-      uuid: this.props.nodeSettings.originalNode.node.uuid
-    };
+    const interactiveMsg = selected ? selected[0] : null;
     if (interactiveMsg.name === 'Expression') {
       this.setState({
         expression: { value: '' },
