@@ -7,7 +7,7 @@ exports[`UpdateContactComp render should render clearing the value 1`] = `
   <span
     className="emphasize"
   >
-    age
+    Age
   </span>
   .
 </div>
@@ -37,7 +37,7 @@ exports[`UpdateContactComp render should render set field 1`] = `
   <span
     className="emphasize"
   >
-    age
+    Age
   </span>
    to 
   <span
