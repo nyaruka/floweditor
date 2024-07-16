@@ -54,12 +54,12 @@ export const CONTACT_STATUS_OPTIONS: SelectOption[] = [
 ];
 
 export const CONTACT_OPTIN: SelectOption = {
-  name: i18n.t('contact_settings.optin', 'Opt-in'),
+  name: i18n.t('contact_settings.optin', 'Opt in'),
   value: 'optin'
 };
 
 export const CONTACT_OPTOUT: SelectOption = {
-  name: i18n.t('contact_settings.optout', 'Opt-out'),
+  name: i18n.t('contact_settings.optout', 'Opt out'),
   value: 'optout'
 };
 

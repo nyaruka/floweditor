@@ -69,9 +69,13 @@ export const initializeForm = (
           const fieldAction = settings.originalAction as SetContactField;
           state.field = { value: { key: fieldAction.field.key, label: fieldAction.field.name } };
           state.valid = true;
-          state.settings = {
-            value: CONTACT_CONSENT_OPTIONS.find(o => o.value === fieldAction.value)
-          };
+          if (fieldAction.field.key === 'settings') {
+            state.settings = {
+              value: CONTACT_CONSENT_OPTIONS.find(o => o.value === fieldAction.value)
+            };
+          } else {
+            state.fieldValue = { value: fieldAction.value };
+          }
 
           return state;
         case Types.set_contact_channel:

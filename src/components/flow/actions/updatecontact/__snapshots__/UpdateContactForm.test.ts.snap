@@ -226,7 +226,7 @@ Object {
   },
   "settings": Object {
     "value": Object {
-      "name": "Opt-in",
+      "name": "Opt in",
       "value": "optin",
     },
   },
@@ -290,7 +290,7 @@ Object {
   },
   "settings": Object {
     "value": Object {
-      "name": "Opt-in",
+      "name": "Opt in",
       "value": "optin",
     },
   },
@@ -344,7 +344,7 @@ Object {
   },
   "settings": Object {
     "value": Object {
-      "name": "Opt-in",
+      "name": "Opt in",
       "value": "optin",
     },
   },
@@ -394,7 +394,7 @@ Object {
   },
   "settings": Object {
     "value": Object {
-      "name": "Opt-in",
+      "name": "Opt in",
       "value": "optin",
     },
   },
@@ -438,7 +438,7 @@ Object {
     },
   },
   "fieldValue": Object {
-    "value": "",
+    "value": "25",
   },
   "language": Object {
     "value": null,
@@ -447,7 +447,10 @@ Object {
     "value": "",
   },
   "settings": Object {
-    "value": undefined,
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
   },
   "status": Object {
     "value": Object {
@@ -494,7 +497,10 @@ Object {
     "value": "",
   },
   "settings": Object {
-    "value": undefined,
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
   },
   "status": Object {
     "value": Object {
@@ -531,7 +537,7 @@ Object {
     },
   },
   "fieldValue": Object {
-    "value": "",
+    "value": "25",
   },
   "language": Object {
     "validationFailures": Array [],
@@ -541,7 +547,10 @@ Object {
     "value": "",
   },
   "settings": Object {
-    "value": undefined,
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
   },
   "status": Object {
     "value": Object {
@@ -588,7 +597,10 @@ Object {
     "value": "Rowan Seymour",
   },
   "settings": Object {
-    "value": undefined,
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
   },
   "status": Object {
     "value": Object {
@@ -635,7 +647,10 @@ Object {
     "value": "",
   },
   "settings": Object {
-    "value": undefined,
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
   },
   "status": Object {
     "value": Object {
@@ -677,7 +692,7 @@ Object {
     },
   },
   "fieldValue": Object {
-    "value": "",
+    "value": "25",
   },
   "language": Object {
     "value": null,
@@ -686,7 +701,10 @@ Object {
     "value": "",
   },
   "settings": Object {
-    "value": undefined,
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
   },
   "status": Object {
     "value": Object {
