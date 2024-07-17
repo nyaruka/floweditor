@@ -1,3 +1,7 @@
 .message {
   --textarea-height: 8em;
 }
+
+.has-errors {
+  --color-widget-border: var(--color-error);
+}
