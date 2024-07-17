@@ -133,6 +133,11 @@ exports[`SendMsgForm render should render 1`] = `
               }
             }
             lang={null}
+            style={
+              Object {
+                "--color-widget-border": "inherit",
+              }
+            }
             tag="temba-template-editor"
             template={null}
             url="assets/templates.json"
