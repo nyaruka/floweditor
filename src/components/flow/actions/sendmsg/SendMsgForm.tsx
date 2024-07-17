@@ -55,6 +55,8 @@ export interface SendMsgFormState extends FormState {
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
+  saveAttempted = false;
+
   constructor(props: ActionFormProps) {
     super(props);
     this.state = stateToForm(this.props.nodeSettings);
@@ -143,6 +145,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleSave(): void {
+    this.saveAttempted = true;
+
     // don't continue if our message already has errors
     if (hasErrors(this.state.message)) {
       return;
@@ -238,6 +242,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           )}
         </p>
         <TembaComponent
+          style={{
+            '--color-widget-border':
+              this.saveAttempted && this.hasTemplateErrors() ? 'var(--color-error)' : 'inherit'
+          }}
           tag="temba-template-editor"
           eventHandlers={{
             'temba-context-changed': this.handleTemplateChanged,
