@@ -143,9 +143,13 @@ export default class SendMsgForm extends React.Component<
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
 
+      let interactiveMessageId = this.state.interactives.value.id;
+      const originalAction: any = this.props.nodeSettings.originalAction;
+
       if (
-        this.props.nodeSettings.originalNode.ghost ||
-        this.props.nodeSettings.originalNode.node.exits[0].destination_uuid
+        (this.props.nodeSettings.originalNode.ghost ||
+          this.props.nodeSettings.originalNode.node.exits[0].destination_uuid) &&
+        (!originalAction || interactiveMessageId !== originalAction.id)
       ) {
         this.props.resetNodeEditing();
         this.props.updateRouter(
@@ -154,7 +158,6 @@ export default class SendMsgForm extends React.Component<
       }
 
       // notify our modal we are done
-
       this.props.onClose(false);
     } else {
       this.setState({ valid });
