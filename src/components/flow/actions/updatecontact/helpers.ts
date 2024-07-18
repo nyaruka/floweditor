@@ -26,7 +26,9 @@ import {
 } from 'store/nodeEditor';
 import {
   CONTACT_STATUS_OPTIONS,
-  CONTACT_STATUS_ACTIVE
+  CONTACT_STATUS_ACTIVE,
+  CONTACT_OPTIN,
+  CONTACT_CONSENT_OPTIONS
 } from 'components/flow/actions/updatecontact/UpdateContactForm';
 
 export interface UpdateContactFormState extends FormState {
@@ -36,6 +38,7 @@ export interface UpdateContactFormState extends FormState {
   language: FormEntry;
   status: SelectOptionEntry;
   field: FormEntry;
+  settings: SelectOptionEntry;
   fieldValue: StringEntry;
 }
 
@@ -51,6 +54,7 @@ export const initializeForm = (
     language: { value: null },
     status: { value: CONTACT_STATUS_ACTIVE },
     field: { value: null },
+    settings: { value: CONTACT_OPTIN },
     fieldValue: { value: '' }
   };
 
@@ -64,8 +68,15 @@ export const initializeForm = (
         case Types.set_contact_field:
           const fieldAction = settings.originalAction as SetContactField;
           state.field = { value: { key: fieldAction.field.key, label: fieldAction.field.name } };
-          state.fieldValue = { value: fieldAction.value };
           state.valid = true;
+          if (fieldAction.field.key === 'settings') {
+            state.settings = {
+              value: CONTACT_CONSENT_OPTIONS.find(o => o.value === fieldAction.value)
+            };
+          } else {
+            state.fieldValue = { value: fieldAction.value };
+          }
+
           return state;
         case Types.set_contact_channel:
           const channelAction = settings.originalAction as SetContactChannel;
@@ -118,12 +129,21 @@ export const stateToAction = (
   /* istanbul ignore else */
   const field = state.field.value;
   if (state.type === Types.set_contact_field) {
-    return {
-      uuid: getActionUUID(settings, Types.set_contact_field),
-      type: state.type,
-      field: { name: field.label, key: field.key },
-      value: state.fieldValue.value
-    };
+    if (state.field.value.key === 'settings') {
+      return {
+        uuid: getActionUUID(settings, Types.set_contact_field),
+        type: state.type,
+        field: { name: field.label, key: field.key },
+        value: state.settings.value.value
+      };
+    } else {
+      return {
+        uuid: getActionUUID(settings, Types.set_contact_field),
+        type: state.type,
+        field: { name: field.label, key: field.key },
+        value: state.fieldValue.value
+      };
+    }
   } else if (state.type === Types.set_contact_channel) {
     if (state.channel.value.type === REMOVE_VALUE_ASSET.type) {
       return {

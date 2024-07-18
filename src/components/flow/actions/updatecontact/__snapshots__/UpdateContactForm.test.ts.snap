@@ -224,6 +224,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
+  },
   "status": Object {
     "value": Object {
       "name": "Active",
@@ -282,6 +288,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
+  },
   "status": Object {
     "value": Object {
       "name": "Active",
@@ -330,6 +342,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
+  },
   "status": Object {
     "value": Object {
       "name": "Active",
@@ -373,6 +391,12 @@ Object {
   },
   "name": Object {
     "value": "",
+  },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
   },
   "status": Object {
     "value": Object {
@@ -422,6 +446,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
+  },
   "status": Object {
     "value": Object {
       "name": "Active",
@@ -465,6 +495,12 @@ Object {
   },
   "name": Object {
     "value": "",
+  },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
   },
   "status": Object {
     "value": Object {
@@ -510,6 +546,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
+  },
   "status": Object {
     "value": Object {
       "name": "Active",
@@ -554,6 +596,12 @@ Object {
   "name": Object {
     "value": "Rowan Seymour",
   },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
+  },
   "status": Object {
     "value": Object {
       "name": "Active",
@@ -597,6 +645,12 @@ Object {
   },
   "name": Object {
     "value": "",
+  },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
   },
   "status": Object {
     "value": Object {
@@ -645,6 +699,12 @@ Object {
   },
   "name": Object {
     "value": "",
+  },
+  "settings": Object {
+    "value": Object {
+      "name": "Opt in",
+      "value": "optin",
+    },
   },
   "status": Object {
     "value": Object {

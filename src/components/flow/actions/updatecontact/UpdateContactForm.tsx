@@ -53,6 +53,18 @@ export const CONTACT_STATUS_OPTIONS: SelectOption[] = [
   CONTACT_STATUS_ARCHIVED
 ];
 
+export const CONTACT_OPTIN: SelectOption = {
+  name: i18n.t('contact_settings.optin', 'Opt in'),
+  value: 'optin'
+};
+
+export const CONTACT_OPTOUT: SelectOption = {
+  name: i18n.t('contact_settings.optout', 'Opt out'),
+  value: 'optout'
+};
+
+export const CONTACT_CONSENT_OPTIONS: SelectOption[] = [CONTACT_OPTIN, CONTACT_OPTOUT];
+
 export default class UpdateContactForm extends React.Component<
   ActionFormProps,
   UpdateContactFormState
@@ -79,6 +91,7 @@ export default class UpdateContactForm extends React.Component<
       language?: Asset;
       status?: SelectOption;
       field?: Asset;
+      settings?: SelectOption;
       fieldValue?: string;
     },
     submitting = false
@@ -113,10 +126,13 @@ export default class UpdateContactForm extends React.Component<
       updates.field = { value: keys.field };
     }
 
+    if (keys.hasOwnProperty('settings')) {
+      updates.settings = { value: keys.settings, validationFailures: [] };
+    }
+
     if (keys.hasOwnProperty('fieldValue')) {
       updates.fieldValue = { value: keys.fieldValue, validationFailures: [] };
     }
-
     const updated = mergeForm(this.state, updates);
     this.setState(updated);
     return updated.valid;
@@ -170,6 +186,10 @@ export default class UpdateContactForm extends React.Component<
 
   private handleFieldValueUpdate(fieldValue: string): boolean {
     return this.handleUpdate({ fieldValue, name: '' });
+  }
+
+  private handleSettingsUpdate(settings: SelectOption): boolean {
+    return this.handleUpdate({ settings, name: '' });
   }
 
   private handleNameUpdate(name: string): boolean {
@@ -279,11 +299,26 @@ export default class UpdateContactForm extends React.Component<
           focus={true}
         />
       );
+    } else if (
+      this.state.type === Types.set_contact_field &&
+      this.state.field.value.key === 'settings'
+    ) {
+      return (
+        <SelectElement
+          key="contact_field_select"
+          name={i18n.t('forms.settings', 'Consent Status')}
+          entry={this.state.settings}
+          onChange={this.handleSettingsUpdate}
+          options={CONTACT_CONSENT_OPTIONS}
+        />
+      );
     } else {
       return (
         <TextInputElement
           name={i18n.t('forms.field_value', 'Field Value')}
-          placeholder={i18n.t('forms.enter_field_value', { field: this.state.field.value.label })}
+          placeholder={i18n.t('forms.enter_field_value', {
+            field: this.state.field.value.label
+          })}
           onChange={this.handleFieldValueUpdate}
           entry={this.state.fieldValue}
           autocomplete={true}
