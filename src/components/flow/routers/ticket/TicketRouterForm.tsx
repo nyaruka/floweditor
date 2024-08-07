@@ -25,7 +25,7 @@ export interface TicketRouterFormState extends FormState {
   assignee: FormEntry;
   topic: FormEntry;
   subject: StringEntry;
-  body: StringEntry;
+  note: StringEntry;
   resultName: StringEntry;
 }
 
@@ -51,7 +51,7 @@ export default class TicketRouterForm extends React.Component<
       assignee?: User;
       topic?: Topic;
       subject?: string;
-      body?: string;
+      note?: string;
       resultName?: string;
     },
     submitting = false
@@ -74,8 +74,8 @@ export default class TicketRouterForm extends React.Component<
       updates.subject = validate(i18n.t('forms.subject', 'Subject'), keys.subject, []);
     }
 
-    if (keys.hasOwnProperty('body')) {
-      updates.body = validate(i18n.t('forms.body', 'Body'), keys.body, []);
+    if (keys.hasOwnProperty('note')) {
+      updates.note = validate(i18n.t('forms.note', 'Note'), keys.note, []);
     }
 
     if (keys.hasOwnProperty('resultName')) {
@@ -103,8 +103,8 @@ export default class TicketRouterForm extends React.Component<
     return this.handleUpdate({ subject }, submitting);
   }
 
-  private handleBodyUpdate(body: string): boolean {
-    return this.handleUpdate({ body });
+  private handleNoteUpdate(note: string): boolean {
+    return this.handleUpdate({ note });
   }
 
   private handleResultNameUpdate(value: string): void {
@@ -124,7 +124,7 @@ export default class TicketRouterForm extends React.Component<
     const valid = this.handleUpdate(
       {
         subject: this.state.subject.value,
-        body: this.state.body.value,
+        note: this.state.note.value,
         resultName: this.state.resultName.value
       },
       true
@@ -185,12 +185,12 @@ export default class TicketRouterForm extends React.Component<
             />
           </div>
         </div>
-        <div className={styles.body}>
+        <div className={styles.note}>
           <TextInputElement
-            name={i18n.t('forms.body', 'Body')}
-            placeholder={i18n.t('forms.enter_a_body', 'Enter a body (optional)')}
-            entry={this.state.body}
-            onChange={this.handleBodyUpdate}
+            name={i18n.t('forms.note', 'Note')}
+            placeholder={i18n.t('forms.enter_a_note', 'Enter a note (optional)')}
+            entry={this.state.note}
+            onChange={this.handleNoteUpdate}
             autocomplete={true}
             textarea={true}
           />
