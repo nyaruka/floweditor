@@ -42,9 +42,30 @@ $revision_color: $purple;
       overflow-y: auto;
       overflow-x: hidden;
 
+      .published {
+        background-color: #d4e9d9;
+      }
+
       .revision {
         color: $text_color;
         padding: 11px 10px;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+
+        .tags {
+          display: flex;
+          flex-direction: column;
+          row-gap: 2px;
+          align-items: center;
+        }
+
+        .content {
+          display: flex;
+          flex-direction: column;
+          row-gap: 2px;
+        }
 
         &.selected {
           background: $light_gray_2;
@@ -62,10 +83,9 @@ $revision_color: $purple;
           font-size: 9px;
           letter-spacing: 1px;
           font-weight: 400;
-          top: 7px;
           background: lighten($revision_color, 5%);
           color: $light_gray_2;
-          width: 36px;
+          width: 42px;
           text-align: center;
           float: right;
 
@@ -74,19 +94,20 @@ $revision_color: $purple;
           }
 
           &.current {
-            font-size: 6px;
+            font-size: 8px;
             background: $light_gray;
-            color: #999;
+            color: #2a3031;
+            border: 1px solid #cecccc;
           }
 
           &.publish {
-            background: $light_gray;
-            font-size: 6px;
-            color: #008000;
-            padding-right: 5px;
-            padding-left: 5px;
+            background: #f5fff4;
+            font-size: 8px;
+            color: #2a3031;
+            padding-right: 8px;
+            padding-left: 8px;
+            border: 1px solid #d4e9d9;
           }
-          
         }
       }
 

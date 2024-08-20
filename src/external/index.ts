@@ -414,7 +414,10 @@ export const getFlowDetails = (revisions: Assets, id: string = null): Promise<Fl
         try {
           const response = await axios.get(`${revisions.endpoint}?version=${SPEC_VERSION}`);
           if (response.data.results.length > 0) {
-            revisionToLoad = response.data.results[0].id;
+            const latestRevision = response.data.results.reduce((latest: any, current: any) => {
+              return new Date(latest.created_on) > new Date(current.created_on) ? latest : current;
+            });
+            revisionToLoad = latestRevision.id;
           }
         } catch (error) {
           reject(new Error("Couldn't reach revisions endpoint"));
