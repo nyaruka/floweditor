@@ -30,408 +30,584 @@ exports[`RevisionExplorer render should render base component 1`] = `
           className="revisions"
         >
           <div
-            className="revision selected"
+            className="revision selected "
             key="revision_202"
             onClick={[Function]}
           >
             <div
-              className="button current"
+              className="tags"
             >
-              current
+              <div
+                className="button current"
+              >
+                current
+              </div>
             </div>
             <div
-              className="created_on"
+              className="content"
             >
-              February 11, 2019, 9:34 PM
-            </div>
-            <div
-              className="email"
-            >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 11, 2019, 9:34 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_201"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 11, 2019, 9:34 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 11, 2019, 9:34 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_200"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 11, 2019, 9:34 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 11, 2019, 9:34 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_199"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 11, 2019, 8:34 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 11, 2019, 8:34 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_198"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 11, 2019, 8:34 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 11, 2019, 8:34 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_197"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 6:00 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 6:00 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_196"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 5:59 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 5:59 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_195"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 5:59 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 5:59 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_194"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 5:59 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 5:59 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_193"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 5:59 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 5:59 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_192"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 5:59 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 5:59 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_191"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 5:59 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 5:59 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_190"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 5:59 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 5:59 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_189"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 5:58 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 5:58 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_188"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 5:58 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 5:58 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_187"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 5:58 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 5:58 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_186"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 5:58 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 5:58 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_185"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 5:58 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 5:58 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_184"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 6, 2019, 1:18 AM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 6, 2019, 1:18 AM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_183"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 5, 2019, 11:16 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                February 5, 2019, 11:16 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_139"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              February 1, 2019, 6:23 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              System Update
+              <div
+                className="created_on"
+              >
+                February 1, 2019, 6:23 PM
+              </div>
+              <div
+                className="email"
+              >
+                System Update
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_138"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              January 31, 2019, 9:32 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                January 31, 2019, 9:32 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_137"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              January 31, 2019, 9:30 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                January 31, 2019, 9:30 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_136"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              January 31, 2019, 9:30 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                January 31, 2019, 9:30 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
           <div
-            className="revision "
+            className="revision  "
             key="revision_135"
             onClick={[Function]}
           >
             <div
-              className="created_on"
-            >
-              January 31, 2019, 9:30 PM
-            </div>
+              className="tags"
+            />
             <div
-              className="email"
+              className="content"
             >
-              org1.admin@nyaruka.com
+              <div
+                className="created_on"
+              >
+                January 31, 2019, 9:30 PM
+              </div>
+              <div
+                className="email"
+              >
+                org1.admin@nyaruka.com
+              </div>
             </div>
           </div>
         </div>
