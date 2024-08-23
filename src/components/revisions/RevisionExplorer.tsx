@@ -78,7 +78,13 @@ export class RevisionExplorer extends React.Component<
         assets.id || 'id'
       ).then((remoteAssets: Asset[]) => {
         if (remoteAssets.length > 0) {
-          remoteAssets[0].content.current = true;
+          const latestAsset = remoteAssets.reduce((latest, current) => {
+            return new Date(latest.content.created_on) > new Date(current.content.created_on)
+              ? latest
+              : current;
+          });
+
+          latestAsset.content.current = true;
         }
         this.setState({ revisions: remoteAssets });
       });
@@ -164,37 +170,43 @@ export class RevisionExplorer extends React.Component<
                   const isSelected = this.state.revision && asset.id === this.state.revision.id;
 
                   const selectedClass = revision.current || isSelected ? styles.selected : '';
+                  const publishedClass = revision.status === 'published' ? styles.published : '';
 
                   return (
                     <div
-                      className={styles.revision + ' ' + selectedClass}
+                      className={styles.revision + ' ' + selectedClass + ' ' + publishedClass}
                       key={'revision_' + asset.id}
                       onClick={this.onRevisionClicked(asset)}
                     >
-                      {renderIf(revision.current)(
-                        <div className={styles.button + ' ' + styles.current}>
-                          {i18n.t('revisions.current', 'current')}
-                        </div>
-                      )}
+                      <div className={styles.tags}>
+                        {renderIf(revision.status === 'published')(
+                          <div className={styles.button + ' ' + styles.publish}> published </div>
+                        )}
 
-                      {renderIf(revision.status === 'published')(
-                        <div className={styles.button + ' ' + styles.publish}> published </div>
-                      )}
+                        {renderIf(revision.current)(
+                          <div className={styles.button + ' ' + styles.current}>
+                            {i18n.t('revisions.current', 'current')}
+                          </div>
+                        )}
 
-                      {renderIf(isSelected && !revision.current)(
-                        <div onClick={this.onRevertClicked(asset)} className={styles.button}>
-                          {i18n.t('revisions.revert', 'revert')}
-                        </div>
-                      )}
-                      <div className={styles.created_on}>
-                        {dateFormat(
-                          new Date(revision.created_on),
-                          'mmmm d, yyyy, h:MM TT',
-                          this.props.utc
+                        {renderIf(isSelected && !revision.current)(
+                          <div onClick={this.onRevertClicked(asset)} className={styles.button}>
+                            {i18n.t('revisions.revert', 'revert')}
+                          </div>
                         )}
                       </div>
-                      <div className={styles.email}>
-                        {revision.user.name || revision.user.email}
+
+                      <div className={styles.content}>
+                        <div className={styles.created_on}>
+                          {dateFormat(
+                            new Date(revision.created_on),
+                            'mmmm d, yyyy, h:MM TT',
+                            this.props.utc
+                          )}
+                        </div>
+                        <div className={styles.email}>
+                          {revision.user.name || revision.user.email}
+                        </div>
                       </div>
                     </div>
                   );
