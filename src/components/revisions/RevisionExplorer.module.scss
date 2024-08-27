@@ -43,7 +43,15 @@ $revision_color: $purple;
       overflow-x: hidden;
 
       .published {
-        background-color: #d4e9d9;
+        background-color: #d0e5d5;
+
+        &:hover {
+          background: #bedcc7 !important;
+        }
+
+        &.selected {
+          background: #bedcc7 !important;
+        }
       }
 
       .revision {
