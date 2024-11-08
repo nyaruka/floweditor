@@ -683,29 +683,33 @@ export const fetchFlowActivity = (
   } = getState();
 
   if (visible) {
-    getActivity(endpoint, uuid).then((activity: Activity) => {
-      // every interval we back off a bit up to 5 minutes
-      if (activity) {
-        const updates: Partial<EditorState> = {
-          liveActivity: activity,
-          activityInterval: Math.min(60000 * 5, activityInterval + 200)
-        };
+    getActivity(endpoint, uuid)
+      .then((activity: Activity) => {
+        // every interval we back off a bit up to 5 minutes
+        if (activity) {
+          const updates: Partial<EditorState> = {
+            liveActivity: activity,
+            activityInterval: Math.min(60000 * 5, activityInterval + 200)
+          };
 
-        if (!simulating) {
-          updates.activity = activity;
+          if (!simulating) {
+            updates.activity = activity;
+          }
+
+          dispatch(mergeEditorState(updates));
+
+          if (activityTimeout) {
+            window.clearTimeout(activityTimeout);
+          }
+
+          activityTimeout = window.setTimeout(() => {
+            fetchFlowActivity(endpoint, dispatch, getState, uuid);
+          }, activityInterval);
         }
-
-        dispatch(mergeEditorState(updates));
-
-        if (activityTimeout) {
-          window.clearTimeout(activityTimeout);
-        }
-
-        activityTimeout = window.setTimeout(() => {
-          fetchFlowActivity(endpoint, dispatch, getState, uuid);
-        }, activityInterval);
-      }
-    });
+      })
+      .catch(() => {
+        // failure fetching activity, if this happens we stop trying to fetch more
+      });
   } else {
     if (activityTimeout) {
       window.clearTimeout(activityTimeout);

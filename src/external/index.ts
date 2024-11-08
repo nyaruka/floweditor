@@ -31,7 +31,17 @@ export const getActivity = (
   new Promise<Activity>((resolve, reject) =>
     axios
       .get(`${activityEndpoint}?flow=${flowUUID}`, { headers })
-      .then((response: AxiosResponse) => resolve(response.data as Activity))
+      .then((response: AxiosResponse) => {
+        if (
+          response.headers['content-type'] === 'application/json' &&
+          response.status >= 200 &&
+          response.status < 300
+        ) {
+          resolve(response.data as Activity);
+          return;
+        }
+        reject(response);
+      })
       .catch((error: any) => reject(error))
   );
 
@@ -139,12 +149,20 @@ export const getAssetPage = (url: string, type: AssetType, id: string): Promise<
     axios
       .get(url)
       .then((response: AxiosResponse) => {
-        const assets: Asset[] = response.data.results.map((result: any, idx: number) => {
-          const asset = resultToAsset(result, type, id);
-          asset.order = idx;
-          return asset;
-        });
-        resolve({ assets, next: response.data.next });
+        if (
+          response.headers['content-type'] === 'application/json' &&
+          response.status >= 200 &&
+          response.status < 300
+        ) {
+          const assets: Asset[] = response.data.results.map((result: any, idx: number) => {
+            const asset = resultToAsset(result, type, id);
+            asset.order = idx;
+            return asset;
+          });
+          resolve({ assets, next: response.data.next });
+          return;
+        }
+        reject(response);
       })
       .catch(error => reject(error));
   });
@@ -392,8 +410,15 @@ export const getFlowDetails = (revisions: Assets, id: string = null): Promise<Fl
         axios
           .get(url)
           .then((response: AxiosResponse) => {
-            const details = response.data as FlowDetails;
-            return resolve(details);
+            if (
+              response.headers['content-type'] === 'application/json' &&
+              response.status >= 200 &&
+              response.status < 300
+            ) {
+              const details = response.data as FlowDetails;
+              return resolve(details);
+            }
+            return reject(response);
           })
           .catch(error => reject(error));
       } else {
