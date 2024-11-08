@@ -36,6 +36,6 @@ export const showError = (error = null) => {
   if (window.showErrorDialog) {
     window.showErrorDialog(error);
   } else {
-    console.log.error(error);
+    console.error(error);
   }
 };
