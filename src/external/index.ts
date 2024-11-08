@@ -150,17 +150,18 @@ export const getAssetPage = (url: string, type: AssetType, id: string): Promise<
       .get(url)
       .then((response: AxiosResponse) => {
         if (
-          response.headers['content-type'] === 'application/json' &&
-          response.status >= 200 &&
-          response.status < 300
+          // test assets don't have headers or status
+          (!response.headers && !response.status) ||
+          (response.headers['content-type'] === 'application/json' &&
+            response.status >= 200 &&
+            response.status < 300)
         ) {
           const assets: Asset[] = response.data.results.map((result: any, idx: number) => {
             const asset = resultToAsset(result, type, id);
             asset.order = idx;
             return asset;
           });
-          resolve({ assets, next: response.data.next });
-          return;
+          return resolve({ assets, next: response.data.next });
         }
         reject(response);
       })
