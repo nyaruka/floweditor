@@ -1102,20 +1102,23 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
   }
 
   const routerWithCases = renderNode.node.router as any;
-  const cases = routerWithCases.cases;
   let updatedLocalization = definition.localization;
 
-  cases.forEach((caseItem: any) => {
-    Object.entries(caseItem.translations).forEach(([language, translation]: any) => {
-      if (!updatedLocalization[language]) {
-        updatedLocalization[language] = {};
-      }
+  if (routerWithCases && routerWithCases.cases) {
+    routerWithCases.cases.forEach((caseItem: any) => {
+      if (caseItem.translations) {
+        Object.entries(caseItem.translations).forEach(([language, translation]: any) => {
+          if (!updatedLocalization[language]) {
+            updatedLocalization[language] = {};
+          }
 
-      updatedLocalization[language][caseItem.uuid] = {
-        arguments: translation.arguments
-      };
+          updatedLocalization[language][caseItem.uuid] = {
+            arguments: translation.arguments
+          };
+        });
+      }
     });
-  });
+  }
 
   dispatch(updateNodes(updated));
   dispatch(updateDefinition({ ...definition, localization: updatedLocalization }));

@@ -148,6 +148,7 @@ Array [
               "red",
             ],
             "category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "translations": undefined,
             "type": "has_any_word",
           },
           Object {
@@ -155,6 +156,7 @@ Array [
               "maroon",
             ],
             "category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "translations": undefined,
             "type": "has_any_word",
           },
           Object {
@@ -162,6 +164,7 @@ Array [
               "green",
             ],
             "category_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+            "translations": undefined,
             "type": "has_any_word",
           },
         ],

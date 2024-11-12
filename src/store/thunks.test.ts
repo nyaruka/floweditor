@@ -706,7 +706,12 @@ describe('Flow Manipulation', () => {
                 uuid: 'new_case',
                 type: Operators.has_any_word,
                 exit_uuid: 'exitD',
-                arguments: ['anotherrule']
+                arguments: ['anotherrule'],
+                translations: {
+                  en: {
+                    arguments: ['anotherrule']
+                  }
+                }
               }
             ])
           }
