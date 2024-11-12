@@ -134,7 +134,7 @@ export const stateToRouter = (
   assetStore: AssetStore
 ): RenderNode => {
   let cases = [];
-
+  const translations = state.interactives.value.translations;
   const content = state.interactives.value.interactive_content;
   let options = [''];
   if (content) {
@@ -166,7 +166,7 @@ export const stateToRouter = (
       cases.push(values);
     }
   }
-  const generateCases = options.map((option: string) => {
+  const generateCases = options.map((option: string, index: number) => {
     const uuid = createUUID();
     const values: any = {
       uuid,
@@ -177,8 +177,19 @@ export const stateToRouter = (
         uuid,
         category_uuid: null
       },
-      valid: true
+      valid: true,
+      translations: {}
     };
+
+    if (option) {
+      values.translations = Object.keys(translations).reduce((acc: any, lang: any) => {
+        acc[lang] = {
+          arguments: [translations[lang].options[index - 1].title]
+        };
+        return acc;
+      }, {});
+    }
+
     return values;
   });
 

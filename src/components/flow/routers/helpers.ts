@@ -205,6 +205,7 @@ export const categorizeCases = (
     // lastly, add our case
     cases.push({
       ...newCase.kase,
+      translations: newCase.translations,
       category_uuid: category.uuid
     });
   }
