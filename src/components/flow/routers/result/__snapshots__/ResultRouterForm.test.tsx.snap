@@ -184,7 +184,7 @@ exports[`ResultRouterForm should render 1`] = `
                 class="ele group"
               >
                 <div
-                  class="kase has_any_word"
+                  class="kase has_phrase"
                   data-draggable="true"
                 >
                   <temba-icon
@@ -205,7 +205,7 @@ exports[`ResultRouterForm should render 1`] = `
                         name="operator"
                         namekey="verboseName"
                         valuekey="type"
-                        values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1}]"
+                        values="[{\\"type\\":\\"has_phrase\\",\\"verboseName\\":\\"has the phrase\\",\\"operands\\":1}]"
                       />
                     </div>
                   </div>
