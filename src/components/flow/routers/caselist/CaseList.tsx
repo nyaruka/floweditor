@@ -9,7 +9,7 @@ import { FormState, mergeForm } from 'store/nodeEditor';
 import { SortableElement, SortEnd, SortableContainer } from 'react-sortable-hoc';
 
 import styles from './CaseList.module.scss';
-import { Operator } from 'config/interfaces';
+import { Operator, Operators } from 'config/interfaces';
 import { Asset } from 'store/flowContext';
 import { getOperatorConfig, operatorConfigList } from 'config';
 
@@ -100,8 +100,8 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
 
   private createEmptyCase(): CaseProps {
     const operators = this.props.operators || operatorConfigList;
-
-    let operator = operators[0];
+    let operator =
+      operators.find(operator => operator.type === Operators.has_phrase) || operators[0];
 
     // if we have cases already, use the last one to determine our default rule
     if (this.state && this.state.currentCases && this.state.currentCases.length > 0) {
