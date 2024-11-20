@@ -134,6 +134,7 @@ export const stateToRouter = (
   assetStore: AssetStore
 ): RenderNode => {
   let cases = [];
+  console.log(state.interactives.value);
   const translations = state.interactives.value.translations;
   const content = state.interactives.value.interactive_content;
   let options = [''];
