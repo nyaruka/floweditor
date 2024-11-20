@@ -25,6 +25,7 @@ export interface CaseProps {
   valid: boolean;
   operators?: Operator[];
   classifier?: Asset;
+  translations?: any;
 }
 
 export interface CaseListProps {

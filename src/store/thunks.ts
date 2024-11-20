@@ -1012,7 +1012,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
   getState: GetState
 ): RenderNodeMap => {
   const {
-    flowContext: { nodes, assetStore },
+    flowContext: { nodes, assetStore, definition },
     nodeEditor: {
       settings: { originalNode, originalAction }
     }
@@ -1101,7 +1101,27 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
     updated = mutators.mergeNode(updated, renderNode);
   }
 
+  const routerWithCases = renderNode.node.router as any;
+  let updatedLocalization = definition.localization;
+
+  if (routerWithCases && routerWithCases.cases) {
+    routerWithCases.cases.forEach((caseItem: any) => {
+      if (caseItem.translations) {
+        Object.entries(caseItem.translations).forEach(([language, translation]: any) => {
+          if (!updatedLocalization[language]) {
+            updatedLocalization[language] = {};
+          }
+
+          updatedLocalization[language][caseItem.uuid] = {
+            arguments: translation.arguments
+          };
+        });
+      }
+    });
+  }
+
   dispatch(updateNodes(updated));
+  dispatch(updateDefinition({ ...definition, localization: updatedLocalization }));
 
   markDirty(0);
   return updated;

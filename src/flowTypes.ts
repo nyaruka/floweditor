@@ -207,6 +207,7 @@ export interface Case {
   category_uuid: string;
   arguments?: string[];
   omit_operand?: boolean;
+  translations?: {};
 }
 
 export interface Category {

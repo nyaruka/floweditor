@@ -418,6 +418,7 @@ Object {
         "Red, r, rolo, maroon",
       ],
       "category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+      "translations": undefined,
       "type": "has_any_word",
       "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
     },

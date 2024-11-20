@@ -28,6 +28,7 @@ export interface RenderNode {
   node: FlowNode;
   inboundConnections: { [nodeUUID: string]: string };
   ghost?: boolean;
+  translations?: any;
 }
 
 export interface RenderAction {

@@ -477,6 +477,7 @@ Array [
               "red",
             ],
             "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "translations": undefined,
             "type": "has_any_word",
             "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
           },
@@ -589,6 +590,7 @@ Array [
               "red",
             ],
             "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "translations": undefined,
             "type": "has_any_word",
           },
           Object {
@@ -596,6 +598,7 @@ Array [
               "maroon",
             ],
             "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "translations": undefined,
             "type": "has_any_word",
           },
           Object {
@@ -603,6 +606,7 @@ Array [
               "green",
             ],
             "category_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+            "translations": undefined,
             "type": "has_any_word",
           },
         ],
