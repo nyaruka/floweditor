@@ -135,7 +135,6 @@ export const stateToRouter = (
 ): RenderNode => {
   let cases = [];
   const translations = state.interactives.value.translations;
-  console.log(translations);
 
   const content = state.interactives.value.interactive_content;
   let options = [''];
