@@ -134,8 +134,9 @@ export const stateToRouter = (
   assetStore: AssetStore
 ): RenderNode => {
   let cases = [];
-  console.log(state.interactives.value);
   const translations = state.interactives.value.translations;
+  console.log(translations);
+
   const content = state.interactives.value.interactive_content;
   let options = [''];
   if (content) {
@@ -181,12 +182,24 @@ export const stateToRouter = (
       valid: true,
       translations: {}
     };
-
     if (option) {
       values.translations = Object.keys(translations).reduce((acc: any, lang: any) => {
-        acc[lang] = {
-          arguments: [translations[lang].options[index - 1].title]
-        };
+        const translation = translations[lang];
+
+        if (translation.type === 'list') {
+          const matchedOption = translation.items.flatMap((item: any) => item.options)[index - 1];
+
+          if (matchedOption) {
+            acc[lang] = {
+              arguments: [matchedOption.title]
+            };
+          }
+        } else if (translation.type === 'quick_reply') {
+          acc[lang] = {
+            arguments: [translation.options[index - 1].title]
+          };
+        }
+
         return acc;
       }, {});
     }
