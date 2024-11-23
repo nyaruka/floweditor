@@ -53,7 +53,7 @@ interface Reflow {
 }
 
 // track if we have an active timeout before issuing a new one
-let activityTimeout: any = null;
+(window as any).activityTimeout = null;
 
 export const getNodeWithAction = (nodes: RenderNodeMap, actionUUID: string): RenderNode => {
   for (const nodeUUID of Object.keys(nodes)) {
@@ -698,11 +698,11 @@ export const fetchFlowActivity = (
 
           dispatch(mergeEditorState(updates));
 
-          if (activityTimeout) {
-            window.clearTimeout(activityTimeout);
+          if ((window as any).activityTimeout) {
+            window.clearTimeout((window as any).activityTimeout);
           }
 
-          activityTimeout = window.setTimeout(() => {
+          (window as any).activityTimeout = window.setTimeout(() => {
             fetchFlowActivity(endpoint, dispatch, getState, uuid);
           }, activityInterval);
         }
@@ -711,11 +711,11 @@ export const fetchFlowActivity = (
         // failure fetching activity, if this happens we stop trying to fetch more
       });
   } else {
-    if (activityTimeout) {
-      window.clearTimeout(activityTimeout);
+    if ((window as any).activityTimeout) {
+      window.clearTimeout((window as any).activityTimeout);
     }
 
-    activityTimeout = window.setTimeout(() => {
+    (window as any).activityTimeout = window.setTimeout(() => {
       fetchFlowActivity(endpoint, dispatch, getState, uuid);
     }, 1000);
   }
