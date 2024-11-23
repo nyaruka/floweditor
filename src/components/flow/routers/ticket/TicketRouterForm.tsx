@@ -161,7 +161,6 @@ export default class TicketRouterForm extends React.Component<
               endpoint={this.context.config.endpoints.topics}
               onChange={this.handleTopicUpdate}
               value={this.state.topic.value}
-              createPrefix={i18n.t('forms.topic_prefix', 'Create Topic: ')}
               searchable={true}
             />
           </div>
