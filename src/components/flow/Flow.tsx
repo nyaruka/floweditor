@@ -16,7 +16,7 @@ import { bindActionCreators } from 'redux';
 import Plumber from 'services/Plumber';
 import { DragSelection, DebugState } from 'store/editor';
 import { RenderNode } from 'store/flowContext';
-import { createEmptyNode, detectLoops, fetchFlowActivity, getOrderedNodes } from 'store/helpers';
+import { createEmptyNode, detectLoops, getOrderedNodes } from 'store/helpers';
 import { NodeEditorSettings } from 'store/nodeEditor';
 import AppState from 'store/state';
 import {
