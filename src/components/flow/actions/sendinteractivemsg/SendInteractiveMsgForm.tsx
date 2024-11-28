@@ -62,6 +62,7 @@ export default class SendMsgForm extends React.Component<
   };
 
   private handleInteractivesChanged(selected: any[]): void {
+    const { endpoint, type } = this.props.assetStore.interactives;
     const interactiveMsg = selected ? selected[0] : null;
     if (interactiveMsg.name === 'Expression') {
       this.setState({
@@ -71,13 +72,17 @@ export default class SendMsgForm extends React.Component<
         }
       });
     } else {
-      this.setState({
-        expression: null,
-        interactives: {
-          value: interactiveMsg
-        },
-        isChecked: false
-      });
+      if (interactiveMsg) {
+        getAsset(endpoint, type, interactiveMsg.id).then(response => {
+          this.setState({
+            expression: null,
+            interactives: {
+              value: response
+            },
+            isChecked: false
+          });
+        });
+      }
     }
   }
 
