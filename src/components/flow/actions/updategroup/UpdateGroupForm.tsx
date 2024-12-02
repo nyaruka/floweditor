@@ -39,12 +39,7 @@ export default class UpdateGroupForm extends React.Component<
   private handleUpdate(
     keys: {
       type?: Types;
-      name?: string;
-      channel?: Asset;
-      language?: Asset;
-      status?: SelectOption;
       field?: Asset;
-      settings?: SelectOption;
       fieldValue?: string;
     },
     submitting = false
