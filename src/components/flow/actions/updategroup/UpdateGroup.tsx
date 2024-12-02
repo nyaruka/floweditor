@@ -1,5 +1,5 @@
 import { Types } from 'config/interfaces';
-import { SetContactAttribute } from 'flowTypes';
+import { SetWAGroupField } from 'flowTypes';
 import * as React from 'react';
 import { emphasize } from 'utils';
 import i18n from 'config/i18n';
@@ -27,9 +27,7 @@ export const renderSetText = (
   }
 };
 
-const UpdateGroupComp: React.SFC<SetContactAttribute> = (
-  action: SetContactAttribute
-): JSX.Element => {
+const UpdateGroupComp: React.SFC<SetWAGroupField> = (action: SetWAGroupField): JSX.Element => {
   if (action.type === Types.set_wa_group_field) {
     return renderSetText(action.field.name, action.value, true);
   }
