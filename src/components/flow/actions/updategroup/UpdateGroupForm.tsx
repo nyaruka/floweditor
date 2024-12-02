@@ -15,7 +15,6 @@ import { DispatchWithState, GetState } from 'store/thunks';
 import styles from './UpdateGroupForm.module.scss';
 import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
-import { SelectOption } from 'components/form/select/SelectElement';
 import { getName, initializeForm, stateToAction, UpdateGroupFormState } from './helpers';
 
 export default class UpdateGroupForm extends React.Component<
