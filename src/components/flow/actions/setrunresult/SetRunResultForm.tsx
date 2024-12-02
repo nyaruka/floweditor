@@ -112,6 +112,9 @@ export default class SetRunResultForm extends React.PureComponent<
   }
 
   private handleCreateAssetFromInput(input: string): Asset {
+    // workaround for the lack of a length limit on the form itself
+    input = input.substring(0, 64);
+
     return {
       id: snakify(input),
       name: input,
@@ -173,7 +176,7 @@ export default class SetRunResultForm extends React.PureComponent<
             onChange={this.handleCategoryUpdate}
             entry={this.state.category}
             autocomplete={false}
-            maxLength={128}
+            maxLength={36}
             helpText={i18n.t(
               'forms.result_category_help',
               "An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'"
