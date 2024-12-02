@@ -109,6 +109,7 @@ export const getCookie = (name: string): string => {
 };
 
 export const postNewAsset = (assets: Assets, payload: any): Promise<Asset> => {
+  console.log('yes');
   // if we have a csrf in our cookie, pass it along as a header
   const csrf = getCookie('csrftoken');
   const headers = csrf ? { 'X-CSRFToken': csrf } : {};
@@ -302,6 +303,12 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
       },
       fields: {
         endpoint: getURL(endpoints.fields),
+        type: AssetType.Field,
+        id: 'key',
+        items: {}
+      },
+      waGroupFields: {
+        endpoint: getURL(endpoints.waGroupFields),
         type: AssetType.Field,
         id: 'key',
         items: {}

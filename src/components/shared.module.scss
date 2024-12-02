@@ -114,6 +114,10 @@
   background: $teal;
 }
 
+.set_wa_group_field {
+  background: $deep_amethyst;
+}
+
 .play_audio {
   background: $yellow;
 }
@@ -122,11 +126,13 @@
   $color_1: tomato;
   $color_2: lighten(tomato, 3%);
 
-  background-image: repeating-linear-gradient(120deg,
-      $color_1,
-      $color_1 6px,
-      $color_2 6px,
-      $color_2 18px) !important;
+  background-image: repeating-linear-gradient(
+    120deg,
+    $color_1,
+    $color_1 6px,
+    $color_2 6px,
+    $color_2 18px
+  ) !important;
 }
 
 .missing_asset {

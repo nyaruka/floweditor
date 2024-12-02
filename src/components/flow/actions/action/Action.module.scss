@@ -55,7 +55,8 @@
   &.enter_flow,
   &.link_google_sheet,
   &.request_optin,
-  &.enter_flow {
+  &.enter_flow,
+  &.set_wa_group_field {
     width: $node_min_width - $action_padding * 2;
     padding: $action_padding;
   }

@@ -64,7 +64,8 @@ export enum Types {
   request_optin = 'request_optin',
   missing = 'missing',
   say_msg = 'say_msg',
-  play_audio = 'play_audio'
+  play_audio = 'play_audio',
+  set_wa_group_field = 'set_wa_group_field'
 }
 
 export enum Operators {
