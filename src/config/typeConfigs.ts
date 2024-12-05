@@ -584,7 +584,8 @@ export const typeConfigList: Type[] = [
     name: i18n.t('actions.set_wa_group_field.name', 'Update Group'),
     description: i18n.t('actions.set_wa_group_field.description', 'Update the group'),
     form: UpdateGroupForm,
-    component: UpdateGroupComp
+    component: UpdateGroupComp,
+    filter: FeatureFilter.HAS_GROUPS
   }
   // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];

@@ -118,7 +118,8 @@ export enum FeatureFilter {
   HAS_CLASSIFIER = 'classifier',
   HAS_FACEBOOK = 'facebook',
   HAS_LOCATIONS = 'locations',
-  HAS_OPTINS = 'optins'
+  HAS_OPTINS = 'optins',
+  HAS_GROUPS = 'groups'
 }
 
 export interface FlowTypeVisibility {
