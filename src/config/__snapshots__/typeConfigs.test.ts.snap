@@ -481,6 +481,7 @@ Array [
   Object {
     "component": [Function],
     "description": "Update the group",
+    "filter": "groups",
     "form": [Function],
     "name": "Update Group",
     "type": "set_wa_group_field",
@@ -803,6 +804,7 @@ Object {
   "set_wa_group_field": Object {
     "component": [Function],
     "description": "Update the group",
+    "filter": "groups",
     "form": [Function],
     "name": "Update Group",
     "type": "set_wa_group_field",
