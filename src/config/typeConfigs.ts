@@ -75,6 +75,8 @@ import SheetForm from 'components/flow/routers/sheet/SheetForm';
 import Sheet from 'components/flow/routers/sheet/Sheet';
 import RequestOptInForm from 'components/flow/actions/requestoptin/RequestOptInForm';
 import RequestOptInComp from 'components/flow/actions/requestoptin/RequestOptIn';
+import UpdateGroupForm from 'components/flow/actions/updategroup/UpdateGroupForm';
+import UpdateGroupComp from 'components/flow/actions/updategroup/UpdateGroup';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -576,6 +578,14 @@ export const typeConfigList: Type[] = [
     form: RequestOptInForm,
     component: RequestOptInComp,
     filter: FeatureFilter.HAS_OPTINS
+  },
+  {
+    type: Types.set_wa_group_field,
+    name: i18n.t('actions.set_wa_group_field.name', 'Update Group'),
+    description: i18n.t('actions.set_wa_group_field.description', 'Update the group'),
+    form: UpdateGroupForm,
+    component: UpdateGroupComp,
+    filter: FeatureFilter.HAS_GROUPS
   }
   // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];

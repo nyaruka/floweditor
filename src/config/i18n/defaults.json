@@ -137,6 +137,10 @@
     "wait_for_video": {
       "description": "Wait for a video",
       "name": "Wait for Video"
+    },
+    "set_wa_group_field": {
+      "description": "Update the group",
+      "name": "Update Group"
     }
   },
   "add": "Add",
@@ -207,6 +211,7 @@
     "clear": "Clear",
     "confidence": "confidence",
     "contact_field": "Contact Field",
+    "wa_group_field": "WhatsApp Group Field",
     "contact_query": "Contact Query",
     "continue_when_no_response": "Continue when there is no response",
     "create_group": "Create Group",

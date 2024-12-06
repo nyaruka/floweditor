@@ -64,7 +64,8 @@ export enum Types {
   request_optin = 'request_optin',
   missing = 'missing',
   say_msg = 'say_msg',
-  play_audio = 'play_audio'
+  play_audio = 'play_audio',
+  set_wa_group_field = 'set_wa_group_field'
 }
 
 export enum Operators {
@@ -117,7 +118,8 @@ export enum FeatureFilter {
   HAS_CLASSIFIER = 'classifier',
   HAS_FACEBOOK = 'facebook',
   HAS_LOCATIONS = 'locations',
-  HAS_OPTINS = 'optins'
+  HAS_OPTINS = 'optins',
+  HAS_GROUPS = 'groups'
 }
 
 export interface FlowTypeVisibility {

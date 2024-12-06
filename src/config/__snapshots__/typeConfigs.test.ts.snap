@@ -478,6 +478,14 @@ Array [
     "name": "Request Opt-In",
     "type": "request_optin",
   },
+  Object {
+    "component": [Function],
+    "description": "Update the group",
+    "filter": "groups",
+    "form": [Function],
+    "name": "Update Group",
+    "type": "set_wa_group_field",
+  },
 ]
 `;
 
@@ -792,6 +800,14 @@ Object {
     "form": [Function],
     "name": "Save Flow Result",
     "type": "set_run_result",
+  },
+  "set_wa_group_field": Object {
+    "component": [Function],
+    "description": "Update the group",
+    "filter": "groups",
+    "form": [Function],
+    "name": "Update Group",
+    "type": "set_wa_group_field",
   },
   "split_by_airtime": Object {
     "aliases": Array [

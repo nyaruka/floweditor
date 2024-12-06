@@ -27,6 +27,7 @@ export interface Endpoints {
   resthooks: string;
   recents: string;
   fields: string;
+  waGroupFields: string;
   globals: string;
   groups: string;
   recipients: string;
@@ -411,6 +412,11 @@ export interface SendInteractiveMsg extends Action {
   paramsCount?: any;
   attachment_url?: string;
   attachment_type?: string;
+}
+
+export interface SetWAGroupField extends Action {
+  field: Field;
+  value: string;
 }
 
 export interface Delay extends Action {

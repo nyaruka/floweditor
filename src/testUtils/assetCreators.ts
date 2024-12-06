@@ -475,6 +475,7 @@ export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
   assetStore: {
     channels: { items: {}, type: AssetType.Channel },
     fields: { items: {}, type: AssetType.Field },
+    waGroupFields: { items: {}, type: AssetType.Field },
     languages: { items: {}, type: AssetType.Language },
     labels: { items: {}, type: AssetType.Label },
     results: { items: {}, type: AssetType.Result },
