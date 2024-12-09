@@ -306,12 +306,12 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         id: 'key',
         items: {}
       },
-      waGroupFields: {
-        endpoint: getURL(endpoints.waGroupFields),
-        type: AssetType.Field,
-        id: 'key',
-        items: {}
-      },
+      // waGroupFields: {
+      //   endpoint: getURL(endpoints.waGroupFields),
+      //   type: AssetType.Field,
+      //   id: 'key',
+      //   items: {}
+      // },
       globals: {
         endpoint: getURL(endpoints.globals),
         type: AssetType.Global,

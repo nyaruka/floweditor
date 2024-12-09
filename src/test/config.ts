@@ -26,7 +26,7 @@ const config: FlowEditorConfig = {
     globals: '/assets/globals.json',
     groups: '/assets/groups.json',
     fields: '/assets/fields.json',
-    waGroupFields: '/assets/fields.json',
+    // waGroupFields: '/assets/fields.json',
     recipients: '/assets/recipients.json',
     contacts: '/assets/recipients.json',
     labels: '/assets/labels.json',

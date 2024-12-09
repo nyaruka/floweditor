@@ -64,23 +64,30 @@ export default class SendMsgForm extends React.Component<
   private handleInteractivesChanged(selected: any[]): void {
     const { endpoint, type } = this.props.assetStore.interactives;
     const interactiveMsg = selected ? selected[0] : null;
-    if (interactiveMsg.name === 'Expression') {
-      this.setState({
-        expression: { value: '' },
-        interactives: {
-          value: { name: 'Expression' }
-        }
-      });
-    } else {
-      if (interactiveMsg) {
+    if (interactiveMsg) {
+      if (interactiveMsg.name === 'Expression') {
+        this.setState({
+          expression: { value: '' },
+          interactives: {
+            value: { name: 'Expression' }
+          }
+        });
+      } else {
         getAsset(endpoint, type, interactiveMsg.id).then(response => {
-          this.setState({
+          let state: any = {
             expression: null,
             interactives: {
               value: response
-            },
-            isChecked: false
-          });
+            }
+          };
+
+          if (interactiveMsg.id !== this.state.interactives.value.id) {
+            state.isChecked = false;
+            state.listValuesCount = '';
+            state.listValues = Array(10).fill({ value: { id: '', label: '' } });
+          }
+
+          this.setState(state);
         });
       }
     }
@@ -100,7 +107,6 @@ export default class SendMsgForm extends React.Component<
       ]);
     }
     const updated = mergeForm(this.state, updates) as SendInteractiveMsgFormState;
-
     this.setState(updated);
     return updated.valid;
   }
@@ -246,7 +252,6 @@ export default class SendMsgForm extends React.Component<
     );
 
     const values = listValues.map((value, index) => renderListOption(value, index));
-
     return (
       <div>
         <div className={styles.list_container}>
@@ -327,6 +332,7 @@ export default class SendMsgForm extends React.Component<
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
+    console.log(this.state);
 
     const currentMessage = this.state.interactives.value;
     let body;
@@ -335,6 +341,7 @@ export default class SendMsgForm extends React.Component<
       const message = currentMessage.interactive_content;
       body = getMsgBody(message);
     }
+    console.log(this.state.isChecked);
     return (
       <Dialog
         title={typeConfig.name}
@@ -374,7 +381,7 @@ export default class SendMsgForm extends React.Component<
           <CheckboxElement
             name={i18n.t('forms.timeout', 'Timeout')}
             checked={this.state.isChecked}
-            description={'Use dynamic fields'}
+            title={'Use dynamic fields'}
             onChange={value => {
               this.setState({ isChecked: value });
             }}
