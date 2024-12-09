@@ -133,7 +133,7 @@ export default class UpdateGroupForm extends React.Component<
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
-    console.log();
+
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
