@@ -332,7 +332,6 @@ export default class SendMsgForm extends React.Component<
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
-    console.log(this.state);
 
     const currentMessage = this.state.interactives.value;
     let body;
@@ -341,7 +340,7 @@ export default class SendMsgForm extends React.Component<
       const message = currentMessage.interactive_content;
       body = getMsgBody(message);
     }
-    console.log(this.state.isChecked);
+
     return (
       <Dialog
         title={typeConfig.name}
