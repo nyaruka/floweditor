@@ -27,7 +27,7 @@ export interface Endpoints {
   resthooks: string;
   recents: string;
   fields: string;
-  waGroupFields: string;
+  // waGroupFields: string;
   globals: string;
   groups: string;
   recipients: string;
