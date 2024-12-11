@@ -480,10 +480,10 @@ Array [
   },
   Object {
     "component": [Function],
-    "description": "Update the group",
+    "description": "Update the WhatsApp group",
     "filter": "groups",
     "form": [Function],
-    "name": "Update Group",
+    "name": "Update WhatsApp Group",
     "type": "set_wa_group_field",
   },
 ]
@@ -803,10 +803,10 @@ Object {
   },
   "set_wa_group_field": Object {
     "component": [Function],
-    "description": "Update the group",
+    "description": "Update the WhatsApp group",
     "filter": "groups",
     "form": [Function],
-    "name": "Update Group",
+    "name": "Update WhatsApp Group",
     "type": "set_wa_group_field",
   },
   "split_by_airtime": Object {

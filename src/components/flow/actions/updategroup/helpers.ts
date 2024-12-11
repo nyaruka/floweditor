@@ -20,8 +20,10 @@ export const initializeForm = (settings: NodeEditorSettings): UpdateGroupFormSta
   if (settings.originalAction) {
     state.type = Types.set_wa_group_field;
     const fieldAction = settings.originalAction as SetWAGroupField;
-    state.field = { value: { key: fieldAction.field.key, label: fieldAction.field.name } };
-    state.valid = true;
+    if (fieldAction.field) {
+      state.field = { value: { key: fieldAction.field.key, label: fieldAction.field.name } };
+      state.valid = true;
+    }
     state.fieldValue = { value: fieldAction.value };
     return state;
   }
@@ -36,11 +38,10 @@ export const stateToAction = (
 ): SetWAGroupField => {
   /* istanbul ignore else */
   const field = state.field.value;
-
   return {
     uuid: getActionUUID(settings, Types.set_wa_group_field),
     type: Types.set_wa_group_field,
-    field,
+    field: { name: field.label, key: field.key },
     value: state.fieldValue.value
   };
 };

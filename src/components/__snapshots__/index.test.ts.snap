@@ -30,6 +30,7 @@ Array [
     "topics": "/assets/topics.json",
     "users": "/assets/users.json",
     "validateMedia": "",
+    "waGroupFields": "/assets/fields.json",
   },
   "a4f64f1b-85bc-477e-b706-de313a022979",
   undefined,

@@ -34,7 +34,7 @@ export const TEST_DEFINITION: FlowDefinition = {
 export const EMPTY_TEST_ASSETS = {
   channels: { items: {}, type: AssetType.Channel },
   fields: { items: {}, type: AssetType.Field },
-  // waGroupFields: { items: {}, type: AssetType.Field },
+  waGroupFields: { items: {}, type: AssetType.Field },
   languages: { items: {}, type: AssetType.Language },
   labels: { items: {}, type: AssetType.Label },
   results: { items: {}, type: AssetType.Result },

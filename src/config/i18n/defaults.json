@@ -139,8 +139,8 @@
       "name": "Wait for Video"
     },
     "set_wa_group_field": {
-      "description": "Update the group",
-      "name": "Update Group"
+      "description": "Update the WhatsApp group",
+      "name": "Update WhatsApp Group"
     }
   },
   "add": "Add",

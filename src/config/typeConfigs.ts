@@ -581,8 +581,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.set_wa_group_field,
-    name: i18n.t('actions.set_wa_group_field.name', 'Update Group'),
-    description: i18n.t('actions.set_wa_group_field.description', 'Update the group'),
+    name: i18n.t('actions.set_wa_group_field.name', 'Update WhatsApp Group'),
+    description: i18n.t('actions.set_wa_group_field.description', 'Update the WhatsApp Group'),
     form: UpdateGroupForm,
     component: UpdateGroupComp,
     filter: FeatureFilter.HAS_GROUPS
