@@ -108,7 +108,6 @@ export interface Dependency {
 
 export interface FlowMetadata {
   dependencies: Dependency[];
-  waiting_exit_uuids: string[];
   results: Result[];
   parent_refs: string[];
 }
