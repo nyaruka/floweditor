@@ -206,10 +206,12 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     return (
       <>
         <p>
-          {i18n.t(
-            'forms.send_msg_facebook_warning',
-            'Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.'
-          )}
+          <temba-alert level="error">
+            {i18n.t(
+              'forms.send_msg_facebook_warning',
+              'Using Facebook topics in flow messages is deprecated and will be removed on March 1, 2025. To message Facebook contacts outside of their 24 hour messaging window, use a Broadcast with a Facebook Opt-In instead of a Flow. Learn more about Facebook Opt-ins in our Help Center.'
+            )}
+          </temba-alert>
         </p>
         <SelectElement
           key={'fb_method_select'}

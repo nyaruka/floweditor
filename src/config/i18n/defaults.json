@@ -289,7 +289,7 @@
     "select_what_to_update": "Select what to update",
     "select_who_to_start": "Select who should be started in the flow",
     "send_msg_facebook_topic_placeholder": "Select a topic to use over Facebook",
-    "send_msg_facebook_warning": "Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.",
+    "send_msg_facebook_warning": "Using Facebook topics in flow messages is deprecated and will be removed on March 1, 2025. To message Facebook contacts outside of their 24 hour messaging window, use a Broadcast with a Facebook Opt-In instead of a Flow. Learn more about Facebook Opt-ins in our Help Center.",
     "send_msg_summary": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
     "send_msg_summary_plural": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
     "split_by_channel_placeholder": "Select the channels to split by",
