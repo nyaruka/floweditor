@@ -41,6 +41,7 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
   </p>
   <AssetSelector
     createAssetFromInput={[Function]}
+    createPrefix="Create Collection: "
     entry={
       Object {
         "value": Array [
