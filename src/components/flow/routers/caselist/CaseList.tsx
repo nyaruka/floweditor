@@ -102,7 +102,7 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
   private createEmptyCase(): CaseProps {
     const operators = this.props.operators || operatorConfigList;
     let operator =
-      operators.find(operator => operator.type === Operators.has_phrase) || operators[0];
+      operators.find(operator => operator.type === Operators.has_only_phrase) || operators[0];
 
     // if we have cases already, use the last one to determine our default rule
     if (this.state && this.state.currentCases && this.state.currentCases.length > 0) {

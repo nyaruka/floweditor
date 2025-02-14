@@ -17,7 +17,7 @@ exports[`CaseList render should render empty list 1`] = `
             class="ele group"
           >
             <div
-              class="kase has_phrase"
+              class="kase has_only_phrase"
               data-draggable="true"
             >
               <temba-icon
@@ -38,7 +38,7 @@ exports[`CaseList render should render empty list 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_phrase\\",\\"verboseName\\":\\"has the phrase\\",\\"operands\\":1}]"
+                    values="[{\\"type\\":\\"has_only_phrase\\",\\"verboseName\\":\\"has only the phrase\\",\\"operands\\":1}]"
                   />
                 </div>
               </div>
@@ -287,7 +287,7 @@ exports[`CaseList render should render list of cases 1`] = `
             class="ele group"
           >
             <div
-              class="kase has_phrase"
+              class="kase has_only_phrase"
               data-draggable="true"
             >
               <temba-icon
@@ -308,7 +308,7 @@ exports[`CaseList render should render list of cases 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_phrase\\",\\"verboseName\\":\\"has the phrase\\",\\"operands\\":1}]"
+                    values="[{\\"type\\":\\"has_only_phrase\\",\\"verboseName\\":\\"has only the phrase\\",\\"operands\\":1}]"
                   />
                 </div>
               </div>
@@ -663,7 +663,7 @@ exports[`CaseList updates should remove cases 1`] = `
             class="ele group"
           >
             <div
-              class="kase has_phrase"
+              class="kase has_only_phrase"
               data-draggable="true"
             >
               <temba-icon
@@ -684,7 +684,7 @@ exports[`CaseList updates should remove cases 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_phrase\\",\\"verboseName\\":\\"has the phrase\\",\\"operands\\":1}]"
+                    values="[{\\"type\\":\\"has_only_phrase\\",\\"verboseName\\":\\"has only the phrase\\",\\"operands\\":1}]"
                   />
                 </div>
               </div>
@@ -935,7 +935,7 @@ exports[`CaseList updates should update cases 1`] = `
             class="ele group"
           >
             <div
-              class="kase has_phrase"
+              class="kase has_only_phrase"
               data-draggable="true"
             >
               <temba-icon
@@ -956,7 +956,7 @@ exports[`CaseList updates should update cases 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_phrase\\",\\"verboseName\\":\\"has the phrase\\",\\"operands\\":1}]"
+                    values="[{\\"type\\":\\"has_only_phrase\\",\\"verboseName\\":\\"has only the phrase\\",\\"operands\\":1}]"
                   />
                 </div>
               </div>
