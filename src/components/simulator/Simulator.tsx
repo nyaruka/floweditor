@@ -300,7 +300,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           if (isMT(event)) {
             // save off any quick replies we might have
             if (event.msg.quick_replies) {
-              quickReplies = event.msg.quick_replies;
+              quickReplies = event.msg.quick_replies.map(e => e.text);
             }
           }
         }
