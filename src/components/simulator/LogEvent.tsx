@@ -10,12 +10,16 @@ import i18n from 'config/i18n';
 
 const MAP_THUMB = require('static/images/map.jpg');
 
+interface QuickReply {
+  text: string;
+}
+
 interface MsgProps {
   text: string;
   uuid: string;
   urn: string;
   attachments?: string[];
-  quick_replies?: string[];
+  quick_replies?: QuickReply[];
 }
 
 interface WebRequestLog {
