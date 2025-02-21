@@ -26,6 +26,8 @@ import styles from './UpdateContactForm.module.scss';
 import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
+import { fetchAsset } from 'utils';
+import { getAssets } from 'external';
 
 export const CONTACT_STATUS_ACTIVE: SelectOption = {
   name: i18n.t('contact_statuses.active', 'Active'),
@@ -230,6 +232,12 @@ export default class UpdateContactForm extends React.Component<
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state), this.onUpdated);
       this.props.onClose(true);
     }
+
+    getAssets(
+      this.props.assetStore.fields.endpoint,
+      this.props.assetStore.fields.type,
+      this.props.assetStore.fields.id
+    );
   }
 
   private getButtons(): ButtonSet {
@@ -334,6 +342,7 @@ export default class UpdateContactForm extends React.Component<
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
+    console.log(this.state, this.props);
 
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
