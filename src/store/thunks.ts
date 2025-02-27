@@ -453,8 +453,7 @@ export const addAsset: AddAsset = (assetType: string, asset: Asset) => (
   // update our temba store if we have one
   const store: TembaStore = document.querySelector('temba-store');
   if (store) {
-    const fields = Object.keys(updated.fields.items);
-    store.setKeyedAssets(assetType, fields);
+    store.setKeyedAssets(assetType, Object.keys(updated[assetType].items));
   }
 
   dispatch(updateAssets(updated));
