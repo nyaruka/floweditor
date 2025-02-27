@@ -445,15 +445,16 @@ export const addAsset: AddAsset = (assetType: string, asset: Asset) => (
   const {
     flowContext: { assetStore }
   } = getState();
-
+  console.log(asset);
   const updated = mutate(assetStore, {
-    [assetType]: { items: { $merge: { [asset.id]: asset } } }
+    [assetType]: { items: { $merge: { [asset.id || asset.name]: asset } } }
   });
 
   // update our temba store if we have one
   const store: TembaStore = document.querySelector('temba-store');
   if (store) {
-    store.setKeyedAssets(assetType, Object.keys(updated[assetType]));
+    const fields = Object.keys(updated.fields.items);
+    store.setKeyedAssets(assetType, fields);
   }
 
   dispatch(updateAssets(updated));
