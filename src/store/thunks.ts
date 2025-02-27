@@ -445,7 +445,7 @@ export const addAsset: AddAsset = (assetType: string, asset: Asset) => (
   const {
     flowContext: { assetStore }
   } = getState();
-  console.log(asset);
+
   const updated = mutate(assetStore, {
     [assetType]: { items: { $merge: { [asset.id || asset.name]: asset } } }
   });
