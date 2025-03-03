@@ -69,7 +69,7 @@ exports[`TicketRouterForm render should render 1`] = `
                 name="Topic"
                 namekey="name"
                 searchable="true"
-                valuekey="value"
+                valuekey="uuid"
                 values="[]"
               />
             </div>
@@ -248,7 +248,7 @@ exports[`TicketRouterForm updates should save changes 1`] = `
                 name="Topic"
                 namekey="name"
                 searchable="true"
-                valuekey="value"
+                valuekey="uuid"
                 values="[]"
               />
             </div>
