@@ -46,6 +46,14 @@ export default class TicketRouterForm extends React.Component<
       include: [/^handle/]
     });
   }
+
+  componentDidMount(): void {
+    // set our default topic if we don't have one
+    if (!this.state.topic.value) {
+      this.handleTopicUpdate(this.context.config.defaultTopic);
+    }
+  }
+
   private handleUpdate(
     keys: {
       assignee?: User;
@@ -120,10 +128,10 @@ export default class TicketRouterForm extends React.Component<
   private handleSave(): void {
     // force our default topic if it's not set
     // we have to do it here, because setState is async
-    if (this.state.topic.value === null) {
-      // eslint-disable-next-line react/no-direct-mutation-state
-      this.state.topic.value = this.context.config.defaultTopic;
-    }
+    // if (this.state.topic.value === null) {
+    // eslint-disable-next-line react/no-direct-mutation-state
+    // this.state.topic.value = this.context.config.defaultTopic;
+    // }
 
     // validate all fields in case they haven't interacted
     const valid = this.handleUpdate(
