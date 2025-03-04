@@ -11,6 +11,7 @@ export const getFlowEditorConfig = (
 
 const config: FlowEditorConfig = {
   flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
+  defaultTopic: { uuid: 'b6e1babf2-85bc-477e-b706-de313a022979', name: 'Default' },
   localStorage: true,
   showDownload: true,
   flowType: FlowTypes.MESSAGING,
