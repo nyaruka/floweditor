@@ -58,6 +58,10 @@ export default class TicketRouterForm extends React.Component<
   ): boolean {
     const updates: Partial<TicketRouterFormState> = {};
 
+    if (keys.hasOwnProperty('assignee')) {
+      updates.assignee = validate(i18n.t('forms.assignee', 'Assignee'), keys.assignee, []);
+    }
+
     if (keys.hasOwnProperty('topic')) {
       updates.topic = validate(i18n.t('forms.topic', 'Topic'), keys.topic, [
         shouldRequireIf(submitting)
