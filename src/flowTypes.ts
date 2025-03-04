@@ -59,6 +59,7 @@ export interface FlowEditorConfig {
   path?: string;
   headers?: any;
   brand: string;
+  defaultTopic: { uuid: string; name: string };
 
   onLoad?: () => void;
   onActivityClicked?: (uuid: string) => void;
