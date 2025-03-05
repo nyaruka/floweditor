@@ -447,13 +447,13 @@ export const addAsset: AddAsset = (assetType: string, asset: Asset) => (
   } = getState();
 
   const updated = mutate(assetStore, {
-    [assetType]: { items: { $merge: { [asset.id]: asset } } }
+    [assetType]: { items: { $merge: { [asset.id || asset.name]: asset } } }
   });
 
   // update our temba store if we have one
   const store: TembaStore = document.querySelector('temba-store');
   if (store) {
-    store.setKeyedAssets(assetType, Object.keys(updated[assetType]));
+    store.setKeyedAssets(assetType, Object.keys(updated[assetType].items));
   }
 
   dispatch(updateAssets(updated));
