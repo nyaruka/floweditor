@@ -192,9 +192,24 @@ exports[`SendMsgForm render should render 1`] = `
     showLabel={false}
     textarea={true}
   />
-  <temba-charcount
-    class="sms-counter counter"
-  />
+  <div
+    className="container"
+  >
+    <div
+      className="checkbox"
+    >
+      <CheckboxElement
+        checked={false}
+        description="Check this box to bypass validation for results that are fetched dynamically via the resumeFlow API. This is useful when the result might not be defined at the flow level in advance."
+        name="Timeout"
+        onChange={[Function]}
+        title="Skip Result Validation"
+      />
+    </div>
+    <temba-charcount
+      class="sms-counter counter"
+    />
+  </div>
   <div
     className="label_container"
   >
@@ -234,6 +249,7 @@ Array [
     "attachments": Array [],
     "labels": Array [],
     "quick_replies": Array [],
+    "skipValidation": undefined,
     "text": "What is your favorite color?",
     "type": "send_msg",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
@@ -264,6 +280,7 @@ Object {
     "value": "",
   },
   "sendAll": true,
+  "skipValidation": false,
   "template": Object {
     "value": null,
   },
@@ -288,6 +305,7 @@ Array [
       "green",
       "blue",
     ],
+    "skipValidation": false,
     "text": "What is your favorite color?",
     "type": "send_msg",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
