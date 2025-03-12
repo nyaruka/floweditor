@@ -21,6 +21,8 @@ import { Template, TemplateTranslation } from 'flowTypes';
 import mutate from 'immutability-helper';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
+import CheckboxElement from 'components/form/checkbox/CheckboxElement';
+
 import {
   FormState,
   mergeForm,
@@ -62,6 +64,7 @@ export interface SendMsgFormState extends FormState {
   templateTranslation?: TemplateTranslation;
   labels?: any;
   expression?: any;
+  skipValidation?: boolean;
 }
 
 // this is an additonal item in templates that need to have a same format as other list items
@@ -113,13 +116,17 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   ): boolean {
     const updates: Partial<SendMsgFormState> = {};
     if (keys.hasOwnProperty('text')) {
-      updates.message = validate(i18n.t('forms.message', 'Message'), keys.text, [
-        validateIf(ValidField(this.props.assetStore), submitting),
+      let validatorFuncs = [
         shouldRequireIf(
           submitting && !this.state.template.value && this.state.attachments.length === 0
         ),
         CharactersLessThan(4096, '4096 characters')
-      ]);
+      ];
+
+      if (!this.state.skipValidation) {
+        validatorFuncs.push(validateIf(ValidField(this.props.assetStore), submitting));
+      }
+      updates.message = validate(i18n.t('forms.message', 'Message'), keys.text, validatorFuncs);
     }
 
     if (keys.hasOwnProperty('template')) {
@@ -570,7 +577,20 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           focus={true}
           textarea={true}
         />
-        <temba-charcount class={`sms-counter ${styles.counter}`}></temba-charcount>
+        <div className={styles.container}>
+          <div className={styles.checkbox}>
+            <CheckboxElement
+              name={i18n.t('forms.timeout', 'Timeout')}
+              checked={this.state.skipValidation}
+              title={'Skip Result Validation'}
+              description="Check this box to bypass validation for results that are fetched dynamically via the resumeFlow API. This is useful when the result might not be defined at the flow level in advance."
+              onChange={value => {
+                this.setState({ skipValidation: value });
+              }}
+            />
+          </div>
+          <temba-charcount class={`sms-counter ${styles.counter}`}></temba-charcount>
+        </div>
         {this.renderLabelOption()}
         {renderIssues(this.props)}
       </Dialog>

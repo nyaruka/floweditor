@@ -22,6 +22,7 @@ export const initializeForm = (
 ): SendMsgFormState => {
   let template: FormEntry = { value: null };
   let templateVariables: StringEntry[] = [];
+  let skipValidation = false;
 
   if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
     const action = settings.originalAction as SendMsg;
@@ -68,6 +69,10 @@ export const initializeForm = (
         })
       : [];
 
+    if (action.skipValidation) {
+      skipValidation = action.skipValidation;
+    }
+
     return {
       expression: expressionValue,
       topic: { value: TOPIC_OPTIONS.find(option => option.value === action.topic) },
@@ -83,7 +88,8 @@ export const initializeForm = (
       quickReplies: { value: action.quick_replies || [] },
       quickReplyEntry: { value: '' },
       sendAll: action.all_urns,
-      valid: true
+      valid: true,
+      skipValidation
     };
   }
 
@@ -104,6 +110,8 @@ export const initializeForm = (
 };
 
 export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormState): SendMsg => {
+  console.log(settings, state);
+
   const attachments = state.attachments
     .filter((attachment: Attachment) => attachment.url.trim().length > 0)
     .map((attachment: Attachment) => `${attachment.type}:${attachment.url}`);
@@ -136,7 +144,6 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
       templating.expression = state.expression.value;
     }
   }
-
   const result: SendMsg = {
     attachments,
     text: state.message.value,
@@ -149,7 +156,8 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
       return label;
     }),
     quick_replies: state.quickReplies.value,
-    uuid: getActionUUID(settings, Types.send_msg)
+    uuid: getActionUUID(settings, Types.send_msg),
+    skipValidation: state.skipValidation
   };
 
   if (templating) {

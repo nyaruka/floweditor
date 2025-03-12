@@ -397,6 +397,7 @@ export interface SendMsg extends Action {
   topic?: string;
   templating?: MsgTemplating;
   labels?: Label[];
+  skipValidation?: boolean;
 }
 
 export interface SendInteractiveMsg extends Action {
