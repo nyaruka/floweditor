@@ -1,9 +1,9 @@
 @import 'variables.module.scss';
 
-$background_offset: ($grid_size / 2) + ($node_padding) + px;
+$background_offset: (
+  $grid_size / 2) + ($node_padding) + px;
 
-.canvas_container {
-}
+.canvas_container {}
 
 .canvas_background {
   padding-top: 60px;
@@ -11,33 +11,14 @@ $background_offset: ($grid_size / 2) + ($node_padding) + px;
   margin-right: -20px;
 
   background-color: #f9f9f9;
-  background-position: 13px 13px;
-  background-image: linear-gradient(
-      0deg,
-      transparent 24%,
-      rgba(61, 177, 255, 0.15) 25%,
-      rgba(61, 177, 255, 0.15) 26%,
-      transparent 27%,
-      transparent 74%,
-      rgba(61, 177, 255, 0.15) 75%,
-      rgba(61, 177, 255, 0.15) 76%,
-      transparent 77%,
-      transparent
-    ),
-    linear-gradient(
-      90deg,
-      transparent 24%,
-      rgba(61, 177, 255, 0.15) 25%,
-      rgba(61, 177, 255, 0.15) 26%,
-      transparent 27%,
-      transparent 74%,
-      rgba(61, 177, 255, 0.15) 75%,
-      rgba(61, 177, 255, 0.15) 76%,
-      transparent 77%,
-      transparent
-    );
-  background-size: 40px 40px;
+  background-position: 3px 3px;
+  background-image:
+    linear-gradient(to right, #deedf894 1px, transparent 1px),
+    linear-gradient(to bottom, #deedf894 1px, transparent 1px
+  );
+background-size: 20px 20px;
 }
+
 .canvas {
   position: relative;
   width: 100%;
@@ -55,8 +36,7 @@ $background_offset: ($grid_size / 2) + ($node_padding) + px;
 
   background-color: #f9f9f9;
   background-position: 13px 13px;
-  background-image: linear-gradient(
-      0deg,
+  background-image: linear-gradient(0deg,
       transparent 24%,
       rgba(61, 177, 255, 0.15) 25%,
       rgba(61, 177, 255, 0.15) 26%,
@@ -65,10 +45,8 @@ $background_offset: ($grid_size / 2) + ($node_padding) + px;
       rgba(61, 177, 255, 0.15) 75%,
       rgba(61, 177, 255, 0.15) 76%,
       transparent 77%,
-      transparent
-    ),
-    linear-gradient(
-      90deg,
+      transparent),
+    linear-gradient(90deg,
       transparent 24%,
       rgba(61, 177, 255, 0.15) 25%,
       rgba(61, 177, 255, 0.15) 26%,
@@ -77,8 +55,7 @@ $background_offset: ($grid_size / 2) + ($node_padding) + px;
       rgba(61, 177, 255, 0.15) 75%,
       rgba(61, 177, 255, 0.15) 76%,
       transparent 77%,
-      transparent
-    );
+      transparent);
   background-size: 40px 40px;
 }
 
