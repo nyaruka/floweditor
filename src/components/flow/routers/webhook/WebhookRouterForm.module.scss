@@ -17,6 +17,7 @@
 
 .url {
   flex-grow: 1;
+
   input {
     height: 36px;
   }
@@ -75,7 +76,9 @@
     padding: 2px 10px;
     border-color: #ccc;
   }
+
   padding-top: 8px;
+
   &:hover {
     .remove_ico {
       cursor: pointer;
@@ -98,15 +101,9 @@
 .body_form {
   .req_body {
     margin-top: 8px;
-    textarea {
-      display: inline-block;
-      padding: 5px 5px;
-      unicode-bidi: embed;
-      font-size: 12px !important;
-      font-family: 'Roboto Mono', monospace;
-      font-weight: 300;
-      white-space: pre;
-      min-height: 200px;
-    }
+    --textarea-height: 10em;
+    --font-family: 'Roboto Mono', monospace;
+    --temba-textinput-font-size: 0.8em;
+    --unicode-bidi: embed;
   }
 }

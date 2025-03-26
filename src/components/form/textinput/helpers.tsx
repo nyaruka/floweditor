@@ -15,6 +15,7 @@ export const createTextInput = (props: TextInputProps, handleChange: any, option
       value={value}
       placeholder={props.placeholder || ''}
       maxLength={props.maxLength || -1}
+      autogrow={props.autogrow}
       session
       {...optional}
     ></temba-completion>
@@ -25,6 +26,7 @@ export const createTextInput = (props: TextInputProps, handleChange: any, option
       onBlur={props.onBlur}
       value={value}
       placeholder={props.placeholder}
+      autogrow={props.autogrow}
       maxLength={props.maxLength || -1}
       {...optional}
     ></temba-textinput>
