@@ -21,9 +21,6 @@ exports[`WebhookRouterForm should render 1`] = `
         "body": <div
           className="body_form"
         >
-          <h4>
-            GET Body
-          </h4>
           <p>
             <Trans
               i18nKey="forms.webhook_body_summary"
@@ -39,6 +36,7 @@ exports[`WebhookRouterForm should render 1`] = `
           <TextInputElement
             __className="req_body"
             autocomplete={true}
+            autogrow={true}
             entry={
               Object {
                 "value": "",
