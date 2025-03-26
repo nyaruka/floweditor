@@ -262,7 +262,6 @@ export default class WebhookRouterForm extends React.Component<
       name,
       body: (
         <div key="post_body" className={styles.body_form}>
-          <h4>{name}</h4>
           <p>
             <Trans
               i18nKey="forms.webhook_body_summary"
@@ -277,6 +276,7 @@ export default class WebhookRouterForm extends React.Component<
             showLabel={false}
             entry={this.state.body}
             onChange={this.handleBodyUpdate}
+            autogrow={true}
             helpText={
               <Trans
                 i18nKey="forms.webhook_body_summary"

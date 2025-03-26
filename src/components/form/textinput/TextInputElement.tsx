@@ -27,6 +27,7 @@ export interface TextInputProps extends FormElementProps {
   maxLength?: number;
   counter?: string;
   style?: TextInputStyle;
+  autogrow?: boolean;
   onChange?: (value: string, name?: string) => void;
   onBlur?: (event: React.ChangeEvent) => void;
 }
