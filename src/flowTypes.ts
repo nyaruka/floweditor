@@ -488,7 +488,7 @@ export interface StartSession extends RecipientsAction {
 export interface UIMetaData {
   nodes: { [key: string]: UINode };
   languages: { [iso: string]: string }[];
-  translation_filters?: { categories: boolean; rules: boolean };
+  translation_filters?: { categories: boolean };
 }
 
 export interface FlowPosition {

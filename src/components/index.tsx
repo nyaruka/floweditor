@@ -36,7 +36,9 @@ import {
   UpdateTranslationFilters,
   updateTranslationFilters,
   reset,
-  Reset
+  Reset,
+  OnUpdateLocalizations,
+  onUpdateLocalizations
 } from 'store/thunks';
 import { ACTIVITY_INTERVAL, downloadJSON, renderIf, onNextRender } from 'utils';
 import { PopTabType } from 'config/interfaces';
@@ -73,6 +75,7 @@ export interface FlowEditorStoreProps {
   scrollToAction: string;
   popped: string;
   updateTranslationFilters: UpdateTranslationFilters;
+  onUpdateLocalizations: OnUpdateLocalizations;
 }
 
 const hotStore = createStore();
@@ -281,6 +284,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 
             {renderIf(this.props.definition && this.props.translating && !this.props.fetchingFlow)(
               <TranslatorTab
+                baseLanguage={this.props.baseLanguage}
                 language={this.props.language}
                 languages={this.props.languages ? this.props.languages.items : {}}
                 localization={
@@ -291,6 +295,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                 onTranslationClicked={this.handleScrollToTranslation}
                 onTranslationOpened={this.handleOpenTranslation}
                 onTranslationFilterChanged={this.props.updateTranslationFilters}
+                onUpdateLocalizations={this.props.onUpdateLocalizations}
                 translationFilters={
                   this.props.definition ? this.props.definition._ui.translation_filters : null
                 }
@@ -373,6 +378,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
       onOpenNodeEditor,
       handleLanguageChange,
       updateTranslationFilters,
+      onUpdateLocalizations,
       reset
     },
     dispatch

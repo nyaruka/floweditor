@@ -16,5 +16,6 @@ declare namespace JSX {
     'temba-sortable-list': any;
     'temba-template-editor': any;
     'temba-alert': any;
+    'temba-dialog': any;
   }
 }

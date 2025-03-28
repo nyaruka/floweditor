@@ -28,6 +28,7 @@ export const getMergedByType = (
 
 export const findTranslations = (
   type: TranslationType,
+  uuid: string,
   localizeableKeys: string[],
   localizable: any,
   localization: { [uuid: string]: any }
@@ -38,6 +39,11 @@ export const findTranslations = (
     let keys = attribute.split('.');
     let from = localizable as any;
     let to: any = [];
+
+    // we ignore quick replies for translation tab
+    if (attribute === 'quick_replies') {
+      return;
+    }
 
     while (keys.length > 0 && from) {
       if (keys.length > 0 && from['uuid']) {
@@ -72,6 +78,7 @@ export const findTranslations = (
 
       if (from) {
         translations.push({
+          uuid,
           type,
           attribute,
           from,

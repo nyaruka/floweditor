@@ -28,6 +28,7 @@
   border-radius: 4px;
   transition: all 500ms ease-in-out;
   opacity: 1;
+
   &.complete {
     opacity: 0;
     padding: 0px;
@@ -42,17 +43,21 @@
   background: $red;
 }
 
+
+
 .options {
   background: #777;
   color: $light_gray_2;
   padding-top: 4px;
 
   &.options_visible {
+    padding-bottom: 4px;
+
     .filters {
       height: 35px;
-      padding: 6px;
       opacity: 1;
       padding-bottom: 0px;
+
       .pct_complete {
         opacity: 1;
       }
@@ -65,25 +70,20 @@
     }
   }
 
-  &.change_visible {
-    .changeLanguage {
-      height: 20px;
-      padding: 6px;
-      opacity: 1;
-    }
-  }
-
   &:hover {
     .header {
       .progress_bar {
         .filled {
           background: lighten($blue, 3%);
         }
+
         &.hundredpct {
           background: lighten($lime, 3%);
         }
+
         border: solid 1px rgba(100, 100, 100, 0.7);
       }
+
       .toggle {
         color: $light_gray_2;
       }
@@ -130,35 +130,55 @@
     font-size: 12px;
     display: flex;
     flex-flow: wrap;
+    align-items: center;
 
     .pct_complete {
       font-size: 18px;
       align-self: center;
-      margin-top: -6px;
-      padding: 0px 4px;
+
+      padding: 0px 6px;
       opacity: 0;
       cursor: pointer;
       transition: opacity 600ms ease-in-out;
     }
+
     .checkboxes {
       flex-grow: 1;
-      > div:last-child {
-        margin-top: 4px;
-      }
+      --checkbox-padding: 2px 6px;
+      --checkbox-hover-bg: rgba(0, 0, 0, 0.1);
+      --color-text: rgba(255, 255, 255, 0.8);
+
     }
   }
 
-  .changeLanguage {
-    height: 0px;
-    opacity: 0;
+  .buttons {
+    display: flex;
 
     button {
-      background: #777;
+      background: rgba(0, 0, 0, 0.1);
       color: $light_gray_2;
-      border: solid 1px $light_gray_2;
+      border: solid 1px rgba(255, 255, 255, 0.5);
       width: 100%;
+      border-radius: var(--curvature);
+      margin: 4px;
+      padding: 2px 0px;
+    }
+
+    button:hover {
+      background: rgba(0, 0, 0, 0.2);
+      cursor: pointer;
     }
   }
+
+  button.auto_translating {
+    background: #fff;
+    color: #777;
+  }
+
+  button.auto_translating:hover {
+    background: #fff;
+  }
+
 }
 
 .translate_block {

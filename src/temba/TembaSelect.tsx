@@ -151,8 +151,9 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
     selectbox.getName = select.getName.bind(select);
 
     this.selectbox.addEventListener('change', (event: any) => {
+      event.preventDefault();
+      event.stopPropagation();
       const values = event.target.values || [event.target.value];
-
       let resolved = values;
 
       if (!this.props.assets && !this.props.tags && !this.props.endpoint) {
