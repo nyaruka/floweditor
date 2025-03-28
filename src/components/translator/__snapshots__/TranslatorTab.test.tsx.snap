@@ -50,7 +50,7 @@ exports[`TranslatorTab finds email translations 1`] = `
             <div
               class="header_label"
             >
-              Spanish Translations
+              Spanish
             </div>
           </div>
           <div
@@ -133,13 +133,7 @@ exports[`TranslatorTab finds email translations 1`] = `
                   <div>
                     <temba-checkbox
                       checked="true"
-                      help_text="Categories"
-                    />
-                  </div>
-                  <div>
-                    <temba-checkbox
-                      checked="true"
-                      help_text="Rule Arguments"
+                      label="Include categories"
                     />
                   </div>
                 </div>
@@ -151,12 +145,30 @@ exports[`TranslatorTab finds email translations 1`] = `
                 </div>
               </div>
               <div
-                class="changeLanguage"
-              />
+                class="buttons"
+              >
+                <button
+                  class=""
+                >
+                  Auto Translate
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <temba-dialog
+        header="Auto Translation"
+        id="auto-translate"
+      >
+        <div
+          class="p-6"
+        >
+          <div>
+            This feature requires an AI model to be configured for your workspace to continue.
+          </div>
+        </div>
+      </temba-dialog>
     </div>
   </div>
 </body>
@@ -212,7 +224,7 @@ exports[`TranslatorTab finds message translations 1`] = `
             <div
               class="header_label"
             >
-              Spanish Translations
+              Spanish
             </div>
           </div>
           <div
@@ -245,20 +257,6 @@ exports[`TranslatorTab finds message translations 1`] = `
                       class="text attribute"
                     >
                       Message
-                    </div>
-                  </div>
-                  <div
-                    class="item"
-                  >
-                    <div
-                      class="text from_text"
-                    >
-                      yes, no
-                    </div>
-                    <div
-                      class="text attribute"
-                    >
-                      Quick Replies
                     </div>
                   </div>
                 </div>
@@ -295,13 +293,7 @@ exports[`TranslatorTab finds message translations 1`] = `
                   <div>
                     <temba-checkbox
                       checked="true"
-                      help_text="Categories"
-                    />
-                  </div>
-                  <div>
-                    <temba-checkbox
-                      checked="true"
-                      help_text="Rule Arguments"
+                      label="Include categories"
                     />
                   </div>
                 </div>
@@ -313,12 +305,30 @@ exports[`TranslatorTab finds message translations 1`] = `
                 </div>
               </div>
               <div
-                class="changeLanguage"
-              />
+                class="buttons"
+              >
+                <button
+                  class=""
+                >
+                  Auto Translate
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <temba-dialog
+        header="Auto Translation"
+        id="auto-translate"
+      >
+        <div
+          class="p-6"
+        >
+          <div>
+            This feature requires an AI model to be configured for your workspace to continue.
+          </div>
+        </div>
+      </temba-dialog>
     </div>
   </div>
 </body>
@@ -374,7 +384,7 @@ exports[`TranslatorTab finds split translations 1`] = `
             <div
               class="header_label"
             >
-              Spanish Translations
+              Spanish
             </div>
           </div>
           <div
@@ -407,20 +417,6 @@ exports[`TranslatorTab finds split translations 1`] = `
                       class="text attribute"
                     >
                       Categories
-                    </div>
-                  </div>
-                  <div
-                    class="item"
-                  >
-                    <div
-                      class="text from_text"
-                    >
-                      red, green, blue
-                    </div>
-                    <div
-                      class="text attribute"
-                    >
-                      Rules
                     </div>
                   </div>
                 </div>
@@ -457,13 +453,7 @@ exports[`TranslatorTab finds split translations 1`] = `
                   <div>
                     <temba-checkbox
                       checked="true"
-                      help_text="Categories"
-                    />
-                  </div>
-                  <div>
-                    <temba-checkbox
-                      checked="true"
-                      help_text="Rule Arguments"
+                      label="Include categories"
                     />
                   </div>
                 </div>
@@ -475,12 +465,30 @@ exports[`TranslatorTab finds split translations 1`] = `
                 </div>
               </div>
               <div
-                class="changeLanguage"
-              />
+                class="buttons"
+              >
+                <button
+                  class=""
+                >
+                  Auto Translate
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <temba-dialog
+        header="Auto Translation"
+        id="auto-translate"
+      >
+        <div
+          class="p-6"
+        >
+          <div>
+            This feature requires an AI model to be configured for your workspace to continue.
+          </div>
+        </div>
+      </temba-dialog>
     </div>
   </div>
 </body>
@@ -536,7 +544,7 @@ exports[`TranslatorTab handles partial category translation 1`] = `
             <div
               class="header_label"
             >
-              Spanish Translations
+              Spanish
             </div>
           </div>
           <div
@@ -571,20 +579,6 @@ exports[`TranslatorTab handles partial category translation 1`] = `
                       Categories
                     </div>
                   </div>
-                  <div
-                    class="item"
-                  >
-                    <div
-                      class="text from_text"
-                    >
-                      red, green, blue
-                    </div>
-                    <div
-                      class="text attribute"
-                    >
-                      Rules
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -599,7 +593,7 @@ exports[`TranslatorTab handles partial category translation 1`] = `
                 >
                   <div
                     class="filled"
-                    style="width: 29%;"
+                    style="width: 50%;"
                   />
                 </div>
                 <div
@@ -619,30 +613,42 @@ exports[`TranslatorTab handles partial category translation 1`] = `
                   <div>
                     <temba-checkbox
                       checked="true"
-                      help_text="Categories"
-                    />
-                  </div>
-                  <div>
-                    <temba-checkbox
-                      checked="true"
-                      help_text="Rule Arguments"
+                      label="Include categories"
                     />
                   </div>
                 </div>
                 <div
                   class="pct_complete"
                 >
-                  29
+                  50
                   %
                 </div>
               </div>
               <div
-                class="changeLanguage"
-              />
+                class="buttons"
+              >
+                <button
+                  class=""
+                >
+                  Auto Translate
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <temba-dialog
+        header="Auto Translation"
+        id="auto-translate"
+      >
+        <div
+          class="p-6"
+        >
+          <div>
+            This feature requires an AI model to be configured for your workspace to continue.
+          </div>
+        </div>
+      </temba-dialog>
     </div>
   </div>
 </body>
@@ -698,7 +704,7 @@ exports[`TranslatorTab hides completed translations 1`] = `
             <div
               class="header_label"
             >
-              Spanish Translations
+              Spanish
             </div>
           </div>
           <div
@@ -706,36 +712,8 @@ exports[`TranslatorTab hides completed translations 1`] = `
             style="background: rgb(119, 119, 119);"
           >
             <div
-              class="translations_wrapper"
-            >
-              <div
-                class="translate_block"
-              >
-                <div
-                  class="needs_translation"
-                >
-                  <div
-                    class="type_name"
-                  >
-                    Send Message
-                  </div>
-                  <div
-                    class="item"
-                  >
-                    <div
-                      class="text from_text"
-                    >
-                      yes, no
-                    </div>
-                    <div
-                      class="text attribute"
-                    >
-                      Quick Replies
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              class="translations_wrapper complete"
+            />
             <div
               class="options"
             >
@@ -746,8 +724,8 @@ exports[`TranslatorTab hides completed translations 1`] = `
                   class="progress_bar"
                 >
                   <div
-                    class="filled"
-                    style="width: 50%;"
+                    class="filled hundredpct"
+                    style="width: 100%;"
                   />
                 </div>
                 <div
@@ -767,30 +745,36 @@ exports[`TranslatorTab hides completed translations 1`] = `
                   <div>
                     <temba-checkbox
                       checked="true"
-                      help_text="Categories"
-                    />
-                  </div>
-                  <div>
-                    <temba-checkbox
-                      checked="true"
-                      help_text="Rule Arguments"
+                      label="Include categories"
                     />
                   </div>
                 </div>
                 <div
                   class="pct_complete"
                 >
-                  50
+                  100
                   %
                 </div>
               </div>
               <div
-                class="changeLanguage"
+                class="buttons"
               />
             </div>
           </div>
         </div>
       </div>
+      <temba-dialog
+        header="Auto Translation"
+        id="auto-translate"
+      >
+        <div
+          class="p-6"
+        >
+          <div>
+            This feature requires an AI model to be configured for your workspace to continue.
+          </div>
+        </div>
+      </temba-dialog>
     </div>
   </div>
 </body>
@@ -846,7 +830,7 @@ exports[`TranslatorTab renders 1`] = `
             <div
               class="header_label"
             >
-              Spanish Translations
+              Spanish
             </div>
           </div>
           <div
@@ -887,13 +871,7 @@ exports[`TranslatorTab renders 1`] = `
                   <div>
                     <temba-checkbox
                       checked="true"
-                      help_text="Categories"
-                    />
-                  </div>
-                  <div>
-                    <temba-checkbox
-                      checked="true"
-                      help_text="Rule Arguments"
+                      label="Include categories"
                     />
                   </div>
                 </div>
@@ -905,12 +883,24 @@ exports[`TranslatorTab renders 1`] = `
                 </div>
               </div>
               <div
-                class="changeLanguage"
+                class="buttons"
               />
             </div>
           </div>
         </div>
       </div>
+      <temba-dialog
+        header="Auto Translation"
+        id="auto-translate"
+      >
+        <div
+          class="p-6"
+        >
+          <div>
+            This feature requires an AI model to be configured for your workspace to continue.
+          </div>
+        </div>
+      </temba-dialog>
     </div>
   </div>
 </body>

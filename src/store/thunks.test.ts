@@ -100,7 +100,7 @@ describe('Flow Manipulation', () => {
       ];
 
       const updated: FlowDefinition = updatedStore.dispatch(
-        onUpdateLocalizations('spa', localizationUpdates)
+        onUpdateLocalizations('spa', false, localizationUpdates)
       );
 
       expect(updated.localization.spa.node0_action0).toEqual({

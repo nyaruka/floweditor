@@ -84,10 +84,7 @@ export type OnAddToNode = (node: FlowNode) => Thunk<void>;
 
 export type HandleTypeConfigChange = (typeConfig: Type) => Thunk<void>;
 
-export type UpdateTranslationFilters = (translationFilters: {
-  categories: boolean;
-  rules: boolean;
-}) => Thunk<void>;
+export type UpdateTranslationFilters = (translationFilters: { categories: boolean }) => Thunk<void>;
 
 export type OnOpenNodeEditor = (settings: NodeEditorSettings) => Thunk<void>;
 
@@ -121,6 +118,7 @@ export type OnConnectionDrag = (event: ConnectionEvent, flowType: FlowTypes) => 
 
 export type OnUpdateLocalizations = (
   language: string,
+  merge: boolean,
   changes: LocalizationUpdates
 ) => Thunk<FlowDefinition>;
 
@@ -508,14 +506,16 @@ export const onRemoveLocalizations = (uuid: string, keys?: string[]) => (
   return updated;
 };
 
-export const onUpdateLocalizations = (language: string, changes: LocalizationUpdates) => (
-  dispatch: DispatchWithState,
-  getState: GetState
-): FlowDefinition => {
+export const onUpdateLocalizations = (
+  language: string,
+  merge: boolean,
+  changes: LocalizationUpdates
+) => (dispatch: DispatchWithState, getState: GetState): FlowDefinition => {
   const {
     flowContext: { definition }
   } = getState();
-  const updated = mutators.updateLocalization(definition, language, changes);
+
+  const updated = mutators.updateLocalization(definition, language, changes, merge);
   dispatch(updateDefinition(updated));
 
   markDirty();
@@ -1125,10 +1125,10 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
   dispatch(mergeEditorState(EMPTY_DRAG_STATE));
 };
 
-export const updateTranslationFilters = (translationFilters: {
-  categories: boolean;
-  rules: boolean;
-}) => (dispatch: DispatchWithState, getState: GetState): void => {
+export const updateTranslationFilters = (translationFilters: { categories: boolean }) => (
+  dispatch: DispatchWithState,
+  getState: GetState
+): void => {
   const {
     flowContext: { definition }
   } = getState();

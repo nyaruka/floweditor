@@ -6,7 +6,7 @@ import i18n from 'config/i18n';
 import { PopTab } from 'components/poptab/PopTab';
 import { AssetMap, Asset, RenderNodeMap } from 'store/flowContext';
 import { PopTabType, Type } from 'config/interfaces';
-import { Action, Category, Case } from 'flowTypes';
+import { Action, Category } from 'flowTypes';
 import { getTypeConfig } from 'config';
 import {
   findTranslations,
@@ -16,10 +16,10 @@ import {
   getBundleKey
 } from './helpers';
 import CheckboxElement from 'components/form/checkbox/CheckboxElement';
-import { UpdateTranslationFilters } from 'store/thunks';
-import { getSwitchRouter } from 'components/flow/routers/helpers';
+import { OnUpdateLocalizations, UpdateTranslationFilters } from 'store/thunks';
 import { getType } from 'config/typeConfigs';
 import { fakePropType } from 'config/ConfigProvider';
+import TembaSelect from 'temba/TembaSelect';
 
 const cx: any = classNames.bind(styles);
 
@@ -39,6 +39,7 @@ export interface TranslationBundle {
 
 export interface Translation {
   type: TranslationType;
+  uuid: string;
   attribute: string;
   from: string;
   to: string;
@@ -46,17 +47,17 @@ export interface Translation {
 
 export interface TranslatorTabProps {
   localization: { [uuid: string]: any };
+  baseLanguage: Asset;
   language: Asset;
   languages: AssetMap;
-
-  translationFilters: { categories: boolean; rules: boolean };
-
+  translationFilters: { categories: boolean };
   nodes: RenderNodeMap;
   onToggled: (visible: boolean, tab: PopTabType) => void;
   onTranslationClicked: (bundle: TranslationBundle) => void;
   onTranslationOpened: (bundle: TranslationBundle) => void;
   onTranslationFilterChanged: UpdateTranslationFilters;
   popped: string;
+  onUpdateLocalizations: OnUpdateLocalizations;
 }
 
 export interface TranslatorTabState {
@@ -65,7 +66,9 @@ export interface TranslatorTabState {
   translationBundles: TranslationBundle[];
   optionsVisible: boolean;
   pctComplete: number;
-  translationFilters: { categories: boolean; rules: boolean };
+  translationFilters: { categories: boolean };
+  translationModel: any;
+  autoTranslating: boolean;
 }
 
 export class TranslatorTab extends React.Component<TranslatorTabProps, TranslatorTabState> {
@@ -73,16 +76,20 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     config: fakePropType
   };
 
+  private autoTranslateDialog: any;
+  private translationCache: { [text: string]: string } = {};
+
   constructor(props: TranslatorTabProps, context: any) {
     super(props);
-
     this.state = {
       visible: false,
       selectedTranslation: null,
       translationBundles: [],
       optionsVisible: false,
       pctComplete: 0,
-      translationFilters: props.translationFilters || { categories: true, rules: true }
+      translationFilters: props.translationFilters || { categories: true },
+      translationModel: null,
+      autoTranslating: false
     };
 
     bindCallbacks(this, {
@@ -97,7 +104,6 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
   }
 
   public componentDidUpdate(prevProps: TranslatorTabProps, prevState: TranslatorTabState): void {
-    // traceUpdate(this, prevProps, prevState);
     if (
       prevProps.translationFilters !== this.props.translationFilters ||
       prevProps.localization !== this.props.localization ||
@@ -106,6 +112,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       prevState.translationFilters !== this.state.translationFilters
     ) {
       this.handleUpdateTranslations();
+      this.translationCache = {};
     }
   }
 
@@ -115,10 +122,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       const renderNode = this.props.nodes[node_uuid];
 
       // check for router level translations
-      if (
-        renderNode.node.router &&
-        (this.state.translationFilters.categories || this.state.translationFilters.rules)
-      ) {
+      if (renderNode.node.router && this.state.translationFilters.categories) {
         const typeConfig = getTypeConfig(getType(renderNode));
 
         let translations: Translation[] = [];
@@ -128,29 +132,13 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
             translations.push(
               ...findTranslations(
                 TranslationType.CATEGORY,
+                category.uuid,
                 localizeableKeys,
                 category,
                 this.props.localization
               )
             );
           });
-        }
-
-        if (this.state.translationFilters.rules) {
-          const localizeableKeys = ['arguments'];
-          const switchRouter = getSwitchRouter(renderNode.node);
-          if (switchRouter) {
-            switchRouter.cases.forEach((kase: Case) => {
-              translations.push(
-                ...findTranslations(
-                  TranslationType.CASE,
-                  localizeableKeys,
-                  kase,
-                  this.props.localization
-                )
-              );
-            });
-          }
         }
 
         if (translations.length > 0) {
@@ -167,6 +155,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
           const typeConfig = getTypeConfig(action.type);
           const translations = findTranslations(
             TranslationType.PROPERTY,
+            action.uuid,
             typeConfig.localizeableKeys || [],
             action,
             this.props.localization
@@ -223,20 +212,9 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
   }
 
   private toggleCategories(categories: boolean): void {
-    this.setState(
-      { translationFilters: { categories, rules: this.state.translationFilters.rules } },
-      () => {
-        this.props.onTranslationFilterChanged(this.state.translationFilters);
-      }
-    );
-  }
-  private toggleRules(rules: boolean): void {
-    this.setState(
-      { translationFilters: { rules, categories: this.state.translationFilters.categories } },
-      () => {
-        this.props.onTranslationFilterChanged(this.state.translationFilters);
-      }
-    );
+    this.setState({ translationFilters: { categories } }, () => {
+      this.props.onTranslationFilterChanged(this.state.translationFilters);
+    });
   }
 
   private renderMissing(key: string, from: string, summary: string) {
@@ -253,16 +231,105 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
 
   private handleTranslationClicked(bundle: TranslationBundle) {
     this.props.onTranslationClicked(bundle);
-
-    window.setTimeout(() => {
-      this.props.onTranslationOpened(bundle);
-    }, 750);
+    this.props.onTranslationOpened(bundle);
   }
 
   private handleChangeLanguageClick(e: any): void {
-    this.context.config.onChangeLanguage(this.props.language.id, this.props.language.name);
     e.preventDefault();
     e.stopPropagation();
+    this.context.config.onChangeLanguage(this.props.language.id, this.props.language.name);
+  }
+
+  private handleAutoTranslateClick(e: any): void {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (this.state.autoTranslating) {
+      this.setState({ autoTranslating: false });
+    } else {
+      // lookup the default model first
+      const store = document.querySelector('temba-store') as any;
+      store.getResults('/api/internal/llms.json', { force: true }).then((results: any) => {
+        if (results.length > 0) {
+          this.setState({ translationModel: results[0] }, () => {
+            this.autoTranslateDialog.primaryButtonName = 'Translate';
+            this.autoTranslateDialog.cancelButtonName = 'Cancel';
+            this.autoTranslateDialog.show();
+          });
+        } else {
+          this.autoTranslateDialog.primaryButtonName = null;
+          this.autoTranslateDialog.cancelButtonName = 'Ok';
+          this.autoTranslateDialog.show();
+        }
+      });
+    }
+  }
+
+  private async doAutoTranslation() {
+    const store = document.querySelector('temba-store') as any;
+    for (const bundle of this.state.translationBundles) {
+      const translationUpdate: { uuid: string; translations: any }[] = [];
+      const untranslated = bundle.translations.filter(
+        (translation: Translation) => !translation.to
+      );
+
+      for (const translation of untranslated) {
+        // if it's already in our cache, use that
+        if (this.translationCache[translation.from]) {
+          translationUpdate.push({
+            uuid: translation.uuid,
+            translations: { [translation.attribute]: this.translationCache[translation.from] }
+          });
+          continue;
+        }
+
+        const payload = {
+          text: translation.from,
+          lang: {
+            from: this.props.baseLanguage.id,
+            to: this.props.language.id
+          }
+        };
+
+        await store
+          .postJSON(`/llm/translate/${this.state.translationModel.uuid}/`, payload)
+          .then((response: any) => {
+            if (response.status === 200) {
+              // cache the translation
+              this.translationCache[translation.from] = response.json['result'];
+
+              const result = response.json['result'];
+              translationUpdate.push({
+                uuid: translation.uuid,
+                translations: { [translation.attribute]: result }
+              });
+            }
+          });
+      }
+      this.props.onUpdateLocalizations(this.props.language.id, true, translationUpdate);
+
+      // if we've been told to stop, break out of the loop
+      if (!this.state.autoTranslating) {
+        break;
+      }
+    }
+
+    this.setState({ autoTranslating: false });
+  }
+
+  private handleAutoTranslateButtonClicked(buttonEvent: any): void {
+    const button = buttonEvent.detail.button;
+
+    if (button.primary) {
+      this.setState({ autoTranslating: true }, () => {
+        this.autoTranslateDialog.hide();
+        this.doAutoTranslation();
+      });
+    }
+  }
+
+  private handleLLMChanged(value: any): void {
+    this.setState({ translationModel: value });
   }
 
   public render(): JSX.Element {
@@ -290,11 +357,19 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       [styles.complete]: this.state.translationBundles.length === 0
     });
 
+    let languageName = `${this.props.language.name}`;
+
+    // truncate the name if it is too long
+    const maxLength = 36;
+    if (languageName.length > maxLength) {
+      languageName = languageName.substring(0, maxLength - 3) + '...';
+    }
+
     return (
       <div className={classes}>
         <PopTab
           className="translations"
-          header={`${this.props.language.name} ${i18n.t('translation.label', 'Translations')}`}
+          header={languageName}
           label={i18n.t('translation.header', 'Flow Translation')}
           color="#777"
           icon="language"
@@ -346,7 +421,6 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
               );
             })}
           </div>
-
           <div className={optionsClasses} onClick={this.toggleOptions}>
             <div className={styles.header}>
               <div className={styles.progress_bar}>
@@ -365,30 +439,87 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
                   <CheckboxElement
                     name={i18n.t('forms.categories', 'categories')}
                     checked={this.state.translationFilters.categories}
-                    description={'Categories'}
+                    title={'Include categories'}
                     onChange={this.toggleCategories}
-                  />
-                </div>
-                <div>
-                  <CheckboxElement
-                    name={i18n.t('forms.rules', 'rules')}
-                    checked={this.state.translationFilters.rules}
-                    description={'Rule Arguments'}
-                    onChange={this.toggleRules}
                   />
                 </div>
               </div>
               <div className={styles.pct_complete}>{this.state.pctComplete}%</div>
             </div>
-            <div className={styles.changeLanguage}>
-              {showChangeButton && (
+            <div className={styles.buttons}>
+              {this.state.translationBundles.length > 0 && (
+                <button
+                  onClick={this.handleAutoTranslateClick}
+                  className={this.state.autoTranslating ? styles.auto_translating : ''}
+                >
+                  {this.state.autoTranslating ? (
+                    <div>
+                      <div>Translating</div>
+                      <temba-loading style={{ display: 'inline-flex' }}></temba-loading>
+                    </div>
+                  ) : (
+                    i18n.t('forms.auto_translate', 'Auto Translate')
+                  )}
+                </button>
+              )}
+              {showChangeButton && !this.state.autoTranslating && (
                 <button onClick={this.handleChangeLanguageClick}>
-                  {i18n.t('forms.use_as_default_language', 'Use as default language')}
+                  {i18n.t('forms.use_as_default_language', 'Make Default')}
                 </button>
               )}
             </div>
           </div>
         </PopTab>
+        <temba-dialog
+          id="auto-translate"
+          header="Auto Translation"
+          ref={(ele: any) => {
+            this.autoTranslateDialog = ele;
+            if (this.autoTranslateDialog) {
+              this.autoTranslateDialog.addEventListener(
+                'temba-button-clicked',
+                this.handleAutoTranslateButtonClicked
+              );
+            }
+          }}
+        >
+          <div className="p-6">
+            {this.state.translationModel && (
+              <div>
+                <div className="mb-4">
+                  {this.state.translationFilters.categories && (
+                    <div>
+                      Select an AI model to translate all of the remaining messages and categories
+                      into {this.props.language.name}. While this a great head start, remember to
+                      always review translations provided by AI for accuracy.
+                    </div>
+                  )}
+
+                  {!this.state.translationFilters.categories && (
+                    <div>
+                      Select an AI model to translate all of the remaining messages into{' '}
+                      {this.props.language.name}. While this a great head start, remember to always
+                      review translations provided by AI for accuracy.
+                    </div>
+                  )}
+                </div>
+                <TembaSelect
+                  name="llm"
+                  value={this.state.translationModel}
+                  endpoint="/api/internal/llms.json"
+                  onChange={this.handleLLMChanged}
+                  valueKey="uuid"
+                ></TembaSelect>
+              </div>
+            )}
+
+            {!this.state.translationModel && (
+              <div>
+                This feature requires an AI model to be configured for your workspace to continue.
+              </div>
+            )}
+          </div>
+        </temba-dialog>
       </div>
     );
   }

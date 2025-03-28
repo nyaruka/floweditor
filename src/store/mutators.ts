@@ -675,7 +675,8 @@ export const removeLocalizations = (
 export const updateLocalization = (
   definition: FlowDefinition,
   language: string,
-  changes: LocalizationUpdates
+  changes: LocalizationUpdates,
+  mergeExisting: boolean = false
 ) => {
   let newDef = definition;
 
@@ -703,9 +704,21 @@ export const updateLocalization = (
       }
 
       // adding localization
-      newDef = mutate(newDef, {
-        localization: { [language]: { [uuid]: set(normalizedTranslations) } }
-      });
+      if (mergeExisting) {
+        try {
+          newDef = mutate(newDef, {
+            localization: { [language]: { [uuid]: merge(normalizedTranslations) } }
+          });
+        } catch (e) {
+          newDef = mutate(newDef, {
+            localization: { [language]: { [uuid]: set(normalizedTranslations) } }
+          });
+        }
+      } else {
+        newDef = mutate(newDef, {
+          localization: { [language]: { [uuid]: set(normalizedTranslations) } }
+        });
+      }
     } else {
       // removing localization
       newDef = mutate(newDef, {
