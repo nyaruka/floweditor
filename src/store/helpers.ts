@@ -232,7 +232,8 @@ export const getCurrentDefinition = (
       nodes: uiNodes,
       stickies: definition._ui.stickies,
       languages: definition._ui.languages,
-      translation_filters: definition._ui.translation_filters
+      translation_filters: definition._ui.translation_filters,
+      auto_translations: definition._ui.auto_translations
     } as UIMetaData;
   }
 

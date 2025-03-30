@@ -274,6 +274,16 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       );
 
       for (const translation of untranslated) {
+        // don't try to translate single characters
+        if (translation.from.length === 1) {
+          continue;
+        }
+
+        // don't try to translate numbers
+        if (translation.from.match(/^\d+$/)) {
+          continue;
+        }
+
         // if it's already in our cache, use that
         if (this.translationCache[translation.from]) {
           translationUpdate.push({
@@ -298,7 +308,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
               // cache the translation
               this.translationCache[translation.from] = response.json['result'];
 
-              const result = response.json['result'];
+              const result = response.json['text'];
               translationUpdate.push({
                 uuid: translation.uuid,
                 translations: { [translation.attribute]: result }
@@ -306,12 +316,16 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
             }
           });
       }
+
       this.props.onUpdateLocalizations(this.props.language.id, true, translationUpdate);
 
       // if we've been told to stop, break out of the loop
       if (!this.state.autoTranslating) {
         break;
       }
+
+      // we don't want localization updates to stack up
+      await new Promise(r => setTimeout(r, 1000));
     }
 
     this.setState({ autoTranslating: false });

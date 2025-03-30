@@ -489,6 +489,7 @@ export interface UIMetaData {
   nodes: { [key: string]: UINode };
   languages: { [iso: string]: string }[];
   translation_filters?: { categories: boolean };
+  auto_translations?: { [language: string]: { [uuid: string]: string[] } };
 }
 
 export interface FlowPosition {
