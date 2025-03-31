@@ -118,7 +118,7 @@ export type OnConnectionDrag = (event: ConnectionEvent, flowType: FlowTypes) => 
 
 export type OnUpdateLocalizations = (
   language: string,
-  merge: boolean,
+  autoTranslated: boolean,
   changes: LocalizationUpdates
 ) => Thunk<FlowDefinition>;
 
@@ -508,14 +508,14 @@ export const onRemoveLocalizations = (uuid: string, keys?: string[]) => (
 
 export const onUpdateLocalizations = (
   language: string,
-  merge: boolean,
+  autoTranslated: boolean,
   changes: LocalizationUpdates
 ) => (dispatch: DispatchWithState, getState: GetState): FlowDefinition => {
   const {
     flowContext: { definition }
   } = getState();
 
-  const updated = mutators.updateLocalization(definition, language, changes, merge);
+  const updated = mutators.updateLocalization(definition, language, changes, autoTranslated);
   dispatch(updateDefinition(updated));
 
   markDirty();

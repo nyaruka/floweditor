@@ -235,7 +235,12 @@ describe('mutators', () => {
     expect(updated).toMatchSnapshot();
 
     // now clear it
-    updated = updateLocalization(updated, 'spa', [{ uuid: 'node0_action0', translations: null }]);
+    updated = updateLocalization(
+      updated,
+      'spa',
+      [{ uuid: 'node0_action0', translations: null }],
+      false
+    );
     expect(updated.localization.spa).toEqual({});
     expect(updated).toMatchSnapshot();
   });
