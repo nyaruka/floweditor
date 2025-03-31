@@ -445,6 +445,231 @@ Object {
 }
 `;
 
+exports[`mutators should designate auto translation 1`] = `
+Object {
+  "_ui": Object {
+    "languages": Array [],
+    "nodes": Object {
+      "node0": Object {
+        "position": Object {
+          "bottom": 254,
+          "left": 0,
+          "right": 220,
+          "top": 0,
+        },
+      },
+      "node1": Object {
+        "position": Object {
+          "bottom": 370,
+          "left": 0,
+          "right": 220,
+          "top": 280,
+        },
+        "type": "wait_for_response",
+      },
+      "node2": Object {
+        "position": Object {
+          "bottom": 498,
+          "left": 0,
+          "right": 220,
+          "top": 400,
+        },
+      },
+      "node3": Object {
+        "position": Object {
+          "bottom": 598,
+          "left": 0,
+          "right": 220,
+          "top": 520,
+        },
+      },
+    },
+    "stickies": Object {},
+  },
+  "language": "eng",
+  "localization": Object {
+    "spa": Object {
+      "node0_action0": Object {
+        "_ui": Object {
+          "auto_translated": Array [
+            "text",
+          ],
+        },
+        "text": Array [
+          "Hola Mundo!",
+        ],
+      },
+    },
+  },
+  "name": "Boring Flow",
+  "nodes": Array [
+    Object {
+      "actions": Array [
+        Object {
+          "text": "Hi there, this is your first action!",
+          "type": "send_msg",
+          "uuid": "node0_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Flow Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "node0_action1",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Nonresponsive",
+              "uuid": "group_1",
+            },
+          ],
+          "type": "remove_contact_groups",
+          "uuid": "node0_action2",
+        },
+        Object {
+          "labels": Array [
+            Object {
+              "name": "Help",
+              "uuid": "label_0",
+            },
+            Object {
+              "name": "Feedback",
+              "uuid": "label_1",
+            },
+          ],
+          "type": "add_input_labels",
+          "uuid": "node0_action3",
+        },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_uuid": "node1",
+          "name": null,
+          "uuid": "node0_exit0",
+        },
+      ],
+      "uuid": "node0",
+    },
+    Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_uuid": "node2",
+          "uuid": "node1_exit0",
+        },
+        Object {
+          "destination_uuid": "node2",
+          "uuid": "node1_exit1",
+        },
+        Object {
+          "destination_uuid": "node2",
+          "uuid": "node1_exit2",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red",
+            ],
+            "category_uuid": "node1_cat0",
+            "type": "has_any_word",
+            "uuid": "node1_case0",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "category_uuid": "node1_cat1",
+            "type": "has_any_word",
+            "uuid": "node1_case1",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "node1_exit0",
+            "name": "Red",
+            "uuid": "node1_cat0",
+          },
+          Object {
+            "exit_uuid": "node1_exit1",
+            "name": "Green",
+            "uuid": "node1_cat1",
+          },
+          Object {
+            "exit_uuid": "node1_exit2",
+            "name": "Other",
+            "uuid": "node1_cat2",
+          },
+        ],
+        "default_exit_uuid": "node1_exit2",
+        "operand": "@run.input",
+        "result_name": "color",
+        "type": "switch",
+        "wait": Object {
+          "type": "msg",
+        },
+      },
+      "uuid": "node1",
+    },
+    Object {
+      "actions": Array [
+        Object {
+          "text": "This has been really great.",
+          "type": "send_msg",
+          "uuid": "node2_action0",
+        },
+        Object {
+          "field": Object {
+            "key": "unknown_field",
+            "name": "Unknown Field",
+          },
+          "type": "set_contact_field",
+          "uuid": "node2_action1",
+          "value": "Some Value",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_uuid": "node3",
+          "name": null,
+          "uuid": "node2_exit0",
+        },
+      ],
+      "uuid": "node2",
+    },
+    Object {
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node3_action0",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_uuid": null,
+          "name": null,
+          "uuid": "node3_exit0",
+        },
+      ],
+      "uuid": "node3",
+    },
+  ],
+  "uuid": "boring",
+}
+`;
+
 exports[`mutators should removeAction 1`] = `
 Object {
   "node0": Object {

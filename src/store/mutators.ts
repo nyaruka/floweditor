@@ -694,7 +694,7 @@ export const updateLocalization = (
     // adding translations
     if (translations) {
       // normalize our translations so all are treated as arrays
-      const normalizedTranslations: { [uuid: string]: string[] } = {};
+      let normalizedTranslations: { [attribute: string]: any } = {};
       const attributes = Object.keys(translations);
       for (const key of attributes) {
         const prev = translations[key];
@@ -706,83 +706,30 @@ export const updateLocalization = (
       }
 
       if (autoTranslated) {
-        // we need to make sure we have our auto translations record
-        if (!newDef._ui.auto_translations) {
-          newDef = mutate(newDef, {
-            _ui: { auto_translations: set({}) }
-          });
-        }
-
-        // make sure we have a record for this language too
-        if (!newDef._ui.auto_translations[language]) {
-          newDef = mutate(newDef, {
-            _ui: { auto_translations: merge({ [language]: {} }) }
-          });
-        }
-
         // first get our existing auto translations for this uuid if we have any
-        let autoTranslations: string[] = newDef._ui.auto_translations[language][uuid] || [];
+        let autoTranslations = newDef.localization[language]?.[uuid]?._ui?.auto_translations ?? [];
 
         // add our new attribute if it isn't there already
         autoTranslations = [...new Set([...autoTranslations, ...attributes])];
 
-        // mark as auto translated
-        newDef = mutate(newDef, {
-          _ui: { auto_translations: { [language]: { [uuid]: set(autoTranslations) } } }
-        });
+        normalizedTranslations['_ui'] = {
+          auto_translated: autoTranslations
+        };
 
-        // now store the actual localization, since auto translations are given
-        // one attribute at a time, we need to merge.
-        try {
-          newDef = mutate(newDef, {
-            localization: { [language]: { [uuid]: merge(normalizedTranslations) } }
-          });
-        } catch (e) {
-          newDef = mutate(newDef, {
-            localization: { [language]: { [uuid]: set(normalizedTranslations) } }
-          });
-        }
-      } else {
-        // normal translations are given all at once, so we can just set them
-        newDef = mutate(newDef, {
-          localization: { [language]: { [uuid]: set(normalizedTranslations) } }
-        });
-
-        // which also means we can remove all auto translations for this uuid
-        if (newDef._ui.auto_translations && newDef._ui.auto_translations[language]) {
-          newDef = mutate(newDef, {
-            _ui: { auto_translations: { [language]: unset([uuid]) } }
-          });
-        }
-
-        // if no other auto translations, then remove the language
-        if (newDef._ui.auto_translations) {
-          if (Object.keys(newDef._ui.auto_translations[language] || {}).length === 0) {
-            newDef = mutate(newDef, {
-              _ui: { auto_translations: unset([language]) }
-            });
-          }
-
-          // lastly, get rid of our auto translations if there aren't any
-          if (Object.keys(newDef._ui.auto_translations).length === 0) {
-            newDef = mutate(newDef, {
-              _ui: unset(['auto_translations'])
-            });
-          }
-        }
+        // if we are auto translating, we need to merge our new translations with the previous ones
+        let existingTranslations = newDef.localization[language]?.[uuid] ?? {};
+        normalizedTranslations = { ...existingTranslations, ...normalizedTranslations };
       }
+
+      // should have attomic set of translations now, set them
+      newDef = mutate(newDef, {
+        localization: { [language]: { [uuid]: set(normalizedTranslations) } }
+      });
     } else {
       // removing localization
       newDef = mutate(newDef, {
         localization: { [language]: unset([uuid]) }
       });
-
-      // remove auto translation if it exists
-      if (newDef._ui.auto_translations && newDef._ui.auto_translations[language]) {
-        newDef = mutate(newDef, {
-          _ui: { auto_translations: { [language]: unset([uuid]) } }
-        });
-      }
     }
   });
 
