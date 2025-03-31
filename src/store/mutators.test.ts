@@ -245,6 +245,21 @@ describe('mutators', () => {
     expect(updated).toMatchSnapshot();
   });
 
+  it('should designate auto translation', () => {
+    let updated = updateLocalization(
+      definition,
+      'spa',
+      [{ uuid: 'node0_action0', translations: { text: 'Hola Mundo!' } }],
+      true
+    );
+
+    expect(updated.localization.spa).toEqual({
+      node0_action0: { text: ['Hola Mundo!'], _ui: { auto_translated: ['text'] } }
+    });
+
+    expect(updated).toMatchSnapshot();
+  });
+
   it('should remove localizations', () => {
     // add some localizations
     let localized = updateLocalization(definition, 'spa', [

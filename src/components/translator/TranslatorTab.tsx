@@ -308,11 +308,13 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
               // cache the translation
               this.translationCache[translation.from] = response.json['result'];
 
-              const result = response.json['text'];
-              translationUpdate.push({
-                uuid: translation.uuid,
-                translations: { [translation.attribute]: result }
-              });
+              const result = response.json['result'] || response.json['text'];
+              if (result) {
+                translationUpdate.push({
+                  uuid: translation.uuid,
+                  translations: { [translation.attribute]: result }
+                });
+              }
             }
           });
       }

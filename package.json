@@ -124,7 +124,7 @@
     "lodash.clonedeep": "4.5.0",
     "moment": "2.29.4",
     "netlify-lambda": "^1.4.9",
-    "prettier": "1.18.2",
+    "prettier": "1.19",
     "pretty-quick": "^1.11.0",
     "prop-types": "15.5.7",
     "raf": "^3.4.0",
@@ -155,7 +155,7 @@
     "tslint": "5.17.0",
     "tslint-config-prettier": "1.18.0",
     "tslint-plugin-prettier": "2.0.1",
-    "typescript": "3.4.5",
+    "typescript": "3.7",
     "uniqid": "5.0.3",
     "uuid": "3.3.2"
   },
