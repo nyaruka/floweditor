@@ -109,8 +109,6 @@ export const initializeForm = (
 };
 
 export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormState): SendMsg => {
-  console.log(settings, state);
-
   const attachments = state.attachments
     .filter((attachment: Attachment) => attachment.url.trim().length > 0)
     .map((attachment: Attachment) => `${attachment.type}:${attachment.url}`);
