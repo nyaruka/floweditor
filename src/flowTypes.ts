@@ -83,6 +83,7 @@ export interface FlowEditorConfig {
   excludeTypes?: string[];
 
   excludeOperators?: string[];
+  skipValidation?: boolean;
 }
 
 export interface LocalizationMap {

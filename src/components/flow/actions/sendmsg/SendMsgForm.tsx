@@ -21,7 +21,6 @@ import { Template, TemplateTranslation } from 'flowTypes';
 import mutate from 'immutability-helper';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
-import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 
 import {
   FormState,
@@ -83,9 +82,9 @@ const additionalOption = {
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
   private timeout: any;
 
-  constructor(props: ActionFormProps) {
+  constructor(props: ActionFormProps, context: any) {
     super(props);
-    this.state = stateToForm(this.props.nodeSettings, this.props.assetStore);
+    this.state = stateToForm(this.props.nodeSettings, context.config);
     bindCallbacks(this, {
       include: [/^handle/, /^on/]
     });
@@ -577,20 +576,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           focus={true}
           textarea={true}
         />
-        <div className={styles.container}>
-          <div className={styles.checkbox}>
-            <CheckboxElement
-              name={i18n.t('forms.timeout', 'Timeout')}
-              checked={this.state.skipValidation}
-              title={'Skip Result Validation'}
-              description="Check this box to bypass validation for results that are fetched dynamically via the resumeFlow API. This is useful when the result might not be defined at the flow level in advance."
-              onChange={value => {
-                this.setState({ skipValidation: value });
-              }}
-            />
-          </div>
-          <temba-charcount class={`sms-counter ${styles.counter}`}></temba-charcount>
-        </div>
         {this.renderLabelOption()}
         {renderIssues(this.props)}
       </Dialog>

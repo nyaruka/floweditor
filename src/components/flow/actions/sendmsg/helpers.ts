@@ -2,8 +2,7 @@
 import { getActionUUID } from 'components/flow/actions/helpers';
 import { SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from 'config/interfaces';
-import { Label, MsgTemplating, SendMsg } from 'flowTypes';
-import { AssetStore } from 'store/flowContext';
+import { FlowEditorConfig, Label, MsgTemplating, SendMsg } from 'flowTypes';
 import { FormEntry, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { createUUID } from 'utils';
@@ -18,7 +17,7 @@ export const TOPIC_OPTIONS: SelectOption[] = [
 
 export const initializeForm = (
   settings: NodeEditorSettings,
-  assetStore: AssetStore
+  config: FlowEditorConfig
 ): SendMsgFormState => {
   let template: FormEntry = { value: null };
   let templateVariables: StringEntry[] = [];
@@ -69,8 +68,8 @@ export const initializeForm = (
         })
       : [];
 
-    if (action.skipValidation) {
-      skipValidation = action.skipValidation;
+    if (config.skipValidation) {
+      skipValidation = config.skipValidation;
     }
 
     return {
@@ -156,8 +155,7 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
       return label;
     }),
     quick_replies: state.quickReplies.value,
-    uuid: getActionUUID(settings, Types.send_msg),
-    skipValidation: state.skipValidation
+    uuid: getActionUUID(settings, Types.send_msg)
   };
 
   if (templating) {
