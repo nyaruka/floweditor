@@ -76,6 +76,10 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
     }
     return (
       <temba-checkbox
+        onClick={(e: MouseEvent) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
         ref={(ele: any) => {
           this.checkbox = ele;
         }}
