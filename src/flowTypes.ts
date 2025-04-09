@@ -83,6 +83,7 @@ export interface FlowEditorConfig {
   excludeTypes?: string[];
 
   excludeOperators?: string[];
+  skipValidation?: boolean;
 }
 
 export interface LocalizationMap {
@@ -397,6 +398,7 @@ export interface SendMsg extends Action {
   topic?: string;
   templating?: MsgTemplating;
   labels?: Label[];
+  skipValidation?: boolean;
 }
 
 export interface SendInteractiveMsg extends Action {

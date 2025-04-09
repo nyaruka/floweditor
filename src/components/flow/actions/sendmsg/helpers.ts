@@ -2,8 +2,7 @@
 import { getActionUUID } from 'components/flow/actions/helpers';
 import { SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from 'config/interfaces';
-import { Label, MsgTemplating, SendMsg } from 'flowTypes';
-import { AssetStore } from 'store/flowContext';
+import { FlowEditorConfig, Label, MsgTemplating, SendMsg } from 'flowTypes';
 import { FormEntry, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { createUUID } from 'utils';
@@ -18,10 +17,11 @@ export const TOPIC_OPTIONS: SelectOption[] = [
 
 export const initializeForm = (
   settings: NodeEditorSettings,
-  assetStore: AssetStore
+  config: FlowEditorConfig
 ): SendMsgFormState => {
   let template: FormEntry = { value: null };
   let templateVariables: StringEntry[] = [];
+  let skipValidation = false;
 
   if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
     const action = settings.originalAction as SendMsg;
@@ -68,6 +68,10 @@ export const initializeForm = (
         })
       : [];
 
+    if (config.skipValidation) {
+      skipValidation = config.skipValidation;
+    }
+
     return {
       expression: expressionValue,
       topic: { value: TOPIC_OPTIONS.find(option => option.value === action.topic) },
@@ -83,7 +87,8 @@ export const initializeForm = (
       quickReplies: { value: action.quick_replies || [] },
       quickReplyEntry: { value: '' },
       sendAll: action.all_urns,
-      valid: true
+      valid: true,
+      skipValidation
     };
   }
 
@@ -136,7 +141,6 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
       templating.expression = state.expression.value;
     }
   }
-
   const result: SendMsg = {
     attachments,
     text: state.message.value,

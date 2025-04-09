@@ -264,6 +264,7 @@ Object {
     "value": "",
   },
   "sendAll": true,
+  "skipValidation": false,
   "template": Object {
     "value": null,
   },

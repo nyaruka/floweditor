@@ -21,6 +21,7 @@ import { Template, TemplateTranslation } from 'flowTypes';
 import mutate from 'immutability-helper';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
+
 import {
   FormState,
   mergeForm,
@@ -62,6 +63,7 @@ export interface SendMsgFormState extends FormState {
   templateTranslation?: TemplateTranslation;
   labels?: any;
   expression?: any;
+  skipValidation?: boolean;
 }
 
 // this is an additonal item in templates that need to have a same format as other list items
@@ -80,9 +82,9 @@ const additionalOption = {
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
   private timeout: any;
 
-  constructor(props: ActionFormProps) {
+  constructor(props: ActionFormProps, context: any) {
     super(props);
-    this.state = stateToForm(this.props.nodeSettings, this.props.assetStore);
+    this.state = stateToForm(this.props.nodeSettings, context.config);
     bindCallbacks(this, {
       include: [/^handle/, /^on/]
     });
@@ -113,13 +115,17 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   ): boolean {
     const updates: Partial<SendMsgFormState> = {};
     if (keys.hasOwnProperty('text')) {
-      updates.message = validate(i18n.t('forms.message', 'Message'), keys.text, [
-        validateIf(ValidField(this.props.assetStore), submitting),
+      let validatorFuncs = [
         shouldRequireIf(
           submitting && !this.state.template.value && this.state.attachments.length === 0
         ),
         CharactersLessThan(4096, '4096 characters')
-      ]);
+      ];
+
+      if (!this.state.skipValidation) {
+        validatorFuncs.push(validateIf(ValidField(this.props.assetStore), submitting));
+      }
+      updates.message = validate(i18n.t('forms.message', 'Message'), keys.text, validatorFuncs);
     }
 
     if (keys.hasOwnProperty('template')) {
