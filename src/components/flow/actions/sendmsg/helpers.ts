@@ -23,6 +23,10 @@ export const initializeForm = (
   let templateVariables: StringEntry[] = [];
   let skipValidation = false;
 
+  if (config.skipValidation) {
+    skipValidation = config.skipValidation;
+  }
+
   if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
     const action = settings.originalAction as SendMsg;
     const attachments: Attachment[] = [];
@@ -68,10 +72,6 @@ export const initializeForm = (
         })
       : [];
 
-    if (config.skipValidation) {
-      skipValidation = config.skipValidation;
-    }
-
     return {
       expression: expressionValue,
       topic: { value: TOPIC_OPTIONS.find(option => option.value === action.topic) },
@@ -104,7 +104,8 @@ export const initializeForm = (
     quickReplyEntry: { value: '' },
     sendAll: false,
     valid: false,
-    labels: { value: [] }
+    labels: { value: [] },
+    skipValidation
   };
 };
 
