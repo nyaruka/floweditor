@@ -115,11 +115,12 @@ Array [
         "cases": Array [
           Object {
             "arguments": Array [
-              "Success",
+              "200",
+              "299",
             ],
             "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-            "type": "has_only_text",
-            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "type": "has_number_between",
+            "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
           },
         ],
         "categories": Array [
@@ -135,7 +136,7 @@ Array [
           },
         ],
         "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-        "operand": "@results.result.category",
+        "operand": "@webhook.status",
         "type": "switch",
       },
       "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
@@ -159,44 +160,45 @@ Array [
           "resthook": "new-resthook",
           "result_name": "Result",
           "type": "call_resthook",
-          "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+          "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
         },
       ],
       "exits": Array [
         Object {
           "destination_uuid": null,
-          "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+          "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
         },
         Object {
           "destination_uuid": null,
-          "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+          "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
         },
       ],
       "router": Object {
         "cases": Array [
           Object {
             "arguments": Array [
-              "Success",
+              "200",
+              "299",
             ],
-            "category_uuid": "6c22884b-0e35-4206-982e-18320691eda9",
-            "type": "has_only_text",
-            "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+            "category_uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+            "type": "has_number_between",
+            "uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
           },
         ],
         "categories": Array [
           Object {
-            "exit_uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+            "exit_uuid": "6c22884b-0e35-4206-982e-18320691eda9",
             "name": "Success",
-            "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+            "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
           },
           Object {
-            "exit_uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+            "exit_uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
             "name": "Failure",
-            "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+            "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
           },
         ],
-        "default_category_uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
-        "operand": "@results.result.category",
+        "default_category_uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
+        "operand": "@webhook.status",
         "type": "switch",
       },
       "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
@@ -254,11 +256,12 @@ Array [
         "cases": Array [
           Object {
             "arguments": Array [
-              "Success",
+              "200",
+              "299",
             ],
             "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-            "type": "has_only_text",
-            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "type": "has_number_between",
+            "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
           },
         ],
         "categories": Array [
@@ -274,7 +277,7 @@ Array [
           },
         ],
         "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-        "operand": "@results.result.category",
+        "operand": "@webhook.status",
         "type": "switch",
       },
       "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",

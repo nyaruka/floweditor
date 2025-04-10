@@ -1,4 +1,4 @@
-import { createWebhookBasedNode } from 'components/flow/routers/helpers';
+import { createServiceCallSplitNode } from 'components/flow/routers/helpers';
 import { Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import { OpenTicket } from 'flowTypes';
@@ -64,5 +64,5 @@ export const stateToNode = (
     result_name: state.resultName.value
   };
 
-  return createWebhookBasedNode(newAction, settings.originalNode, true);
+  return createServiceCallSplitNode(newAction, settings.originalNode, false);
 };

@@ -51,7 +51,7 @@ import {
   UINode,
   Wait,
   WaitTypes,
-  WebhookExitNames,
+  ServiceCallExitNames,
   HintTypes,
   CallClassifier,
   ComposeAttachment
@@ -387,15 +387,15 @@ export const createWebhookNode = (
   useCategoryTest: boolean
 ) => {
   const { categories, exits } = createCategories([
-    WebhookExitNames.Success,
-    WebhookExitNames.Failure
+    ServiceCallExitNames.Success,
+    ServiceCallExitNames.Failure
   ]);
 
   const cases: Case[] = [
     {
       uuid: utils.createUUID(),
       type: useCategoryTest ? Operators.has_category : Operators.has_only_text,
-      arguments: [WebhookExitNames.Success],
+      arguments: [ServiceCallExitNames.Success],
       category_uuid: categories[0].uuid
     }
   ];
