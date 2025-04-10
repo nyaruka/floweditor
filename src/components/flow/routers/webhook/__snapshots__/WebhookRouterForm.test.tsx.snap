@@ -280,14 +280,14 @@ Object {
     Object {
       "value": Object {
         "name": "Accept",
-        "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+        "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
         "value": "application/json",
       },
     },
     Object {
       "value": Object {
         "name": "",
-        "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
+        "uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
         "value": "",
       },
     },
@@ -328,14 +328,6 @@ Object {
     Object {
       "value": Object {
         "name": "Accept",
-        "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
-        "value": "application/json",
-      },
-    },
-    Object {
-      "validationFailures": undefined,
-      "value": Object {
-        "name": "Content-Type",
         "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
         "value": "application/json",
       },
@@ -343,8 +335,16 @@ Object {
     Object {
       "validationFailures": undefined,
       "value": Object {
+        "name": "Content-Type",
+        "uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
+        "value": "application/json",
+      },
+    },
+    Object {
+      "validationFailures": undefined,
+      "value": Object {
         "name": "",
-        "uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+        "uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
         "value": "",
       },
     },
@@ -608,11 +608,12 @@ Array [
         "cases": Array [
           Object {
             "arguments": Array [
-              "Success",
+              "200",
+              "299",
             ],
             "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-            "type": "has_only_text",
-            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "type": "has_number_between",
+            "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
           },
         ],
         "categories": Array [
@@ -628,7 +629,7 @@ Array [
           },
         ],
         "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-        "operand": "@results.my_webhook_result.category",
+        "operand": "@webhook.status",
         "type": "switch",
       },
       "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",

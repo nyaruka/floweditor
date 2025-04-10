@@ -1,4 +1,4 @@
-import { createWebhookBasedNode } from 'components/flow/routers/helpers';
+import { createServiceCallSplitNode } from 'components/flow/routers/helpers';
 import { WebhookRouterFormState } from 'components/flow/routers/webhook/WebhookRouterForm';
 import { DEFAULT_BODY } from 'components/nodeeditor/constants';
 import { Types } from 'config/interfaces';
@@ -133,7 +133,7 @@ export const stateToNode = (
     result_name: state.resultName.value
   };
 
-  return createWebhookBasedNode(newAction, settings.originalNode, false);
+  return createServiceCallSplitNode(newAction, settings.originalNode, true);
 };
 
 export const getDefaultBody = (method: string): string => {

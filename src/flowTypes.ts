@@ -585,14 +585,9 @@ export enum StartFlowExitNames {
   Expired = 'Expired'
 }
 
-export enum WebhookExitNames {
+export enum ServiceCallExitNames {
   Success = 'Success',
   Failure = 'Failure'
-}
-
-export enum TransferAirtimeExitNames {
-  Success = 'Success',
-  Failure = 'Failed'
 }
 
 export enum DialCategoryNames {
