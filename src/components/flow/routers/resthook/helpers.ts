@@ -1,4 +1,4 @@
-import { createWebhookBasedNode } from 'components/flow/routers/helpers';
+import { createServiceCallSplitNode } from 'components/flow/routers/helpers';
 import { Types } from 'config/interfaces';
 import { CallResthook } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
@@ -46,7 +46,7 @@ export const stateToNode = (
     result_name: state.resultName.value
   };
 
-  return createWebhookBasedNode(newAction, settings.originalNode, false);
+  return createServiceCallSplitNode(newAction, settings.originalNode, true);
 };
 
 export const getOriginalAction = (settings: NodeEditorSettings): CallResthook => {
