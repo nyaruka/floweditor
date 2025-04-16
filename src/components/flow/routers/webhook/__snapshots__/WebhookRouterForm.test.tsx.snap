@@ -239,7 +239,7 @@ exports[`WebhookRouterForm should render 1`] = `
         <span
           className="example"
         >
-          @webhook["stock level"]
+          @(webhook["stock level"])
         </span>
          for use in the flow.
       </Trans>
