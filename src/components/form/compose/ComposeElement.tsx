@@ -10,6 +10,8 @@ export interface ComposeProps extends FormElementProps {
   chatbox?: boolean;
   attachments?: boolean;
   counter?: boolean;
+  maxlength?: number;
+  maxattachments?: number;
   onChange?: (composeValue: string) => void;
 }
 
@@ -63,6 +65,14 @@ export default class ComposeElement extends React.Component<ComposeProps> {
     }
     if (this.props.counter) {
       optional['counter'] = this.props.counter;
+    }
+
+    if (this.props.maxlength) {
+      optional['maxlength'] = this.props.maxlength;
+    }
+
+    if (this.props.maxattachments) {
+      optional['maxattachments'] = this.props.maxattachments;
     }
 
     return (

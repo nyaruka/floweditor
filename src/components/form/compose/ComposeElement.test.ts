@@ -14,6 +14,9 @@ const createWrapper = () => {
       chatbox: true,
       attachments: true,
       counter: true,
+      maxattachments: 5,
+      maxlength: 3000,
+
       // button: true,
       // handleButtonClicked: jest.fn(),
       onChange: jest.fn()
