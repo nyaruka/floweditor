@@ -251,7 +251,7 @@ exports[`WebhookRouterForm should render 1`] = `
         i18nKey="forms.result_name_help"
         values={
           Object {
-            "resultFormat": "@results.result",
+            "resultFormat": "@results",
           }
         }
       >
@@ -264,7 +264,7 @@ exports[`WebhookRouterForm should render 1`] = `
     toggleText="Save as.."
     value={
       Object {
-        "value": "Result",
+        "value": "",
       }
     }
   />
@@ -298,7 +298,7 @@ Object {
     },
   },
   "resultName": Object {
-    "value": "Result",
+    "value": "",
   },
   "url": Object {
     "validationFailures": Array [],
@@ -353,7 +353,7 @@ Object {
     "value": "POST",
   },
   "resultName": Object {
-    "value": "Result",
+    "value": "",
   },
   "url": Object {
     "validationFailures": Array [],
@@ -512,30 +512,13 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
         <div
           class="optional_text_input"
         >
-          <div
-            class="ele"
+          <span
+            class="toggle_link"
+            data-spec="toggle-link"
+            data-testid="toggle-link"
           >
-            <div
-              class="label"
-            >
-              Result Name
-            </div>
-            <div
-              class="wrapper normal"
-            >
-              <input
-                data-testid="Result Name"
-                name="Result Name"
-                value="Result"
-              />
-            </div>
-            <div
-              class="help_text"
-            >
-              By naming the result, you can reference it later using @results.result
-               
-            </div>
-          </div>
+            Save as..
+          </span>
         </div>
       </div>
       <div

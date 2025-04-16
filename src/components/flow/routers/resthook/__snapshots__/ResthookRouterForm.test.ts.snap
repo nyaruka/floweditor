@@ -158,7 +158,7 @@ Array [
       "actions": Array [
         Object {
           "resthook": "new-resthook",
-          "result_name": "Result",
+          "result_name": "",
           "type": "call_resthook",
           "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
         },

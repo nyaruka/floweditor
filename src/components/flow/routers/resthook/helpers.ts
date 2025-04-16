@@ -9,7 +9,7 @@ import { ResthookRouterFormState } from './ResthookRouterForm';
 
 export const nodeToState = (settings: NodeEditorSettings): ResthookRouterFormState => {
   let resthookAsset: FormEntry = { value: null };
-  let resultName = { value: 'Result' };
+  let resultName = { value: '' };
   let valid = false;
 
   const originalAction = getOriginalAction(settings) as CallResthook;

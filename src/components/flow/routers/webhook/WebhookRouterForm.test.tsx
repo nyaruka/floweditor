@@ -38,11 +38,14 @@ describe(WebhookRouterForm.name, () => {
       fireEvent.click(okButton);
       expect(webhookForm.updateRouter).not.toBeCalled();
 
-      // set our url and name
+      // set our url and add a result name
       const url = getByTestId('URL');
-      const resultName = getByTestId('Result Name');
-
       fireChangeText(url, 'http://app.rapidpro.io');
+
+      const toggleLink = getByTestId('toggle-link');
+      toggleLink.click();
+
+      const resultName = getByTestId('Result Name');
       fireChangeText(resultName, 'My Webhook Result');
 
       // make it a post
@@ -94,11 +97,14 @@ describe(WebhookRouterForm.name, () => {
       webhookForm.updateRouter = jest.fn();
       const { getByText, getByTestId } = render(<WebhookRouterForm {...webhookForm} />);
 
-      // set our url and name
+      // set our url and add a result name
       const url = getByTestId('URL');
-      const resultName = getByTestId('Result Name');
-
       fireChangeText(url, 'bad url');
+
+      const toggleLink = getByTestId('toggle-link');
+      toggleLink.click();
+
+      const resultName = getByTestId('Result Name');
       fireChangeText(resultName, 'My Webhook Result');
 
       // we need a valid url
