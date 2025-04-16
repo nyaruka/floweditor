@@ -182,7 +182,7 @@ exports[`SendMsgForm render should render 1`] = `
       }
     }
     focus={true}
-    maxLength={10000}
+    maxLength={4096}
     name="Message"
     onChange={[Function]}
     showLabel={false}

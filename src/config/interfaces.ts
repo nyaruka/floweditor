@@ -164,5 +164,5 @@ export const VISIBILITY_INTERACTIVE = [
 export const VISIBILITY_SURVEYOR = [FlowTypes.MESSAGING_OFFLINE];
 export const VISIBILITY_HIDDEN = [FlowTypes.NONE];
 
-export const MAX_TEXT_LEN = 10000;
+export const MAX_TEXT_LEN = 4096;
 export const MAX_ATTACHMENTS = 10;

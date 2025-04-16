@@ -14,8 +14,8 @@ import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
 
 const EMAIL_PATTERN = /\S+@\S+\.\S+/;
-const EMAIL_MAX_LENGTH_SUBJECT = 1000;
-const EMAIL_MAX_LENGTH_MESSAGE = 10000;
+const EMAIL_MAX_LENGTH_SUBJECT = 640;
+const EMAIL_MAX_LENGTH_MESSAGE = 4096;
 
 export interface SendEmailFormState extends FormState {
   recipients: StringArrayEntry;

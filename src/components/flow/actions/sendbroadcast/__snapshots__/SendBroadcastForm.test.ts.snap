@@ -76,7 +76,7 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
       }
     }
     maxattachments={10}
-    maxlength={10000}
+    maxlength={4096}
     name="Compose"
     onChange={[Function]}
   />
@@ -176,7 +176,7 @@ exports[`SendBroadcastForm render should render self, children with base props 1
       }
     }
     maxattachments={10}
-    maxlength={10000}
+    maxlength={4096}
     name="Compose"
     onChange={[Function]}
   />
