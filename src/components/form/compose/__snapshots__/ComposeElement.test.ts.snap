@@ -10,6 +10,8 @@ exports[`ComposeElement renders 1`] = `
       "value": "",
     }
   }
+  maxattachments={5}
+  maxlength={3000}
   name="Compose"
   onChange={[MockFunction]}
 >
@@ -28,6 +30,8 @@ exports[`ComposeElement renders 1`] = `
         attachments={true}
         chatbox={true}
         counter={true}
+        maxattachments={5}
+        maxlength={3000}
         name="Compose"
         onChange={[Function]}
         value=""

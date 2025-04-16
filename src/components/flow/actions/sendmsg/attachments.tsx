@@ -8,14 +8,13 @@ import { TembaSelectStyle } from 'temba/TembaSelect';
 import { createUUID, renderIf } from 'utils';
 import styles from './attachments.module.scss';
 import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
+import { MAX_ATTACHMENTS } from 'config/interfaces';
 
 export interface Attachment {
   type: string;
   url: string;
   uploaded?: boolean;
 }
-
-const MAX_ATTACHMENTS = 3;
 
 const TYPE_OPTIONS: SelectOption[] = [
   { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },

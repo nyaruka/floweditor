@@ -12,6 +12,7 @@ import { MaxOf640Chars, MaxOfThreeItems, shouldRequireIf, validate } from 'store
 import i18n from 'config/i18n';
 import { getComposeByAsset, getEmptyComposeValue, renderIssues } from '../helpers';
 import ComposeElement from 'components/form/compose/ComposeElement';
+import { MAX_ATTACHMENTS, MAX_TEXT_LEN } from 'config/interfaces';
 
 export interface SendBroadcastFormState extends FormState {
   compose: StringEntry;
@@ -167,6 +168,8 @@ export default class SendBroadcastForm extends React.Component<
           attachments
           counter
           entry={this.state.compose}
+          maxlength={MAX_TEXT_LEN}
+          maxattachments={MAX_ATTACHMENTS}
           onChange={this.handleComposeChanged}
         ></ComposeElement>
         {renderIssues(this.props)}

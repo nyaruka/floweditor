@@ -75,6 +75,8 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
         "value": "{\\"text\\":\\"\\",\\"attachments\\":[]}",
       }
     }
+    maxattachments={10}
+    maxlength={10000}
     name="Compose"
     onChange={[Function]}
   />
@@ -173,6 +175,8 @@ exports[`SendBroadcastForm render should render self, children with base props 1
         "value": "{\\"text\\":\\"Some broadcast message\\",\\"attachments\\":[]}",
       }
     }
+    maxattachments={10}
+    maxlength={10000}
     name="Compose"
     onChange={[Function]}
   />

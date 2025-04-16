@@ -14,6 +14,8 @@ import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
 
 const EMAIL_PATTERN = /\S+@\S+\.\S+/;
+const EMAIL_MAX_LENGTH_SUBJECT = 1000;
+const EMAIL_MAX_LENGTH_MESSAGE = 10000;
 
 export interface SendEmailFormState extends FormState {
   recipients: StringArrayEntry;
@@ -128,6 +130,7 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
             onChange={this.handleSubjectChanged}
             entry={this.state.subject}
             autocomplete={true}
+            maxLength={EMAIL_MAX_LENGTH_SUBJECT}
           />
           <TextInputElement
             __className={styles.message}
@@ -137,6 +140,7 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
             entry={this.state.body}
             autocomplete={true}
             textarea={true}
+            maxLength={EMAIL_MAX_LENGTH_MESSAGE}
           />
         </div>
         {renderIssues(this.props)}
