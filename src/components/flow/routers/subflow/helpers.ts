@@ -106,7 +106,7 @@ export const stateToNode = (
       }
     ];
 
-    //we don't support expired right now for
+    //we don't support expired right now for enter a flow node
 
     // if (parentFlowType !== FlowTypes.VOICE) {
     //   exits.push({

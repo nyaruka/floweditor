@@ -89,8 +89,10 @@ export const removeExpiredCategory = (renderNode: RenderNode) => {
     if (isSubflow) {
       let expired_category = categories.find(item => item.name === StartFlowExitNames.Expired);
 
-      categories = categories.filter(item => item.name !== StartFlowExitNames.Expired);
-      exits = exits.filter(exit => exit.uuid !== expired_category.exit_uuid);
+      if (expired_category) {
+        categories = categories.filter(item => item.name !== StartFlowExitNames.Expired);
+        exits = exits.filter(exit => exit.uuid !== expired_category.exit_uuid);
+      }
     }
   }
 

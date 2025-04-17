@@ -506,7 +506,6 @@ const mapStateToProps = (
 
   // if we match our ghost node use that
   if (ghostNode && ghostNode.node.uuid === props.nodeUUID) {
-    console.log(ghostNode);
     renderNode = ghostNode;
   }
 
