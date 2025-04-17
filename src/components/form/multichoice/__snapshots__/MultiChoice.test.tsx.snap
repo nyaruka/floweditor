@@ -5,6 +5,7 @@ exports[`MultiChoiceInput should render 1`] = `
   <p />
   <TembaSelect
     expressions={true}
+    maxitems={10}
     multi={true}
     name="Multi Choice"
     onChange={[Function]}

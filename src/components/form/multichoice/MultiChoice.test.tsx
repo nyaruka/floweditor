@@ -5,7 +5,8 @@ import MultiChoiceInput, { MultiChoiceInputProps } from './MultiChoice';
 
 const { setup } = composeComponentTestUtils<MultiChoiceInputProps>(MultiChoiceInput, {
   name: 'Multi Choice',
-  items: { value: ['one', 'two', 'three'] }
+  items: { value: ['one', 'two', 'three'] },
+  maxItems: 10
 });
 
 mock(utils, 'createUUID', utils.seededUUIDs());

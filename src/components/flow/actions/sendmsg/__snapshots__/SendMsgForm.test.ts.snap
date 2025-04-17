@@ -112,6 +112,7 @@ exports[`SendMsgForm render should render 1`] = `
                 "value": Array [],
               }
             }
+            maxItems={10}
             name="Quick Reply"
             onChange={[Function]}
           />

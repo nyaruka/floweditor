@@ -166,3 +166,4 @@ export const VISIBILITY_HIDDEN = [FlowTypes.NONE];
 
 export const MAX_TEXT_LEN = 10000;
 export const MAX_ATTACHMENTS = 10;
+export const MAX_QUICK_REPLIES = 10;

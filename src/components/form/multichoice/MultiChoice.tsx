@@ -6,6 +6,7 @@ import TembaSelect from 'temba/TembaSelect';
 export interface MultiChoiceInputProps {
   name: string;
   items: StringArrayEntry;
+  maxItems?: number;
   entry?: StringEntry;
   onChange?: (values: string[]) => void;
   helpText?: JSX.Element;
@@ -54,6 +55,7 @@ export default class MultiChoiceInput extends React.Component<
           onChange={this.handleChange}
           value={values}
           multi={true}
+          maxitems={this.props.maxItems}
           tags={true}
           searchable={true}
           expressions={true}

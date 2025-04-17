@@ -28,6 +28,7 @@ export interface TembaSelectProps {
   placeholder?: string;
   searchable?: boolean;
   multi?: boolean;
+  maxitems?: number;
   tags?: boolean;
 
   cacheKey?: string;
@@ -218,6 +219,7 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
           placeholder={this.props.placeholder}
           searchable={bool(this.props.searchable)}
           multi={bool(this.props.multi)}
+          maxitems={this.props.maxitems}
           disabled={this.props.disabled}
           clearable={this.props.clearable}
           tags={this.props.tags}
