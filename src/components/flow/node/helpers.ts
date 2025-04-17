@@ -10,7 +10,8 @@ import {
   TransferAirtime,
   Action,
   AnyAction,
-  FlowIssue
+  FlowIssue,
+  StartFlowExitNames
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { getType } from 'config/typeConfigs';
@@ -76,4 +77,22 @@ export const filterIssuesForAction = (
   issues: FlowIssue[]
 ): FlowIssue[] => {
   return issues.filter(issue => issue.node_uuid === nodeUUID && issue.action_uuid === action.uuid);
+};
+
+export const removeExpiredCategory = (renderNode: RenderNode) => {
+  const isSubflow = renderNode.ui.type === Types.split_by_subflow;
+  let exits = renderNode.node.exits;
+  let categories: Category[] = [];
+
+  if (!renderNode.ghost && renderNode.node.router && renderNode.node.router.categories) {
+    categories = renderNode.node.router.categories;
+    if (isSubflow) {
+      let expired_category = categories.find(item => item.name === StartFlowExitNames.Expired);
+
+      categories = categories.filter(item => item.name !== StartFlowExitNames.Expired);
+      exits = exits.filter(exit => exit.uuid !== expired_category.exit_uuid);
+    }
+  }
+
+  return { exits, categories };
 };

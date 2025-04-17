@@ -7,7 +7,8 @@ import {
   getCategoriesForExit,
   getResultName,
   getVisibleActions,
-  filterIssuesForAction
+  filterIssuesForAction,
+  removeExpiredCategory
 } from 'components/flow/node/helpers';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
 import shared from 'components/shared.module.scss';
@@ -213,7 +214,9 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
   private getExits(): JSX.Element[] {
     if (this.props.renderNode.node.exits) {
-      return this.props.renderNode.node.exits.map((exit: Exit, idx: number) => (
+      const { exits } = removeExpiredCategory(this.props.renderNode);
+
+      return exits.map((exit: Exit, idx: number) => (
         <ExitComp
           key={exit.uuid}
           node={this.props.renderNode.node}
@@ -503,6 +506,7 @@ const mapStateToProps = (
 
   // if we match our ghost node use that
   if (ghostNode && ghostNode.node.uuid === props.nodeUUID) {
+    console.log(ghostNode);
     renderNode = ghostNode;
   }
 

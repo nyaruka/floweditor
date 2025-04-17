@@ -106,23 +106,25 @@ export const stateToNode = (
       }
     ];
 
-    if (parentFlowType !== FlowTypes.VOICE) {
-      exits.push({
-        uuid: createUUID(),
-        destination_uuid: null
-      });
-      categories.push({
-        uuid: createUUID(),
-        name: StartFlowExitNames.Expired,
-        exit_uuid: exits[1].uuid
-      });
-      cases.push({
-        uuid: createUUID(),
-        arguments: ['expired'],
-        type: Operators.has_only_text,
-        category_uuid: categories[1].uuid
-      });
-    }
+    //we don't support expired right now for
+
+    // if (parentFlowType !== FlowTypes.VOICE) {
+    //   exits.push({
+    //     uuid: createUUID(),
+    //     destination_uuid: null
+    //   });
+    //   categories.push({
+    //     uuid: createUUID(),
+    //     name: StartFlowExitNames.Expired,
+    //     exit_uuid: exits[1].uuid
+    //   });
+    //   cases.push({
+    //     uuid: createUUID(),
+    //     arguments: ['expired'],
+    //     type: Operators.has_only_text,
+    //     category_uuid: categories[1].uuid
+    //   });
+    // }
   }
 
   const actions = [];
