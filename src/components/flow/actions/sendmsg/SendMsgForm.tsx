@@ -37,7 +37,7 @@ import { Trans } from 'react-i18next';
 import { Attachment, renderAttachments } from './attachments';
 import { TembaComponent } from 'temba/TembaComponent';
 import styles from './SendMsgForm.module.scss';
-import { MAX_TEXT_LEN } from 'config/interfaces';
+import { MAX_TEXT_LEN, MAX_QUICK_REPLIES } from 'config/interfaces';
 
 export interface SendMsgFormState extends FormState {
   message: StringEntry;
@@ -366,6 +366,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
               <Trans i18nKey="forms.add_quick_reply">Add a new Quick Reply and press enter.</Trans>
             }
             items={this.state.quickReplies}
+            maxItems={MAX_QUICK_REPLIES}
             entry={this.state.quickReplyEntry}
             onChange={this.handleQuickRepliesUpdate}
           />
