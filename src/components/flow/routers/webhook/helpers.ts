@@ -1,7 +1,7 @@
 import { createServiceCallSplitNode } from 'components/flow/routers/helpers';
 import { WebhookRouterFormState } from 'components/flow/routers/webhook/WebhookRouterForm';
 import { DEFAULT_BODY } from 'components/nodeeditor/constants';
-import { Types } from 'config/interfaces';
+import { Operators, Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import { CallWebhook } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
@@ -132,7 +132,13 @@ export const stateToNode = (
     result_name: state.resultName.value
   };
 
-  return createServiceCallSplitNode(newAction, settings.originalNode, true);
+  return createServiceCallSplitNode(
+    newAction,
+    settings.originalNode,
+    '@webhook.status',
+    Operators.has_number_between,
+    ['200', '299']
+  );
 };
 
 export const getDefaultBody = (method: string): string => {
