@@ -19,7 +19,7 @@ import {
   OpenTicket
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
-import { createUUID, snakify } from 'utils';
+import { createUUID } from 'utils';
 
 export interface CategorizedCases {
   cases: Case[];
@@ -333,12 +333,12 @@ export const resolveRoutes = (
 export const createServiceCallSplitNode = (
   action: CallWebhook | CallResthook | OpenTicket | TransferAirtime,
   originalNode: RenderNode,
-  useWebhookTest: boolean
+  operand: string,
+  test: Operators,
+  args: string[]
 ): RenderNode => {
   const exits: Exit[] = [];
-  let cases: Case[] = [];
   let categories: Category[] = [];
-  let operand = '';
 
   // see if we are editing an existing router so we reuse exits
   if (
@@ -375,27 +375,14 @@ export const createServiceCallSplitNode = (
     ];
   }
 
-  if (useWebhookTest) {
-    operand = '@webhook.status';
-    cases = [
-      {
-        uuid: createUUID(),
-        type: Operators.has_number_between,
-        arguments: ['200', '299'],
-        category_uuid: categories[0].uuid
-      }
-    ];
-  } else {
-    operand = '@results.' + snakify(action.result_name);
-    cases = [
-      {
-        uuid: createUUID(),
-        type: Operators.has_category,
-        arguments: [ServiceCallExitNames.Success],
-        category_uuid: categories[0].uuid
-      }
-    ];
-  }
+  const cases = [
+    {
+      uuid: createUUID(),
+      type: test,
+      arguments: args,
+      category_uuid: categories[0].uuid
+    }
+  ];
 
   const router: SwitchRouter = {
     type: RouterTypes.switch,

@@ -1,10 +1,10 @@
 import { createServiceCallSplitNode } from 'components/flow/routers/helpers';
-import { Types } from 'config/interfaces';
+import { Operators, Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
-import { OpenTicket } from 'flowTypes';
+import { OpenTicket, ServiceCallExitNames } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, FormEntry } from 'store/nodeEditor';
-import { createUUID } from 'utils';
+import { createUUID, snakify } from 'utils';
 import { TicketRouterFormState } from 'components/flow/routers/ticket/TicketRouterForm';
 
 export const getOriginalAction = (settings: NodeEditorSettings): OpenTicket => {
@@ -64,5 +64,11 @@ export const stateToNode = (
     result_name: state.resultName.value
   };
 
-  return createServiceCallSplitNode(newAction, settings.originalNode, false);
+  return createServiceCallSplitNode(
+    newAction,
+    settings.originalNode,
+    '@results.' + snakify(state.resultName.value),
+    Operators.has_category,
+    [ServiceCallExitNames.Success]
+  );
 };

@@ -1,5 +1,5 @@
 import { createServiceCallSplitNode } from 'components/flow/routers/helpers';
-import { Types } from 'config/interfaces';
+import { Operators, Types } from 'config/interfaces';
 import { CallResthook } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { FormEntry, NodeEditorSettings } from 'store/nodeEditor';
@@ -46,7 +46,13 @@ export const stateToNode = (
     result_name: state.resultName.value
   };
 
-  return createServiceCallSplitNode(newAction, settings.originalNode, true);
+  return createServiceCallSplitNode(
+    newAction,
+    settings.originalNode,
+    '@webhook.status',
+    Operators.has_number_between,
+    ['200', '299']
+  );
 };
 
 export const getOriginalAction = (settings: NodeEditorSettings): CallResthook => {
