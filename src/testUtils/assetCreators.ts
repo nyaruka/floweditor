@@ -431,12 +431,11 @@ export const createWebhookRouterNode = (): FlowNode => {
   return createWebhookNode(action, false);
 };
 
-export const createOpenTicketNode = (subject: string, body: string): FlowNode => {
+export const createOpenTicketNode = (subject: string, note: string): FlowNode => {
   const action: OpenTicket = {
     uuid: utils.createUUID(),
     type: Types.open_ticket,
-    subject: subject,
-    body: body,
+    note: note,
     result_name: 'Result'
   };
   return createWebhookNode(action, true);

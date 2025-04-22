@@ -4,7 +4,7 @@ import { FlowTypes, Operators, Types, ContactStatus } from 'config/interfaces';
 import { ExclusionsCheckboxEntry } from 'store/nodeEditor';
 
 // we don't concern ourselves with patch versions
-export const SPEC_VERSION = '14.1';
+export const SPEC_VERSION = '14.2';
 
 export interface Languages {
   [iso: string]: string;
@@ -467,9 +467,8 @@ export interface CallWebhook extends Action {
 }
 
 export interface OpenTicket extends Action {
-  subject?: string;
   topic?: Topic;
-  body?: string;
+  note?: string;
   result_name: string;
   assignee?: User;
 }

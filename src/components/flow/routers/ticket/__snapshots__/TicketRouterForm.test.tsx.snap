@@ -376,7 +376,7 @@ Array [
               "role": "agent",
             },
           },
-          "body": "Where are my cookies",
+          "note": "Where are my cookies",
           "result_name": "My Ticket Result",
           "topic": Object {
             "value": Object {
