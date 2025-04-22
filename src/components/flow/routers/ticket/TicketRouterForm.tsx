@@ -24,7 +24,6 @@ import { Topic, User } from 'flowTypes';
 export interface TicketRouterFormState extends FormState {
   assignee: FormEntry;
   topic: FormEntry;
-  subject: StringEntry;
   note: StringEntry;
   resultName: StringEntry;
 }
@@ -58,7 +57,6 @@ export default class TicketRouterForm extends React.Component<
     keys: {
       assignee?: User;
       topic?: Topic;
-      subject?: string;
       note?: string;
       resultName?: string;
     },
@@ -74,10 +72,6 @@ export default class TicketRouterForm extends React.Component<
       updates.topic = validate(i18n.t('forms.topic', 'Topic'), keys.topic, [
         shouldRequireIf(submitting)
       ]);
-    }
-
-    if (keys.hasOwnProperty('subject')) {
-      updates.subject = validate(i18n.t('forms.subject', 'Subject'), keys.subject, []);
     }
 
     if (keys.hasOwnProperty('note')) {
@@ -103,10 +97,6 @@ export default class TicketRouterForm extends React.Component<
 
   private handleTopicUpdate(topic: Topic): void {
     this.handleUpdate({ topic });
-  }
-
-  private handleSubjectUpdate(subject: string, name: string, submitting = false): boolean {
-    return this.handleUpdate({ subject }, submitting);
   }
 
   private handleNoteUpdate(note: string): boolean {
@@ -137,7 +127,6 @@ export default class TicketRouterForm extends React.Component<
     const valid = this.handleUpdate(
       {
         topic: this.state.topic.value,
-        subject: this.state.subject.value,
         note: this.state.note.value,
         resultName: this.state.resultName.value
       },
