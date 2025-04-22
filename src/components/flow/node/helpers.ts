@@ -10,8 +10,7 @@ import {
   TransferAirtime,
   Action,
   AnyAction,
-  FlowIssue,
-  StartFlowExitNames
+  FlowIssue
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { getType } from 'config/typeConfigs';
