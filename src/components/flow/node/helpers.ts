@@ -78,20 +78,3 @@ export const filterIssuesForAction = (
 ): FlowIssue[] => {
   return issues.filter(issue => issue.node_uuid === nodeUUID && issue.action_uuid === action.uuid);
 };
-
-export const removeExpiredCategory = (renderNode: RenderNode) => {
-  let exits: Exit[] = renderNode.node.exits;
-  let categories: Category[] = [];
-
-  if (!renderNode.ghost && renderNode.node.router && renderNode.node.router.categories) {
-    categories = renderNode.node.router.categories;
-    let expired_category = categories.find(item => item.name === StartFlowExitNames.Expired);
-
-    if (expired_category) {
-      categories = categories.filter(item => item.name !== StartFlowExitNames.Expired);
-      exits = exits.filter(exit => exit.uuid !== expired_category.exit_uuid);
-    }
-  }
-
-  return { exits, categories };
-};

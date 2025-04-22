@@ -6,7 +6,7 @@ import { getExitActivityKey } from 'components/flow/exit/helpers';
 import Loading from 'components/loading/Loading';
 import { fakePropType } from 'config/ConfigProvider';
 import { Cancel, getRecentMessages } from 'external';
-import { Category, Exit, FlowNode, LocalizationMap } from 'flowTypes';
+import { Category, Exit, FlowNode, LocalizationMap, StartFlowExitNames } from 'flowTypes';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -21,6 +21,7 @@ import styles from './Exit.module.scss';
 import { Portal } from 'components/Portal';
 import i18n from 'config/i18n';
 import { SIMULATOR_CONTACT_UUID } from 'components/simulator/Simulator';
+import { Types } from 'config/interfaces';
 
 export interface RenderCategory extends Category {
   missing: boolean;
@@ -252,7 +253,19 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
   }
 
-  public getName(): { name: string; localized?: boolean } {
+  public getName(): { name: string; localized?: boolean; disabled?: boolean } {
+    let disabled = false;
+    if (
+      this.props.node.actions[0] &&
+      this.props.node.actions[0].type &&
+      this.props.node.actions[0].type === Types.enter_flow &&
+      this.props.categories.some(
+        (category: Category) => category.name === StartFlowExitNames.Expired
+      )
+    ) {
+      disabled = true;
+    }
+
     if (this.props.translating) {
       let name = '';
       let delim = '';
@@ -272,7 +285,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         delim = ', ';
       });
 
-      return { name, localized };
+      return { name, localized, disabled };
     } else {
       const names: string[] = [];
       this.props.categories.forEach((cat: Category) => {
@@ -280,7 +293,8 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       });
 
       return {
-        name: names.join(', ')
+        name: names.join(', '),
+        disabled
       };
     }
   }
@@ -389,7 +403,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   public render(): JSX.Element {
-    const { name, localized } = this.getName();
+    const { name, localized, disabled } = this.getName();
 
     const nameStyle = name ? styles.name : '';
     const connected = this.props.exit.destination_uuid ? ' jtk-connected' : '';
@@ -411,7 +425,8 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       [styles.translating]: this.props.translating,
       [styles.unnamed_exit]: name == null,
       [styles.missing_localization]: name && this.props.translating && !localized,
-      [styles.confirm_delete]: confirmDelete
+      [styles.confirm_delete]: confirmDelete,
+      [styles.disabled]: disabled
     });
 
     const activity = this.getSegmentCount();

@@ -7,8 +7,7 @@ import {
   getCategoriesForExit,
   getResultName,
   getVisibleActions,
-  filterIssuesForAction,
-  removeExpiredCategory
+  filterIssuesForAction
 } from 'components/flow/node/helpers';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
 import shared from 'components/shared.module.scss';
@@ -214,12 +213,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
   private getExits(): JSX.Element[] {
     if (this.props.renderNode.node.exits) {
-      let exits: Exit[] = this.props.renderNode.node.exits;
-      if (this.props.renderNode.ui.type === Types.split_by_subflow) {
-        ({ exits } = removeExpiredCategory(this.props.renderNode));
-      }
-
-      return exits.map((exit: Exit, idx: number) => (
+      return this.props.renderNode.node.exits.map((exit: Exit, idx: number) => (
         <ExitComp
           key={exit.uuid}
           node={this.props.renderNode.node}
