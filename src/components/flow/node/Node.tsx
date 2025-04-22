@@ -214,7 +214,10 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
   private getExits(): JSX.Element[] {
     if (this.props.renderNode.node.exits) {
-      const { exits } = removeExpiredCategory(this.props.renderNode);
+      let exits: Exit[] = this.props.renderNode.node.exits;
+      if (this.props.renderNode.ui.type === Types.split_by_subflow) {
+        ({ exits } = removeExpiredCategory(this.props.renderNode));
+      }
 
       return exits.map((exit: Exit, idx: number) => (
         <ExitComp

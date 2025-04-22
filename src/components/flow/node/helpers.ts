@@ -80,19 +80,16 @@ export const filterIssuesForAction = (
 };
 
 export const removeExpiredCategory = (renderNode: RenderNode) => {
-  const isSubflow = renderNode.ui.type === Types.split_by_subflow;
-  let exits = renderNode.node.exits;
+  let exits: Exit[] = renderNode.node.exits;
   let categories: Category[] = [];
 
   if (!renderNode.ghost && renderNode.node.router && renderNode.node.router.categories) {
     categories = renderNode.node.router.categories;
-    if (isSubflow) {
-      let expired_category = categories.find(item => item.name === StartFlowExitNames.Expired);
+    let expired_category = categories.find(item => item.name === StartFlowExitNames.Expired);
 
-      if (expired_category) {
-        categories = categories.filter(item => item.name !== StartFlowExitNames.Expired);
-        exits = exits.filter(exit => exit.uuid !== expired_category.exit_uuid);
-      }
+    if (expired_category) {
+      categories = categories.filter(item => item.name !== StartFlowExitNames.Expired);
+      exits = exits.filter(exit => exit.uuid !== expired_category.exit_uuid);
     }
   }
 
