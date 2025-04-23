@@ -256,9 +256,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   public getName(): { name: string; localized?: boolean; disabled?: boolean } {
     let disabled = false;
     if (
-      this.props.node.actions[0] &&
-      this.props.node.actions[0].type &&
-      this.props.node.actions[0].type === Types.enter_flow &&
+      this.props.categories &&
       this.props.categories.some(
         (category: Category) => category.name === StartFlowExitNames.Expired
       )
