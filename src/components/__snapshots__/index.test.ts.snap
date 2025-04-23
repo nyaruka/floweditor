@@ -15,6 +15,7 @@ Array [
     "groups": "/assets/groups.json",
     "labels": "/assets/labels.json",
     "languages": "/assets/languages.json",
+    "llms": "/assets/llms.json",
     "optins": "/assets/optins.json",
     "recents": "/assets/recents.json",
     "recipients": "/assets/recipients.json",

@@ -35,6 +35,7 @@ export interface Endpoints {
   revisions: string;
   activity: string;
   labels: string;
+  llms: string;
   optins: string;
   channels: string;
   classifiers: string;
@@ -131,6 +132,11 @@ export interface Topic {
   uuid: string;
   name: string;
   created_on?: string;
+}
+
+export interface LLM {
+  uuid: string;
+  name: string;
 }
 
 export interface FlowIssue {
@@ -464,6 +470,13 @@ export interface CallWebhook extends Action {
   result_name: string;
   body?: string;
   headers?: Headers;
+}
+
+export interface CallLLM extends Action {
+  llm: LLM;
+  instructions: string;
+  input: string;
+  output_local: string;
 }
 
 export interface OpenTicket extends Action {

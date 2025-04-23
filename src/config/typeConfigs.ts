@@ -8,6 +8,7 @@ import AddGroupsForm from 'components/flow/actions/changegroups/addgroups/AddGro
 import ChangeGroupsComp from 'components/flow/actions/changegroups/ChangeGroups';
 import RemoveGroupsForm from 'components/flow/actions/changegroups/removegroups/RemoveGroupsForm';
 import KeyLocalizationForm from 'components/flow/actions/localization/KeyLocalizationForm';
+import LLMForm from 'components/flow/routers/llm/LLMForm';
 import MsgLocalizationForm from 'components/flow/actions/localization/MsgLocalizationForm';
 import MissingComp from 'components/flow/actions/missing/Missing';
 import PlayAudioComp from 'components/flow/actions/playaudio/PlayAudio';
@@ -65,6 +66,7 @@ import TicketRouterForm from 'components/flow/routers/ticket/TicketRouterForm';
 import OpenTicketComp from 'components/flow/actions/openticket/OpenTicket';
 import RequestOptInForm from 'components/flow/actions/requestoptin/RequestOptInForm';
 import RequestOptInComp from 'components/flow/actions/requestoptin/RequestOptIn';
+import CallLLMComp from 'components/flow/actions/callllm/CallLLM';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -367,6 +369,18 @@ export const typeConfigList: Type[] = [
     aliases: [Types.split_by_webhook],
     visibility: VISIBILITY_ONLINE
   },
+  {
+    type: Types.call_llm,
+    name: i18n.t('actions.call_llm.name', 'Call AI'),
+    description: i18n.t('actions.call_llm.description', 'Call AI with instructions'),
+    form: LLMForm,
+    localization: RouterLocalizationForm,
+    localizeableKeys: ['exits'],
+    component: CallLLMComp,
+    aliases: [Types.split_by_llm],
+    visibility: VISIBILITY_ONLINE
+  },
+
   {
     type: Types.call_resthook,
     name: i18n.t('actions.call_resthook.name', 'Call Zapier'),

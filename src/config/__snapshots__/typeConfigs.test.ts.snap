@@ -220,6 +220,25 @@ Array [
   },
   Object {
     "aliases": Array [
+      "split_by_llm",
+    ],
+    "component": [Function],
+    "description": "Call AI with instructions",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Call AI",
+    "type": "call_llm",
+    "visibility": Array [
+      "messaging",
+      "messaging_background",
+      "voice",
+    ],
+  },
+  Object {
+    "aliases": Array [
       "split_by_resthook",
     ],
     "component": [Function],
@@ -485,6 +504,25 @@ Object {
     ],
     "name": "Split by Intent",
     "type": "split_by_intent",
+    "visibility": Array [
+      "messaging",
+      "messaging_background",
+      "voice",
+    ],
+  },
+  "call_llm": Object {
+    "aliases": Array [
+      "split_by_llm",
+    ],
+    "component": [Function],
+    "description": "Call AI with instructions",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Call AI",
+    "type": "call_llm",
     "visibility": Array [
       "messaging",
       "messaging_background",
@@ -792,6 +830,25 @@ Object {
     ],
     "name": "Split by Intent",
     "type": "split_by_intent",
+    "visibility": Array [
+      "messaging",
+      "messaging_background",
+      "voice",
+    ],
+  },
+  "split_by_llm": Object {
+    "aliases": Array [
+      "split_by_llm",
+    ],
+    "component": [Function],
+    "description": "Call AI with instructions",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Call AI",
+    "type": "call_llm",
     "visibility": Array [
       "messaging",
       "messaging_background",

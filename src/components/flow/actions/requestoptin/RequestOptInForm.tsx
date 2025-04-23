@@ -20,7 +20,7 @@ export interface RequestOptInFormState extends FormState {
 
 export const controlLabelSpecId = 'label';
 
-export default class AddLabelsForm extends React.PureComponent<
+export default class RequestOptInForm extends React.PureComponent<
   ActionFormProps,
   RequestOptInFormState
 > {
