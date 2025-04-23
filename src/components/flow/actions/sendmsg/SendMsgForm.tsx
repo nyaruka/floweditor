@@ -368,6 +368,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             items={this.state.quickReplies}
             entry={this.state.quickReplyEntry}
             onChange={this.handleQuickRepliesUpdate}
+            maxItems={10}
+            maxItemsText="You can only add 10 Quick Replies"
           />
         </>
       ),
