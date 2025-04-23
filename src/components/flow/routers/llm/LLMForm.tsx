@@ -12,8 +12,8 @@ import styles from './LLMForm.module.scss';
 import i18n from 'config/i18n';
 import { LLM } from 'flowTypes';
 import { nodeToState, stateToNode } from './helpers';
-import TembaSelect from 'temba/TembaSelect';
 import { fakePropType } from 'config/ConfigProvider';
+import TembaSelectElement from 'temba/TembaSelectElement';
 
 export interface LLMFormState extends FormState {
   instructions: StringEntry;
@@ -60,7 +60,9 @@ export default class WebhookRouterForm extends React.Component<RouterFormProps, 
     }
 
     if (keys.hasOwnProperty('llm')) {
-      updates.llm = validate(i18n.t('forms.assignee', 'Assignee'), keys.llm, []);
+      updates.llm = validate(i18n.t('forms.aimodel', 'AI Model'), keys.llm, [
+        shouldRequireIf(submitting)
+      ]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -71,7 +73,7 @@ export default class WebhookRouterForm extends React.Component<RouterFormProps, 
   }
 
   private handleLLMUpdate(llm: LLM): void {
-    this.handleUpdate({ llm });
+    this.handleUpdate({ llm: { name: llm.name, uuid: llm.uuid } });
   }
 
   private handleInstructionsUpdate(
@@ -87,9 +89,12 @@ export default class WebhookRouterForm extends React.Component<RouterFormProps, 
   }
 
   private handleSave(): void {
-    // validate our url in case they haven't interacted
     const valid = this.handleUpdate(
-      { input: this.state.input.value, instructions: this.state.instructions.value },
+      {
+        input: this.state.input.value,
+        instructions: this.state.instructions.value,
+        llm: this.state.llm?.value
+      },
       true
     );
 
@@ -116,16 +121,17 @@ export default class WebhookRouterForm extends React.Component<RouterFormProps, 
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
 
-        <TembaSelect
+        <TembaSelectElement
           key="select_llm"
-          name={i18n.t('forms.assignee', 'AI Model')}
+          name={i18n.t('forms.aimodel', 'AI Model')}
           placeholder="Select an AI Model"
           valueKey="uuid"
           nameKey="name"
           endpoint={this.context.config.endpoints.llms}
           onChange={this.handleLLMUpdate}
           value={this.state.llm?.value ? this.state.llm.value : null}
-        />
+          entry={this.state.llm}
+        ></TembaSelectElement>
 
         <div className={styles.input}>
           <div className={styles.step}>The input the AI will process</div>
@@ -139,10 +145,13 @@ export default class WebhookRouterForm extends React.Component<RouterFormProps, 
         </div>
 
         <div className={styles.instructions}>
-          <div className={styles.step}>Tell the AI what to do with the input.</div>
+          <div className={styles.step}>Tell the AI what to do with the input</div>
           <TextInputElement
             name={i18n.t('forms.instructions', 'Intructions')}
-            placeholder={i18n.t('forms.llm_instructions', 'Translate to French')}
+            placeholder={i18n.t(
+              'forms.llm_instructions',
+              'e.g. "Translate to French" or "On a scale of 1-10 rate their frustration level."'
+            )}
             entry={this.state.instructions}
             onChange={this.handleInstructionsUpdate}
             autocomplete={true}

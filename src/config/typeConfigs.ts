@@ -372,7 +372,7 @@ export const typeConfigList: Type[] = [
   {
     type: Types.call_llm,
     name: i18n.t('actions.call_llm.name', 'Call AI'),
-    description: i18n.t('actions.call_llm.description', 'Call AI with instructions'),
+    description: i18n.t('actions.call_llm.description', 'Call AI service'),
     form: LLMForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],

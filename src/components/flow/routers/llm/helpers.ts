@@ -21,7 +21,7 @@ export const nodeToState = (settings: NodeEditorSettings): LLMFormState => {
   const state: LLMFormState = {
     llm: null,
     instructions: { value: '' },
-    input: { value: '' },
+    input: { value: '@input' },
     valid: false
   };
 
