@@ -9,6 +9,8 @@ export interface MultiChoiceInputProps {
   entry?: StringEntry;
   onChange?: (values: string[]) => void;
   helpText?: JSX.Element;
+  maxItems?: Number;
+  maxItemsText?: string;
 }
 
 interface MultiChoiceInputState {
@@ -57,6 +59,8 @@ export default class MultiChoiceInput extends React.Component<
           tags={true}
           searchable={true}
           expressions={true}
+          maxItems={this.props.maxItems}
+          maxItemsText={this.props.maxItemsText}
         />
       </>
     );

@@ -112,6 +112,8 @@ exports[`SendMsgForm render should render 1`] = `
                 "value": Array [],
               }
             }
+            maxItems={10}
+            maxItemsText="You can only add 10 Quick Replies"
             name="Quick Reply"
             onChange={[Function]}
           />
