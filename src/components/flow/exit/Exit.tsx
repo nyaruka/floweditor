@@ -21,7 +21,6 @@ import styles from './Exit.module.scss';
 import { Portal } from 'components/Portal';
 import i18n from 'config/i18n';
 import { SIMULATOR_CONTACT_UUID } from 'components/simulator/Simulator';
-import { Types } from 'config/interfaces';
 
 export interface RenderCategory extends Category {
   missing: boolean;
