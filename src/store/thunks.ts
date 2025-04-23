@@ -268,8 +268,14 @@ export const createDirty = (
             body = SERVER_ERROR;
           }
 
-          if (error.response && error.response.data && error.response.data.description) {
-            body = error.response.data.description;
+          if (
+            error.response &&
+            error.response.data &&
+            typeof error.response.data === 'object' &&
+            'description' in error.response.data
+          ) {
+            const data = error.response.data as { description: string };
+            body = data.description;
           }
 
           dispatch(
