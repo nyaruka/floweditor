@@ -46,6 +46,9 @@ export interface TembaSelectProps {
   clearable?: boolean;
 
   queryParam?: string;
+
+  maxItems?: Number;
+  maxItemsText?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -222,6 +225,8 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
           clearable={this.props.clearable}
           tags={this.props.tags}
           queryParam={this.props.queryParam}
+          maxItems={this.props.maxItems}
+          maxItemsText={this.props.maxItemsText}
         />
       </div>
     );
