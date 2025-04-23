@@ -4,7 +4,7 @@ import { getType } from 'config/typeConfigs';
 import { OpenTicket, ServiceCallExitNames } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, FormEntry } from 'store/nodeEditor';
-import { createUUID, snakify } from 'utils';
+import { createUUID } from 'utils';
 import { TicketRouterFormState } from 'components/flow/routers/ticket/TicketRouterForm';
 
 export const getOriginalAction = (settings: NodeEditorSettings): OpenTicket => {
@@ -19,7 +19,7 @@ export const getOriginalAction = (settings: NodeEditorSettings): OpenTicket => {
 
 export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState => {
   let note = { value: '' };
-  let resultName = { value: 'Result' };
+  let resultName = { value: '' };
   let assignee: FormEntry = { value: null };
   let topic: FormEntry = { value: null };
 
@@ -64,8 +64,8 @@ export const stateToNode = (
   return createServiceCallSplitNode(
     newAction,
     settings.originalNode,
-    '@results.' + snakify(state.resultName.value),
-    Operators.has_category,
+    '@locals._new_ticket',
+    Operators.has_text,
     [ServiceCallExitNames.Success]
   );
 };
