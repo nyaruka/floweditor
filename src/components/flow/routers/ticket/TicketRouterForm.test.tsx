@@ -31,14 +31,8 @@ describe(TicketRouterForm.name, () => {
       expect(baseElement).toMatchSnapshot();
 
       const okButton = getByText('Ok');
-      const resultName = getByTestId('Result Name');
 
-      // our body and result name are required
-      fireChangeText(resultName, '');
-      fireEvent.click(okButton);
-      expect(ticketForm.updateRouter).not.toBeCalled();
-
-      // we need a topic
+      // select an assignee
       fireTembaSelect(getByTestId('temba_select_assignee'), {
         email: 'agent.user@gmail.com',
         first_name: 'Agent',
@@ -47,12 +41,17 @@ describe(TicketRouterForm.name, () => {
         created_on: '2021-06-10T21:44:30.971221Z'
       });
 
-      // we need a topic
+      // select a topic
       fireTembaSelect(getByTestId('temba_select_topic'), {
         name: 'General',
         uuid: '6f38eba0-d673-4a35-82df-21bae2b6d466'
       });
 
+      // set a result name
+      const toggleLink = getByTestId('toggle-link');
+      toggleLink.click();
+
+      const resultName = getByTestId('Result Name');
       fireChangeText(resultName, 'My Ticket Result');
 
       fireEvent.click(okButton);

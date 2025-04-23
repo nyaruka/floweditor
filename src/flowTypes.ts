@@ -482,8 +482,8 @@ export interface CallLLM extends Action {
 export interface OpenTicket extends Action {
   topic?: Topic;
   note?: string;
-  result_name: string;
   assignee?: User;
+  result_name?: string;
 }
 
 export interface StartFlow extends Action {

@@ -436,7 +436,7 @@ export const createOpenTicketNode = (subject: string, note: string): FlowNode =>
     uuid: utils.createUUID(),
     type: Types.open_ticket,
     note: note,
-    result_name: 'Result'
+    result_name: ''
   };
   return createWebhookNode(action, true);
 };
