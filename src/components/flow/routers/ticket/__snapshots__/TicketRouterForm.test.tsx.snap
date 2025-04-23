@@ -117,30 +117,13 @@ exports[`TicketRouterForm render should render 1`] = `
         <div
           class="optional_text_input"
         >
-          <div
-            class="ele"
+          <span
+            class="toggle_link"
+            data-spec="toggle-link"
+            data-testid="toggle-link"
           >
-            <div
-              class="label"
-            >
-              Result Name
-            </div>
-            <div
-              class="wrapper normal"
-            >
-              <input
-                data-testid="Result Name"
-                name="Result Name"
-                value="Result"
-              />
-            </div>
-            <div
-              class="help_text"
-            >
-              By naming the result, you can reference it later using @results.result
-               
-            </div>
-          </div>
+            Save as..
+          </span>
         </div>
       </div>
       <div
@@ -297,30 +280,13 @@ exports[`TicketRouterForm updates should save changes 1`] = `
         <div
           class="optional_text_input"
         >
-          <div
-            class="ele"
+          <span
+            class="toggle_link"
+            data-spec="toggle-link"
+            data-testid="toggle-link"
           >
-            <div
-              class="label"
-            >
-              Result Name
-            </div>
-            <div
-              class="wrapper normal"
-            >
-              <input
-                data-testid="Result Name"
-                name="Result Name"
-                value="Result"
-              />
-            </div>
-            <div
-              class="help_text"
-            >
-              By naming the result, you can reference it later using @results.result
-               
-            </div>
-          </div>
+            Save as..
+          </span>
         </div>
       </div>
       <div
@@ -405,7 +371,7 @@ Array [
               "Success",
             ],
             "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-            "type": "has_category",
+            "type": "has_text",
             "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
           },
         ],
@@ -422,7 +388,7 @@ Array [
           },
         ],
         "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-        "operand": "@results.my_ticket_result",
+        "operand": "@locals._new_ticket",
         "type": "switch",
       },
       "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",

@@ -37,6 +37,8 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
                 "value": Array [],
               }
             }
+            maxItems={10}
+            maxItemsText="You can only add 10 quick replies"
             name="Quick Reply"
             onChange={[Function]}
           />
@@ -128,6 +130,7 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
       }
     }
     focus={true}
+    maxLength={10000}
     name="Message"
     onChange={[Function]}
     placeholder="Spanish Translation"
@@ -174,6 +177,8 @@ exports[`MsgLocalizationForm render should render 1`] = `
                 "value": Array [],
               }
             }
+            maxItems={10}
+            maxItemsText="You can only add 10 quick replies"
             name="Quick Reply"
             onChange={[Function]}
           />
@@ -265,6 +270,7 @@ exports[`MsgLocalizationForm render should render 1`] = `
       }
     }
     focus={true}
+    maxLength={10000}
     name="Message"
     onChange={[Function]}
     placeholder="Spanish Translation"
