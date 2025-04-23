@@ -16,7 +16,8 @@ import {
   UIConfig,
   ServiceCallExitNames,
   CallClassifier,
-  OpenTicket
+  OpenTicket,
+  CallLLM
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { createUUID } from 'utils';
@@ -331,11 +332,12 @@ export const resolveRoutes = (
 };
 
 export const createServiceCallSplitNode = (
-  action: CallWebhook | CallResthook | OpenTicket | TransferAirtime,
+  action: CallWebhook | CallResthook | OpenTicket | TransferAirtime | CallLLM,
   originalNode: RenderNode,
   operand: string,
   test: Operators,
-  args: string[]
+  args: string[],
+  is_failure_test: boolean = false
 ): RenderNode => {
   const exits: Exit[] = [];
   let categories: Category[] = [];
@@ -380,7 +382,7 @@ export const createServiceCallSplitNode = (
       uuid: createUUID(),
       type: test,
       arguments: args,
-      category_uuid: categories[0].uuid
+      category_uuid: categories[is_failure_test ? 1 : 0].uuid
     }
   ];
 
@@ -389,7 +391,7 @@ export const createServiceCallSplitNode = (
     operand: operand,
     cases,
     categories,
-    default_category_uuid: categories[categories.length - 1].uuid
+    default_category_uuid: categories[is_failure_test ? 0 : 1].uuid
   };
 
   let splitType = Types.split_by_webhook;

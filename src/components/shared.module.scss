@@ -128,10 +128,13 @@
   background: $dark_gray;
 }
 
+
+.call_llm,
 .call_resthook,
 .call_webhook {
   background: $orange;
 }
+
 
 .breaks {
   word-wrap: break-word;
