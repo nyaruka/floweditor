@@ -223,7 +223,7 @@ Array [
       "split_by_llm",
     ],
     "component": [Function],
-    "description": "Call AI with instructions",
+    "description": "Call AI service",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
@@ -515,7 +515,7 @@ Object {
       "split_by_llm",
     ],
     "component": [Function],
-    "description": "Call AI with instructions",
+    "description": "Call AI service",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
@@ -841,7 +841,7 @@ Object {
       "split_by_llm",
     ],
     "component": [Function],
-    "description": "Call AI with instructions",
+    "description": "Call AI service",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
