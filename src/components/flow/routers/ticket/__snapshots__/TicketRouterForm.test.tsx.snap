@@ -367,9 +367,7 @@ Array [
       "router": Object {
         "cases": Array [
           Object {
-            "arguments": Array [
-              "Success",
-            ],
+            "arguments": Array [],
             "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
             "type": "has_text",
             "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
