@@ -151,11 +151,9 @@ Array [
       "router": Object {
         "cases": Array [
           Object {
-            "arguments": Array [
-              "Success",
-            ],
+            "arguments": Array [],
             "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-            "type": "has_category",
+            "type": "has_text",
             "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
           },
         ],
@@ -172,7 +170,7 @@ Array [
           },
         ],
         "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-        "operand": "@results.result",
+        "operand": "@locals._new_transfer",
         "type": "switch",
       },
       "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
@@ -240,11 +238,9 @@ Array [
       "router": Object {
         "cases": Array [
           Object {
-            "arguments": Array [
-              "Success",
-            ],
+            "arguments": Array [],
             "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-            "type": "has_category",
+            "type": "has_text",
             "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
           },
         ],
@@ -261,7 +257,7 @@ Array [
           },
         ],
         "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-        "operand": "@results.result",
+        "operand": "@locals._new_transfer",
         "type": "switch",
       },
       "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
