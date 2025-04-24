@@ -1,7 +1,7 @@
 import { createServiceCallSplitNode } from 'components/flow/routers/helpers';
 import { Operators, Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
-import { OpenTicket, ServiceCallExitNames } from 'flowTypes';
+import { OpenTicket } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, FormEntry } from 'store/nodeEditor';
 import { createUUID } from 'utils';
@@ -66,6 +66,6 @@ export const stateToNode = (
     settings.originalNode,
     '@locals._new_ticket',
     Operators.has_text,
-    [ServiceCallExitNames.Success]
+    []
   );
 };
