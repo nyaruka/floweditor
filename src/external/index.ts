@@ -444,11 +444,6 @@ export const getURL = (path: string): string => {
     return url;
   }
 
-  // Set url for netlify deployments
-  // if (process.env.NODE_ENV === "preview") {
-  // url = "/.netlify/functions/" + url;
-  // }
-
   const result = `${getBaseURL() + url}`;
   return result;
 };

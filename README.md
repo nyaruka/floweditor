@@ -32,19 +32,7 @@ Webpack is used to transpile TypeScript and SASS. After invoking a build, the co
 
 ### Development
 
-To run the flow editor in development mode, it requires an asset server. This is what is responsible for serving up flow definitions, groups, contact fields, etc. This project includes an in memory asset server for testing purposes. These are the same lambda functions used by our Netlify preview site.
-
-First, compile and run the local version for a faux asset server.
-
-```
-% yarn lambda
-```
-
-Then you are ready to fire up the development server for the editor.
-
-```bash
-% yarn start
-```
+To run the flow editor in development mode, it requires an asset server. Currently this requires a RapidPro instance running in EDITOR_DEV_MODE.
 
 ### Localization
 
