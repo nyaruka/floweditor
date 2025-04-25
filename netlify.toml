@@ -1,4 +1,0 @@
-[build]
-  command = "yarn run netlify"
-  publish = "build"
-  functions = "lambda-build"
