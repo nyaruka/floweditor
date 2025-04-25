@@ -4,14 +4,14 @@ import {
 } from 'components/flow/routers/airtime/AirtimeRouterForm';
 import { createServiceCallSplitNode } from 'components/flow/routers/helpers';
 import { Operators, Types } from 'config/interfaces';
-import { ServiceCallExitNames, TransferAirtime } from 'flowTypes';
+import { TransferAirtime } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
-import { createUUID, snakify } from 'utils';
+import { createUUID } from 'utils';
 
 export const nodeToState = (settings: NodeEditorSettings): AirtimeRouterFormState => {
   const originalAction = getOriginalAction(settings);
-  let resultName = { value: 'Result' };
+  let resultName = { value: '' };
   let valid = false;
 
   const amounts: AirtimeTransferEntry[] = [];
@@ -59,9 +59,9 @@ export const stateToNode = (
   return createServiceCallSplitNode(
     newAction,
     settings.originalNode,
-    '@results.' + snakify(state.resultName.value),
-    Operators.has_category,
-    [ServiceCallExitNames.Success]
+    '@locals._new_transfer',
+    Operators.has_text,
+    []
   );
 };
 

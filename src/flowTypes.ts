@@ -450,7 +450,7 @@ export interface Classifier {
 
 export interface TransferAirtime extends Action {
   amounts: { [name: string]: number };
-  result_name: string;
+  result_name?: string;
 }
 
 export interface CallClassifier extends Action {
@@ -461,15 +461,15 @@ export interface CallClassifier extends Action {
 
 export interface CallResthook extends Action {
   resthook: string;
-  result_name: string;
+  result_name?: string;
 }
 
 export interface CallWebhook extends Action {
   url: string;
   method: Methods;
-  result_name: string;
   body?: string;
   headers?: Headers;
+  result_name?: string;
 }
 
 export interface CallLLM extends Action {
