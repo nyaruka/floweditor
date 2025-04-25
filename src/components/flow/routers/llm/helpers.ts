@@ -58,6 +58,7 @@ export const stateToNode = (settings: NodeEditorSettings, state: LLMFormState): 
     '@locals._llm_output',
     Operators.has_only_text,
     ['<ERROR>'],
+    '',
     true
   );
 };
