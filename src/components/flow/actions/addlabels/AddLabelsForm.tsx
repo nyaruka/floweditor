@@ -1,7 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { ActionFormProps } from 'components/flow/props';
-import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
@@ -13,6 +12,7 @@ import { initializeForm, stateToAction } from './helpers';
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
 import { renderIssues } from '../helpers';
+import TembaSelectElement from 'temba/TembaSelectElement';
 
 export interface AddLabelsFormState extends FormState {
   labels: any;
@@ -25,7 +25,7 @@ export default class AddLabelsForm extends React.PureComponent<
   AddLabelsFormState
 > {
   public static contextTypes = {
-    assetService: fakePropType
+    config: fakePropType
   };
 
   constructor(props: ActionFormProps) {
@@ -89,22 +89,25 @@ export default class AddLabelsForm extends React.PureComponent<
           </Trans>
         </p>
 
-        <AssetSelector
+        <TembaSelectElement
+          key="label_select"
           name={i18n.t('forms.labels', 'Labels')}
           placeholder={i18n.t(
             'enter_to_create_label',
             'Enter the name of an existing label or create a new one'
           )}
-          assets={this.props.assetStore.labels}
+          endpoint={this.context.config.endpoints.labels}
           entry={this.state.labels}
+          valueKey="uuid"
           searchable={true}
           multi={true}
           expressions={true}
           onChange={this.handleLabelsChanged}
+          allowCreate={true}
           createPrefix={i18n.t('create_label', 'Create Label') + ': '}
-          createAssetFromInput={this.handleCreateAssetFromInput}
-          onAssetCreated={this.handleLabelCreated}
+          createArbitraryOption={this.handleCreateAssetFromInput}
         />
+
         {renderIssues(this.props)}
       </Dialog>
     );

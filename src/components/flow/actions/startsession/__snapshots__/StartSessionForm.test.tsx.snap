@@ -95,16 +95,17 @@ exports[`StartSessionForm render should render 1`] = `
                 class="normal "
               >
                 <temba-select
-                  cachekey="0"
                   data-testid="temba_select_recipients"
+                  endpoint="/assets/recipients.json"
                   errors="[]"
                   expressions="session"
                   multi="true"
                   name="Recipients"
                   namekey="name"
                   placeholder="Select who should be started in the flow"
+                  queryparam="search"
                   searchable="true"
-                  valuekey="uuid"
+                  valuekey="value"
                   values="[{\\"id\\":\\"2dc85899-0577-4f1b-a620-f12094e34b5e\\",\\"name\\":\\"Cat Fanciers\\",\\"type\\":\\"group\\"},{\\"id\\":\\"42ebf1d0-a43e-4ba6-9577-c863b20c88c4\\",\\"name\\":\\"Norbert Kwizera\\",\\"type\\":\\"contact\\",\\"missing\\":false},{\\"id\\":\\"70ac6ea6-803a-4c33-81c7-dc26803c313f\\",\\"name\\":\\"Rowan Seymour\\",\\"type\\":\\"contact\\",\\"missing\\":false}]"
                 />
               </div>
@@ -118,8 +119,8 @@ exports[`StartSessionForm render should render 1`] = `
               class="normal "
             >
               <temba-select
-                cachekey="0"
                 data-testid="temba_select_flow"
+                endpoint="/assets/flows.json"
                 errors="[]"
                 expressions=""
                 name="Flow"
@@ -284,37 +285,37 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
     <div
       data-testid="recipients"
     >
-      <AssetSelector
+      <TembaSelectElement
+        endpoint="/assets/recipients.json"
         entry={
           Object {
             "value": Array [],
           }
         }
         expressions={true}
+        key="recipient_select"
         multi={true}
         name="Recipients"
         onChange={[Function]}
         placeholder="Select who should be started in the flow"
+        queryParam="search"
         searchable={true}
       />
       <p />
     </div>
-    <AssetSelector
-      assets={
-        Object {
-          "items": Object {},
-          "type": "flow",
-        }
-      }
+    <TembaSelectElement
+      endpoint="/assets/flows.json"
       entry={
         Object {
           "value": null,
         }
       }
+      key="flow_select"
       name="Flow"
       onChange={[Function]}
       placeholder="Select the flow to start"
       searchable={true}
+      valueKey="uuid"
     />
   </div>
 </Dialog>
@@ -435,8 +436,8 @@ exports[`StartSessionForm render should render contact query 1`] = `
               class="normal "
             >
               <temba-select
-                cachekey="0"
                 data-testid="temba_select_flow"
+                endpoint="/assets/flows.json"
                 errors="[]"
                 expressions=""
                 name="Flow"
@@ -600,8 +601,8 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
               class="normal "
             >
               <temba-select
-                cachekey="0"
                 data-testid="temba_select_flow"
+                endpoint="/assets/flows.json"
                 errors="[]"
                 expressions=""
                 name="Flow"
@@ -742,7 +743,8 @@ exports[`StartSessionForm render should render self, children with base props 1`
     <div
       data-testid="recipients"
     >
-      <AssetSelector
+      <TembaSelectElement
+        endpoint="/assets/recipients.json"
         entry={
           Object {
             "value": Array [
@@ -767,21 +769,18 @@ exports[`StartSessionForm render should render self, children with base props 1`
           }
         }
         expressions={true}
+        key="recipient_select"
         multi={true}
         name="Recipients"
         onChange={[Function]}
         placeholder="Select who should be started in the flow"
+        queryParam="search"
         searchable={true}
       />
       <p />
     </div>
-    <AssetSelector
-      assets={
-        Object {
-          "items": Object {},
-          "type": "flow",
-        }
-      }
+    <TembaSelectElement
+      endpoint="/assets/flows.json"
       entry={
         Object {
           "value": Object {
@@ -790,10 +789,12 @@ exports[`StartSessionForm render should render self, children with base props 1`
           },
         }
       }
+      key="flow_select"
       name="Flow"
       onChange={[Function]}
       placeholder="Select the flow to start"
       searchable={true}
+      valueKey="uuid"
     />
   </div>
 </Dialog>
@@ -914,8 +915,8 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
               class="normal "
             >
               <temba-select
-                cachekey="0"
                 data-testid="temba_select_flow"
+                endpoint="/assets/flows.json"
                 errors="[]"
                 expressions=""
                 name="Flow"

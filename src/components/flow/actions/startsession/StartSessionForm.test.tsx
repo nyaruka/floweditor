@@ -88,7 +88,7 @@ describe(StartSessionForm.name, () => {
       const { instance, props } = setup(true);
 
       instance.handleRecipientsChanged([SubscribersGroup]);
-      instance.handleFlowChanged([{ id: 'my_flow', name: 'My Flow', type: AssetType.Flow }]);
+      instance.handleFlowChanged({ id: 'my_flow', name: 'My Flow', type: AssetType.Flow });
       expect(instance.state).toMatchSnapshot();
 
       instance.handleSave();
@@ -103,7 +103,7 @@ describe(StartSessionForm.name, () => {
       });
 
       instance.handleRecipientsChanged([SubscribersGroup]);
-      instance.handleFlowChanged([{ id: 'my_flow', name: 'My Flow', type: AssetType.Flow }]);
+      instance.handleFlowChanged({ id: 'my_flow', name: 'My Flow', type: AssetType.Flow });
       instance.handleSave();
 
       expect(props.updateAction).toMatchCallSnapshot();
@@ -117,7 +117,7 @@ describe(StartSessionForm.name, () => {
       });
 
       instance.handleRecipientsChanged([SubscribersGroup]);
-      instance.handleFlowChanged([{ id: 'my_flow', name: 'My Flow', type: AssetType.Flow }]);
+      instance.handleFlowChanged({ id: 'my_flow', name: 'My Flow', type: AssetType.Flow });
       instance.getButtons().secondary.onClick();
       expect(props.onClose).toHaveBeenCalled();
       expect(props.updateAction).not.toHaveBeenCalled();

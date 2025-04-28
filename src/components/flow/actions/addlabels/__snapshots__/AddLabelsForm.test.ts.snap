@@ -44,15 +44,11 @@ exports[`AddLabelsForm render should render a base action 1`] = `
       Select the labels to apply to the incoming message.
     </Trans>
   </p>
-  <AssetSelector
-    assets={
-      Object {
-        "items": Object {},
-        "type": "label",
-      }
-    }
-    createAssetFromInput={[Function]}
+  <TembaSelectElement
+    allowCreate={true}
+    createArbitraryOption={[Function]}
     createPrefix="Create Label: "
+    endpoint="/assets/labels.json"
     entry={
       Object {
         "value": Array [
@@ -68,12 +64,13 @@ exports[`AddLabelsForm render should render a base action 1`] = `
       }
     }
     expressions={true}
+    key="label_select"
     multi={true}
     name="Labels"
-    onAssetCreated={[Function]}
     onChange={[Function]}
     placeholder="Enter the name of an existing label or create a new one"
     searchable={true}
+    valueKey="uuid"
   />
 </Dialog>
 `;
