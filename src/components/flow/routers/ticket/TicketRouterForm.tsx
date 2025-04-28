@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
-import { nodeToState, stateToNode } from './helpers';
+import { getUserName, nodeToState, stateToNode } from './helpers';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
@@ -176,12 +176,7 @@ export default class TicketRouterForm extends React.Component<
               onChange={this.handleAssigneeUpdate}
               clearable={true}
               value={this.state.assignee.value}
-              getName={(user: User) => {
-                if (!user.first_name && !user.last_name) {
-                  return user.email || '';
-                }
-                return `${user.first_name} ${user.last_name}`;
-              }}
+              getName={getUserName}
             />
           </div>
         </div>
