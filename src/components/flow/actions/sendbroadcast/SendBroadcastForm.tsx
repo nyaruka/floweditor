@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { initializeForm, stateToAction } from 'components/flow/actions/sendbroadcast/helpers';
 import { ActionFormProps } from 'components/flow/props';
-import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
