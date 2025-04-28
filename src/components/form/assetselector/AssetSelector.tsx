@@ -219,10 +219,10 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
           valueKey={
             this.props.valueKey || (this.props.assets ? this.props.assets.id : undefined) || 'uuid'
           }
+          endpoint={this.props.assets.endpoint}
           getName={this.props.getName}
           createPrefix={this.props.createPrefix}
           shouldExclude={this.props.shouldExclude}
-          assets={this.props.assets}
           placeholder={this.props.placeholder || fallbackPlaceholder}
           multi={this.props.multi}
           expressions={this.props.expressions}
