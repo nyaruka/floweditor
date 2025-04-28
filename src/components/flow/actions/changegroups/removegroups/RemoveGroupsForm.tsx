@@ -5,7 +5,6 @@ import {
   excludeDynamicGroups
 } from 'components/flow/actions/changegroups/helpers';
 import { ActionFormProps } from 'components/flow/props';
-import AssetSelector from 'components/form/assetselector/AssetSelector';
 import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
@@ -44,7 +43,7 @@ export default class RemoveGroupsForm extends React.Component<
   ChangeGroupsFormState
 > {
   public static contextTypes = {
-    assetService: fakePropType
+    config: fakePropType
   };
 
   constructor(props: ActionFormProps) {
