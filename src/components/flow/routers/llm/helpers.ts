@@ -29,10 +29,13 @@ export const nodeToState = (settings: NodeEditorSettings): LLMFormState => {
 
   if (originalType === Types.split_by_llm || originalType === Types.split_by_webhook) {
     const action = getOriginalAction(settings) as CallLLM;
-    state.instructions = { value: action.instructions };
-    state.input = { value: action.input };
-    state.llm = { value: action.llm };
-    state.valid = true;
+
+    if (action) {
+      state.instructions = { value: action.instructions };
+      state.input = { value: action.input };
+      state.llm = { value: action.llm };
+      state.valid = true;
+    }
   }
   return state;
 };
