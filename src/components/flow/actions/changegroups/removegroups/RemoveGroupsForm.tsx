@@ -5,7 +5,6 @@ import {
   excludeDynamicGroups
 } from 'components/flow/actions/changegroups/helpers';
 import { ActionFormProps } from 'components/flow/props';
-import AssetSelector from 'components/form/assetselector/AssetSelector';
 import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
@@ -19,6 +18,7 @@ import { renderIf } from 'utils';
 import { initializeForm, stateToAction } from './helpers';
 import i18n from 'config/i18n';
 import { renderIssues } from '../../helpers';
+import TembaSelectElement from 'temba/TembaSelectElement';
 
 export const LABEL = i18n.t(
   'forms.remove_groups_summary',
@@ -43,7 +43,7 @@ export default class RemoveGroupsForm extends React.Component<
   ChangeGroupsFormState
 > {
   public static contextTypes = {
-    assetService: fakePropType
+    config: fakePropType
   };
 
   constructor(props: ActionFormProps) {
@@ -115,15 +115,17 @@ export default class RemoveGroupsForm extends React.Component<
         {renderIf(!this.state.removeAll)(
           <div style={{ marginBottom: '1em' }}>
             <p data-spec={labelSpecId}>{LABEL}</p>
-            <AssetSelector
-              name={i18n.t('forms.groups', 'Groups')}
-              placeholder={i18n.t('forms.select_groups', 'Select Groups')}
-              assets={this.props.assetStore.groups}
+
+            <TembaSelectElement
+              key="group_select"
+              name={i18n.t('forms.groups', 'Select Groups')}
+              endpoint={this.context.config.endpoints.groups}
               entry={this.state.groups}
               shouldExclude={excludeDynamicGroups}
+              valueKey="uuid"
               searchable={true}
-              onChange={this.handleGroupsChanged}
               multi={true}
+              onChange={this.handleGroupsChanged}
             />
           </div>
         )}

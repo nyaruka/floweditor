@@ -42,7 +42,8 @@ exports[`RemoveGroupsForm render should render 1`] = `
     >
       Select the groups to remove the contact from.
     </p>
-    <AssetSelector
+    <TembaSelectElement
+      endpoint="/assets/groups.json"
       entry={
         Object {
           "value": Array [
@@ -73,12 +74,13 @@ exports[`RemoveGroupsForm render should render 1`] = `
           ],
         }
       }
+      key="group_select"
       multi={true}
       name="Groups"
       onChange={[Function]}
-      placeholder="Select Groups"
       searchable={true}
       shouldExclude={[Function]}
+      valueKey="uuid"
     />
   </div>
   <CheckboxElement

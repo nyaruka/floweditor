@@ -68,7 +68,6 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
   }
 
   public handleFlowChanged(flow: Asset): boolean {
-    console.log('handleFlowChanged', flow);
     return this.handleUpdate({ flow });
   }
 
