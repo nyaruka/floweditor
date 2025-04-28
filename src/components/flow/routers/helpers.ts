@@ -337,6 +337,7 @@ export const createServiceCallSplitNode = (
   operand: string,
   test: Operators,
   args: string[],
+  result_name: string = '',
   is_failure_test: boolean = false
 ): RenderNode => {
   const exits: Exit[] = [];
@@ -391,7 +392,8 @@ export const createServiceCallSplitNode = (
     operand: operand,
     cases,
     categories,
-    default_category_uuid: categories[is_failure_test ? 0 : 1].uuid
+    default_category_uuid: categories[is_failure_test ? 0 : 1].uuid,
+    result_name: result_name
   };
 
   let splitType = Types.split_by_webhook;
@@ -401,6 +403,8 @@ export const createServiceCallSplitNode = (
     splitType = Types.split_by_ticket;
   } else if (action.type === Types.transfer_airtime) {
     splitType = Types.split_by_airtime;
+  } else if (action.type === Types.call_llm) {
+    splitType = Types.split_by_llm;
   }
 
   return createRenderNode(originalNode.node.uuid, router, exits, splitType, [action]);

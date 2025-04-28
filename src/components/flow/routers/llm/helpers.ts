@@ -25,12 +25,17 @@ export const nodeToState = (settings: NodeEditorSettings): LLMFormState => {
     valid: false
   };
 
-  if (getType(settings.originalNode) === Types.split_by_webhook) {
+  const originalType = getType(settings.originalNode);
+
+  if (originalType === Types.split_by_llm || originalType === Types.split_by_webhook) {
     const action = getOriginalAction(settings) as CallLLM;
-    state.instructions = { value: action.instructions };
-    state.input = { value: action.input };
-    state.llm = { value: action.llm };
-    state.valid = true;
+
+    if (action) {
+      state.instructions = { value: action.instructions };
+      state.input = { value: action.input };
+      state.llm = { value: action.llm };
+      state.valid = true;
+    }
   }
   return state;
 };
@@ -43,10 +48,11 @@ export const stateToNode = (settings: NodeEditorSettings, state: LLMFormState): 
     uuid = originalAction.uuid;
   }
 
+  const llm = state.llm.value as LLM;
   const newAction: CallLLM = {
     uuid,
     type: Types.call_llm,
-    llm: state.llm.value as LLM,
+    llm: { uuid: llm.uuid, name: llm.name },
     input: state.input.value,
     instructions: state.instructions.value,
     output_local: '_llm_output'
@@ -58,6 +64,7 @@ export const stateToNode = (settings: NodeEditorSettings, state: LLMFormState): 
     '@locals._llm_output',
     Operators.has_only_text,
     ['<ERROR>'],
+    '',
     true
   );
 };

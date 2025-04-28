@@ -126,6 +126,7 @@ export interface User {
   last_name?: string;
   role?: string;
   created_on?: string;
+  name?: string;
 }
 
 export interface Topic {

@@ -17,9 +17,6 @@
 	"postCreateCommand": "sudo chown node /workspaces/floweditor && sudo rm -R node_modules && yarn install",
 	"customizations": {
 		"vscode": {
-			"extensions": [
-				"lfs.vscode-emacs-friendly"
-			],
 			"settings": {
 				"terminal.integrated.defaultProfile.linux": "zsh",
 				"editor.formatOnSave": true,
