@@ -39,9 +39,11 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
       Select the groups to add the contact to.
     </Trans>
   </p>
-  <AssetSelector
-    createAssetFromInput={[Function]}
+  <TembaSelectElement
+    allowCreate={true}
+    createArbitraryOption={[Function]}
     createPrefix="Create Group: "
+    endpoint="/assets/groups.json"
     entry={
       Object {
         "value": Array [
@@ -73,14 +75,14 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
       }
     }
     expressions={true}
+    key="group_select"
     multi={true}
     name="Groups"
-    noOptionsMessage="Enter a name to create a new group"
-    onAssetCreated={[Function]}
     onChange={[Function]}
-    placeholder="Select Groups"
+    placeholder="Enter a name to create a new group"
     searchable={true}
     shouldExclude={[Function]}
+    valueKey="uuid"
   />
 </Dialog>
 `;
