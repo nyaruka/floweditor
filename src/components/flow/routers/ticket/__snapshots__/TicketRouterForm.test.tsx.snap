@@ -343,7 +343,6 @@ Array [
             },
           },
           "note": "Where are my cookies",
-          "result_name": "My Ticket Result",
           "topic": Object {
             "value": Object {
               "name": "General",
@@ -387,6 +386,7 @@ Array [
         ],
         "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         "operand": "@locals._new_ticket",
+        "result_name": "My Ticket Result",
         "type": "switch",
       },
       "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",

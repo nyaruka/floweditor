@@ -613,6 +613,7 @@ Array [
         ],
         "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         "operand": "@webhook.status",
+        "result_name": "",
         "type": "switch",
       },
       "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",

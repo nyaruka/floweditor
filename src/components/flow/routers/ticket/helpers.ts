@@ -1,7 +1,7 @@
 import { createServiceCallSplitNode } from 'components/flow/routers/helpers';
 import { Operators, Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
-import { OpenTicket } from 'flowTypes';
+import { OpenTicket, SwitchRouter } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, FormEntry } from 'store/nodeEditor';
 import { createUUID } from 'utils';
@@ -18,6 +18,8 @@ export const getOriginalAction = (settings: NodeEditorSettings): OpenTicket => {
 };
 
 export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState => {
+  const router = settings.originalNode.node.router as SwitchRouter;
+
   let note = { value: '' };
   let resultName = { value: '' };
   let assignee: FormEntry = { value: null };
@@ -28,7 +30,7 @@ export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState
     topic = { value: action.topic };
     note = { value: action.note };
     assignee = { value: action.assignee };
-    resultName = { value: action.result_name };
+    resultName = { value: router.result_name || action.result_name || '' };
   }
 
   const state: TicketRouterFormState = {
@@ -57,8 +59,7 @@ export const stateToNode = (
     type: Types.open_ticket,
     topic: state.topic.value,
     note: state.note.value,
-    assignee: state.assignee.value,
-    result_name: state.resultName.value
+    assignee: state.assignee.value
   };
 
   return createServiceCallSplitNode(
@@ -66,6 +67,7 @@ export const stateToNode = (
     settings.originalNode,
     '@locals._new_ticket',
     Operators.has_text,
-    []
+    [],
+    state.resultName.value
   );
 };

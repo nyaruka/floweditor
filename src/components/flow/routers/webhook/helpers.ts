@@ -3,7 +3,7 @@ import { WebhookRouterFormState } from 'components/flow/routers/webhook/WebhookR
 import { DEFAULT_BODY } from 'components/nodeeditor/constants';
 import { Operators, Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
-import { CallWebhook } from 'flowTypes';
+import { CallWebhook, SwitchRouter } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { createUUID } from 'utils';
@@ -51,6 +51,7 @@ export const getOriginalAction = (settings: NodeEditorSettings): CallWebhook => 
 };
 
 export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormState => {
+  const router = settings.originalNode.node.router as SwitchRouter;
   const resultName: StringEntry = { value: '' };
 
   const state: WebhookRouterFormState = {
@@ -76,7 +77,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
       });
     }
 
-    state.resultName = { value: action.result_name };
+    state.resultName = { value: action.result_name || router.result_name || '' };
     state.url = { value: action.url };
     state.method = { value: { name: action.method, value: action.method } };
     state.body = { value: action.body };
@@ -128,16 +129,21 @@ export const stateToNode = (
     type: Types.call_webhook,
     url: state.url.value,
     body: state.body.value,
-    method: state.method.value.value as Methods,
-    result_name: state.resultName.value
+    method: state.method.value.value as Methods
   };
+
+  // if the action had the result name, keep the result on the action rather than the router
+  if (originalAction && originalAction.result_name) {
+    newAction.result_name = state.resultName.value;
+  }
 
   return createServiceCallSplitNode(
     newAction,
     settings.originalNode,
     '@webhook.status',
     Operators.has_number_between,
-    ['200', '299']
+    ['200', '299'],
+    newAction.result_name ? '' : state.resultName.value // put result on router if not on action
   );
 };
 
