@@ -46,23 +46,20 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     }
     onChange={[MockFunction]}
   />
-  <AssetSelector
-    assets={
-      Object {
-        "items": Object {},
-        "type": "contact",
-      }
-    }
+  <TembaSelectElement
+    endpoint="/assets/recipients.json"
     entry={
       Object {
         "value": Array [],
       }
     }
     expressions={true}
+    key="recipient_select"
     multi={true}
     name="Recipients"
     onChange={[Function]}
     placeholder="Select Contacts"
+    queryParam="search"
     searchable={true}
   />
   <p />
@@ -117,13 +114,8 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     }
     onChange={[MockFunction]}
   />
-  <AssetSelector
-    assets={
-      Object {
-        "items": Object {},
-        "type": "contact",
-      }
-    }
+  <TembaSelectElement
+    endpoint="/assets/recipients.json"
     entry={
       Object {
         "value": Array [
@@ -159,10 +151,12 @@ exports[`SendBroadcastForm render should render self, children with base props 1
       }
     }
     expressions={true}
+    key="recipient_select"
     multi={true}
     name="Recipients"
     onChange={[Function]}
     placeholder="Select Contacts"
+    queryParam="search"
     searchable={true}
   />
   <p />

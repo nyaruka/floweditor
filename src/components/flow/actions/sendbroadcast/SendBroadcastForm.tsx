@@ -13,6 +13,7 @@ import i18n from 'config/i18n';
 import { getComposeByAsset, getEmptyComposeValue, renderIssues } from '../helpers';
 import ComposeElement from 'components/form/compose/ComposeElement';
 import { MAX_ATTACHMENTS, MAX_TEXT_LEN } from 'config/interfaces';
+import TembaSelectElement from 'temba/TembaSelectElement';
 
 export interface SendBroadcastFormState extends FormState {
   compose: StringEntry;
@@ -25,8 +26,7 @@ export default class SendBroadcastForm extends React.Component<
   SendBroadcastFormState
 > {
   public static contextTypes = {
-    endpoints: fakePropType,
-    assetService: fakePropType
+    config: fakePropType
   };
 
   constructor(props: ActionFormProps) {
@@ -151,16 +151,20 @@ export default class SendBroadcastForm extends React.Component<
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <AssetSelector
+
+        <TembaSelectElement
+          key="recipient_select"
           name={i18n.t('forms.recipients', 'Recipients')}
           placeholder={i18n.t('forms.select_contacts', 'Select Contacts')}
-          assets={this.props.assetStore.recipients}
+          endpoint={this.context.config.endpoints.recipients}
           entry={this.state.recipients}
           searchable={true}
           multi={true}
           expressions={true}
+          queryParam="search"
           onChange={this.handleRecipientsChanged}
         />
+
         <p />
         <ComposeElement
           name={i18n.t('forms.compose', 'Compose')}
