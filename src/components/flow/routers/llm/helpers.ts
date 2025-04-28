@@ -25,7 +25,9 @@ export const nodeToState = (settings: NodeEditorSettings): LLMFormState => {
     valid: false
   };
 
-  if (getType(settings.originalNode) === Types.split_by_llm) {
+  const originalType = getType(settings.originalNode);
+
+  if (originalType === Types.split_by_llm || originalType === Types.split_by_webhook) {
     const action = getOriginalAction(settings) as CallLLM;
     state.instructions = { value: action.instructions };
     state.input = { value: action.input };
