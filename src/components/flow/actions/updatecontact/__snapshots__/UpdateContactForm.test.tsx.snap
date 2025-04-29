@@ -62,13 +62,13 @@ exports[`UpdateContactForm should render channel 1`] = `
             class="normal "
           >
             <temba-select
-              cachekey="0"
+              allowcreate="true"
               data-testid="temba_select_contact_field"
+              endpoint="/assets/fields.json"
               errors="[]"
               expressions=""
               name="Contact Field"
               namekey="name"
-              placeholder="Select existing contact field or enter a new one"
               searchable="true"
               valuekey="uuid"
               values="[{\\"name\\":\\"Channel\\",\\"id\\":\\"channel\\",\\"type\\":\\"property\\"}]"
@@ -85,8 +85,9 @@ exports[`UpdateContactForm should render channel 1`] = `
               class="normal "
             >
               <temba-select
-                cachekey="0"
+                clearable="true"
                 data-testid="temba_select_channel"
+                endpoint="/assets/channels.json"
                 errors="[]"
                 expressions=""
                 name="Channel"
@@ -199,13 +200,13 @@ exports[`UpdateContactForm should render field 1`] = `
             class="normal "
           >
             <temba-select
-              cachekey="0"
+              allowcreate="true"
               data-testid="temba_select_contact_field"
+              endpoint="/assets/fields.json"
               errors="[]"
               expressions=""
               name="Contact Field"
               namekey="name"
-              placeholder="Select existing contact field or enter a new one"
               searchable="true"
               valuekey="uuid"
               values="[{\\"key\\":\\"age\\",\\"label\\":\\"Age\\"}]"
@@ -330,13 +331,13 @@ exports[`UpdateContactForm should render language 1`] = `
             class="normal "
           >
             <temba-select
-              cachekey="0"
+              allowcreate="true"
               data-testid="temba_select_contact_field"
+              endpoint="/assets/fields.json"
               errors="[]"
               expressions=""
               name="Contact Field"
               namekey="name"
-              placeholder="Select existing contact field or enter a new one"
               searchable="true"
               valuekey="uuid"
               values="[{\\"name\\":\\"Language\\",\\"id\\":\\"language\\",\\"type\\":\\"property\\"}]"
@@ -353,14 +354,15 @@ exports[`UpdateContactForm should render language 1`] = `
               class="normal "
             >
               <temba-select
-                cachekey="0"
+                clearable="true"
                 data-testid="temba_select_language"
+                endpoint="/assets/languages.json"
                 errors="[]"
                 expressions=""
                 name="Language"
                 namekey="name"
                 placeholder="Select the language to use for this contact"
-                valuekey="uuid"
+                valuekey="iso"
                 values="[{\\"iso\\":\\"eng\\",\\"name\\":\\"eng\\"}]"
               />
             </div>
@@ -466,13 +468,13 @@ exports[`UpdateContactForm should render name 1`] = `
             class="normal "
           >
             <temba-select
-              cachekey="0"
+              allowcreate="true"
               data-testid="temba_select_contact_field"
+              endpoint="/assets/fields.json"
               errors="[]"
               expressions=""
               name="Contact Field"
               namekey="name"
-              placeholder="Select existing contact field or enter a new one"
               searchable="true"
               valuekey="uuid"
               values="[{\\"name\\":\\"Name\\",\\"id\\":\\"name\\",\\"type\\":\\"property\\"}]"

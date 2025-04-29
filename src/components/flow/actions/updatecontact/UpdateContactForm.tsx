@@ -1,14 +1,12 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import {
-  getName,
   initializeForm,
   sortFieldsAndProperties,
   stateToAction,
   UpdateContactFormState
 } from 'components/flow/actions/updatecontact/helpers';
 import { ActionFormProps } from 'components/flow/props';
-import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import { getContactProperties } from 'components/helpers';
 import TypeList from 'components/nodeeditor/TypeList';
@@ -16,16 +14,15 @@ import { fakePropType } from 'config/ConfigProvider';
 import { Types, ContactStatus } from 'config/interfaces';
 import { ContactProperties } from 'flowTypes';
 import * as React from 'react';
-import { Asset, AssetType, updateAssets } from 'store/flowContext';
-import * as mutators from 'store/mutators';
+import { Asset, AssetType } from 'store/flowContext';
 import { mergeForm } from 'store/nodeEditor';
-import { DispatchWithState, GetState } from 'store/thunks';
 import { shouldRequireIf, validate } from 'store/validators';
 
 import styles from './UpdateContactForm.module.scss';
 import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
+import TembaSelectElement from 'temba/TembaSelectElement';
 
 export const CONTACT_STATUS_ACTIVE: SelectOption = {
   name: i18n.t('contact_statuses.active', 'Active'),
@@ -122,8 +119,7 @@ export default class UpdateContactForm extends React.Component<
     return updated.valid;
   }
 
-  private handlePropertyChange(selected: any[]): boolean {
-    const selection = selected[0];
+  private handlePropertyChange(selection: any): boolean {
     if (selection) {
       if (selection.type === AssetType.ContactProperty) {
         switch (selection.id) {
@@ -156,12 +152,12 @@ export default class UpdateContactForm extends React.Component<
     }
   }
 
-  private handleChannelUpdate(selection: Asset[], submitting = false): boolean {
-    return this.handleUpdate({ channel: selection[0] }, submitting);
+  private handleChannelUpdate(selection: Asset, submitting = false): boolean {
+    return this.handleUpdate({ channel: selection }, submitting);
   }
 
-  private handleLanguageUpdate(selection: any[], submitting = false): boolean {
-    return this.handleUpdate({ language: selection[0] }, submitting);
+  private handleLanguageUpdate(selection: Asset, submitting = false): boolean {
+    return this.handleUpdate({ language: selection }, submitting);
   }
 
   private handleStatusUpdate(status: SelectOption): boolean {
@@ -176,20 +172,10 @@ export default class UpdateContactForm extends React.Component<
     return this.handleUpdate({ name, fieldValue: '' });
   }
 
-  private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
-    const {
-      flowContext: { assetStore }
-    } = getState();
-
-    if (this.state.field.value.type === AssetType.Field) {
-      dispatch(updateAssets(mutators.addAssets('fields', assetStore, [this.state.field.value])));
-    }
-  }
-
   public handleFieldAdded(field: Asset): void {
     // update our store with our new group
     this.props.addAsset('fields', field);
-    this.handlePropertyChange([field]);
+    this.handlePropertyChange(field);
   }
 
   private handleSave(): void {
@@ -197,17 +183,17 @@ export default class UpdateContactForm extends React.Component<
 
     // check if language required
     if (this.state.type === Types.set_contact_language) {
-      valid = this.handleLanguageUpdate([this.state.language.value], true) && valid;
+      valid = this.handleLanguageUpdate(this.state.language.value, true) && valid;
     }
 
     // check if channel required
     if (this.state.type === Types.set_contact_channel) {
-      valid = this.handleChannelUpdate([this.state.channel.value], true) && valid;
+      valid = this.handleChannelUpdate(this.state.channel.value, true) && valid;
     }
 
     if (valid) {
       // do the saving!
-      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state), this.onUpdated);
+      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
       this.props.onClose(true);
     }
   }
@@ -228,14 +214,15 @@ export default class UpdateContactForm extends React.Component<
   private getValueWidget(): JSX.Element {
     if (this.state.type === Types.set_contact_channel) {
       return (
-        <AssetSelector
+        <TembaSelectElement
           key="select_channel"
           name={i18n.t('forms.channel', 'Channel')}
           placeholder={i18n.t('forms.select_channel', 'Select the channel to use for this contact')}
-          assets={this.props.assetStore.channels}
+          endpoint={this.context.config.endpoints.channels}
           entry={this.state.channel}
+          valueKey="uuid"
           searchable={true}
-          valueClearable={true}
+          clearable={true}
           onChange={this.handleChannelUpdate}
         />
       );
@@ -243,20 +230,21 @@ export default class UpdateContactForm extends React.Component<
 
     if (this.state.type === Types.set_contact_language) {
       return (
-        <AssetSelector
+        <TembaSelectElement
           key="select_language"
           name={i18n.t('forms.language', 'Language')}
           placeholder={i18n.t(
             'forms.select_language',
             'Select the language to use for this contact'
           )}
-          assets={this.props.assetStore.languages}
+          endpoint={this.context.config.endpoints.languages}
           entry={this.state.language}
-          valueClearable={true}
-          onChange={this.handleLanguageUpdate}
+          valueKey="iso"
+          clearable={true}
           shouldExclude={(language: any) => {
             return language.iso === 'base';
           }}
+          onChange={this.handleLanguageUpdate}
         />
       );
     } else if (this.state.type === Types.set_contact_status) {
@@ -306,19 +294,20 @@ export default class UpdateContactForm extends React.Component<
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
 
         <p>{i18n.t('forms.select_what_to_update', 'Select what to update')}</p>
-        <AssetSelector
+
+        <TembaSelectElement
+          key="field_select"
           name={i18n.t('forms.contact_field', 'Contact Field')}
-          assets={this.props.assetStore.fields}
-          additionalOptions={getContactProperties(this.context.config.flowType)}
+          endpoint={this.context.config.endpoints.fields}
           entry={this.state.field}
+          valueKey="uuid"
           searchable={true}
           sortFunction={sortFieldsAndProperties}
           onChange={this.handlePropertyChange}
-          getName={getName}
-          // Fields can be created on the fly
-          createPrefix="Create Contact Field: "
-          createAssetFromInput={this.handleCreateAssetFromInput}
-          onAssetCreated={this.handleFieldAdded}
+          options={getContactProperties(this.context.config.flowType)}
+          allowCreate={true}
+          createPrefix={i18n.t('create_field', 'Create Field') + ': '}
+          createArbitraryOption={this.handleCreateAssetFromInput}
         />
 
         <div className={styles.value}>{this.getValueWidget()}</div>
