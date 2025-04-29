@@ -4,9 +4,8 @@ import { renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { createResultNameInput } from 'components/flow/routers/widgets';
-import AssetSelector from 'components/form/assetselector/AssetSelector';
 import CheckboxElement from 'components/form/checkbox/CheckboxElement';
-import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
+import { SelectOption } from 'components/form/select/SelectElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
@@ -24,6 +23,7 @@ import {
 import styles from './ResultRouterForm.module.scss';
 import i18n from 'config/i18n';
 import { TembaSelectStyle } from 'temba/TembaSelect';
+import TembaSelectElement from 'temba/TembaSelectElement';
 
 export interface ResultRouterFormState extends FormState {
   result: FormEntry;
@@ -89,9 +89,9 @@ export default class ResultRouterForm extends React.Component<
     this.setState({ cases });
   }
 
-  private handleResultChanged(selected: Asset[], submitting = false): boolean {
+  private handleResultChanged(selected: Asset, submitting = false): boolean {
     const updates: Partial<ResultRouterFormState> = {
-      result: validate(i18n.t('forms.result_to_split_on', 'Result to split on'), selected[0], [
+      result: validate(i18n.t('forms.result_to_split_on', 'Result to split on'), selected, [
         shouldRequireIf(submitting)
       ])
     };
@@ -108,7 +108,7 @@ export default class ResultRouterForm extends React.Component<
       return;
     }
 
-    const valid = this.handleResultChanged([this.state.result.value], true);
+    const valid = this.handleResultChanged(this.state.result.value, true);
     if (valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
       this.props.onClose(false);
@@ -142,15 +142,14 @@ export default class ResultRouterForm extends React.Component<
       <div className={styles.non_delimited}>
         <div className={styles.lead_in}>If the flow result</div>
         <div className={styles.result_select}>
-          <AssetSelector
+          <TembaSelectElement
             entry={this.state.result}
             style={TembaSelectStyle.small}
             name={i18n.t('forms.flow_result', 'Flow Result')}
             placeholder="Select Result"
             searchable={false}
-            assets={this.props.assetStore.results}
             onChange={this.handleResultChanged}
-            additionalOptions={this.options}
+            options={this.options}
           />
         </div>
       </div>
@@ -162,7 +161,7 @@ export default class ResultRouterForm extends React.Component<
       <div className={styles.delimited}>
         <div className={styles.lead_in}>If the</div>
         <div className={styles.field_number}>
-          <SelectElement
+          <TembaSelectElement
             key="field_number_select"
             style={TembaSelectStyle.small}
             name={i18n.t('forms.field_number', 'Field Number')}
@@ -173,20 +172,19 @@ export default class ResultRouterForm extends React.Component<
         </div>
         <div className={styles.lead_in_sub}>field of</div>
         <div className={styles.result_select_delimited}>
-          <AssetSelector
+          <TembaSelectElement
             entry={this.state.result}
             style={TembaSelectStyle.small}
             name={i18n.t('forms.flow_result', 'Flow Result')}
             placeholder={i18n.t('forms.select_result', 'Select Result')}
             searchable={false}
-            assets={this.props.assetStore.results}
             onChange={this.handleResultChanged}
-            additionalOptions={this.options}
+            options={this.options}
           />
         </div>
         <div className={styles.lead_in_sub}>delimited by</div>
         <div className={styles.delimiter}>
-          <SelectElement
+          <TembaSelectElement
             key="delimiter_select"
             style={TembaSelectStyle.small}
             name={i18n.t('forms.delimiter', 'Delimiter')}
