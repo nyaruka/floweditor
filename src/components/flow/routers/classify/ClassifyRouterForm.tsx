@@ -51,7 +51,6 @@ export default class ClassifyRouterForm extends React.Component<
 
     // we need to resolve our classifier for intent selection
     if (this.state.classifier.value) {
-      // TODO: don't use asset as intermediary now that AssetSelector deals in native options
       fetchAsset(this.props.assetStore.classifiers, this.state.classifier.value.uuid).then(
         (classifier: Asset) => {
           if (classifier) {

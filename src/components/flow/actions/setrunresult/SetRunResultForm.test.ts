@@ -30,7 +30,7 @@ describe(SetRunResultForm.name, () => {
     it('should save changes', () => {
       const { instance, props } = setup(true);
 
-      instance.handleNameUpdate([resultName]);
+      instance.handleNameUpdate(resultName);
       instance.handleValueUpdate('Result Value');
       instance.handleCategoryUpdate('Result Category');
 
@@ -47,7 +47,7 @@ describe(SetRunResultForm.name, () => {
         nodeSettings: { $merge: { originalAction: null } }
       });
 
-      instance.handleNameUpdate([resultName]);
+      instance.handleNameUpdate(resultName);
       instance.handleValueUpdate('Result Value');
       instance.handleCategoryUpdate('Result Category');
       instance.handleSave();
@@ -62,7 +62,7 @@ describe(SetRunResultForm.name, () => {
         $merge: { onClose: jest.fn(), updateAction: jest.fn() }
       });
 
-      instance.handleNameUpdate([resultName]);
+      instance.handleNameUpdate(resultName);
       instance.getButtons().secondary.onClick();
       expect(props.onClose).toHaveBeenCalled();
       expect(props.updateAction).not.toHaveBeenCalled();

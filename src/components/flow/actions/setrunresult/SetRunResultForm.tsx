@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { ActionFormProps } from 'components/flow/props';
-import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
@@ -16,6 +15,7 @@ import styles from './SetRunResultForm.module.scss';
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
 import { SelectOption } from 'components/form/select/SelectElement';
+import TembaSelectElement from 'temba/TembaSelectElement';
 
 export interface SetRunResultFormState extends FormState {
   name: AssetEntry;
@@ -46,9 +46,9 @@ export default class SetRunResultForm extends React.PureComponent<
     });
   }
 
-  private handleNameUpdate(selected: Asset[]): void {
+  private handleNameUpdate(selected: Asset): void {
     if (selected) {
-      this.handleUpdate({ name: selected[0] });
+      this.handleUpdate({ name: selected });
     } else {
       this.handleUpdate({ name: null });
     }
@@ -133,19 +133,18 @@ export default class SetRunResultForm extends React.PureComponent<
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.form}>
-          <AssetSelector
+          <TembaSelectElement
             name={i18n.t('forms.result', 'Result')}
-            assets={this.props.assetStore.results}
             entry={this.state.name}
             searchable={true}
             createPrefix={i18n.t('forms.create_prefix', 'New: ')}
+            placeholder="Select a result"
             onChange={this.handleNameUpdate}
-            createAssetFromInput={this.handleCreateAssetFromInput}
-            formClearable={true}
+            createArbitraryOption={this.handleCreateAssetFromInput}
             showLabel={true}
             valueKey="value"
             nameKey="name"
-            additionalOptions={this.options}
+            options={this.options}
             helpText={
               <Trans
                 i18nKey="forms.result_name_help"
