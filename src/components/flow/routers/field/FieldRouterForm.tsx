@@ -5,7 +5,6 @@ import { getName, sortFieldsAndProperties } from 'components/flow/actions/update
 import { RouterFormProps } from 'components/flow/props';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { createResultNameInput } from 'components/flow/routers/widgets';
-import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
@@ -15,7 +14,7 @@ import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/valid
 import styles from './FieldRouterForm.module.scss';
 import { getRoutableFields, nodeToState, stateToNode } from './helpers';
 import i18n from 'config/i18n';
-import { TembaSelectStyle } from 'temba/TembaSelect';
+import TembaSelectElement from 'temba/TembaSelectElement';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -84,8 +83,8 @@ export default class FieldRouterForm extends React.Component<
     this.handleUpdate({ resultName });
   }
 
-  private handleFieldChanged(selected: any[]): void {
-    this.handleUpdate({ field: selected[0] });
+  private handleFieldChanged(selected: any): void {
+    this.handleUpdate({ field: selected });
   }
 
   private handleCasesUpdated(cases: CaseProps[]): void {
@@ -124,11 +123,11 @@ export default class FieldRouterForm extends React.Component<
         <div className={styles.lead_in}>
           If the contact's
           <div className={`${styles.field_select} select-small`}>
-            <AssetSelector
+            <TembaSelectElement
+              key="field_select"
               name={i18n.t('forms.contact_field', 'Contact Field')}
-              style={TembaSelectStyle.small}
-              assets={this.props.assetStore.fields}
-              additionalOptions={getRoutableFields(this.context.config.flowType)}
+              endpoint={this.context.config.endpoints.fields}
+              options={getRoutableFields(this.context.config.flowType)}
               valueKey="id"
               getName={getName}
               entry={this.state.field}
