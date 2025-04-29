@@ -38,13 +38,8 @@ exports[`SubflowRouterForm ivr render should render 1`] = `
     }
     onChange={[MockFunction]}
   />
-  <AssetSelector
-    assets={
-      Object {
-        "items": Object {},
-        "type": "flow",
-      }
-    }
+  <TembaSelectElement
+    endpoint="/assets/flows.json"
     entry={
       Object {
         "value": Object {
@@ -58,6 +53,7 @@ exports[`SubflowRouterForm ivr render should render 1`] = `
     placeholder="Select the flow to start"
     searchable={true}
     shouldExclude={[Function]}
+    valueKey="uuid"
   />
 </Dialog>
 `;
@@ -284,13 +280,8 @@ exports[`SubflowRouterForm msg render should render 1`] = `
     }
     onChange={[MockFunction]}
   />
-  <AssetSelector
-    assets={
-      Object {
-        "items": Object {},
-        "type": "flow",
-      }
-    }
+  <TembaSelectElement
+    endpoint="/assets/flows.json"
     entry={
       Object {
         "value": Object {
@@ -304,6 +295,7 @@ exports[`SubflowRouterForm msg render should render 1`] = `
     placeholder="Select the flow to start"
     searchable={true}
     shouldExclude={[Function]}
+    valueKey="uuid"
   />
 </Dialog>
 `;

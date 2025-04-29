@@ -37,7 +37,7 @@ describe(SubflowRouterForm.name, () => {
     it('should update and save', () => {
       const { instance, props } = setupTest(true, { updateRouter: setMock() });
       expect(instance.context.config.flowType).toEqual(FlowTypes.MESSAGING);
-      instance.handleFlowChanged([ColorFlowAsset]);
+      instance.handleFlowChanged(ColorFlowAsset);
       expect(instance.state).toMatchSnapshot();
       instance.getButtons().primary.onClick();
       expect(props.updateRouter).toMatchCallSnapshot();
@@ -46,7 +46,7 @@ describe(SubflowRouterForm.name, () => {
     it('should cancel changes', () => {
       const { instance, props } = setupTest(true, { updateRouter: setMock() });
       expect(instance.context.config.flowType).toEqual(FlowTypes.MESSAGING);
-      instance.handleFlowChanged([ColorFlowAsset]);
+      instance.handleFlowChanged(ColorFlowAsset);
       instance.getButtons().secondary.onClick();
       expect(props.updateRouter).not.toBeCalled();
     });
@@ -60,7 +60,7 @@ describe(SubflowRouterForm.name, () => {
       });
       expect(instance.context.config.flowType).toEqual(FlowTypes.MESSAGING);
 
-      instance.handleFlowChanged([ColorFlowAsset]);
+      instance.handleFlowChanged(ColorFlowAsset);
       instance.getButtons().primary.onClick();
       expect(props.updateRouter).toMatchCallSnapshot();
     });
@@ -77,7 +77,7 @@ describe(SubflowRouterForm.name, () => {
       });
       expect(instance.context.config.flowType).toEqual(FlowTypes.MESSAGING);
 
-      instance.handleFlowChanged([ColorFlowAsset]);
+      instance.handleFlowChanged(ColorFlowAsset);
       instance.getButtons().primary.onClick();
       expect(props.updateRouter).toMatchCallSnapshot();
     });
@@ -85,7 +85,7 @@ describe(SubflowRouterForm.name, () => {
     it('validates before saving', () => {
       const { instance, props } = setupTest(true, { updateRouter: setMock() });
       expect(instance.context.config.flowType).toEqual(FlowTypes.MESSAGING);
-      instance.handleFlowChanged([]);
+      instance.handleFlowChanged(null);
       instance.getButtons().primary.onClick();
       expect(props.updateRouter).not.toBeCalled();
     });
@@ -114,7 +114,7 @@ describe(SubflowRouterForm.name, () => {
     it('should update and save', () => {
       const { instance, props } = setupTest(true, { updateRouter: setMock() });
       expect(instance.context.config.flowType).toEqual(FlowTypes.VOICE);
-      instance.handleFlowChanged([SoundFlowAsset]);
+      instance.handleFlowChanged(SoundFlowAsset);
       expect(instance.state).toMatchSnapshot();
       instance.getButtons().primary.onClick();
       expect(props.updateRouter).toMatchCallSnapshot();
@@ -123,7 +123,7 @@ describe(SubflowRouterForm.name, () => {
     it('should cancel changes', () => {
       const { instance, props } = setupTest(true, { updateRouter: setMock() });
       expect(instance.context.config.flowType).toEqual(FlowTypes.VOICE);
-      instance.handleFlowChanged([SoundFlowAsset]);
+      instance.handleFlowChanged(SoundFlowAsset);
       instance.getButtons().secondary.onClick();
       expect(props.updateRouter).not.toBeCalled();
     });
@@ -137,7 +137,7 @@ describe(SubflowRouterForm.name, () => {
       });
       expect(instance.context.config.flowType).toEqual(FlowTypes.VOICE);
 
-      instance.handleFlowChanged([SoundFlowAsset]);
+      instance.handleFlowChanged(SoundFlowAsset);
       instance.getButtons().primary.onClick();
       expect(props.updateRouter).toMatchCallSnapshot();
     });
@@ -154,7 +154,7 @@ describe(SubflowRouterForm.name, () => {
       });
       expect(instance.context.config.flowType).toEqual(FlowTypes.VOICE);
 
-      instance.handleFlowChanged([SoundFlowAsset]);
+      instance.handleFlowChanged(SoundFlowAsset);
       instance.getButtons().primary.onClick();
       expect(props.updateRouter).toMatchCallSnapshot();
     });
@@ -162,7 +162,7 @@ describe(SubflowRouterForm.name, () => {
     it('validates before saving', () => {
       const { instance, props } = setupTest(true, { updateRouter: setMock() });
       expect(instance.context.config.flowType).toEqual(FlowTypes.VOICE);
-      instance.handleFlowChanged([]);
+      instance.handleFlowChanged(null);
       instance.getButtons().primary.onClick();
       expect(props.updateRouter).not.toBeCalled();
     });

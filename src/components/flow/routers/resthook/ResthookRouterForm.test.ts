@@ -26,7 +26,7 @@ describe(ResthookRouterForm.name, () => {
       const components = setup(true, { updateRouter: setMock() });
       const instance = components.instance as ResthookRouterForm;
 
-      instance.handleResthookChanged([ResthookAsset]);
+      instance.handleResthookChanged(ResthookAsset);
       expect(instance.state).toMatchSnapshot();
       instance.getButtons().primary.onClick();
       expect(components.props.updateRouter).toMatchCallSnapshot();
@@ -36,7 +36,7 @@ describe(ResthookRouterForm.name, () => {
       const components = setup(true, { updateRouter: setMock() });
       const instance = components.instance as ResthookRouterForm;
 
-      instance.handleResthookChanged([ResthookAsset]);
+      instance.handleResthookChanged(ResthookAsset);
       instance.getButtons().secondary.onClick();
       expect(components.props.updateRouter).not.toBeCalled();
     });
@@ -50,7 +50,7 @@ describe(ResthookRouterForm.name, () => {
       });
 
       const instance = components.instance as ResthookRouterForm;
-      instance.handleResthookChanged([ResthookAsset]);
+      instance.handleResthookChanged(ResthookAsset);
       instance.getButtons().primary.onClick();
       expect(components.props.updateRouter).toMatchCallSnapshot();
     });
@@ -68,7 +68,7 @@ describe(ResthookRouterForm.name, () => {
 
       const instance = components.instance as ResthookRouterForm;
 
-      instance.handleResthookChanged([ResthookAsset]);
+      instance.handleResthookChanged(ResthookAsset);
       instance.getButtons().primary.onClick();
       expect(components.props.updateRouter).toMatchCallSnapshot();
     });

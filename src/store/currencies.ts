@@ -1,6 +1,6 @@
 import { AssetType } from 'store/flowContext';
 
-export const currencies = {
+export const CURRENCIES: { [key: string]: { id: string; name: string; type: AssetType } } = {
   ARS: {
     id: 'ARS',
     name: 'Argentine Peso',
@@ -238,3 +238,9 @@ export const currencies = {
     type: AssetType.Currency
   }
 };
+
+export const CURRENCY_OPTIONS = Object.values(CURRENCIES).map(currency => ({
+  id: currency.id,
+  name: currency.name,
+  type: AssetType.Currency
+}));

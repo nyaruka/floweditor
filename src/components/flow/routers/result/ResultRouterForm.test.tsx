@@ -58,7 +58,9 @@ describe(ResultRouterForm.name, () => {
     };
 
     props.assetStore.results.items = { [testResult.id]: testResult };
-    const { getByText } = render(<ResultRouterForm {...props} />);
+    const { getByText, getByTestId } = render(<ResultRouterForm {...props} />);
+
+    fireTembaSelect(getByTestId('temba_select_flow_result'), 'my_test_result');
 
     fireEvent.click(getByText('Ok'));
 
@@ -70,7 +72,7 @@ describe(ResultRouterForm.name, () => {
     expect(props.updateRouter).toMatchCallSnapshot();
   });
 
-  it('should a fielded operand if configured', () => {
+  it('should have a fielded operand if configured', () => {
     const props = getRouterFormProps(routerNode);
 
     const testResult = {
@@ -88,6 +90,7 @@ describe(ResultRouterForm.name, () => {
 
     const { getByText, getByTestId } = render(<ResultRouterForm {...props} />);
 
+    fireTembaSelect(getByTestId('temba_select_flow_result'), 'my_test_result');
     fireTembaSelect(getByTestId('temba_select_field_number'), '0');
     fireTembaSelect(getByTestId('temba_select_delimiter'), '+');
 

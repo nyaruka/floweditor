@@ -1,6 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ResultRouterForm should a fielded operand if configured 1`] = `
+exports[`ResultRouterForm should create the right operand on save 1`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "categories": Array [
+          Object {
+            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "name": "All Responses",
+            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          },
+        ],
+        "default_category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        "operand": "@results.my_test_result",
+        "type": "switch",
+      },
+      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+    },
+    "ui": Object {
+      "config": Object {
+        "cases": Object {},
+        "operand": Object {
+          "id": "my_test_result",
+          "name": "My Test Result",
+          "type": "result",
+        },
+      },
+      "position": null,
+      "type": "split_by_run_result",
+    },
+  },
+]
+`;
+
+exports[`ResultRouterForm should have a fielded operand if configured 1`] = `
 Array [
   Object {
     "inboundConnections": Object {},
@@ -39,48 +81,6 @@ Array [
       },
       "position": null,
       "type": "split_by_run_result_delimited",
-    },
-  },
-]
-`;
-
-exports[`ResultRouterForm should create the right operand on save 1`] = `
-Array [
-  Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
-        },
-      ],
-      "router": Object {
-        "cases": Array [],
-        "categories": Array [
-          Object {
-            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
-            "name": "All Responses",
-            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
-          },
-        ],
-        "default_category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
-        "operand": "@results.my_test_result",
-        "type": "switch",
-      },
-      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
-    },
-    "ui": Object {
-      "config": Object {
-        "cases": Object {},
-        "operand": Object {
-          "id": "my_test_result",
-          "name": "My Test Result",
-          "type": "result",
-        },
-      },
-      "position": null,
-      "type": "split_by_run_result",
     },
   },
 ]
@@ -168,14 +168,13 @@ exports[`ResultRouterForm should render 1`] = `
                 class="small "
               >
                 <temba-select
-                  cachekey="0"
                   data-testid="temba_select_flow_result"
                   errors="[]"
                   expressions=""
                   name="Flow Result"
                   namekey="name"
                   placeholder="Select Result"
-                  valuekey="uuid"
+                  valuekey="value"
                   values="[]"
                 />
               </div>

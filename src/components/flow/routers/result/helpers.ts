@@ -126,12 +126,12 @@ export const stateToNode = (
   let nodeType = Types.split_by_run_result;
 
   const result = state.result.value;
-  let operand = `@results.${result.id}`;
+  let operand = `@results.${result.value}`;
 
   const config: any = {
     operand: {
       name: result.name,
-      id: result.id,
+      id: result.value,
       type: AssetType.Result
     },
     cases: caseConfig
@@ -140,7 +140,7 @@ export const stateToNode = (
   if (state.shouldDelimit) {
     config.index = state.fieldNumber;
     config.delimiter = state.delimiter;
-    operand = `@(field(results.${result.id}, ${state.fieldNumber}, "${state.delimiter}"))`;
+    operand = `@(field(results.${result.value}, ${state.fieldNumber}, "${state.delimiter}"))`;
     nodeType = Types.split_by_run_result_delimited;
   }
 

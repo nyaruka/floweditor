@@ -41,8 +41,22 @@ exports[`FieldRouterForm initializes 1`] = `
     <div
       className="field_select select-small"
     >
-      <AssetSelector
-        additionalOptions={
+      <TembaSelectElement
+        endpoint="/assets/fields.json"
+        entry={
+          Object {
+            "value": Object {
+              "id": "name",
+              "name": "Name",
+              "type": "property",
+            },
+          }
+        }
+        getName={[Function]}
+        key="field_select"
+        name="Contact Field"
+        onChange={[Function]}
+        options={
           Array [
             Object {
               "id": "name",
@@ -161,27 +175,8 @@ exports[`FieldRouterForm initializes 1`] = `
             },
           ]
         }
-        assets={
-          Object {
-            "items": Object {},
-            "type": "field",
-          }
-        }
-        entry={
-          Object {
-            "value": Object {
-              "id": "name",
-              "name": "Name",
-              "type": "property",
-            },
-          }
-        }
-        getName={[Function]}
-        name="Contact Field"
-        onChange={[Function]}
         searchable={true}
         sortFunction={[Function]}
-        style="small"
         valueKey="id"
       />
     </div>
@@ -274,8 +269,22 @@ exports[`FieldRouterForm should render 1`] = `
     <div
       className="field_select select-small"
     >
-      <AssetSelector
-        additionalOptions={
+      <TembaSelectElement
+        endpoint="/assets/fields.json"
+        entry={
+          Object {
+            "value": Object {
+              "id": "name",
+              "name": "Name",
+              "type": "property",
+            },
+          }
+        }
+        getName={[Function]}
+        key="field_select"
+        name="Contact Field"
+        onChange={[Function]}
+        options={
           Array [
             Object {
               "id": "name",
@@ -394,27 +403,8 @@ exports[`FieldRouterForm should render 1`] = `
             },
           ]
         }
-        assets={
-          Object {
-            "items": Object {},
-            "type": "field",
-          }
-        }
-        entry={
-          Object {
-            "value": Object {
-              "id": "name",
-              "name": "Name",
-              "type": "property",
-            },
-          }
-        }
-        getName={[Function]}
-        name="Contact Field"
-        onChange={[Function]}
         searchable={true}
         sortFunction={[Function]}
-        style="small"
         valueKey="id"
       />
     </div>

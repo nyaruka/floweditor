@@ -39,8 +39,24 @@ exports[`UpdateContactForm render should render an empty form with different act
   <p>
     Select what to update
   </p>
-  <AssetSelector
-    additionalOptions={
+  <TembaSelectElement
+    allowCreate={true}
+    createArbitraryOption={[Function]}
+    createPrefix="Create Field: "
+    endpoint="/assets/fields.json"
+    entry={
+      Object {
+        "value": Object {
+          "id": "name",
+          "name": "Name",
+          "type": "property",
+        },
+      }
+    }
+    key="field_select"
+    name="Contact Field"
+    onChange={[Function]}
+    options={
       Array [
         Object {
           "id": "name",
@@ -64,29 +80,9 @@ exports[`UpdateContactForm render should render an empty form with different act
         },
       ]
     }
-    assets={
-      Object {
-        "items": Object {},
-        "type": "field",
-      }
-    }
-    createAssetFromInput={[Function]}
-    createPrefix="Create Contact Field: "
-    entry={
-      Object {
-        "value": Object {
-          "id": "name",
-          "name": "Name",
-          "type": "property",
-        },
-      }
-    }
-    getName={[Function]}
-    name="Contact Field"
-    onAssetCreated={[Function]}
-    onChange={[Function]}
     searchable={true}
     sortFunction={[Function]}
+    valueKey="uuid"
   />
   <div
     className="value"
@@ -146,8 +142,24 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
   <p>
     Select what to update
   </p>
-  <AssetSelector
-    additionalOptions={
+  <TembaSelectElement
+    allowCreate={true}
+    createArbitraryOption={[Function]}
+    createPrefix="Create Field: "
+    endpoint="/assets/fields.json"
+    entry={
+      Object {
+        "value": Object {
+          "id": "name",
+          "name": "Name",
+          "type": "property",
+        },
+      }
+    }
+    key="field_select"
+    name="Contact Field"
+    onChange={[Function]}
+    options={
       Array [
         Object {
           "id": "name",
@@ -171,29 +183,9 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
         },
       ]
     }
-    assets={
-      Object {
-        "items": Object {},
-        "type": "field",
-      }
-    }
-    createAssetFromInput={[Function]}
-    createPrefix="Create Contact Field: "
-    entry={
-      Object {
-        "value": Object {
-          "id": "name",
-          "name": "Name",
-          "type": "property",
-        },
-      }
-    }
-    getName={[Function]}
-    name="Contact Field"
-    onAssetCreated={[Function]}
-    onChange={[Function]}
     searchable={true}
     sortFunction={[Function]}
+    valueKey="uuid"
   />
   <div
     className="value"
@@ -261,7 +253,6 @@ Array [
     "type": "set_contact_channel",
     "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
   },
-  [Function],
 ]
 `;
 
@@ -272,7 +263,6 @@ Array [
     "type": "set_contact_name",
     "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
   },
-  [Function],
 ]
 `;
 
@@ -320,7 +310,6 @@ Array [
     "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
     "value": "12/25/00",
   },
-  [Function],
 ]
 `;
 
@@ -341,7 +330,7 @@ Object {
   },
   "language": Object {
     "validationFailures": Array [],
-    "value": "e",
+    "value": "eng",
   },
   "name": Object {
     "value": "",
@@ -364,7 +353,6 @@ Array [
     "type": "set_contact_language",
     "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
   },
-  [Function],
 ]
 `;
 
@@ -385,7 +373,10 @@ Object {
   },
   "language": Object {
     "validationFailures": Array [],
-    "value": undefined,
+    "value": Object {
+      "label": "Blocked",
+      "value": "blocked",
+    },
   },
   "name": Object {
     "value": "",
@@ -408,7 +399,6 @@ Array [
     "type": "set_contact_status",
     "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
   },
-  [Function],
 ]
 `;
 
@@ -456,7 +446,6 @@ Array [
     "type": "set_contact_name",
     "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
   },
-  [Function],
 ]
 `;
 
@@ -500,7 +489,6 @@ Array [
     "type": "set_contact_name",
     "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
   },
-  [Function],
 ]
 `;
 
@@ -521,7 +509,7 @@ Object {
   },
   "language": Object {
     "validationFailures": Array [],
-    "value": "e",
+    "value": "eng",
   },
   "name": Object {
     "value": "",
@@ -544,7 +532,6 @@ Array [
     "type": "set_contact_name",
     "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
   },
-  [Function],
 ]
 `;
 
@@ -588,7 +575,6 @@ Array [
     "type": "set_contact_name",
     "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
   },
-  [Function],
 ]
 `;
 
@@ -632,7 +618,6 @@ Array [
     "type": "set_contact_name",
     "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
   },
-  [Function],
 ]
 `;
 

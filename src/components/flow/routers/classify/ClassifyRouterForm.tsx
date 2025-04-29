@@ -15,7 +15,6 @@ import {
   validate
 } from 'store/validators';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
-import AssetSelector from 'components/form/assetselector/AssetSelector';
 import { Asset } from 'store/flowContext';
 import { renderIf } from 'utils';
 import { intentOperatorList } from 'config/operatorConfigs';
@@ -24,6 +23,8 @@ import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
 import { fetchAsset } from 'external';
 import styles from './ClassifyRouterForm.module.scss';
 import i18n from 'config/i18n';
+import TembaSelectElement from 'temba/TembaSelectElement';
+import { fakePropType } from 'config/ConfigProvider';
 
 export interface ClassifyRouterFormState extends FormState {
   hiddenCases: CaseProps[];
@@ -37,6 +38,9 @@ export default class ClassifyRouterForm extends React.Component<
   RouterFormProps,
   ClassifyRouterFormState
 > {
+  public static contextTypes = {
+    config: fakePropType
+  };
   constructor(props: RouterFormProps) {
     super(props);
 
@@ -47,7 +51,6 @@ export default class ClassifyRouterForm extends React.Component<
 
     // we need to resolve our classifier for intent selection
     if (this.state.classifier.value) {
-      // TODO: don't use asset as intermediary now that AssetSelector deals in native options
       fetchAsset(this.props.assetStore.classifiers, this.state.classifier.value.uuid).then(
         (classifier: Asset) => {
           if (classifier) {
@@ -122,8 +125,8 @@ export default class ClassifyRouterForm extends React.Component<
     }
   }
 
-  private handleClassifierUpdated(selected: Asset[]): void {
-    this.handleUpdate({ classifier: selected[0] });
+  private handleClassifierUpdated(selected: Asset): void {
+    this.handleUpdate({ classifier: selected });
   }
 
   private handleOperandUpdated(value: string): void {
@@ -194,13 +197,15 @@ export default class ClassifyRouterForm extends React.Component<
           </span>
           <span> through the classifier...</span>
         </p>
-        <AssetSelector
+
+        <TembaSelectElement
           key="select_classifier"
           name={i18n.t('forms.classifier', 'Classifier')}
           placeholder="Select the classifier to use"
-          assets={this.props.assetStore.classifiers}
+          endpoint={this.context.config.endpoints.classifiers}
           onChange={this.handleClassifierUpdated}
           entry={this.state.classifier}
+          valueKey="uuid"
         />
 
         {renderIf(!!this.state.classifier.value)(

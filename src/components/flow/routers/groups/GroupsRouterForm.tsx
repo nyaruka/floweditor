@@ -5,7 +5,6 @@ import { RouterFormProps } from 'components/flow/props';
 import { GROUP_LABEL } from 'components/flow/routers/constants';
 import { nodeToState, stateToNode } from 'components/flow/routers/groups/helpers';
 import { createResultNameInput } from 'components/flow/routers/widgets';
-import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import { Asset } from 'store/flowContext';
@@ -13,6 +12,7 @@ import { AssetArrayEntry, FormState, mergeForm, StringEntry } from 'store/nodeEd
 import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
 import i18n from 'config/i18n';
 import { renderIssues } from 'components/flow/actions/helpers';
+import TembaSelectElement from 'temba/TembaSelectElement';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -26,8 +26,7 @@ export default class GroupsRouterForm extends React.Component<
   GroupsRouterFormState
 > {
   public static contextTypes = {
-    endpoints: fakePropType,
-    assetService: fakePropType
+    config: fakePropType
   };
 
   constructor(props: RouterFormProps) {
@@ -90,13 +89,15 @@ export default class GroupsRouterForm extends React.Component<
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <p>{GROUP_LABEL}</p>
-        <AssetSelector
+        <TembaSelectElement
           name={i18n.t('forms.groups', 'Groups')}
-          assets={this.props.assetStore.groups}
+          placeholder="Select groups"
+          endpoint={this.context.config.endpoints.groups}
           entry={this.state.groups}
           searchable={true}
           onChange={this.handleGroupsChanged}
           multi={true}
+          valueKey="uuid"
         />
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
         {renderIssues(this.props)}

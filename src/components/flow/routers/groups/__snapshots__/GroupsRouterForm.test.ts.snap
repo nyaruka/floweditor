@@ -78,7 +78,8 @@ exports[`GroupsRouterForm render should render 1`] = `
   <p>
     Select the groups you'd like to split by below
   </p>
-  <AssetSelector
+  <TembaSelectElement
+    endpoint="/assets/groups.json"
     entry={
       Object {
         "value": Array [
@@ -112,7 +113,9 @@ exports[`GroupsRouterForm render should render 1`] = `
     multi={true}
     name="Groups"
     onChange={[Function]}
+    placeholder="Select groups"
     searchable={true}
+    valueKey="uuid"
   />
   <OptionalTextInput
     helpText={

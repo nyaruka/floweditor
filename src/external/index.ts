@@ -2,7 +2,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { SaveResult } from 'components/revisions/RevisionExplorer';
 import { Endpoints, Exit, FlowDefinition, SPEC_VERSION, FlowDetails } from 'flowTypes';
-import { currencies } from 'store/currencies';
+import { CURRENCIES } from 'store/currencies';
 import { Activity, RecentContact } from 'store/editor';
 import { Asset, AssetMap, Assets, AssetStore, AssetType } from 'store/flowContext';
 import { assetListToMap } from 'store/helpers';
@@ -365,7 +365,7 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
       currencies: {
         type: AssetType.Currency,
         id: 'id',
-        items: currencies,
+        items: CURRENCIES,
         prefetched: true
       }
     };

@@ -103,12 +103,10 @@ describe(FieldRouterForm.name, () => {
         $merge: { updateRouter: jest.fn(), onClose: jest.fn() }
       });
 
-      instance.handleFieldChanged([
-        {
-          key: 'my_field',
-          label: 'My Field'
-        }
-      ]);
+      instance.handleFieldChanged({
+        key: 'my_field',
+        label: 'My Field'
+      });
 
       instance.handleSave();
 

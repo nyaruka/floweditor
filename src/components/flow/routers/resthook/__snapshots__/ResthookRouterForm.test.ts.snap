@@ -43,7 +43,8 @@ exports[`ResthookRouterForm render should render 1`] = `
     }
     onChange={[MockFunction]}
   />
-  <AssetSelector
+  <TembaSelectElement
+    endpoint="/assets/resthooks.json"
     entry={
       Object {
         "value": Object {

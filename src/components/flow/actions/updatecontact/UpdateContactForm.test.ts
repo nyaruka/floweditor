@@ -56,7 +56,7 @@ describe(UpdateContactForm.name, () => {
     });
 
     it('should update name', () => {
-      form.instance.handlePropertyChange([NAME_PROPERTY]);
+      form.instance.handlePropertyChange(NAME_PROPERTY);
       form.instance.handleNameUpdate('Rowan Seymour');
       form.instance.handleSave();
       expect(form.instance.state).toMatchSnapshot();
@@ -64,9 +64,11 @@ describe(UpdateContactForm.name, () => {
     });
 
     it('should update field value', () => {
-      form.instance.handlePropertyChange([
-        { id: 'birthday', name: 'Birthday', type: AssetType.Field }
-      ]);
+      form.instance.handlePropertyChange({
+        id: 'birthday',
+        name: 'Birthday',
+        type: AssetType.Field
+      });
       form.instance.handleFieldValueUpdate('12/25/00');
       form.instance.handleSave();
       expect(form.instance.state).toMatchSnapshot();
@@ -74,7 +76,7 @@ describe(UpdateContactForm.name, () => {
     });
 
     it('should update language', () => {
-      form.instance.handlePropertyChange([LANGUAGE_PROPERTY]);
+      form.instance.handlePropertyChange(LANGUAGE_PROPERTY);
       form.instance.handleLanguageUpdate('eng');
       form.instance.handleSave();
       expect(form.instance.state).toMatchSnapshot();
@@ -82,7 +84,7 @@ describe(UpdateContactForm.name, () => {
     });
 
     it('should update status', () => {
-      form.instance.handlePropertyChange([STATUS_PROPERTY]);
+      form.instance.handlePropertyChange(STATUS_PROPERTY);
       form.instance.handleStatusUpdate(CONTACT_STATUS_BLOCKED);
       form.instance.handleSave();
       expect(form.instance.state).toMatchSnapshot();
@@ -90,18 +92,20 @@ describe(UpdateContactForm.name, () => {
     });
 
     it('should update channel', () => {
-      form.instance.handlePropertyChange([CHANNEL_PROPERTY]);
-      form.instance.handleChannelUpdate([
-        { id: 'channel_id', name: 'Channel Name', type: AssetType.Channel }
-      ]);
+      form.instance.handlePropertyChange(CHANNEL_PROPERTY);
+      form.instance.handleChannelUpdate({
+        id: 'channel_id',
+        name: 'Channel Name',
+        type: AssetType.Channel
+      });
       form.instance.handleSave();
       expect(form.instance.state).toMatchSnapshot();
       expect(form.props.updateAction).toMatchCallSnapshot();
     });
 
     it('should validate before saving', () => {
-      form.instance.handlePropertyChange([CHANNEL_PROPERTY]);
-      form.instance.handleChannelUpdate([null]);
+      form.instance.handlePropertyChange(CHANNEL_PROPERTY);
+      form.instance.handleChannelUpdate(null);
 
       form.props.updateAction.mockClear();
       form.props.onClose.mockClear();
@@ -112,7 +116,7 @@ describe(UpdateContactForm.name, () => {
     });
 
     it('should cancel changes', () => {
-      form.instance.handlePropertyChange([NAME_PROPERTY]);
+      form.instance.handlePropertyChange(NAME_PROPERTY);
       form.instance.handleNameUpdate('Rowan Seymour');
       form.instance.getButtons().secondary.onClick();
       expect(form.props.updateAction).not.toBeCalled();
@@ -126,7 +130,7 @@ describe(UpdateContactForm.name, () => {
         nodeSettings: { $merge: { originalAction: null } }
       });
 
-      instance.handlePropertyChange([NAME_PROPERTY]);
+      instance.handlePropertyChange(NAME_PROPERTY);
       instance.handleNameUpdate('Rowan Seymour');
       instance.handleSave();
       expect(props.updateAction).toMatchCallSnapshot();
@@ -138,7 +142,7 @@ describe(UpdateContactForm.name, () => {
         nodeSettings: { $merge: { originalAction: null } }
       });
 
-      instance.handlePropertyChange([{ id: 'birthday', name: 'Birthday', type: AssetType.Field }]);
+      instance.handlePropertyChange({ id: 'birthday', name: 'Birthday', type: AssetType.Field });
       instance.handleFieldValueUpdate('12/25/00');
       instance.handleSave();
       expect(instance.state).toMatchSnapshot();
@@ -151,7 +155,7 @@ describe(UpdateContactForm.name, () => {
         nodeSettings: { $merge: { originalAction: null } }
       });
 
-      instance.handlePropertyChange([LANGUAGE_PROPERTY]);
+      instance.handlePropertyChange(LANGUAGE_PROPERTY);
       instance.handleLanguageUpdate('eng');
       instance.handleSave();
       expect(instance.state).toMatchSnapshot();
@@ -164,10 +168,12 @@ describe(UpdateContactForm.name, () => {
         nodeSettings: { $merge: { originalAction: null } }
       });
 
-      instance.handlePropertyChange([CHANNEL_PROPERTY]);
-      instance.handleChannelUpdate([
-        { uuid: 'channel_uuid', name: 'Channel Name', type: AssetType.Channel }
-      ]);
+      instance.handlePropertyChange(CHANNEL_PROPERTY);
+      instance.handleChannelUpdate({
+        uuid: 'channel_uuid',
+        name: 'Channel Name',
+        type: AssetType.Channel
+      });
       instance.handleSave();
       expect(instance.state).toMatchSnapshot();
       expect(props.updateAction).toMatchCallSnapshot();
@@ -180,7 +186,7 @@ describe(UpdateContactForm.name, () => {
       nodeSettings: { $merge: { originalAction: null } }
     });
 
-    instance.handlePropertyChange([STATUS_PROPERTY]);
+    instance.handlePropertyChange(STATUS_PROPERTY);
     instance.handleLanguageUpdate({ label: 'Blocked', value: 'blocked' });
     instance.handleSave();
     expect(instance.state).toMatchSnapshot();
