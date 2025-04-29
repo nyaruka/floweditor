@@ -4,7 +4,7 @@ import { FlowTypes, Operators, Types, ContactStatus } from 'config/interfaces';
 import { ExclusionsCheckboxEntry } from 'store/nodeEditor';
 
 // we don't concern ourselves with patch versions
-export const SPEC_VERSION = '14.2';
+export const SPEC_VERSION = '14.3';
 
 export interface Languages {
   [iso: string]: string;
