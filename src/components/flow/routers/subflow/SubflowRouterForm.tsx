@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { RouterFormProps } from 'components/flow/props';
 import { nodeToState, stateToNode } from 'components/flow/routers/subflow/helpers';
-import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
@@ -15,6 +14,7 @@ import styles from './SubflowRouterForm.module.scss';
 import { Trans } from 'react-i18next';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
+import TembaSelectElement from 'temba/TembaSelectElement';
 
 // TODO: Remove use of Function
 export interface SubflowRouterFormState extends FormState {
@@ -46,17 +46,17 @@ export default class SubflowRouterForm extends React.PureComponent<
     if (this.state.flow.value) {
       fetchAsset(this.props.assetStore.flows, this.state.flow.value.uuid).then((flow: Asset) => {
         if (flow) {
-          this.handleFlowChanged([
-            { name: flow.name, uuid: flow.id, parent_refs: flow.content.parent_refs }
-          ]);
+          this.handleFlowChanged({
+            name: flow.name,
+            uuid: flow.id,
+            parent_refs: flow.content.parent_refs
+          });
         }
       });
     }
   }
 
-  public handleFlowChanged(flows: any[], submitting = false): boolean {
-    const flow = flows[0];
-
+  public handleFlowChanged(flow: any, submitting = false): boolean {
     const updates: Partial<SubflowRouterFormState> = {
       flow: validate(i18n.t('forms.flow', 'Flow'), flow, [shouldRequireIf(submitting)])
     };
@@ -82,7 +82,7 @@ export default class SubflowRouterForm extends React.PureComponent<
 
   private handleSave(): void {
     // validate our flow in case they haven't interacted
-    this.handleFlowChanged([this.state.flow.value], true);
+    this.handleFlowChanged(this.state.flow.value, true);
 
     const hasFieldErrors = Object.keys(this.state.params).find((key: string) =>
       hasErrors(this.state.params[key])
@@ -190,14 +190,15 @@ export default class SubflowRouterForm extends React.PureComponent<
         tabs={tabs}
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <AssetSelector
+        <TembaSelectElement
           name={i18n.t('forms.flow', 'Flow')}
           placeholder={i18n.t('forms.select_flow', 'Select the flow to start')}
-          assets={this.props.assetStore.flows}
+          endpoint={this.context.config.endpoints.flows}
           entry={this.state.flow}
           searchable={true}
           shouldExclude={this.handleShouldExclude}
           onChange={this.handleFlowChanged}
+          valueKey="uuid"
         />
         {renderIssues(this.props)}
       </Dialog>
