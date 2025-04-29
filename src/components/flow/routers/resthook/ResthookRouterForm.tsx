@@ -19,6 +19,8 @@ import { nodeToState, stateToNode } from './helpers';
 import styles from './ResthookRouterForm.module.scss';
 import i18n from 'config/i18n';
 import { SelectOption } from 'components/form/select/SelectElement';
+import TembaSelectElement from 'temba/TembaSelectElement';
+import { fakePropType } from 'config/ConfigProvider';
 
 // TODO: Remove use of Function
 export interface ResthookRouterFormState extends FormState {
@@ -30,6 +32,10 @@ export default class ResthookRouterForm extends React.PureComponent<
   RouterFormProps,
   ResthookRouterFormState
 > {
+  public static contextTypes = {
+    config: fakePropType
+  };
+
   options: SelectOption[] = [];
   constructor(props: RouterFormProps) {
     super(props);
@@ -60,9 +66,9 @@ export default class ResthookRouterForm extends React.PureComponent<
     });
   }
 
-  public handleResthookChanged(selected: any[], submitting = false): boolean {
+  public handleResthookChanged(selected: any, submitting = false): boolean {
     const updates: Partial<ResthookRouterFormState> = {
-      resthook: validate(i18n.t('forms.resthook', 'Resthook'), selected[0], [
+      resthook: validate(i18n.t('forms.resthook', 'Resthook'), selected, [
         shouldRequireIf(submitting)
       ])
     };
@@ -74,7 +80,7 @@ export default class ResthookRouterForm extends React.PureComponent<
 
   private handleSave(): void {
     // validate our resthook in case they haven't interacted
-    const valid = this.handleResthookChanged([this.state.resthook.value], true);
+    const valid = this.handleResthookChanged(this.state.resthook.value, true);
 
     if (valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
@@ -94,10 +100,10 @@ export default class ResthookRouterForm extends React.PureComponent<
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <AssetSelector
+        <TembaSelectElement
           name={i18n.t('forms.resthook', 'Resthook')}
           placeholder={i18n.t('forms.resthook_to_call', 'Select the resthook to call')}
-          assets={this.props.assetStore.resthooks}
+          endpoint={this.context.config.endpoints.resthooks}
           entry={this.state.resthook}
           searchable={true}
           onChange={this.handleResthookChanged}
