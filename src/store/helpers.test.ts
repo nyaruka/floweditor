@@ -32,26 +32,6 @@ describe('helpers', () => {
   const definition: FlowDefinition = require('test/flows/boring.json');
 
   describe('initializeFlow', () => {
-    it('should find groups in definition', () => {
-      const flowDetails = getFlowComponents(definition);
-      expect(flowDetails.groups).toMatchSnapshot();
-    });
-
-    it('should find fields in definition', () => {
-      const flowDetails = getFlowComponents(definition);
-      expect(flowDetails.fields).toMatchSnapshot();
-    });
-
-    it('should find labels in definition', () => {
-      const flowDetails = getFlowComponents(definition);
-      expect(flowDetails.labels).toMatchSnapshot();
-    });
-
-    it('should find results in definition', () => {
-      const flowDetails = getFlowComponents(definition);
-      expect(flowDetails.results).toMatchSnapshot();
-    });
-
     it('should guess node types', () => {
       // guess an action node
       expect(

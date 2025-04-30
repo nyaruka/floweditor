@@ -1,5 +1,4 @@
 import { fieldToAsset } from 'components/flow/actions/updatecontact/helpers';
-import { getResultName } from 'components/flow/node/helpers';
 import { DefaultExitNames } from 'components/flow/routers/constants';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
 import { GROUPS_OPERAND } from 'components/nodeeditor/constants';
@@ -7,17 +6,14 @@ import { FlowTypes, Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import { getActivity } from 'external';
 import {
-  AddLabels,
   AnyAction,
   Category,
-  ChangeGroups,
   FlowDefinition,
   FlowNode,
   FlowPosition,
   HintTypes,
   RouterTypes,
   SetContactField,
-  SetRunResult,
   StickyNote,
   SwitchRouter,
   UIMetaData,
@@ -28,15 +24,7 @@ import {
 } from 'flowTypes';
 import Localization, { LocalizedObject } from 'services/Localization';
 import { Activity, EditorState, Warnings } from 'store/editor';
-import {
-  Asset,
-  AssetMap,
-  AssetType,
-  RenderNode,
-  RenderNodeMap,
-  FlowIssueMap
-} from 'store/flowContext';
-import { addResult } from 'store/mutators';
+import { Asset, AssetMap, RenderNode, RenderNodeMap, FlowIssueMap } from 'store/flowContext';
 import { DispatchWithState, GetState, mergeEditorState } from 'store/thunks';
 import { createUUID, snakify } from 'utils';
 
@@ -417,10 +405,6 @@ export const createEmptyNode = (
 
 export interface FlowComponents {
   renderNodeMap: RenderNodeMap;
-  groups: AssetMap;
-  fields: AssetMap;
-  labels: AssetMap;
-  results: AssetMap;
   warnings: Warnings;
 }
 
@@ -511,11 +495,6 @@ export const getFlowComponents = (definition: FlowDefinition): FlowComponents =>
   // initialize our nodes
   const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
 
-  const groups: AssetMap = {};
-  const fields: AssetMap = {};
-  const labels: AssetMap = {};
-  let results: AssetMap = {};
-
   for (const node of nodes) {
     if (!node.actions) {
       node.actions = [];
@@ -529,85 +508,6 @@ export const getFlowComponents = (definition: FlowDefinition): FlowComponents =>
     };
 
     renderNodeMap[node.uuid] = renderNode;
-
-    const resultName = getResultName(node);
-    if (resultName) {
-      results = addResult(resultName, results, { nodeUUID: node.uuid });
-    }
-
-    const type = getType(renderNode);
-
-    // if we are split by group, look at our categories for groups
-    if (type === Types.split_by_groups) {
-      const router = getSwitchRouter(node);
-
-      for (const kase of router.cases) {
-        const groupUUID = kase.arguments[0];
-        const category = router.categories.find((cat: Category) => {
-          return cat.uuid === kase.category_uuid;
-        });
-
-        /* istanbul ignore else */
-        if (category) {
-          if (groupUUID) {
-            groups[groupUUID] = {
-              name: category.name,
-              id: groupUUID,
-              type: AssetType.Group
-            };
-          }
-        }
-      }
-    }
-
-    for (const action of node.actions) {
-      if (isGroupAction(action.type)) {
-        const groupsToChange = (action as ChangeGroups).groups;
-        if (groupsToChange) {
-          for (const group of groupsToChange) {
-            if (group.uuid) {
-              groups[group.uuid] = {
-                name: group.name,
-                id: group.uuid,
-                type: AssetType.Group
-              };
-            }
-          }
-        }
-      } else if (action.type === Types.set_contact_field) {
-        const fieldAction = action as SetContactField;
-        fields[fieldAction.field.key] = {
-          name: fieldAction.field.name,
-          id: fieldAction.field.key,
-          type: AssetType.Field
-        };
-      } else if (action.type === Types.add_input_labels) {
-        for (const label of (action as AddLabels).labels) {
-          labels[label.uuid] = {
-            name: label.name,
-            id: label.uuid,
-            type: AssetType.Label
-          };
-        }
-      } else if (action.type === Types.set_run_result) {
-        const resultAction = action as SetRunResult;
-        const key = snakify(resultAction.name);
-
-        if (key in results) {
-          results[key].references.push({
-            nodeUUID: node.uuid,
-            actionUUID: action.uuid
-          });
-        } else {
-          results[key] = {
-            name: resultAction.name,
-            id: key,
-            type: AssetType.Result,
-            references: [{ nodeUUID: node.uuid, actionUUID: action.uuid }]
-          };
-        }
-      }
-    }
 
     for (const exit of node.exits) {
       if (exit.destination_uuid) {
@@ -628,7 +528,7 @@ export const getFlowComponents = (definition: FlowDefinition): FlowComponents =>
     renderNodeMap[nodeUUID].inboundConnections = pointerMap[nodeUUID];
   }
 
-  return { renderNodeMap, groups, fields, labels, results, warnings };
+  return { renderNodeMap, warnings };
 };
 
 /**

@@ -35,7 +35,7 @@ import {
   updateExitDestination,
   updateSticky
 } from 'store/thunks';
-import { createMockStore, getTestStore, mock, prepMockDuxState } from 'testUtils';
+import { createMockStore, mock, prepMockDuxState } from 'testUtils';
 import {
   createAddGroupsAction,
   createRandomNode,
@@ -85,7 +85,6 @@ describe('Flow Manipulation', () => {
     // prep our store to show that we are editing
     store = createMockStore(mockDuxState);
     mock(utils, 'createUUID', utils.seededUUIDs());
-    mock(getTestStore(), 'setKeyedAssets', (key: string, items: {}) => {});
   });
 
   describe('init', () => {
@@ -112,7 +111,9 @@ describe('Flow Manipulation', () => {
     it('should gracefully handle missing ui', () => {
       const missingUI: FlowDetails = {
         definition: { ...boring, _ui: undefined as any },
-        metadata: null
+        metadata: null,
+        info: null,
+        issues: null
       };
       store.dispatch(loadFlowDefinition(missingUI, emptyAssetStore));
       const action = getActionFromStore(store, Constants.UPDATE_NODES);

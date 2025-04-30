@@ -12,7 +12,6 @@ import ActionTypes, {
 import Constants from 'store/constants';
 import { Type } from 'config/interfaces';
 import i18n from 'config/i18n';
-import { store } from 'store';
 
 // tslint:disable:no-shadowed-variable
 export interface RenderNodeMap {
@@ -205,8 +204,6 @@ export const updateContactFields = (contactFields: ContactFields): UpdateContact
 });
 
 export const updateAssets = (assets: AssetStore): UpdateAssetsAction => {
-  store.setKeyedAssets('results', Object.keys(assets['results'].items));
-
   return {
     type: Constants.UPDATE_ASSET_MAP,
     payload: {
