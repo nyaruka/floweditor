@@ -7,6 +7,7 @@ import { Activity, RecentContact } from 'store/editor';
 import { Asset, AssetMap, Assets, AssetStore, AssetType } from 'store/flowContext';
 import { assetListToMap } from 'store/helpers';
 import { FlowTypes } from 'config/interfaces';
+import { store } from 'store';
 
 // Configure axios to always send JSON requests
 axios.defaults.headers.post['Content-Type'] = 'application/javascript';
@@ -391,40 +392,31 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
   });
 };
 
-export const getFlowDetails = (revisions: Assets, id: string = null): Promise<FlowDetails> => {
+export const getFlowDetails = (
+  revisions: Assets,
+  revision: string = 'latest'
+): Promise<FlowDetails> => {
   return new Promise<FlowDetails>((resolve, reject) => {
     (async () => {
-      let revisionToLoad = id;
-      if (!revisionToLoad) {
-        try {
-          const response = await axios.get(`${revisions.endpoint}?version=${SPEC_VERSION}`);
-          if (response.data.results.length > 0) {
-            revisionToLoad = response.data.results[0].id;
-          }
-        } catch (error) {
-          reject(new Error("Couldn't reach revisions endpoint"));
-        }
-      }
+      const url = `${revisions.endpoint}${revision}/?version=${SPEC_VERSION}`;
+      axios
+        .get(url)
+        .then((response: AxiosResponse) => {
+          if (
+            response.headers['content-type'] === 'application/json' &&
+            response.status >= 200 &&
+            response.status < 300
+          ) {
+            const details = response.data as FlowDetails;
 
-      if (revisionToLoad) {
-        const url = `${revisions.endpoint}${revisionToLoad}/?version=${SPEC_VERSION}`;
-        axios
-          .get(url)
-          .then((response: AxiosResponse) => {
-            if (
-              response.headers['content-type'] === 'application/json' &&
-              response.status >= 200 &&
-              response.status < 300
-            ) {
-              const details = response.data as FlowDetails;
-              return resolve(details);
-            }
-            return reject(response);
-          })
-          .catch(error => reject(error));
-      } else {
-        reject(new Error('No revision found for flow'));
-      }
+            // TODO: Eventually the store will be responsible for loading, but
+            // for now we just keep it in sync
+            store.setFlowContents(response.data);
+            return resolve(details);
+          }
+          return reject(response);
+        })
+        .catch(error => reject(error));
     })();
   });
 };

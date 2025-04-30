@@ -21,6 +21,7 @@ export interface User {
 }
 
 export interface SaveResult {
+  info: any;
   revision: Revision;
   issues: FlowIssue[];
   metadata: FlowMetadata;

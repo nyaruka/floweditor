@@ -5,8 +5,7 @@ import { ActionFormProps } from 'components/flow/props';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
-import { Asset, AssetType } from 'store/flowContext';
-import { AssetEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
+import { FormEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { Alphanumeric, shouldRequireIf, StartIsNonNumeric, validate } from 'store/validators';
 import { snakify } from 'utils';
 
@@ -16,9 +15,11 @@ import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
 import { SelectOption } from 'components/form/select/SelectElement';
 import TembaSelectElement from 'temba/TembaSelectElement';
+import { store } from 'store';
+import { InfoResult } from 'temba-components';
 
 export interface SetRunResultFormState extends FormState {
-  name: AssetEntry;
+  name: FormEntry;
   value: StringEntry;
   category: StringEntry;
 }
@@ -39,14 +40,7 @@ export default class SetRunResultForm extends React.PureComponent<
     });
   }
 
-  public componentDidMount(): void {
-    const items = this.props.assetStore.results.items;
-    this.options = Object.keys(items).map((key: string) => {
-      return { name: items[key].name, value: key };
-    });
-  }
-
-  private handleNameUpdate(selected: Asset): void {
+  private handleNameUpdate(selected: InfoResult): void {
     if (selected) {
       this.handleUpdate({ name: selected });
     } else {
@@ -63,7 +57,7 @@ export default class SetRunResultForm extends React.PureComponent<
   }
 
   private handleUpdate(
-    keys: { name?: Asset; value?: string; category?: string },
+    keys: { name?: any; value?: string; category?: string },
     submitting: boolean = false
   ): boolean {
     const updates: Partial<SetRunResultFormState> = {};
@@ -111,14 +105,12 @@ export default class SetRunResultForm extends React.PureComponent<
     };
   }
 
-  private handleCreateAssetFromInput(input: string): Asset {
+  private handleCreateAssetFromInput(input: string): any {
     // workaround for the lack of a length limit on the form itself
     input = input.substring(0, 64);
-
     return {
-      id: snakify(input),
-      name: input,
-      type: AssetType.Result
+      key: snakify(input),
+      name: input
     };
   }
 
@@ -142,9 +134,9 @@ export default class SetRunResultForm extends React.PureComponent<
             onChange={this.handleNameUpdate}
             createArbitraryOption={this.handleCreateAssetFromInput}
             showLabel={true}
-            valueKey="value"
+            valueKey="key"
             nameKey="name"
-            options={this.options}
+            options={store.getFlowResults()}
             helpText={
               <Trans
                 i18nKey="forms.result_name_help"
@@ -167,6 +159,7 @@ export default class SetRunResultForm extends React.PureComponent<
               'The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))'
             )}
           />
+
           <TextInputElement
             __className={styles.category}
             name={i18n.t('forms.category', 'Category')}

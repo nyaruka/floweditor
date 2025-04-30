@@ -9,6 +9,7 @@ import mutate, { Query } from 'immutability-helper';
 import * as React from 'react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { loadStore } from 'store';
 import createStore from 'store/createStore';
 import { RenderNodeMap } from 'store/flowContext';
 import { getFlowComponents } from 'store/helpers';
@@ -183,4 +184,8 @@ export const createMockStore: Function = configureStore([thunk]);
 
 export const mock = <T extends {}, K extends keyof T>(object: T, property: K, value: T[K]) => {
   Object.defineProperty(object, property, { get: () => value });
+};
+
+export const getTestStore = () => {
+  return loadStore();
 };

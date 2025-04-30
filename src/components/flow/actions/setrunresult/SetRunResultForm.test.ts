@@ -1,24 +1,29 @@
 import SetRunResultForm from 'components/flow/actions/setrunresult/SetRunResultForm';
 import { ActionFormProps } from 'components/flow/props';
-import { Asset, AssetType } from 'store/flowContext';
-import { composeComponentTestUtils, mock } from 'testUtils';
+import { store } from 'store';
+import { InfoResult } from 'temba-components';
+import { composeComponentTestUtils, getTestStore, mock } from 'testUtils';
 import { createSetRunResultAction, getActionFormProps } from 'testUtils/assetCreators';
 import * as utils from 'utils';
+
+const result: InfoResult = {
+  key: 'result_name',
+  name: 'Result Name',
+  categories: [],
+  node_uuids: []
+};
 
 const { setup } = composeComponentTestUtils<ActionFormProps>(
   SetRunResultForm,
   getActionFormProps(createSetRunResultAction())
 );
 
-mock(utils, 'createUUID', utils.seededUUIDs());
-
-const resultName: Asset = {
-  name: 'Result Name',
-  id: utils.snakify('Result Name'),
-  type: AssetType.Result
-};
-
 describe(SetRunResultForm.name, () => {
+  beforeEach(() => {
+    mock(utils, 'createUUID', utils.seededUUIDs());
+    mock(getTestStore(), 'getFlowResults', () => [result]);
+  });
+
   describe('render', () => {
     it('should render', () => {
       const { wrapper } = setup(true);
@@ -30,7 +35,7 @@ describe(SetRunResultForm.name, () => {
     it('should save changes', () => {
       const { instance, props } = setup(true);
 
-      instance.handleNameUpdate(resultName);
+      instance.handleNameUpdate(result);
       instance.handleValueUpdate('Result Value');
       instance.handleCategoryUpdate('Result Category');
 
@@ -47,7 +52,7 @@ describe(SetRunResultForm.name, () => {
         nodeSettings: { $merge: { originalAction: null } }
       });
 
-      instance.handleNameUpdate(resultName);
+      instance.handleNameUpdate(result);
       instance.handleValueUpdate('Result Value');
       instance.handleCategoryUpdate('Result Category');
       instance.handleSave();
@@ -62,7 +67,7 @@ describe(SetRunResultForm.name, () => {
         $merge: { onClose: jest.fn(), updateAction: jest.fn() }
       });
 
-      instance.handleNameUpdate(resultName);
+      instance.handleNameUpdate(result);
       instance.getButtons().secondary.onClick();
       expect(props.onClose).toHaveBeenCalled();
       expect(props.updateAction).not.toHaveBeenCalled();

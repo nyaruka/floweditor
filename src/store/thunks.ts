@@ -69,6 +69,7 @@ import { createUUID, hasString, NODE_SPACING, timeEnd, timeStart, ACTIVITY_INTER
 import { AxiosError } from 'axios';
 import i18n from 'config/i18n';
 import { TembaStore } from 'temba-components';
+import { store } from 'store';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -239,6 +240,8 @@ export const createDirty = (
     saveRevision(revisionsEndpoint, newDefinition)
       .then(
         (result: SaveResult) => {
+          store.setFlowInfo(result.info);
+
           const revision = result.revision;
           definition.revision = revision.revision;
           dispatch(updateDefinition(definition));

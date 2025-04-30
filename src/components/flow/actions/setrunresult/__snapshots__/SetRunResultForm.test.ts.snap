@@ -60,11 +60,20 @@ exports[`SetRunResultForm render should render 1`] = `
       name="Result"
       nameKey="name"
       onChange={[Function]}
-      options={Array []}
+      options={
+        Array [
+          Object {
+            "categories": Array [],
+            "key": "result_name",
+            "name": "Result Name",
+            "node_uuids": Array [],
+          },
+        ]
+      }
       placeholder="Select a result"
       searchable={true}
       showLabel={true}
-      valueKey="value"
+      valueKey="key"
     />
     <TextInputElement
       __className="value"
@@ -119,9 +128,10 @@ Object {
   "name": Object {
     "validationFailures": Array [],
     "value": Object {
-      "id": "result_name",
+      "categories": Array [],
+      "key": "result_name",
       "name": "Result Name",
-      "type": "result",
+      "node_uuids": Array [],
     },
   },
   "valid": true,

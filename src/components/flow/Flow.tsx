@@ -471,7 +471,4 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     dispatch
   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Flow);
+export default connect(mapStateToProps, mapDispatchToProps)(Flow);

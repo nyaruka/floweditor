@@ -35,7 +35,7 @@ import {
   updateExitDestination,
   updateSticky
 } from 'store/thunks';
-import { createMockStore, mock, prepMockDuxState } from 'testUtils';
+import { createMockStore, getTestStore, mock, prepMockDuxState } from 'testUtils';
 import {
   createAddGroupsAction,
   createRandomNode,
@@ -85,6 +85,7 @@ describe('Flow Manipulation', () => {
     // prep our store to show that we are editing
     store = createMockStore(mockDuxState);
     mock(utils, 'createUUID', utils.seededUUIDs());
+    mock(getTestStore(), 'setKeyedAssets', (key: string, items: {}) => {});
   });
 
   describe('init', () => {
