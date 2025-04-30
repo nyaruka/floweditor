@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 
 import * as serviceWorker from './serviceWorker';
 import { setHTTPTimeout } from 'external';
+import { loadStore } from 'store';
 
 window.unmountEditor = ele => {
   if (ele) {
@@ -20,6 +21,9 @@ window.showFlowEditor = (ele, config) => {
   if (config.httpTimeout) {
     setHTTPTimeout(config.httpTimeout);
   }
+
+  loadStore();
+
   ReactDOM.unmountComponentAtNode(ele);
   ReactDOM.render(<FlowEditor config={config} />, ele);
 };

@@ -13,7 +13,7 @@
   ],
   "private": false,
   "dependencies": {
-    "@nyaruka/temba-components": "0.120.4",
+    "@nyaruka/temba-components": "0.120.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },

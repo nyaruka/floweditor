@@ -119,6 +119,9 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     const { endpoints, flow, forceSaveOnLoad } = this.context.config;
     this.props.fetchFlow(endpoints, flow, forceSaveOnLoad);
 
+    // TODO: we want the store to be responsible for this eventually
+    // store.loadFlow(flow);
+
     (window as any).editor = this;
   }
 
@@ -384,9 +387,6 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     dispatch
   );
 
-export const ConnectedFlowEditor = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FlowEditor);
+export const ConnectedFlowEditor = connect(mapStateToProps, mapDispatchToProps)(FlowEditor);
 
 export default FlowEditorContainer;
