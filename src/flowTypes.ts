@@ -2,6 +2,7 @@
 import { Methods } from 'components/flow/routers/webhook/helpers';
 import { FlowTypes, Operators, Types, ContactStatus } from 'config/interfaces';
 import { ExclusionsCheckboxEntry } from 'store/nodeEditor';
+import { FlowInfo } from 'temba-components';
 
 // we don't concern ourselves with patch versions
 export const SPEC_VERSION = '14.3';
@@ -154,6 +155,7 @@ export interface FlowDetails {
   definition: FlowDefinition;
   issues: FlowIssue[];
   metadata: FlowMetadata;
+  info: FlowInfo;
 }
 
 export interface FlowDefinition {
