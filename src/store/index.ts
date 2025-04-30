@@ -3,9 +3,7 @@ export let store: TembaStore;
 export const loadStore = () => {
   store = document.querySelector('temba-store') as TembaStore;
   if (!store) {
-    return {} as TembaStore;
+    store = {} as TembaStore;
   }
-
-  console.log('loaded store', store);
   return store;
 };

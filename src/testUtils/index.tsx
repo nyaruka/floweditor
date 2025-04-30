@@ -9,7 +9,7 @@ import mutate, { Query } from 'immutability-helper';
 import * as React from 'react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { loadStore, store } from 'store';
+import { loadStore } from 'store';
 import createStore from 'store/createStore';
 import { RenderNodeMap } from 'store/flowContext';
 import { getFlowComponents } from 'store/helpers';

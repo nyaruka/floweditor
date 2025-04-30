@@ -1,5 +1,6 @@
 import SetRunResultForm from 'components/flow/actions/setrunresult/SetRunResultForm';
 import { ActionFormProps } from 'components/flow/props';
+import { store } from 'store';
 import { InfoResult } from 'temba-components';
 import { composeComponentTestUtils, getTestStore, mock } from 'testUtils';
 import { createSetRunResultAction, getActionFormProps } from 'testUtils/assetCreators';
@@ -19,12 +20,8 @@ const { setup } = composeComponentTestUtils<ActionFormProps>(
 
 describe(SetRunResultForm.name, () => {
   beforeEach(() => {
-    // reset our mocks
-    // jest.clearAllMocks();
     mock(utils, 'createUUID', utils.seededUUIDs());
-
-    const store = getTestStore();
-    mock(store, 'getFlowResults', () => [result]);
+    mock(getTestStore(), 'getFlowResults', () => [result]);
   });
 
   describe('render', () => {

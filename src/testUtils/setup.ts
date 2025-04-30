@@ -2,6 +2,7 @@ import { Console } from 'console';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { Exit } from 'flowTypes';
+import { loadStore } from 'store';
 import { RenderNode } from 'store/flowContext';
 
 // Declare custom matcher types
