@@ -453,7 +453,6 @@ export interface Classifier {
 
 export interface TransferAirtime extends Action {
   amounts: { [name: string]: number };
-  result_name?: string;
 }
 
 export interface CallClassifier extends Action {
@@ -486,7 +485,6 @@ export interface OpenTicket extends Action {
   topic?: Topic;
   note?: string;
   assignee?: User;
-  result_name?: string;
 }
 
 export interface StartFlow extends Action {
