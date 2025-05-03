@@ -3,7 +3,6 @@ import { AnyAction, ContactProperties, FlowIssue } from 'flowTypes';
 import { Asset, AssetStore, AssetType, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
 import { DispatchWithState, GetState } from 'store/thunks';
-import { Language } from 'temba-components';
 import { titleCase } from 'utils';
 
 export interface IssueProps {

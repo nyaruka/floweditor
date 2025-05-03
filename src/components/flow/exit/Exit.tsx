@@ -11,7 +11,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { RecentContact } from 'store/editor';
-import { Asset } from 'store/flowContext';
 import AppState from 'store/state';
 import { DisconnectExit, disconnectExit, DispatchWithState } from 'store/thunks';
 import { createClickHandler, getLocalization, renderIf } from 'utils';

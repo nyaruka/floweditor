@@ -9,7 +9,7 @@ import { Action, AnyAction, Endpoints, LocalizationMap, FlowIssue } from 'flowTy
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Asset, RenderNode, AssetStore } from 'store/flowContext';
+import { RenderNode, AssetStore } from 'store/flowContext';
 import {
   ActionAC,
   DispatchWithState,

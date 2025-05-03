@@ -42,7 +42,6 @@ import MountScroll from 'components/mountscroll/MountScroll';
 import i18n from 'config/i18n';
 import { store } from 'store';
 import { TembaAppState } from 'temba-components';
-import { lang } from 'moment';
 
 export interface NodePassedProps {
   nodeUUID: string;

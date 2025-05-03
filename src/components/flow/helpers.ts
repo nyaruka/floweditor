@@ -1,7 +1,6 @@
 import { Type, Types } from 'config/interfaces';
 import { getType, getTypeConfig } from 'config/typeConfigs';
 import { NodeEditorSettings } from 'store/nodeEditor';
-import { Asset } from 'store/flowContext';
 import { FlowIssue } from 'flowTypes';
 
 export const determineTypeConfig = (nodeSettings: NodeEditorSettings): Type => {
