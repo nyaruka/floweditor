@@ -7,7 +7,6 @@ import {
   Exit,
   FlowNode,
   RouterTypes,
-  TransferAirtime,
   Action,
   AnyAction,
   FlowIssue
@@ -49,13 +48,8 @@ export const getResultName = (node: FlowNode) => {
 
   if (node.actions.length === 1) {
     const action = node.actions[0];
-    if (
-      action.type === Types.call_webhook ||
-      action.type === Types.call_resthook ||
-      action.type === Types.open_ticket ||
-      action.type === Types.transfer_airtime
-    ) {
-      const resultAction = action as CallWebhook | CallResthook | TransferAirtime;
+    if (action.type === Types.call_webhook || action.type === Types.call_resthook) {
+      const resultAction = action as CallWebhook | CallResthook;
       return resultAction.result_name;
     }
   }

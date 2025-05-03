@@ -13,7 +13,7 @@ export const nodeToState = (settings: NodeEditorSettings): AirtimeRouterFormStat
   const originalAction = getOriginalAction(settings);
   const router = settings.originalNode.node.router as SwitchRouter;
 
-  let resultName = { value: '' };
+  let resultName = { value: router.result_name || '' };
   let valid = false;
 
   const amounts: AirtimeTransferEntry[] = [];
@@ -23,7 +23,6 @@ export const nodeToState = (settings: NodeEditorSettings): AirtimeRouterFormStat
         value: { code: key, amount: '' + originalAction.amounts[key] }
       });
     });
-    resultName = { value: router.result_name || originalAction.result_name || '' };
     valid = true;
   }
 
