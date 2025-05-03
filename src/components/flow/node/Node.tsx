@@ -21,7 +21,7 @@ import FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DebugState } from 'store/editor';
-import { AssetMap, RenderNode, Asset } from 'store/flowContext';
+import { AssetMap, RenderNode } from 'store/flowContext';
 import AppState from 'store/state';
 import {
   DispatchWithState,
