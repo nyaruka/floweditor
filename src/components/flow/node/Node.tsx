@@ -386,7 +386,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
               <TitleBar
                 __className={
                   (shared as any)[
-                    hasIssues(this.props.issues, this.props.translating, this.props.language)
+                    hasIssues(this.props.issues, this.props.translating, this.state.languageCode)
                       ? 'missing'
                       : config.type
                   ]
