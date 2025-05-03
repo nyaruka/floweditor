@@ -136,8 +136,7 @@ export const createTransferAirtimeAction = ({
   type: Types.transfer_airtime,
   amounts: {
     USD: 1.5
-  },
-  result_name: 'Result'
+  }
 });
 
 export const createCallResthookAction = ({
@@ -382,28 +381,41 @@ export const createSetRunResultAction = ({
   type: Types.set_run_result
 });
 
-export const createWebhookNode = (
+export const createServiceCallNode = (
   action: CallWebhook | CallResthook | OpenTicket | TransferAirtime | CallClassifier,
-  useCategoryTest: boolean
+  result_name: string = ''
 ) => {
   const { categories, exits } = createCategories([
     ServiceCallExitNames.Success,
     ServiceCallExitNames.Failure
   ]);
 
+  let operand = '@webhook.status';
+  let test: Operators = Operators.has_number_between;
+  let args: string[] = ['200', '299'];
+
+  if (action.type === Types.call_classifier) {
+    operand = '@results.' + utils.snakify((action as CallClassifier).result_name);
+    test = Operators.has_category;
+    args = [ServiceCallExitNames.Success];
+  } else if (action.type === Types.open_ticket) {
+    operand = '@locals._new_ticket';
+    test = Operators.has_text;
+    args = [];
+  } else if (action.type === Types.transfer_airtime) {
+    operand = '@locals._new_transfer';
+    test = Operators.has_text;
+    args = [];
+  }
+
   const cases: Case[] = [
     {
       uuid: utils.createUUID(),
-      type: useCategoryTest ? Operators.has_category : Operators.has_only_text,
-      arguments: [ServiceCallExitNames.Success],
+      type: test,
+      arguments: args,
       category_uuid: categories[0].uuid
     }
   ];
-
-  let operand = '@results.' + utils.snakify(action.result_name);
-  if (!useCategoryTest) {
-    operand += '.category';
-  }
 
   return {
     uuid: utils.createUUID(),
@@ -413,7 +425,8 @@ export const createWebhookNode = (
       operand: operand,
       cases,
       categories,
-      default_category_uuid: categories[categories.length - 1].uuid
+      default_category_uuid: categories[categories.length - 1].uuid,
+      result_name: result_name
     } as SwitchRouter,
     exits
   };
@@ -428,17 +441,16 @@ export const createWebhookRouterNode = (): FlowNode => {
     method: Methods.GET,
     result_name: 'Response'
   };
-  return createWebhookNode(action, false);
+  return createServiceCallNode(action);
 };
 
 export const createOpenTicketNode = (subject: string, note: string): FlowNode => {
   const action: OpenTicket = {
     uuid: utils.createUUID(),
     type: Types.open_ticket,
-    note: note,
-    result_name: ''
+    note: note
   };
-  return createWebhookNode(action, true);
+  return createServiceCallNode(action);
 };
 
 export const getLocalizationFormProps = (
@@ -861,7 +873,7 @@ export const createClassifyRouter = (): RenderNode => {
   };
 
   return {
-    node: createWebhookNode(action, true),
+    node: createServiceCallNode(action),
     ui: { position: { left: 0, top: 0 }, type: Types.split_by_intent },
     inboundConnections: {}
   };
@@ -869,7 +881,7 @@ export const createClassifyRouter = (): RenderNode => {
 
 export const createAirtimeTransferNode = (transferAirtimeAction: TransferAirtime): RenderNode => {
   return {
-    node: createWebhookNode(transferAirtimeAction, true),
+    node: createServiceCallNode(transferAirtimeAction, 'Result'),
     ui: { position: { left: 0, top: 0 }, type: Types.split_by_airtime },
     inboundConnections: {}
   };
@@ -877,7 +889,7 @@ export const createAirtimeTransferNode = (transferAirtimeAction: TransferAirtime
 
 export const createResthookNode = (callResthookAction: CallResthook): RenderNode => {
   return {
-    node: createWebhookNode(callResthookAction, false),
+    node: createServiceCallNode(callResthookAction),
     ui: { position: { left: 0, top: 0 }, type: Types.split_by_resthook },
     inboundConnections: {}
   };

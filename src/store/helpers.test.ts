@@ -21,7 +21,7 @@ import {
   createStartFlowAction,
   createSubflowNode,
   createTransferAirtimeAction,
-  createWebhookNode,
+  createServiceCallNode,
   Spanish
 } from 'testUtils/assetCreators';
 import { createUUID } from 'utils';
@@ -58,7 +58,7 @@ describe('helpers', () => {
       );
 
       // guess a webhook node
-      expect(guessNodeType(createWebhookNode(createCallWebhookAction()))).toBe(
+      expect(guessNodeType(createServiceCallNode(createCallWebhookAction()))).toBe(
         Types.split_by_webhook
       );
 

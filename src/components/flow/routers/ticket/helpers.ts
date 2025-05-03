@@ -28,7 +28,7 @@ export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState
   const router = settings.originalNode.node.router as SwitchRouter;
 
   let note = { value: '' };
-  let resultName = { value: '' };
+  let resultName = { value: router.result_name || '' };
   let assignee: FormEntry = { value: null };
   let topic: FormEntry = { value: null };
 
@@ -37,7 +37,6 @@ export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState
     topic = { value: action.topic };
     note = { value: action.note };
     assignee = { value: action.assignee };
-    resultName = { value: router.result_name || action.result_name || '' };
   }
 
   const state: TicketRouterFormState = {
