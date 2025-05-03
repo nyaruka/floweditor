@@ -9,6 +9,7 @@ import {
 import { Query } from 'immutability-helper';
 import * as React from 'react';
 import Localization, { LocalizedObject } from 'services/Localization';
+import { store } from 'store';
 import { Asset, Assets } from 'store/flowContext';
 import { FormEntry } from 'store/nodeEditor';
 import { v4 as generateUUID } from 'uuid';
@@ -233,11 +234,12 @@ export const createClickHandler = (
   };
 };
 
-export const getLocalization = (
-  obj: Action | Category | Case,
-  localization: LocalizationMap,
-  language: Asset
-) => Localization.translate(obj, language, localization[language.id]);
+export const getLocalization = (obj: Action | Category | Case, localization: LocalizationMap) =>
+  Localization.translate(
+    obj,
+    store.getState().getLanguage(),
+    localization[store.getState().languageCode]
+  );
 
 /** istanbul ignore next */
 export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 4));

@@ -13,6 +13,7 @@ import { RenderNodeMap } from 'store/flowContext';
 import { createUUID } from 'utils';
 import { Category } from 'flowTypes';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
+import { setupStore } from 'testUtils';
 
 const translatorProps: TranslatorTabProps = {
   localization: {},
@@ -95,6 +96,10 @@ const createRouterNode = (
 };
 
 describe(TranslatorTab.name, () => {
+  beforeEach(() => {
+    setupStore({ languageCode: 'spa', isTranslating: true });
+  });
+
   it('renders', () => {
     const { baseElement, getByText } = render(<TranslatorTab {...translatorProps} />);
     getByText('Spanish');

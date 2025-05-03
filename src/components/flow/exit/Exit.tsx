@@ -21,6 +21,7 @@ import styles from './Exit.module.scss';
 import { Portal } from 'components/Portal';
 import i18n from 'config/i18n';
 import { SIMULATOR_CONTACT_UUID } from 'components/simulator/Simulator';
+import { store } from 'store';
 
 export interface RenderCategory extends Category {
   missing: boolean;
@@ -43,9 +44,7 @@ export interface ExitPassedProps {
 }
 
 export interface ExitStoreProps {
-  translating: boolean;
   dragging: boolean;
-  language: Asset;
   localization: LocalizationMap;
   disconnectExit: DisconnectExit;
   segmentCount: number;
@@ -144,7 +143,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   private handleClick(event: React.MouseEvent<HTMLElement>): void {
-    if (!this.props.translating) {
+    if (!store.getState().isTranslating) {
       if (this.props.exit.destination_uuid) {
         event.preventDefault();
         event.stopPropagation();
@@ -251,18 +250,14 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   public getName(): { name: string; localized?: boolean } {
-    if (this.props.translating) {
+    if (store.getState().isTranslating) {
       let name = '';
       let delim = '';
 
       let localized = false;
 
       this.props.categories.forEach((category: Category) => {
-        const localization = getLocalization(
-          category,
-          this.props.localization,
-          this.props.language
-        );
+        const localization = getLocalization(category, this.props.localization);
 
         localized = localized || 'name' in localization.localizedKeys;
         const localizedObject = localization.getObject() as Category;
@@ -401,12 +396,14 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
           <temba-icon name="delete_small"></temba-icon>
         </div>
       ) : null;
+
+    const isTranslating = store.getState().isTranslating;
     const exitClasses: string = cx({
       [styles.exit]: true,
       'plumb-exit': true,
-      [styles.translating]: this.props.translating,
+      [styles.translating]: isTranslating,
       [styles.unnamed_exit]: name == null,
-      [styles.missing_localization]: name && this.props.translating && !localized,
+      [styles.missing_localization]: name && isTranslating && !localized,
       [styles.confirm_delete]: confirmDelete
     });
 
@@ -472,9 +469,6 @@ const mapStateToProps = (
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
   bindActionCreators({ disconnectExit }, dispatch);
 
-const ConnectedExit = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExitComp);
+const ConnectedExit = connect(mapStateToProps, mapDispatchToProps)(ExitComp);
 
 export default ConnectedExit;

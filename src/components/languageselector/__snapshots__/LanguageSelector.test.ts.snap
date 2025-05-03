@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LanguageSelector renders 1`] = `
+<div
+  className="language-selector"
+>
+  <div
+    style={
+      Object {
+        "marginTop": "2em",
+        "position": "fixed",
+        "right": "2em",
+        "zIndex": 1,
+      }
+    }
+  >
+    <div
+      className="language"
+      key="lang_eng"
+    >
+      <div
+        className="language_link "
+        onClick={[Function]}
+      >
+        English
+      </div>
+    </div>
+    <div
+      className="language"
+      key="lang_spa"
+    >
+      <div
+        className="separator"
+      >
+        |
+      </div>
+      <div
+        className="language_link active"
+        onClick={[Function]}
+      >
+        Spanish
+      </div>
+    </div>
+  </div>
+</div>
+`;

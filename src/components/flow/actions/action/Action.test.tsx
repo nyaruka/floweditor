@@ -9,10 +9,9 @@ import {
   createRenderNode,
   Spanish
 } from 'testUtils/assetCreators';
-import SendMsgComp from '../sendmsg/SendMsg';
-import { SendMsg, AnyAction, Language } from 'flowTypes';
+import { AnyAction } from 'flowTypes';
 import { getTypeConfig } from 'config';
-import { Asset } from 'store/flowContext';
+import { setupStore } from 'testUtils';
 
 const sendMsgAction = createSendMsgAction();
 const localization = {
@@ -24,14 +23,11 @@ const localization = {
   }
 };
 
-const getActionWrapperProps = (action: AnyAction, translateTo?: Asset): ActionWrapperProps => {
+const getActionWrapperProps = (action: AnyAction): ActionWrapperProps => {
   const node = createRenderNode({
     actions: [action],
     exits: [createExit()]
   });
-
-  const translating = !!translateTo;
-  const language = translateTo || English;
 
   const actionConfig = getTypeConfig(action.type);
 
@@ -42,7 +38,7 @@ const getActionWrapperProps = (action: AnyAction, translateTo?: Asset): ActionWr
   }
 
   return {
-    scrollToAction: null,
+    scrollToAction: '',
     issues: [],
     selected: false,
     localization,
@@ -51,8 +47,6 @@ const getActionWrapperProps = (action: AnyAction, translateTo?: Asset): ActionWr
     render: (action: AnyAction) => <ActionDiv {...action} languages={[English, Spanish]} />,
     assetStore: {},
     renderNode: node,
-    language,
-    translating,
     onOpenNodeEditor: jest.fn(),
     removeAction: jest.fn(),
     moveActionUp: jest.fn()
@@ -66,8 +60,9 @@ describe('ActionWrapper', () => {
   });
 
   it('can have localized quick replies when empty on default language', () => {
+    setupStore({ languageCode: 'spa', isTranslating: true });
     const { baseElement, getByText } = render(
-      <ActionWrapper {...getActionWrapperProps(sendMsgAction, Spanish)} />
+      <ActionWrapper {...getActionWrapperProps(sendMsgAction)} />
     );
     expect(baseElement).toMatchSnapshot();
 

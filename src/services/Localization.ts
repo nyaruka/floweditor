@@ -1,5 +1,6 @@
-import { Action, Case, Category, Language, MsgTemplateComponent } from 'flowTypes';
-import { Asset } from 'store/flowContext';
+import { Action, Case, Category, MsgTemplateComponent } from 'flowTypes';
+
+import { Language } from 'temba-components';
 
 // list of keys that should always be treated as an array
 const ARRAY_KEYS = ['attachments', 'components'];
@@ -9,23 +10,15 @@ export class LocalizedObject {
 
   private localizedObject: Action | Category | Case | any;
   private localized: boolean = false;
-  private iso: string;
   private name: string;
   private language: Language;
 
-  constructor(object: Action | Category | Case | MsgTemplateComponent, { id, name }: Asset) {
+  constructor(object: Action | Category | Case | MsgTemplateComponent, language: Language) {
     this.localizedObject = object;
-    this.iso = id;
-    this.language = { iso: this.iso, name };
+    this.language = language;
   }
 
   public getLanguage(): Language {
-    if (!this.language) {
-      if (this.iso) {
-        this.language = { iso: this.iso, name: this.name };
-      }
-    }
-
     return this.language;
   }
 
@@ -66,7 +59,7 @@ export class LocalizedObject {
 export default class Localization {
   public static translate(
     object: Action | Category | Case | MsgTemplateComponent,
-    language: Asset,
+    language: Language,
     translations?: { [uuid: string]: any }
   ): LocalizedObject {
     const localized: LocalizedObject = new LocalizedObject(object, language);

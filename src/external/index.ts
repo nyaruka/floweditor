@@ -411,7 +411,7 @@ export const getFlowDetails = (
 
             // TODO: Eventually the store will be responsible for loading, but
             // for now we just keep it in sync
-            store.setFlowContents(response.data);
+            store.getState().setFlowContents(response.data);
             return resolve(details);
           }
           return reject(response);

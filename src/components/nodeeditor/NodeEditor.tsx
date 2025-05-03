@@ -32,6 +32,8 @@ import {
   resetNodeEditingState
 } from 'store/thunks';
 import { LocalizationFormProps } from 'components/flow/props';
+import { store } from 'store';
+import { TembaAppState } from 'temba-components';
 
 export type UpdateLocalizations = (language: string, changes: LocalizationUpdates) => void;
 
@@ -45,9 +47,7 @@ export interface NodeEditorPassedProps {
 export interface NodeEditorStoreProps {
   assetStore: AssetStore;
   addAsset: AddAsset;
-  language: Asset;
   definition: FlowDefinition;
-  translating: boolean;
   typeConfig: Type;
   settings: NodeEditorSettings;
   nodes: { [uuid: string]: RenderNode };
@@ -62,6 +62,10 @@ export interface NodeEditorStoreProps {
   updateUserAddingAction: UpdateUserAddingAction;
 }
 
+export interface NodeEditorState {
+  isTranslating: boolean;
+}
+
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
 
 export interface FormProps {
@@ -72,7 +76,6 @@ export interface FormProps {
   addAsset(assetType: string, asset: Asset): void;
   removeLocalizations(uuid: string, keys?: string[]): void;
 
-  language: Asset;
   assetStore: AssetStore;
   issues: FlowIssue[];
   helpArticles: { [key: string]: string };
@@ -93,13 +96,42 @@ export interface FormProps {
   language: Asset;
 }*/
 
-export class NodeEditor extends React.Component<NodeEditorProps> {
+export class NodeEditor extends React.Component<NodeEditorProps, NodeEditorState> {
+  private unsubscribe: () => void;
   constructor(props: NodeEditorProps) {
     super(props);
 
     bindCallbacks(this, {
       include: [/^close/, /^update/, /^handle/, /^remove/]
     });
+
+    const appState = store.getState();
+    this.mapState(appState);
+
+    // subscribe for changes
+    this.unsubscribe = store
+      .getApp()
+      .subscribe((state: TembaAppState, prevState: TembaAppState) => {
+        this.mapState(state);
+      });
+  }
+
+  public componentWillUnmount(): void {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
+
+  public mapState(state: any): void {
+    const changes = {
+      isTranslating: state.isTranslating
+    };
+    if (this.state) {
+      this.setState(changes);
+    } else {
+      // eslint-disable-next-line
+      this.state = changes;
+    }
   }
 
   private updateLocalizations(language: string, changes: LocalizationUpdates) {
@@ -150,7 +182,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
       const { typeConfig } = this.props;
 
       // see if we should use the localization form
-      if (this.props.translating) {
+      if (this.state.isTranslating) {
         const { localization: LocalizationForm } = typeConfig;
 
         if (LocalizationForm) {
@@ -158,11 +190,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             updateLocalizations: this.updateLocalizations,
             nodeSettings: this.props.settings,
             onClose: this.close,
-            language: this.props.language,
             helpArticles: this.props.helpArticles,
             assetStore: this.props.assetStore,
             issues: this.props.issues.filter(
-              (issue: FlowIssue) => issue.language === this.props.language.id
+              (issue: FlowIssue) => issue.language === store.getState().languageCode
             )
           };
 
@@ -187,8 +218,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         issues: this.props.issues.filter((issue: FlowIssue) => !issue.language),
         typeConfig: this.props.typeConfig,
         onTypeChange: this.props.handleTypeConfigChange,
-        onClose: this.close,
-        language: this.props.language
+        onClose: this.close
       };
 
       return (
@@ -204,7 +234,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 /* istanbul ignore next */
 const mapStateToProps = ({
   flowContext: { definition, nodes, assetStore, issues },
-  editorState: { language, translating },
   nodeEditor: { typeConfig, settings }
 }: AppState) => {
   const filteredIssues = (issues[settings.originalNode.node.uuid] || []).filter(
@@ -214,10 +243,8 @@ const mapStateToProps = ({
 
   return {
     issues: filteredIssues,
-    language,
     definition,
     nodes,
-    translating,
     typeConfig,
     settings,
     assetStore
@@ -241,7 +268,4 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     dispatch
   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NodeEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(NodeEditor);

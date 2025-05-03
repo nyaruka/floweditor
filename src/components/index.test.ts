@@ -1,5 +1,5 @@
 import { editorContainerSpecId, editorSpecId, FlowEditor, FlowEditorStoreProps } from 'components';
-import { composeComponentTestUtils, getSpecWrapper, setMock } from 'testUtils';
+import { composeComponentTestUtils, getSpecWrapper, setMock, setupStore } from 'testUtils';
 import { English, languages } from 'testUtils/assetCreators';
 import { set, setTrue } from 'utils';
 
@@ -47,6 +47,7 @@ describe('Root', () => {
     });
 
     it('should apply translating style if passed a truthy translating prop', () => {
+      setupStore({ isTranslating: true });
       const { wrapper } = setup(true, { translating: setTrue() });
       const editorContainer = getSpecWrapper(wrapper, editorContainerSpecId);
 

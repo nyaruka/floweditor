@@ -22,7 +22,7 @@ export const getCategoriesForExit = (renderNode: RenderNode, exit: Exit): Catego
   if (!renderNode.node.router) {
     return [];
   }
-  return renderNode.node.router.categories
+  const cats = renderNode.node.router.categories
     .filter((cat: Category) => cat.exit_uuid === exit.uuid)
     .map((cat: Category) => {
       if (isGroupSplit) {
@@ -33,6 +33,8 @@ export const getCategoriesForExit = (renderNode: RenderNode, exit: Exit): Catego
         return { ...cat, missing: false };
       }
     });
+
+  return cats;
 };
 
 export const getResultName = (node: FlowNode) => {

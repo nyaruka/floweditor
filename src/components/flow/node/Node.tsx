@@ -40,6 +40,9 @@ import styles from './Node.module.scss';
 import { hasIssues } from '../helpers';
 import MountScroll from 'components/mountscroll/MountScroll';
 import i18n from 'config/i18n';
+import { store } from 'store';
+import { TembaAppState } from 'temba-components';
+import { lang } from 'moment';
 
 export interface NodePassedProps {
   nodeUUID: string;
@@ -79,6 +82,11 @@ export interface NodeStoreProps {
   scrollToAction: string;
 }
 
+export interface NodeState {
+  isTranslating: boolean;
+  languageCode: string;
+}
+
 export type NodeProps = NodePassedProps & NodeStoreProps;
 
 const cx: any = classNames.bind({ ...shared, ...styles });
@@ -87,7 +95,7 @@ const EMPTY: any[] = [];
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.PureComponent<NodeProps> {
+export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
   public ele: HTMLDivElement;
   private firstAction: any;
   private clicking: boolean;
@@ -97,8 +105,16 @@ export class NodeComp extends React.PureComponent<NodeProps> {
     config: fakePropType
   };
 
+  private unsubscribe: () => void;
+
   constructor(props: NodeProps, context: any) {
     super(props);
+
+    this.unsubscribe = store.getApp().subscribe((state: TembaAppState) => {
+      this.mapState(state);
+    });
+
+    this.mapState(store.getState());
 
     bindCallbacks(this, {
       include: [/Ref$/, /^on/, /^get/, /^handle/]
@@ -107,6 +123,20 @@ export class NodeComp extends React.PureComponent<NodeProps> {
     this.events = context.config.mutable
       ? createClickHandler(this.onClick, this.handleShouldCancelClick)
       : {};
+  }
+
+  public mapState(state: any): void {
+    const changes = {
+      isTranslating: state.isTranslating,
+      languageCode: state.languageCode
+    };
+
+    if (this.state) {
+      this.setState(changes);
+    } else {
+      // eslint-disable-next-line
+      this.state = changes;
+    }
   }
 
   private handleShouldCancelClick(): boolean {
@@ -174,6 +204,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
   public componentWillUnmount(): void {
     this.props.plumberRemove(this.props.renderNode.node.uuid);
+    this.unsubscribe();
   }
 
   /* istanbul ignore next */
@@ -519,9 +550,4 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     dispatch
   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  null,
-  { forwardRef: true }
-)(NodeComp);
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(NodeComp);

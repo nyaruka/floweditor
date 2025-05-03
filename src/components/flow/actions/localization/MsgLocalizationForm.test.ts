@@ -1,9 +1,8 @@
 import SendMsgLocalizationForm from 'components/flow/actions/localization/MsgLocalizationForm';
 import { LocalizationFormProps } from 'components/flow/props';
-import { getTypeConfig } from 'config';
 import { Types } from 'config/interfaces';
 import { LocalizedObject } from 'services/Localization';
-import { composeComponentTestUtils } from 'testUtils';
+import { composeComponentTestUtils, setupStore } from 'testUtils';
 import {
   createAxiosError,
   createAxiosResponse,
@@ -12,10 +11,8 @@ import {
 } from 'testUtils/assetCreators';
 
 const action = createSendMsgAction();
-const sendConfig = getTypeConfig(Types.send_broadcast);
 
 const baseProps: LocalizationFormProps = {
-  language: Spanish,
   updateLocalizations: jest.fn(),
   onClose: jest.fn(),
   nodeSettings: {
@@ -23,13 +20,16 @@ const baseProps: LocalizationFormProps = {
     originalAction: action
   },
   helpArticles: {},
-  issues: []
+  issues: [],
+  assetStore: null
 };
 
 const { setup } = composeComponentTestUtils<LocalizationFormProps>(
   SendMsgLocalizationForm,
   baseProps
 );
+
+setupStore({ languageCode: 'spa' });
 
 describe(SendMsgLocalizationForm.name, () => {
   describe('render', () => {

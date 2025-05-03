@@ -14,10 +14,9 @@ exports[`utils emphasize should apply emphasis style 1`] = `
 
 exports[`utils getLocalizations should return a localized object 1`] = `
 LocalizedObject {
-  "iso": undefined,
   "language": Object {
-    "iso": undefined,
-    "name": "French",
+    "code": "spa",
+    "name": "Spanish",
   },
   "localized": false,
   "localizedKeys": Object {},

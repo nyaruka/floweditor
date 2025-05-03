@@ -3,16 +3,23 @@ import { fireEvent, render } from 'test/utils';
 import { createSendEmailAction, getLocalizationFormProps, Spanish } from 'testUtils/assetCreators';
 
 import KeyLocalizationForm from './KeyLocalizationForm';
+import { mock, setupStore } from 'testUtils';
+import * as utils from 'utils';
 
 describe(KeyLocalizationForm.name, () => {
+  beforeEach(() => {
+    setupStore({ isTranslating: true, languageCode: 'spa' });
+    mock(utils, 'createUUID', utils.seededUUIDs());
+  });
+
   it('renders send email', () => {
-    const props = getLocalizationFormProps(createSendEmailAction());
+    const props = getLocalizationFormProps(createSendEmailAction(), Spanish);
     const { baseElement } = render(<KeyLocalizationForm {...props} />);
     expect(baseElement).toMatchSnapshot();
   });
 
   it('handles changes', () => {
-    const props = getLocalizationFormProps(createSendEmailAction());
+    const props = getLocalizationFormProps(createSendEmailAction(), Spanish);
     const { getByTestId, getByText } = render(<KeyLocalizationForm {...props} />);
 
     // modify the subject

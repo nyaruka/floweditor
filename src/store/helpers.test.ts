@@ -10,6 +10,7 @@ import {
   getUniqueDestinations,
   guessNodeType
 } from 'store/helpers';
+import { setupStore } from 'testUtils';
 import {
   createAirtimeTransferNode,
   createCallResthookAction,
@@ -58,7 +59,7 @@ describe('helpers', () => {
       );
 
       // guess a webhook node
-      expect(guessNodeType(createWebhookNode(createCallWebhookAction()))).toBe(
+      expect(guessNodeType(createWebhookNode(createCallWebhookAction(), false))).toBe(
         Types.split_by_webhook
       );
 
@@ -113,24 +114,26 @@ describe('helpers', () => {
 
     describe('getLocalizations', () => {
       it('should get localized actions', () => {
+        setupStore({ languageCode: 'spa', isTranslating: true });
         const node = nodes.node0.node;
         const translations = {
           [node.actions[0].uuid]: { text: ['this is espanols'] }
         };
 
-        const localizations = getLocalizations(node, node.actions[0], Spanish, translations);
+        const localizations = getLocalizations(node, node.actions[0], translations);
 
         expect((localizations[0].getObject() as SendMsg).text).toEqual('this is espanols');
       });
 
       it('should get localized cases', () => {
+        setupStore({ languageCode: 'spa', isTranslating: true });
         const node = nodes.node1.node;
         const translations = {
           node1_cat0: { name: ['this is espanols'] },
           node1_case0: { arguments: ['espanol case'] }
         };
 
-        const localizations = getLocalizations(node, node.actions[0], Spanish, translations);
+        const localizations = getLocalizations(node, node.actions[0], translations);
 
         expect((localizations[0].getObject() as Case).arguments).toEqual(['espanol case']);
         expect((localizations[2].getObject() as Category).name).toEqual('this is espanols');

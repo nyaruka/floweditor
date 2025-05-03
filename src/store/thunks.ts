@@ -239,7 +239,7 @@ export const createDirty = (
     saveRevision(revisionsEndpoint, newDefinition)
       .then(
         (result: SaveResult) => {
-          store.setFlowInfo(result.info);
+          store.getState().setFlowInfo(result.info);
 
           const revision = result.revision;
           definition.revision = revision.revision;
@@ -1087,9 +1087,10 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
   const {
     flowContext: {
       definition: { localization }
-    },
-    editorState: { language, translating }
+    }
   } = getState();
+
+  const { languageCode, isTranslating } = store.getState();
 
   const { originalNode: renderNode } = settings;
   let { originalAction: action } = settings;
@@ -1098,13 +1099,11 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
 
   // stuff our localization objects in our settings
   settings.localizations = [];
-  if (translating) {
+  if (isTranslating) {
     let actionToTranslate = action;
 
-    const translations = localization[language.id];
-    settings.localizations.push(
-      ...getLocalizations(node, actionToTranslate, language, translations)
-    );
+    const translations = localization[languageCode];
+    settings.localizations.push(...getLocalizations(node, actionToTranslate, translations));
   }
 
   // Account for hybrids or clicking on the empty exit table

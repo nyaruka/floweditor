@@ -2,7 +2,7 @@ import SetRunResultForm from 'components/flow/actions/setrunresult/SetRunResultF
 import { ActionFormProps } from 'components/flow/props';
 import { store } from 'store';
 import { InfoResult } from 'temba-components';
-import { composeComponentTestUtils, getTestStore, mock } from 'testUtils';
+import { composeComponentTestUtils, setupStore, mock } from 'testUtils';
 import { createSetRunResultAction, getActionFormProps } from 'testUtils/assetCreators';
 import * as utils from 'utils';
 
@@ -19,19 +19,24 @@ const { setup } = composeComponentTestUtils<ActionFormProps>(
 );
 
 describe(SetRunResultForm.name, () => {
-  beforeEach(() => {
-    mock(utils, 'createUUID', utils.seededUUIDs());
-    mock(getTestStore(), 'getFlowResults', () => [result]);
-  });
-
   describe('render', () => {
+    beforeEach(() => {
+      mock(utils, 'createUUID', utils.seededUUIDs());
+    });
+
     it('should render', () => {
+      setupStore({
+        results: [{ categories: [], key: 'result_name', name: 'Result Name', node_uuids: [] }]
+      });
       const { wrapper } = setup(true);
       expect(wrapper).toMatchSnapshot();
     });
   });
 
   describe('updates', () => {
+    beforeEach(() => {
+      mock(utils, 'createUUID', utils.seededUUIDs());
+    });
     it('should save changes', () => {
       const { instance, props } = setup(true);
 
@@ -62,6 +67,9 @@ describe(SetRunResultForm.name, () => {
   });
 
   describe('cancel', () => {
+    beforeEach(() => {
+      mock(utils, 'createUUID', utils.seededUUIDs());
+    });
     it('should cancel without changes', () => {
       const { instance, props } = setup(true, {
         $merge: { onClose: jest.fn(), updateAction: jest.fn() }

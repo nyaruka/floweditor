@@ -3,6 +3,7 @@ import { AnyAction, ContactProperties, FlowIssue } from 'flowTypes';
 import { Asset, AssetStore, AssetType, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
 import { DispatchWithState, GetState } from 'store/thunks';
+import { Language } from 'temba-components';
 import { titleCase } from 'utils';
 
 export interface IssueProps {
@@ -15,7 +16,6 @@ export interface ActionFormProps extends IssueProps {
   nodeSettings: NodeEditorSettings;
   typeConfig: Type;
   assetStore: AssetStore;
-  language: Asset;
 
   addAsset(assetType: string, asset: Asset): void;
 
@@ -47,7 +47,6 @@ export interface RouterFormProps extends IssueProps {
 }
 
 export interface LocalizationFormProps extends IssueProps {
-  language: Asset;
   nodeSettings: NodeEditorSettings;
   updateLocalizations(languageCode: string, localizations: any[]): void;
   onClose(canceled: boolean): void;

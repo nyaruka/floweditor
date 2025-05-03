@@ -23,6 +23,7 @@ import { Attachment, renderAttachments } from '../sendmsg/attachments';
 import { AxiosError, AxiosResponse } from 'axios';
 import { TembaComponent } from 'temba/TembaComponent';
 import { MAX_QUICK_REPLIES, MAX_TEXT_LEN } from 'config/interfaces';
+import { store } from 'store';
 
 export interface MsgLocalizationFormState extends FormState {
   message: StringEntry;
@@ -131,7 +132,7 @@ export default class MsgLocalizationForm extends React.Component<
           translations
         }
       ];
-      this.props.updateLocalizations(this.props.language.id, localizations);
+      this.props.updateLocalizations(store.getState().languageCode, localizations);
 
       // notify our modal we are done
       this.props.onClose(false);
@@ -248,7 +249,7 @@ export default class MsgLocalizationForm extends React.Component<
               helpText={
                 <Trans
                   i18nKey="forms.localized_quick_replies"
-                  values={{ language: this.props.language.name }}
+                  values={{ language: store.getState().getLanguage().name }}
                 >
                   Add a new [[language]] Quick Reply and press enter.
                 </Trans>
@@ -315,7 +316,7 @@ export default class MsgLocalizationForm extends React.Component<
                 }}
                 template={this.state.template.uuid}
                 url={this.props.assetStore.templates.endpoint}
-                lang={this.props.language.id}
+                lang={store.getState().languageCode}
                 variables={JSON.stringify(this.state.templateVariables)}
                 translating={true}
               ></TembaComponent>
@@ -346,7 +347,7 @@ export default class MsgLocalizationForm extends React.Component<
           showLabel={false}
           onChange={this.handleMessageUpdate}
           entry={this.state.message}
-          placeholder={`${this.props.language.name} ${translation}`}
+          placeholder={`${store.getState().getLanguage().name} ${translation}`}
           autocomplete={true}
           focus={true}
           textarea={true}

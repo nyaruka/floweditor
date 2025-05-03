@@ -136,7 +136,7 @@ export default class SetRunResultForm extends React.PureComponent<
             showLabel={true}
             valueKey="key"
             nameKey="name"
-            options={store.getFlowResults()}
+            options={store.getState().getFlowResults()}
             helpText={
               <Trans
                 i18nKey="forms.result_name_help"
