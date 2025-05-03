@@ -2,7 +2,9 @@ import { Canvas, CANVAS_PADDING, CanvasProps } from 'components/canvas/Canvas';
 import { CanvasDraggableProps } from 'components/canvas/CanvasDraggable';
 import React from 'react';
 import { fireEvent, render } from 'test/utils';
+import { mock } from 'testUtils';
 import { createUUID } from 'utils';
+import * as utils from 'utils';
 
 const ele = (selected: boolean): JSX.Element => <div>I am a draggable element</div>;
 
@@ -22,6 +24,9 @@ const baseProps: CanvasProps = {
 };
 
 describe(Canvas.name, () => {
+  beforeEach(() => {
+    mock(utils, 'createUUID', utils.seededUUIDs());
+  });
   it('render default', () => {
     const { baseElement } = render(<Canvas {...baseProps} />);
     expect(baseElement).toMatchSnapshot();

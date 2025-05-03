@@ -8,28 +8,10 @@ import createStore from 'store/createStore';
 import { AssetType, RenderNode } from 'store/flowContext';
 import { initialState } from 'store/state';
 import { createUUID } from 'utils';
-
+import * as utils from 'utils';
 import config from './config';
 import { RouterFormProps } from 'components/flow/props';
 import { FlowTypes } from 'config/interfaces';
-
-export const TEST_NODE: FlowNode = {
-  uuid: createUUID(),
-  actions: [],
-  exits: [{ uuid: createUUID() }]
-};
-
-export const TEST_DEFINITION: FlowDefinition = {
-  uuid: createUUID(),
-  spec_version: SPEC_VERSION,
-  language: 'eng',
-  name: 'Favorites',
-  nodes: [TEST_NODE],
-  type: FlowTypes.MESSAGING,
-  localization: {},
-  revision: 1,
-  _ui: null
-};
 
 export const EMPTY_TEST_ASSETS = {
   channels: { items: {}, type: AssetType.Channel },
@@ -40,12 +22,6 @@ export const EMPTY_TEST_ASSETS = {
   flows: { items: {}, type: AssetType.Flow },
   recipients: { items: {}, type: AssetType.Contact || AssetType.Group || AssetType.URN }
 };
-
-const initial = initialState;
-initial.flowContext.definition = TEST_DEFINITION;
-initial.flowContext.assetStore = { ...EMPTY_TEST_ASSETS };
-
-const store = createStore(initial);
 
 const AllTheProviders = ({ children }: { children: any }) => {
   return (
@@ -87,3 +63,29 @@ export * from '@testing-library/react';
 
 // override render method
 export { customRender as render };
+
+mock(utils, 'createUUID', utils.seededUUIDs());
+
+export const TEST_NODE: FlowNode = {
+  uuid: createUUID(),
+  actions: [],
+  exits: [{ uuid: createUUID() }]
+};
+
+export const TEST_DEFINITION: FlowDefinition = {
+  uuid: createUUID(),
+  spec_version: SPEC_VERSION,
+  language: 'eng',
+  name: 'Favorites',
+  nodes: [TEST_NODE],
+  type: FlowTypes.MESSAGING,
+  localization: {},
+  revision: 1,
+  _ui: null
+};
+
+const initial = initialState;
+initial.flowContext.definition = TEST_DEFINITION;
+initial.flowContext.assetStore = { ...EMPTY_TEST_ASSETS };
+
+const store = createStore(initial);

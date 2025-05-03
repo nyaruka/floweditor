@@ -8,8 +8,9 @@ import { createRenderNode, getRouterFormProps } from 'testUtils/assetCreators';
 import * as utils from 'utils';
 
 import DigitsRouterForm from './DigitsRouterForm';
-import { createUUID } from 'utils';
 import { DefaultExitNames } from 'components/flow/routers/constants';
+
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const exits = [{ uuid: utils.createUUID() }];
 const categories = [
@@ -40,9 +41,11 @@ const { setup } = composeComponentTestUtils<RouterFormProps>(
   )
 );
 
-mock(utils, 'createUUID', utils.seededUUIDs());
-
 describe(DigitsRouterForm.name, () => {
+  beforeEach(() => {
+    mock(utils, 'createUUID', utils.seededUUIDs());
+  });
+
   it('should render', () => {
     const { wrapper } = setup(true);
     expect(wrapper).toMatchSnapshot();
@@ -61,7 +64,7 @@ describe(DigitsRouterForm.name, () => {
               operand: DEFAULT_OPERAND,
               categories: [
                 {
-                  uuid: createUUID(),
+                  uuid: utils.createUUID(),
                   name: 'Other',
                   exit_uuid: 'generated_uuid_1'
                 }
@@ -90,6 +93,9 @@ describe(DigitsRouterForm.name, () => {
   });
 
   describe('updates', () => {
+    beforeEach(() => {
+      mock(utils, 'createUUID', utils.seededUUIDs());
+    });
     it('should save changes', () => {
       const { instance, props } = setup(true, {
         $merge: { updateRouter: jest.fn(), onClose: jest.fn() }

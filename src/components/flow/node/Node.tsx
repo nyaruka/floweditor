@@ -65,7 +65,6 @@ export interface NodePassedProps {
 
 export interface NodeStoreProps {
   results: AssetMap;
-  language: Asset;
   languages: AssetMap;
   activeCount: number;
   translating: boolean;

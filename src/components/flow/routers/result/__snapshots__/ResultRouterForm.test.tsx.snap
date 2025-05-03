@@ -8,23 +8,23 @@ Array [
       "actions": Array [],
       "exits": Array [
         Object {
-          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
         },
       ],
       "router": Object {
         "cases": Array [],
         "categories": Array [
           Object {
-            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
             "name": "All Responses",
-            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
           },
         ],
-        "default_category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         "operand": "@results.my_test_result",
         "type": "switch",
       },
-      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+      "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
     },
     "ui": Object {
       "config": Object {
@@ -50,23 +50,23 @@ Array [
       "actions": Array [],
       "exits": Array [
         Object {
-          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
         },
       ],
       "router": Object {
         "cases": Array [],
         "categories": Array [
           Object {
-            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
             "name": "All Responses",
-            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
           },
         ],
-        "default_category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         "operand": "@(field(results.my_test_result, 0, \\"+\\"))",
         "type": "switch",
       },
-      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+      "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
     },
     "ui": Object {
       "config": Object {
