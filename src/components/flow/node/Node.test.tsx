@@ -11,7 +11,6 @@ import { render, TEST_NODE } from 'test/utils';
 mock(utils, 'createUUID', utils.seededUUIDs());
 
 const baseProps: NodeProps = {
-  languages: {},
   nodeUUID: utils.seededUUIDs(),
   startingNode: true,
   onlyNode: true,
@@ -24,9 +23,7 @@ const baseProps: NodeProps = {
   plumberUpdateClass: jest.fn(),
   scrollToNode: '',
   scrollToAction: '',
-  results: {},
   activeCount: 0,
-  translating: false,
   simulating: false,
   debug: null,
   renderNode: {

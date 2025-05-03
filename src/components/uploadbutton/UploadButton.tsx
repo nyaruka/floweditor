@@ -44,7 +44,7 @@ export default class UploadButton extends React.Component<UploadButtonProps, Upl
         this.props.onUploadChanged(response.data.url);
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
       });
   }
 

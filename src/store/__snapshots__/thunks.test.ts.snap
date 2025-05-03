@@ -379,7 +379,6 @@ Array [
         "dragStartTime": 0,
         "fetchingFlow": false,
         "ghostNode": null,
-        "language": null,
         "liveActivity": Object {
           "nodes": Object {},
           "segments": Object {},
@@ -388,7 +387,6 @@ Array [
         "scrollToAction": null,
         "scrollToNode": null,
         "simulating": false,
-        "translating": false,
         "visible": true,
         "warnings": Object {},
       },
@@ -418,7 +416,6 @@ Array [
         "dragStartTime": 0,
         "fetchingFlow": false,
         "ghostNode": null,
-        "language": null,
         "liveActivity": Object {
           "nodes": Object {},
           "segments": Object {},
@@ -427,7 +424,6 @@ Array [
         "scrollToAction": null,
         "scrollToNode": null,
         "simulating": false,
-        "translating": false,
         "visible": true,
         "warnings": Object {},
       },
@@ -1181,7 +1177,6 @@ Array [
             "type": "wait_for_response",
           },
         },
-        "language": null,
         "liveActivity": Object {
           "nodes": Object {},
           "segments": Object {},
@@ -1190,7 +1185,6 @@ Array [
         "scrollToAction": null,
         "scrollToNode": null,
         "simulating": false,
-        "translating": false,
         "visible": true,
         "warnings": Object {},
       },

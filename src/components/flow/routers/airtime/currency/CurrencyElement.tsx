@@ -37,7 +37,6 @@ export default class CurrencyElement extends React.Component<CurrencyElementProp
   }
 
   private handleCurrencyChanged(selected: any): void {
-    console.log('handleCurrencyChanged', selected);
     this.props.onChange(this.props.index, {
       value: { amount: this.props.transfer.value.amount, code: selected.id },
       validationFailures: this.props.transfer.validationFailures

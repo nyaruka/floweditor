@@ -248,11 +248,10 @@ const mapStateToProps = ({
     assetStore,
     definition: { localization }
   },
-  editorState: { language, translating, scrollToAction }
+  editorState: { scrollToAction }
 }: AppState) => ({
   scrollToAction,
   assetStore,
-  language,
   localization
 });
 

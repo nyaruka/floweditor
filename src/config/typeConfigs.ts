@@ -263,7 +263,7 @@ export const typeConfigList: Type[] = [
     massageForDisplay: (action: SendMsg) => {
       // quick replies are optional in the definition, make sure we have
       // at least an empty array so the localization has a proper cue
-      action.quick_replies = action.quick_replies || [];
+      // action.quick_replies = action.quick_replies || [];
     }
   },
   {

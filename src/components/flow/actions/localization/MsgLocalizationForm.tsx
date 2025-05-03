@@ -159,7 +159,6 @@ export default class MsgLocalizationForm extends React.Component<
 
   private handleAttachmentUploading(isUploading: boolean) {
     const uploadError = '';
-    console.log(uploadError);
     this.setState({ uploadError });
 
     if (isUploading) {
@@ -175,7 +174,6 @@ export default class MsgLocalizationForm extends React.Component<
     //django returns a 200 even when there's an error
     if (response.data && response.data.error) {
       const uploadError: string = response.data.error;
-      console.log(uploadError);
       this.setState({ uploadError });
     } else {
       const attachments: any = mutate(this.state.attachments, {
@@ -184,7 +182,6 @@ export default class MsgLocalizationForm extends React.Component<
       this.setState({ attachments });
 
       const uploadError = '';
-      console.log(uploadError);
       this.setState({ uploadError });
     }
 

@@ -12,7 +12,7 @@ Object {
 exports[`Flow instance methods onConnectorDrop should do NodeEditor work if the user is not dragging back 1`] = `
 Array [
   "46e8d603-8e5d-4435-97dd-1333291aafca:8653ac06-00ba-4890-a79f-d30f3a55193b",
-  "52036e99-4be0-4505-add4-159e8d1d7572",
+  "70c57f31-98f7-4095-b85f-d146216d6605",
 ]
 `;
 
@@ -22,7 +22,7 @@ Array [
     "originalAction": Object {
       "text": "",
       "type": "send_msg",
-      "uuid": "7966434b-6d38-4d8b-b01c-13d3d9aa593c",
+      "uuid": "a34902cb-b0f9-4f2f-b6df-72f0b4427761",
     },
     "originalNode": Object {
       "ghost": true,
@@ -34,16 +34,16 @@ Array [
           Object {
             "text": "",
             "type": "send_msg",
-            "uuid": "7966434b-6d38-4d8b-b01c-13d3d9aa593c",
+            "uuid": "a34902cb-b0f9-4f2f-b6df-72f0b4427761",
           },
         ],
         "exits": Array [
           Object {
             "destination_uuid": null,
-            "uuid": "431dadb3-0257-432f-ace3-52157bba69ed",
+            "uuid": "d84bf916-0d8b-48b6-a352-f0ad96df7b76",
           },
         ],
-        "uuid": "52036e99-4be0-4505-add4-159e8d1d7572",
+        "uuid": "70c57f31-98f7-4095-b85f-d146216d6605",
       },
       "ui": Object {
         "position": Object {

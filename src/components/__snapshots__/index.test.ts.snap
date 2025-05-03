@@ -104,11 +104,12 @@ exports[`Root render should render flow if passed a definition, language 1`] = `
     >
       <Connect(Flow) />
       <TranslatorTab
-        baseLanguage={null}
         nodes={null}
         onToggled={[Function]}
         onTranslationClicked={[Function]}
+        onTranslationFilterChanged={[MockFunction]}
         onTranslationOpened={[Function]}
+        onUpdateLocalizations={[MockFunction]}
         popped={null}
       />
       <RevisionExplorer

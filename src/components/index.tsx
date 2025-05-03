@@ -29,8 +29,6 @@ import {
   mergeEditorState,
   onOpenNodeEditor,
   OnOpenNodeEditor,
-  handleLanguageChange,
-  HandleLanguageChange,
   UpdateTranslationFilters,
   updateTranslationFilters,
   reset,
@@ -54,8 +52,6 @@ export interface FlowEditorContainerProps {
 
 export interface FlowEditorStoreProps {
   assetStore: AssetStore;
-  baseLanguage: Asset;
-  language: Asset;
   languages: Assets;
   simulating: boolean;
   fetchingFlow: boolean;
@@ -66,7 +62,6 @@ export interface FlowEditorStoreProps {
   createNewRevision: CreateNewRevision;
   mergeEditorState: MergeEditorState;
   onOpenNodeEditor: OnOpenNodeEditor;
-  handleLanguageChange: HandleLanguageChange;
   reset: Reset;
   nodes: RenderNodeMap;
   modalMessage: ModalMessage;
@@ -229,16 +224,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
     ) : null;
   }
 
-  private handleLanguageSetting(issueDetail: IssueDetail): void {
-    if (issueDetail.language) {
-      this.props.handleLanguageChange(issueDetail.language);
-    } else {
-      this.props.handleLanguageChange(this.props.baseLanguage);
-    }
-  }
-
   public handleOpenIssue(issueDetail: IssueDetail): void {
-    this.handleLanguageSetting(issueDetail);
     this.props.onOpenNodeEditor({
       originalNode: issueDetail.renderObjects.renderNode,
       originalAction: issueDetail.renderObjects.renderAction
@@ -280,7 +266,6 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
   }
 
   public handleScrollToIssue(issueDetail: IssueDetail): void {
-    this.handleLanguageSetting(issueDetail);
     const issue = issueDetail.issues[0];
     this.handleScrollToNode(issue.node_uuid, issue.action_uuid);
   }
@@ -316,18 +301,15 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
 
             {this.getSavingIndicator()}
 
-            {renderIf(this.props.definition && this.props.language && !this.props.fetchingFlow)(
-              <ConnectedFlow />
-            )}
+            {renderIf(this.props.definition && !this.props.fetchingFlow)(<ConnectedFlow />)}
 
             {renderIf(
               this.props.definition && this.state.isTranslating && !this.props.fetchingFlow
             )(
               <TranslatorTab
-                baseLanguage={this.props.baseLanguage}
                 localization={
-                  this.props.definition && this.props.language
-                    ? this.props.definition.localization[this.props.language.id]
+                  this.props.definition
+                    ? this.props.definition.localization[store.getState().languageCode]
                     : {}
                 }
                 onTranslationClicked={this.handleScrollToTranslation}
@@ -372,7 +354,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
 }
 
 const mapStateToProps = ({
-  flowContext: { definition, issues, nodes, assetStore, baseLanguage },
+  flowContext: { definition, issues, nodes, assetStore },
   editorState: {
     language,
     fetchingFlow,
@@ -388,7 +370,6 @@ const mapStateToProps = ({
 
   return {
     popped,
-    baseLanguage,
     modalMessage,
     saving,
     simulating,
@@ -412,7 +393,6 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
       createNewRevision,
       mergeEditorState,
       onOpenNodeEditor,
-      handleLanguageChange,
       updateTranslationFilters,
       onUpdateLocalizations,
       reset

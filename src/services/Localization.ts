@@ -3,7 +3,7 @@ import { Action, Case, Category, MsgTemplateComponent } from 'flowTypes';
 import { Language } from 'temba-components';
 
 // list of keys that should always be treated as an array
-const ARRAY_KEYS = ['attachments', 'components'];
+const ARRAY_KEYS = ['attachments', 'components', 'quick_replies', 'buttons'];
 
 export class LocalizedObject {
   public localizedKeys: { [key: string]: boolean } = {};

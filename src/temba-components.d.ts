@@ -1,3 +1,5 @@
+import { CanvasPositions } from 'store/editor';
+
 export interface InfoResult {
   key: string;
   name: string;
@@ -58,14 +60,25 @@ export interface TembaAppState {
   languageNames: { [key: string]: string };
   languageCode: string;
   workspace: Workspace;
+
   getLanguage(): Language;
+  getFlowResults(): InfoResult[];
+  getResultByKey(id: any): InfoResult;
+
   setFlowContents(contents: FlowContents): void;
   setFlowInfo(info: any): void;
   setLanguageCode(code: string): void;
-  getFlowResults(): InfoResult[];
+
+  // Update flow definition
+  updateCanvasPositions(positions: CanvasPositions): void;
+  removeNodes(uuids: string[]): void;
 }
 
 export interface TembaStore extends HTMLElement {
+  postJSON(
+    arg0: string,
+    payload: { text: string; lang: { from: FlowContents; to: string } }
+  ): Promise<any>;
   getApp: () => App;
   getState: () => TembaAppState;
   setKeyedAssets: (key: string, assets: string[]) => void;

@@ -49,7 +49,6 @@ export interface Translation {
 
 export interface TranslatorTabProps {
   localization: { [uuid: string]: any };
-  baseLanguage: Asset;
   translationFilters: { categories: boolean };
   nodes: RenderNodeMap;
   onToggled: (visible: boolean, tab: PopTabType) => void;
@@ -290,7 +289,6 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
   }
 
   private async doAutoTranslation() {
-    const store = document.querySelector('temba-store') as any;
     for (const bundle of this.state.translationBundles) {
       const translationUpdate: { uuid: string; translations: any }[] = [];
       const untranslated = bundle.translations.filter(
@@ -317,10 +315,11 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
           continue;
         }
 
+        const state = store.getState();
         const payload = {
           text: translation.from,
           lang: {
-            from: this.props.baseLanguage.id,
+            from: state.flow.definition.language,
             to: this.state.language
           }
         };

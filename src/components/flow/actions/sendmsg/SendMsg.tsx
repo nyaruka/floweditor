@@ -11,7 +11,7 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
   if (action.text) {
     let replies = null;
 
-    let quickReplies = action.quick_replies || [];
+    const quickReplies: string[] = action.quick_replies || [];
     if (quickReplies.length > 0) {
       replies = (
         <div className={styles.quick_replies}>
