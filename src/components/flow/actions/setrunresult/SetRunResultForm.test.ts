@@ -1,6 +1,5 @@
 import SetRunResultForm from 'components/flow/actions/setrunresult/SetRunResultForm';
 import { ActionFormProps } from 'components/flow/props';
-import { store } from 'store';
 import { InfoResult } from 'temba-components';
 import { composeComponentTestUtils, setupStore, mock } from 'testUtils';
 import { createSetRunResultAction, getActionFormProps } from 'testUtils/assetCreators';

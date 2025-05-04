@@ -13,6 +13,7 @@ import { AssetStore, AssetType, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
 import { ResultRouterFormState } from './ResultRouterForm';
+import { store } from 'store';
 
 export const FIELD_NUMBER_OPTIONS: SelectOption[] = [
   { value: '0', name: 'first' },
@@ -83,11 +84,10 @@ export const nodeToState = (
 
     const config = settings.originalNode.ui.config;
     if (config && config.operand) {
-      if (config.operand.id in assetStore.results.items) {
-        result = assetStore.results.items[config.operand.id];
-      } else {
-        result = null;
-      }
+      result = store
+        .getState()
+        .getFlowResults()
+        .find((result: any) => result.key === config.operand.id);
     }
 
     if (type === Types.split_by_run_result_delimited) {
@@ -125,13 +125,17 @@ export const stateToNode = (
 
   let nodeType = Types.split_by_run_result;
 
+  // console.log('state.result', state.result);
+
   const result = state.result.value;
-  let operand = `@results.${result.value}`;
+  let operand = `@results.${result.key}`;
+
+  // console.log('result', operand);
 
   const config: any = {
     operand: {
       name: result.name,
-      id: result.value,
+      id: result.key,
       type: AssetType.Result
     },
     cases: caseConfig
@@ -140,9 +144,11 @@ export const stateToNode = (
   if (state.shouldDelimit) {
     config.index = state.fieldNumber;
     config.delimiter = state.delimiter;
-    operand = `@(field(results.${result.value}, ${state.fieldNumber}, "${state.delimiter}"))`;
+    operand = `@(field(results.${result.key}, ${state.fieldNumber}, "${state.delimiter}"))`;
     nodeType = Types.split_by_run_result_delimited;
   }
+
+  // console.log('config', config);
 
   const router: SwitchRouter = {
     type: RouterTypes.switch,
@@ -161,6 +167,8 @@ export const stateToNode = (
     [],
     config
   );
+
+  // console.log('newRenderNode', newRenderNode);
 
   return newRenderNode;
 };

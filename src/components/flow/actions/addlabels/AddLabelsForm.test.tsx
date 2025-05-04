@@ -1,16 +1,13 @@
-import { ActionFormProps } from 'components/flow/props';
-import React from 'react';
-import { AssetType, RenderNode } from 'store/flowContext';
-import { fireEvent, render, fireChangeText, fireTembaSelect, getCallParams } from 'test/utils';
-import { composeComponentTestUtils, mock } from 'testUtils';
+import * as React from 'react';
+
 import {
   createAddLabelsAction,
   createStartSessionAction,
-  getActionFormProps,
-  SubscribersGroup
+  getActionFormProps
 } from 'testUtils/assetCreators';
-import * as utils from 'utils';
 import AddLabelsForm from './AddLabelsForm';
+import { fireEvent, render, fireTembaSelect, getCallParams, mock } from 'test/utils';
+import * as utils from 'utils';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 const props = getActionFormProps(

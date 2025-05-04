@@ -39,7 +39,17 @@ export const fireChangeText = (ele: any, value: string): void => {
 };
 
 export const fireTembaSelect = (ele: HTMLElement, value: any) => {
-  (ele as any).values = Array.isArray(value) ? value : [{ value }];
+  const multi = ele.getAttribute('multi') === 'true';
+  const valueKey = ele.getAttribute('valueKey') || 'value';
+
+  if (multi) {
+    (ele as any).values = value.map((v: any) => {
+      return typeof v === 'object' ? v : { [valueKey]: v };
+    });
+  } else {
+    (ele as any).value = typeof value === 'object' ? value : { [valueKey]: value };
+  }
+
   var evt = document.createEvent('HTMLEvents');
   evt.initEvent('change', false, true);
   ele.dispatchEvent(evt);
@@ -50,6 +60,9 @@ export const mock = <T extends {}, K extends keyof T>(object: T, property: K, va
 };
 
 export const getCallParams = (mockCall: any) => {
+  if (mockCall.mock.calls.length === 0) {
+    throw new Error('Expected at least one call to the mock function, but got none.');
+  }
   return mockCall.mock.calls[0];
 };
 

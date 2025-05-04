@@ -3,6 +3,8 @@
 .delimited {
   display: flex;
   align-items: baseline;
+  font-size: 0.9em;
+  white-space: nowrap;
 }
 
 .non_delimited {
@@ -10,8 +12,7 @@
   align-items: baseline;
 }
 
-.lead_in {
-}
+.lead_in {}
 
 .lead_in_sub {
   margin-left: 8px;

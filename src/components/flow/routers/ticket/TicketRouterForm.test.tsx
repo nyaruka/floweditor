@@ -24,8 +24,7 @@ describe(TicketRouterForm.name, () => {
   });
 
   describe('updates', () => {
-    // TODO renable when fireTembaSelect is fixed
-    xit('should save changes', () => {
+    it('should save changes', () => {
       const { baseElement, getByText, getAllByTestId, getByTestId, getByLabelText } = render(
         <TicketRouterForm {...ticketForm} />
       );

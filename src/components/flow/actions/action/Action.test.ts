@@ -14,8 +14,7 @@ import {
   createRenderNode,
   createSendMsgAction,
   createStartFlowAction,
-  createSubflowNode,
-  English
+  createSubflowNode
 } from 'testUtils/assetCreators';
 import { getLocalization, set, setFalse, setTrue } from 'utils';
 
@@ -45,13 +44,12 @@ const baseProps: ActionWrapperProps = {
   action: sendMsgAction,
   render: jest.fn(),
   renderNode: sendMsgNode,
-  language: English,
-  translating: false,
   onOpenNodeEditor: jest.fn(),
   removeAction: jest.fn(),
   moveActionUp: jest.fn(),
   issues: [],
-  assetStore: null
+  assetStore: null,
+  scrollToAction: ''
 };
 
 const { setup, spyOn } = composeComponentTestUtils(ActionWrapper, baseProps);
@@ -160,13 +158,6 @@ describe(ActionWrapper.name, () => {
         instance.handleActionClicked(mockEvent);
 
         expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
-        /* 
-                expect(props.onOpenNodeEditor).toHaveBeenCalledWith({
-                    originalNode: props.node,
-                    originalAction: props.action,
-                    showAdvanced: false
-                });
-                */
       });
     });
 
@@ -207,7 +198,7 @@ describe(ActionWrapper.name, () => {
 
     describe('getAction', () => {
       it('should return the action passed via props if not localized', () => {
-        const { wrapper, props, instance } = setup(true, {
+        const { props, instance } = setup(true, {
           node: set(sendMsgAction1)
         });
 
@@ -215,12 +206,8 @@ describe(ActionWrapper.name, () => {
       });
 
       it('should return localized action if localized', () => {
-        const { wrapper, props, context, instance } = setup();
-        const localizedObject = getLocalization(
-          props.action,
-          props.localization,
-          props.language
-        ).getObject();
+        const { props, instance } = setup();
+        const localizedObject = getLocalization(props.action, props.localization).getObject();
 
         expect(instance.getAction()).toEqual(localizedObject);
       });

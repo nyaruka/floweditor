@@ -1,5 +1,5 @@
 import { react as bindCallbacks } from 'auto-bind';
-import { FormElementProps } from 'components/form/FormElement';
+import FormElement, { FormElementProps } from 'components/form/FormElement';
 import * as React from 'react';
 
 export interface CheckboxElementProps extends FormElementProps {
@@ -76,6 +76,7 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
     }
     return (
       <temba-checkbox
+        data-testid="delimit_result"
         onClick={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();

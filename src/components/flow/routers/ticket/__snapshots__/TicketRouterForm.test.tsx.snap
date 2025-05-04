@@ -334,20 +334,13 @@ Array [
       "actions": Array [
         Object {
           "assignee": Object {
-            "value": Object {
-              "created_on": "2021-06-10T21:44:30.971221Z",
-              "email": "agent.user@gmail.com",
-              "first_name": "Agent",
-              "last_name": "User",
-              "role": "agent",
-            },
+            "email": "agent.user@gmail.com",
+            "name": "Agent User",
           },
           "note": "Where are my cookies",
           "topic": Object {
-            "value": Object {
-              "name": "General",
-              "uuid": "6f38eba0-d673-4a35-82df-21bae2b6d466",
-            },
+            "name": "General",
+            "uuid": "6f38eba0-d673-4a35-82df-21bae2b6d466",
           },
           "type": "open_ticket",
           "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",

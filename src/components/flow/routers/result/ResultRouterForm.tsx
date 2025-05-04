@@ -8,7 +8,7 @@ import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import { SelectOption } from 'components/form/select/SelectElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
-import { Asset } from 'store/flowContext';
+
 import { FormEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { Alphanumeric, shouldRequireIf, StartIsNonNumeric, validate } from 'store/validators';
 
@@ -24,6 +24,9 @@ import styles from './ResultRouterForm.module.scss';
 import i18n from 'config/i18n';
 import { TembaSelectStyle } from 'temba/TembaSelect';
 import TembaSelectElement from 'temba/TembaSelectElement';
+import { store } from 'store';
+import { InfoResult } from 'temba-components';
+import { parse } from '@babel/core';
 
 export interface ResultRouterFormState extends FormState {
   result: FormEntry;
@@ -37,7 +40,7 @@ export interface ResultRouterFormState extends FormState {
 
 export const leadInSpecId = 'lead-in';
 
-export default class ResultRouterForm extends React.Component<
+export default class ResultRouterForm extends React.PureComponent<
   RouterFormProps,
   ResultRouterFormState
 > {
@@ -89,7 +92,7 @@ export default class ResultRouterForm extends React.Component<
     this.setState({ cases });
   }
 
-  private handleResultChanged(selected: Asset, submitting = false): boolean {
+  private handleResultChanged(selected: InfoResult, submitting = false): boolean {
     const updates: Partial<ResultRouterFormState> = {
       result: validate(i18n.t('forms.result_to_split_on', 'Result to split on'), selected, [
         shouldRequireIf(submitting)
@@ -109,6 +112,7 @@ export default class ResultRouterForm extends React.Component<
     }
 
     const valid = this.handleResultChanged(this.state.result.value, true);
+    // make sure we validate untouched text fields
     if (valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
       this.props.onClose(false);
@@ -125,12 +129,16 @@ export default class ResultRouterForm extends React.Component<
     };
   }
 
-  private handleShouldDelimitChanged(checked: boolean): void {
-    this.setState({ shouldDelimit: checked });
+  private handleShouldDelimitChanged(event: any): void {
+    this.setState({ shouldDelimit: event.target.checked });
   }
 
   private handleFieldNumberChanged(selected: SelectOption): void {
-    this.setState({ fieldNumber: parseInt(selected.value, 10) });
+    const updates: Partial<ResultRouterFormState> = {
+      fieldNumber: parseInt(selected.value, 10)
+    };
+    const updated = mergeForm(this.state, updates);
+    this.setState(updated);
   }
 
   private handleDelimiterChanged(selected: SelectOption): void {
@@ -146,11 +154,13 @@ export default class ResultRouterForm extends React.Component<
             entry={this.state.result}
             style={TembaSelectStyle.small}
             name={i18n.t('forms.flow_result', 'Flow Result')}
-            placeholder="Select Result"
             searchable={false}
+            placeholder={i18n.t('forms.select_result', 'Select Result')}
+            valueKey="key"
+            nameKey="name"
             onChange={this.handleResultChanged}
-            options={this.options}
-          />
+            options={store.getState().getFlowResults()}
+          ></TembaSelectElement>
         </div>
       </div>
     );
@@ -178,8 +188,10 @@ export default class ResultRouterForm extends React.Component<
             name={i18n.t('forms.flow_result', 'Flow Result')}
             placeholder={i18n.t('forms.select_result', 'Select Result')}
             searchable={false}
+            valueKey="key"
+            nameKey="name"
             onChange={this.handleResultChanged}
-            options={this.options}
+            options={store.getState().getFlowResults()}
           />
         </div>
         <div className={styles.lead_in_sub}>delimited by</div>
@@ -198,21 +210,25 @@ export default class ResultRouterForm extends React.Component<
   }
 
   public render(): JSX.Element {
+    const optional: any = {};
+    if (this.state.shouldDelimit) {
+      optional['checked'] = true;
+    }
+
     const typeConfig = this.props.typeConfig;
     const advanced: Tab = {
       name: 'Advanced',
       body: (
         <div className={styles.should_delimit}>
-          <CheckboxElement
-            name={i18n.t('forms.delimit', 'Delimit')}
-            title={i18n.t('forms.delimit_result', 'Delimit Result')}
-            checked={this.state.shouldDelimit}
-            description={i18n.t(
+          <temba-checkbox
+            label={i18n.t('forms.delimit_result', 'Delimit Result')}
+            help_text={i18n.t(
               'forms.delimit_result_description',
               'Evaluate your rules against a delimited part of your result'
             )}
-            onChange={this.handleShouldDelimitChanged}
-          />
+            {...optional}
+            onClick={this.handleShouldDelimitChanged}
+          ></temba-checkbox>
         </div>
       ),
       checked: this.state.shouldDelimit

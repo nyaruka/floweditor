@@ -88,7 +88,7 @@ export default class RemoveGroupsForm extends React.Component<
     return updated.valid;
   }
 
-  public handleGroupsChanged(groups: Asset[], submitting: boolean = false): boolean {
+  public handleGroupsChanged(groups: any[], submitting: boolean = false): boolean {
     return this.handleUpdate({ groups }, submitting);
   }
 
