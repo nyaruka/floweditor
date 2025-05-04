@@ -76,7 +76,6 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
     }
     return (
       <temba-checkbox
-        data-testid="delimit_result"
         onClick={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();

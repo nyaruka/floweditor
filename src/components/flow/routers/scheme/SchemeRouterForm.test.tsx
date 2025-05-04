@@ -27,7 +27,7 @@ describe(SchemeRouterForm.name, () => {
   it('should select schemes', () => {
     const { getByTestId, getByText } = render(<SchemeRouterForm {...routerProps} />);
 
-    fireTembaSelect(getByTestId('temba_select_channel_type'), 'whatsapp');
+    fireTembaSelect(getByTestId('temba_select_channel_type'), ['whatsapp']);
     fireEvent.click(getByText('Ok'));
 
     const router = getSwitchRouter(getUpdatedNode(routerProps).node);

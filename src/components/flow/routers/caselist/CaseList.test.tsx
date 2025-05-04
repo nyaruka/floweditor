@@ -87,9 +87,9 @@ describe(CaseList.name, () => {
       expect(getAllByTestId('temba_select_operator').length).toBe(1);
 
       // switch default to greater than operator and populate it
-      fireTembaSelect(getAllByTestId('temba_select_operator')[0], [
-        { type: Operators.has_number_gt }
-      ]);
+      fireTembaSelect(getAllByTestId('temba_select_operator')[0], {
+        type: Operators.has_number_gt
+      });
       const argsInput = getAllByTestId('arguments')[0];
       fireEvent.change(argsInput, { target: { value: '42' } });
 
