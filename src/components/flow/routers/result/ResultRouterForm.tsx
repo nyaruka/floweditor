@@ -4,7 +4,6 @@ import { renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { createResultNameInput } from 'components/flow/routers/widgets';
-import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import { SelectOption } from 'components/form/select/SelectElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
@@ -26,7 +25,6 @@ import { TembaSelectStyle } from 'temba/TembaSelect';
 import TembaSelectElement from 'temba/TembaSelectElement';
 import { store } from 'store';
 import { InfoResult } from 'temba-components';
-import { parse } from '@babel/core';
 
 export interface ResultRouterFormState extends FormState {
   result: FormEntry;

@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './TranslatorTab.module.scss';
 import i18n from 'config/i18n';
 import { PopTab } from 'components/poptab/PopTab';
-import { Asset, RenderNodeMap } from 'store/flowContext';
+import { RenderNodeMap } from 'store/flowContext';
 import { PopTabType, Type } from 'config/interfaces';
 import { Action, Category } from 'flowTypes';
 import { getTypeConfig } from 'config';

@@ -15,7 +15,7 @@ import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import createStore from 'store/createStore';
 import { ModalMessage } from 'store/editor';
-import { Asset, Assets, AssetStore, RenderNodeMap, FlowIssueMap } from 'store/flowContext';
+import { Assets, AssetStore, RenderNodeMap, FlowIssueMap } from 'store/flowContext';
 import { getCurrentDefinition } from 'store/helpers';
 import {
   CreateNewRevision,

@@ -1,5 +1,5 @@
 import { react as bindCallbacks } from 'auto-bind';
-import FormElement, { FormElementProps } from 'components/form/FormElement';
+import { FormElementProps } from 'components/form/FormElement';
 import * as React from 'react';
 
 export interface CheckboxElementProps extends FormElementProps {
