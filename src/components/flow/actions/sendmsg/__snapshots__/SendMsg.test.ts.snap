@@ -13,7 +13,7 @@ exports[`SendMsgComp render should render text prop when passed 1`] = `
   <div>
     <div
       className="line"
-      key="b1f332f3-bdd3-4891-aec5-1843a712dbf10"
+      key="763e4844-3e1b-407a-a1b5-5fdfcd308b410"
     >
       Hey!
     </div>

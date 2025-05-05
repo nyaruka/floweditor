@@ -11,7 +11,7 @@ import * as TextInput from 'components/form/textinput/helpers';
 import { TextInputProps } from 'components/form/textinput/TextInputElement';
 
 setupStore();
-mock(utils, 'createUUID', utils.seededUUIDs());
+// mock(utils, 'createUUID', utils.seededUUIDs());
 
 // Declare custom matcher types
 declare global {

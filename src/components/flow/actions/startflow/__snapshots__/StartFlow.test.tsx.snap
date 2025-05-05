@@ -15,7 +15,7 @@ exports[`StartFlowComp render should render flow name 1`] = `
           style="margin-right: 4px;"
         />
         <a
-          href="/flow/editor/b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+          href="/flow/editor/763e4844-3e1b-407a-a1b5-5fdfcd308b41"
           rel="noopener noreferrer"
           target="_blank"
         >

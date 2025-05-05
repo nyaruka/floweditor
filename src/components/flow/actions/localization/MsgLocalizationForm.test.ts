@@ -1,14 +1,15 @@
 import SendMsgLocalizationForm from 'components/flow/actions/localization/MsgLocalizationForm';
 import { LocalizationFormProps } from 'components/flow/props';
-import { Types } from 'config/interfaces';
+
 import { LocalizedObject } from 'services/Localization';
-import { composeComponentTestUtils, setupStore } from 'testUtils';
+import { composeComponentTestUtils, mock, setupStore } from 'testUtils';
 import {
   createAxiosError,
   createAxiosResponse,
   createSendMsgAction,
   Spanish
 } from 'testUtils/assetCreators';
+import * as utils from 'utils';
 
 const action = createSendMsgAction();
 
@@ -33,6 +34,9 @@ setupStore({ languageCode: 'spa' });
 
 describe(SendMsgLocalizationForm.name, () => {
   describe('render', () => {
+    beforeEach(() => {
+      mock(utils, 'createUUID', utils.seededUUIDs());
+    });
     it('should render', () => {
       const { wrapper } = setup(true);
       expect(wrapper).toMatchSnapshot();
@@ -40,6 +44,9 @@ describe(SendMsgLocalizationForm.name, () => {
   });
 
   describe('inits', () => {
+    beforeEach(() => {
+      mock(utils, 'createUUID', utils.seededUUIDs());
+    });
     it('inits with initial values', () => {
       const localizedObject = new LocalizedObject(action, Spanish);
       localizedObject.addTranslation('text', ['¡hola!']);
@@ -52,6 +59,9 @@ describe(SendMsgLocalizationForm.name, () => {
   });
 
   describe('updates', () => {
+    beforeEach(() => {
+      mock(utils, 'createUUID', utils.seededUUIDs());
+    });
     it('should save changes', () => {
       const { instance, props } = setup(true, {
         $merge: { updateLocalizations: jest.fn(), onClose: jest.fn() }
@@ -138,6 +148,9 @@ describe(SendMsgLocalizationForm.name, () => {
   });
 
   describe('cancel', () => {
+    beforeEach(() => {
+      mock(utils, 'createUUID', utils.seededUUIDs());
+    });
     it('should cancel without changes', () => {
       const { instance, props } = setup(true, {
         $merge: { updateLocalizations: jest.fn(), onClose: jest.fn() }

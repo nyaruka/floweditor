@@ -169,11 +169,11 @@ exports[`ResponseRouterForm should render 1`] = `
             "arguments": Array [
               "red",
             ],
-            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "category_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
             "type": "has_any_word",
-            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
           },
-          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
           "valid": true,
         },
       ]
@@ -261,13 +261,13 @@ Array [
       "actions": Array [],
       "exits": Array [
         Object {
-          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+          "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
         },
         Object {
           "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
         },
         Object {
-          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+          "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
         },
         Object {
           "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
@@ -279,14 +279,14 @@ Array [
             "arguments": Array [
               "red",
             ],
-            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "category_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
             "type": "has_any_word",
           },
           Object {
             "arguments": Array [
               "maroon",
             ],
-            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "category_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
             "type": "has_any_word",
           },
           Object {
@@ -299,9 +299,9 @@ Array [
         ],
         "categories": Array [
           Object {
-            "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+            "exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
             "name": "Red",
-            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
           },
           Object {
             "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
@@ -309,9 +309,9 @@ Array [
             "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
           },
           Object {
-            "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "exit_uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
             "name": "Other",
-            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
           },
           Object {
             "exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
@@ -319,7 +319,7 @@ Array [
             "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
           },
         ],
-        "default_category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "default_category_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
         "operand": "@input.text",
         "result_name": "Favorite Color",
         "type": "switch",
@@ -331,7 +331,7 @@ Array [
           "type": "msg",
         },
       },
-      "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+      "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
     },
     "ui": Object {
       "config": Object {
@@ -378,7 +378,7 @@ Array [
           "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         },
         Object {
-          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+          "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
         },
       ],
       "router": Object {
@@ -398,19 +398,19 @@ Array [
             "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
           },
           Object {
-            "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "exit_uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
             "name": "Other",
-            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
           },
         ],
-        "default_category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "default_category_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
         "operand": "@input.text",
         "type": "switch",
         "wait": Object {
           "type": "msg",
         },
       },
-      "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+      "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
     },
     "ui": Object {
       "config": Object {

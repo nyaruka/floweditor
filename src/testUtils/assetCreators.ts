@@ -53,21 +53,18 @@ import {
   WaitTypes,
   ServiceCallExitNames,
   HintTypes,
-  CallClassifier,
-  ComposeAttachment
+  CallClassifier
 } from 'flowTypes';
 import Localization from 'services/Localization';
-import { Asset, Assets, AssetType, RenderNode } from 'store/flowContext';
+import { Assets, AssetType, RenderNode } from 'store/flowContext';
 import { assetListToMap } from 'store/helpers';
 import { ExclusionsCheckboxEntry } from 'store/nodeEditor';
 import { Language } from 'temba-components';
 import { EMPTY_TEST_ASSETS } from 'test/utils';
-import { mock } from 'testUtils';
 import * as utils from 'utils';
 
 const { results: groupsResults } = require('test/assets/groups.json');
 const languagesResults = require('test/assets/languages.json');
-mock(utils, 'createUUID', utils.seededUUIDs());
 
 export const createSayMsgAction = ({
   uuid = utils.createUUID(),

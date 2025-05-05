@@ -1,15 +1,18 @@
 import { NodeComp, NodeProps } from 'components/flow/node/Node';
 import { Types } from 'config/interfaces';
 import React from 'react';
-import { render, TEST_DEFINITION, TEST_NODE } from 'test/utils';
+
 import { createRandomNode } from 'testUtils/assetCreators';
-import { createUUID } from 'utils';
 import { mock } from 'testUtils';
 import * as utils from 'utils';
 
+import { render, TEST_NODE } from 'test/utils';
+
+mock(utils, 'createUUID', utils.seededUUIDs());
+
 const baseProps: NodeProps = {
   languages: {},
-  nodeUUID: createUUID(),
+  nodeUUID: utils.seededUUIDs(),
   startingNode: true,
   onlyNode: true,
   selected: false,
@@ -19,7 +22,8 @@ const baseProps: NodeProps = {
   plumberRemove: jest.fn(),
   plumberConnectExit: jest.fn(),
   plumberUpdateClass: jest.fn(),
-
+  scrollToNode: '',
+  scrollToAction: '',
   results: {},
   activeCount: 0,
   translating: false,
@@ -33,7 +37,6 @@ const baseProps: NodeProps = {
     },
     inboundConnections: {}
   },
-  definition: TEST_DEFINITION,
   onAddToNode: jest.fn(),
   onOpenNodeEditor: jest.fn(),
   removeNode: jest.fn(),

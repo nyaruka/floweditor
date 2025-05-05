@@ -305,10 +305,10 @@ Array [
       "actions": Array [],
       "exits": Array [
         Object {
-          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
         },
         Object {
-          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
         },
         Object {
           "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
@@ -320,34 +320,34 @@ Array [
             "arguments": Array [
               "red",
             ],
-            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
             "type": "has_any_word",
           },
           Object {
             "arguments": Array [
               "maroon",
             ],
-            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
             "type": "has_any_word",
           },
           Object {
             "arguments": Array [
               "green",
             ],
-            "category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
             "type": "has_any_word",
           },
         ],
         "categories": Array [
           Object {
-            "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
             "name": "Red",
-            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
           },
           Object {
-            "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
             "name": "Green",
-            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
           },
           Object {
             "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
