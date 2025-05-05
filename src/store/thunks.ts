@@ -5,7 +5,6 @@ import { SaveResult } from 'components/revisions/RevisionExplorer';
 import { FlowTypes, Type, Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
 import { createAssetStore, getFlowDetails, saveRevision } from 'external';
-import isEqual from 'fast-deep-equal';
 import {
   Action,
   AnyAction,
@@ -33,11 +32,9 @@ import {
 import {
   Asset,
   AssetStore,
-  DEFAULT_LANGUAGE,
   RenderNode,
   RenderNodeMap,
   updateAssets,
-  updateBaseLanguage,
   updateContactFields,
   updateDefinition,
   updateNodes,
@@ -54,7 +51,6 @@ import {
   getLocalizations,
   getNode,
   guessNodeType,
-  mergeAssetMaps,
   createFlowIssueMap
 } from 'store/helpers';
 import * as mutators from 'store/mutators';
@@ -333,7 +329,7 @@ export const loadFlowDefinition = (details: FlowDetails, assetStore: AssetStore)
   getState: GetState
 ): void => {
   // first see if we need our asset store initialized
-  const definition = details.definition;
+  const definition = { ...details.definition };
 
   const {
     flowContext: { issues },
@@ -365,25 +361,12 @@ export const loadFlowDefinition = (details: FlowDetails, assetStore: AssetStore)
   // add assets we found in our flow to our asset store
   const components = getFlowComponents(definition);
 
-  // initialize our language
-  let language: Asset;
-  if (definition.language) {
-    language = assetStore.languages.items[definition.language];
-  }
-
-  if (!language) {
-    language = DEFAULT_LANGUAGE;
-    dispatch(mergeEditorState({ language: DEFAULT_LANGUAGE }));
-    mergeAssetMaps(assetStore.languages.items, { base: DEFAULT_LANGUAGE });
-  }
-
   if (details.issues) {
     dispatch(updateIssues(createFlowIssueMap(issues, details.issues)));
   } else {
     dispatch(updateIssues({}));
   }
 
-  dispatch(updateBaseLanguage(language));
   dispatch(updateMetadata(details.metadata));
 
   // store our flow definition without any nodes
@@ -392,7 +375,7 @@ export const loadFlowDefinition = (details: FlowDetails, assetStore: AssetStore)
 
   // finally update our assets, and mark us as fetched
   dispatch(updateAssets(assetStore));
-  dispatch(mergeEditorState({ language, fetchingFlow: false }));
+  dispatch(mergeEditorState({ fetchingFlow: false }));
 };
 
 /**
@@ -463,27 +446,6 @@ export const addAsset: AddAsset = (assetType: string, asset: Asset) => (
   });
 
   dispatch(updateAssets(updated));
-};
-
-export const handleLanguageChange: HandleLanguageChange = language => (dispatch, getState) => {
-  const {
-    flowContext: { baseLanguage },
-    editorState: { translating, language: currentLanguage }
-  } = getState();
-
-  // determine translating state
-  if (!isEqual(language, baseLanguage)) {
-    if (!translating) {
-      dispatch(mergeEditorState({ translating: true }));
-    }
-  } else {
-    dispatch(mergeEditorState({ translating: false }));
-  }
-
-  // update language
-  if (!isEqual(language, currentLanguage)) {
-    dispatch(mergeEditorState({ language }));
-  }
 };
 
 export const onRemoveLocalizations = (uuid: string, keys?: string[]) => (

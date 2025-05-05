@@ -21,7 +21,7 @@ import FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DebugState } from 'store/editor';
-import { AssetMap, RenderNode } from 'store/flowContext';
+import { RenderNode } from 'store/flowContext';
 import AppState from 'store/state';
 import {
   DispatchWithState,
@@ -63,11 +63,9 @@ export interface NodePassedProps {
   ghost?: boolean;
 }
 
+// todo: move all this state to temba-components
 export interface NodeStoreProps {
-  results: AssetMap;
-  languages: AssetMap;
   activeCount: number;
-  translating: boolean;
   simulating: boolean;
   debug: DebugState;
   renderNode: RenderNode;
@@ -314,13 +312,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
               first={idx === 0}
               issues={issues}
               render={(anyAction: AnyAction) => {
-                return (
-                  <ActionComponent
-                    {...anyAction}
-                    languages={this.props.languages}
-                    issues={issues}
-                  />
-                );
+                return <ActionComponent {...anyAction} issues={issues} />;
               }}
             />
           );
@@ -368,7 +360,9 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         title === null &&
         (type === Types.split_by_run_result || type === Types.split_by_run_result_delimited)
       ) {
-        title = `Split by ${this.props.results[this.props.renderNode.ui.config.operand.id].name}`;
+        title = `Split by ${
+          store.getState().getResultByKey(this.props.renderNode.ui.config.operand.id).name
+        }`;
       }
 
       if (title === null) {
@@ -384,12 +378,12 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
               <TitleBar
                 __className={
                   (shared as any)[
-                    hasIssues(this.props.issues, this.props.translating, this.state.languageCode)
+                    hasIssues(this.props.issues, this.state.isTranslating, this.state.languageCode)
                       ? 'missing'
                       : config.type
                   ]
                 }
-                showRemoval={!this.props.translating}
+                showRemoval={!this.state.isTranslating}
                 onRemoval={this.handleRemoval}
                 shouldCancelClick={this.handleShouldCancelClick}
                 title={title}
@@ -400,7 +394,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
       }
     } else {
       // Don't show add actions option if we are translating
-      if (!this.props.translating && this.context.config.mutable) {
+      if (!this.state.isTranslating && this.context.config.mutable) {
         addActions = (
           <div
             className={styles.add}
@@ -479,24 +473,8 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
 const mapStateToProps = (
   {
-    flowContext: {
-      nodes,
-      issues,
-      assetStore: {
-        results: { items: results },
-        languages: { items: languages }
-      }
-    },
-    editorState: {
-      translating,
-      debug,
-      ghostNode,
-      simulating,
-      activity,
-      language,
-      scrollToAction,
-      scrollToNode
-    }
+    flowContext: { nodes, issues },
+    editorState: { debug, ghostNode, simulating, activity, scrollToAction, scrollToNode }
   }: AppState,
   props: NodePassedProps
 ) => {
@@ -524,11 +502,7 @@ const mapStateToProps = (
 
   return {
     issues: (issues || {})[props.nodeUUID] || EMPTY,
-    results,
-    language,
-    languages,
     activeCount,
-    translating,
     debug,
     renderNode,
     simulating,

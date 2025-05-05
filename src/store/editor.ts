@@ -1,7 +1,7 @@
 import { FlowPosition, Contact } from 'flowTypes';
 import ActionTypes, { UpdateEditorState } from 'store/actionTypes';
 import Constants from 'store/constants';
-import { Asset, RenderNode } from 'store/flowContext';
+import { RenderNode } from 'store/flowContext';
 
 // tslint:disable:no-shadowed-variable
 export interface DragSelection {
@@ -42,8 +42,6 @@ export type Warnings = { [uuid: string]: Warning };
 export interface EditorState {
   currentRevision: number | null;
   simulating: boolean;
-  language: Asset | null;
-  translating: boolean;
   fetchingFlow: boolean;
   ghostNode: RenderNode | null;
   dragActive: boolean;
@@ -97,8 +95,6 @@ export const EMPTY_DRAG_STATE: any = {
 export const initialState: EditorState = {
   currentRevision: null,
   simulating: false,
-  translating: false,
-  language: null,
   fetchingFlow: false,
   dragStartTime: 0,
   dragDownPosition: null,

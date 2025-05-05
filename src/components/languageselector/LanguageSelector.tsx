@@ -82,7 +82,7 @@ export class LanguageSelector extends React.Component<
       !this.state.workspace ||
       this.state.workspace.languages.length === 0
     ) {
-      return <div>Nothing yet</div>;
+      return null;
     }
 
     const languages = this.state.workspace.languages

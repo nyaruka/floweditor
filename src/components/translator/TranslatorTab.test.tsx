@@ -18,7 +18,6 @@ import { setupStore } from 'testUtils';
 const translatorProps: TranslatorTabProps = {
   localization: {},
   nodes: {},
-  languages: {},
   popped: null,
 
   // callbacks
@@ -26,14 +25,11 @@ const translatorProps: TranslatorTabProps = {
   onTranslationClicked: jest.fn(),
   onTranslationOpened: jest.fn(),
   onTranslationFilterChanged: jest.fn(),
+  onUpdateLocalizations: jest.fn(),
 
   translationFilters: {
-    categories: true,
-    rules: true
-  },
-
-  // translation
-  language: Spanish
+    categories: true
+  }
 };
 
 const createMessageNode = (
@@ -49,7 +45,8 @@ const createMessageNode = (
   sendMsg.quick_replies = quick_replies;
 
   if (variables.length > 0) {
-    sendMsg.templating = {
+    // todo: is templating still a thing here?
+    (sendMsg as any).templating = {
       template: { uuid: createUUID(), name: 'My Template' },
       components: [
         {

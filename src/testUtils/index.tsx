@@ -221,7 +221,13 @@ export const setupStore = ({
       setFlowContents: (contents: FlowContents) => {},
       setLanguageCode: (code: string) => {},
       getLanguage: () => ({ name: languageNames[languageCode], code: languageCode }),
-      getFlowResults: () => results
+      getFlowResults: () => results,
+      getResultByKey: (key: any) => {
+        const result = results.find(r => r.key === key);
+        return result || null;
+      },
+      updateCanvasPositions: (positions: any) => {},
+      removeNodes: (uuids: string[]) => {}
     };
     return state;
   });

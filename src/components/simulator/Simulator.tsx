@@ -13,7 +13,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Activity, RecentContact } from 'store/editor';
-import { AssetStore, RenderNodeMap, Asset } from 'store/flowContext';
+import { AssetStore, RenderNodeMap } from 'store/flowContext';
 import { getCurrentDefinition } from 'store/helpers';
 import AppState from 'store/state';
 import { DispatchWithState, MergeEditorState } from 'store/thunks';
@@ -22,6 +22,7 @@ import { PopTabType } from 'config/interfaces';
 import i18n from 'config/i18n';
 import { PopTab } from 'components/poptab/PopTab';
 import { showError } from 'index';
+import { store } from 'store';
 
 export const SIMULATOR_CONTACT_UUID = 'fb3787ab-2eda-48a0-a2bc-e2ddadec1286';
 const SIMULATOR_CONTACT_URNS = ['tel:+12065551212'];
@@ -57,8 +58,6 @@ export interface SimulatorStoreProps {
   assetStore: AssetStore;
 
   activity: Activity;
-
-  language: Asset;
 
   // TODO: take away responsibility of simulator for resetting this
   liveActivity: Activity;
@@ -449,9 +448,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     };
 
     // use the current displayed language when simulating
-    if (this.props.language) {
-      contact.language = this.props.language.id;
-    }
+    contact.language = store.getState().languageCode;
 
     // reset our events and contact
     this.setState(
@@ -1066,20 +1063,16 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 /* istanbul ignore next */
 const mapStateToProps = ({
   flowContext: { definition, nodes, assetStore },
-  editorState: { liveActivity, activity, language }
+  editorState: { liveActivity, activity }
 }: AppState) => ({
   liveActivity,
   activity,
   assetStore,
   definition,
-  nodes,
-  language
+  nodes
 });
 
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) => bindActionCreators({}, dispatch);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Simulator);
+export default connect(mapStateToProps, mapDispatchToProps)(Simulator);

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render } from 'test/utils';
+import { render } from '../../../../test/utils';
 
 import { ActionWrapper, ActionWrapperProps } from './Action';
 import {
@@ -8,10 +8,10 @@ import {
   English,
   createRenderNode,
   Spanish
-} from 'testUtils/assetCreators';
-import { AnyAction } from 'flowTypes';
-import { getTypeConfig } from 'config';
-import { setupStore } from 'testUtils';
+} from '../../../../testUtils/assetCreators';
+import { AnyAction } from '../../../../flowTypes';
+import { getTypeConfig } from '../../../../config';
+import { setupStore } from '../../../../testUtils';
 
 const sendMsgAction = createSendMsgAction();
 const localization = {

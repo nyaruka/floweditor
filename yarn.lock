@@ -1462,16 +1462,17 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@nyaruka/temba-components@0.120.8":
-  version "0.120.8"
-  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.120.8.tgz#7b10864fba416cab7d97dad6dfd0c6ce3bec5897"
-  integrity sha512-g8EpZ0bh6ItuvVyDA6BaQoW1ZRxB4uGzo2b4W6obNisLt+qBcJemnLMutDy/JKHgFkvYjORvllj+al+voRlpxA==
+"@nyaruka/temba-components@0.121.0":
+  version "0.121.0"
+  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.121.0.tgz#8e7b8ee594719290eb737cc3a74667f38b8db720"
+  integrity sha512-xwgne9mhaP8OXH7VDDIaUGFOTzKY+/QoJe7yhsBSvveJ1IWulfkvtacYySPp3uYLKehmVudnfacRC/+PY18QEw==
   dependencies:
     "@lit/localize" "^0.12.1"
     color-hash "^2.0.2"
     croppie "^2.6.5"
     geojson "^0.5.0"
     image-size "^1.1.1"
+    immer "10"
     leaflet "1.5.1"
     lit "3.1.2"
     lit-element "^4.0.4"
@@ -1480,6 +1481,7 @@
     remarkable "^2.0.1"
     serialize-javascript "^6.0.2"
     tiny-lru "^11.2.5"
+    zustand "^5.0.3"
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
@@ -6669,6 +6671,11 @@ immer@1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.10.0.tgz#bad67605ba9c810275d91e1c2a47d4582e98286d"
   integrity sha512-O3sR1/opvCDGLEVcvrGTMtLac8GJ5IwZC4puPrLuRj3l7ICKvkmA0vGuU9OW8mV9WIBRnaxp5GJh9IEAaNOoYg==
+
+immer@10:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-10.1.1.tgz#206f344ea372d8ea176891545ee53ccc062db7bc"
+  integrity sha512-s2MPrmjovJcoMaHtx6K11Ra7oD05NT97w1IC5zpMkT6Atjr7H8LjaDd81iIxUYpMKSRRNMJE703M1Fhr/TctHw==
 
 immutability-helper@2.7.1:
   version "2.7.1"
@@ -13876,3 +13883,8 @@ yup@^0.27.0:
     property-expr "^1.5.0"
     synchronous-promise "^2.0.6"
     toposort "^2.0.2"
+
+zustand@^5.0.3:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-5.0.4.tgz#33af161f1e337854ccd8b711ef9e92545d6ae53f"
+  integrity sha512-39VFTN5InDtMd28ZhjLyuTnlytDr9HfwO512Ai4I8ZABCoyAj4F1+sr7sD1jP/+p7k77Iko0Pb5NhgBFDCX0kQ==

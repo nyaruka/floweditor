@@ -229,13 +229,12 @@ export const getDefaultRoute = (
 
   // use the previous default if it had one
   if (originalRouter) {
-    const defaultCategory = originalRouter.categories.find(
+    let defaultCategory = originalRouter.categories.find(
       (cat: Category) => cat.uuid === originalRouter.default_category_uuid
     );
 
     const defaultExit = originalNode.exits.find((e: Exit) => e.uuid === defaultCategory.exit_uuid);
-
-    defaultCategory.name = defaultCategoryName;
+    defaultCategory = { ...defaultCategory, name: defaultCategoryName };
 
     return { defaultCategory, defaultExit };
   }

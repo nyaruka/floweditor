@@ -292,7 +292,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
   private handleAttachmentUploading(isUploading: boolean) {
     const uploadError = '';
-    console.log(uploadError);
     this.setState({ uploadError });
 
     if (isUploading) {
@@ -308,7 +307,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     //django returns a 200 even when there's an error
     if (response.data && response.data.error) {
       const uploadError: string = response.data.error;
-      console.log(uploadError);
       this.setState({ uploadError });
     } else {
       const attachments: any = mutate(this.state.attachments, {
@@ -316,7 +314,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       });
       this.setState({ attachments });
       const uploadError = '';
-      console.log(uploadError);
       this.setState({ uploadError });
     }
 

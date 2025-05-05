@@ -443,7 +443,7 @@ const mapStateToProps = (
     flowContext: {
       definition: { localization }
     },
-    editorState: { translating, language, dragActive, activity }
+    editorState: { dragActive, activity }
   }: AppState,
   props: ExitPassedProps
 ) => {
@@ -458,8 +458,6 @@ const mapStateToProps = (
   return {
     dragging: dragActive,
     segmentCount,
-    translating,
-    language,
     localization,
     recentContacts
   };

@@ -20,7 +20,7 @@ const caseProps: CaseElementProps = {
 };
 
 const selectOperator = (getByTestId: any, operator: Operators) => {
-  fireTembaSelect(getByTestId('temba_select_operator'), [{ type: operator }]);
+  fireTembaSelect(getByTestId('temba_select_operator'), { type: operator });
 };
 
 describe(CaseElement.name, () => {
