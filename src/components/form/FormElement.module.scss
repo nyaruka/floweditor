@@ -17,9 +17,9 @@
   }
 
   >.error_list {
-    position: fixed;
+    position: absolute;
     z-index: 1;
-    margin-top: 7px;
+    margin-top: -0.5em;
 
     >.error {
       visibility: hidden;
@@ -29,22 +29,21 @@
       box-shadow: var(--widget-box-shadow-focused-error) !important;
       border-radius: 5px;
       padding: 3px 3px;
-      margin: 0;
       margin-left: 1px;
       font-size: 14px;
       width: 100px;
       text-align: center;
       color: $error_color;
-      top: 6px;
+      bottom: 0px;
 
-      .arrow_up {
+      .arrow {
         width: 0px;
         height: 0px;
         border-left: 6px solid transparent;
         border-right: 6px solid transparent;
-        border-bottom: 6px solid $error_color;
+        border-top: 6px solid $error_color;
         position: absolute;
-        margin-top: -9px;
+        margin-top: 4px;
         margin-left: 6px;
       }
 
