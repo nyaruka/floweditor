@@ -1,6 +1,7 @@
 import { operatorConfigList } from 'config';
 import { ContactProperties } from 'flowTypes';
 import * as React from 'react';
+import { setupStore } from 'testUtils';
 import { languages } from 'testUtils/assetCreators';
 import {
   addCommas,
@@ -160,20 +161,18 @@ describe('utils', () => {
 
   describe('getLocalizations', () => {
     it('should return a localized object', () => {
-      Object.keys(languages.items).forEach((key: string) => {
-        const languageAsset = languages.items[key];
-        expect(
-          getLocalization(
-            sendMsgAction,
-            {
-              spa: {
-                send_msg_action: { text: ['¿Cuál es tu color favorito?'] }
-              }
-            },
-            languageAsset
-          )
-        ).toMatchSnapshot();
+      setupStore({
+        languageCode: 'spa',
+        isTranslating: true
       });
+
+      expect(
+        getLocalization(sendMsgAction, {
+          spa: {
+            send_msg_action: { text: ['¿Cuál es tu color favorito?'] }
+          }
+        })
+      ).toMatchSnapshot();
     });
   });
 

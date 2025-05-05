@@ -10,6 +10,7 @@ import * as React from 'react';
 import { FormState, StringEntry } from 'store/nodeEditor';
 import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
+import { store } from 'store';
 
 export interface KeyLocalizationFormState extends FormState {
   keyValues: { [key: string]: StringEntry };
@@ -50,7 +51,7 @@ export default class KeyLocalizationForm extends React.Component<
       }
     });
 
-    this.props.updateLocalizations(this.props.language.id, [
+    this.props.updateLocalizations(store.getState().languageCode, [
       {
         uuid: this.props.nodeSettings.originalAction!.uuid,
         translations
@@ -94,7 +95,7 @@ export default class KeyLocalizationForm extends React.Component<
             showLabel={false}
             onChange={this.handleKeyUpdate}
             entry={this.state.keyValues[key]}
-            placeholder={`${this.props.language.name} ${translation}`}
+            placeholder={`${store.getState().getLanguage().name} ${translation}`}
             autocomplete={true}
             focus={true}
             textarea={true}

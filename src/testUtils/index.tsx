@@ -3,6 +3,8 @@
 // tslint:disable:ban-types
 import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';
 import { FlowTypes } from 'config/interfaces';
+import { info } from 'core-js/core/log';
+import { keyFor } from 'core-js/fn/symbol';
 import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import { FlowDefinition, FlowEditorConfig } from 'flowTypes';
 import mutate, { Query } from 'immutability-helper';
@@ -14,9 +16,10 @@ import createStore from 'store/createStore';
 import { RenderNodeMap } from 'store/flowContext';
 import { getFlowComponents } from 'store/helpers';
 import AppState, { initialState } from 'store/state';
+import { App, FlowContents, FlowInfo, InfoResult, TembaAppState } from 'temba-components';
 import { getFlowEditorConfig } from 'test/config';
 import * as matchers from 'testUtils/matchers';
-import { merge, set } from 'utils';
+import { createUUID, merge, set } from 'utils';
 
 // we need to use require syntax to bust implicit any
 const boring: FlowDefinition = require('test/flows/boring.json');
@@ -186,6 +189,52 @@ export const mock = <T extends {}, K extends keyof T>(object: T, property: K, va
   Object.defineProperty(object, property, { get: () => value });
 };
 
-export const getTestStore = () => {
-  return loadStore();
+interface StoreOverrides {
+  languageCode?: string;
+  isTranslating?: boolean;
+  results?: InfoResult[];
+}
+
+export const setupStore = ({
+  languageCode = 'eng',
+  isTranslating = false,
+  results = []
+}: StoreOverrides = {}) => {
+  const languageNames: { [key: string]: string } = { eng: 'English', spa: 'Spanish' };
+  const store = loadStore();
+  mock(store, 'getState', () => {
+    const state: TembaAppState = {
+      isTranslating,
+      languageCode,
+      languageNames,
+      workspace: {
+        uuid: createUUID(),
+        name: 'Test Workspace',
+        languages: ['eng', 'spa'],
+        timezone: 'UTC',
+        date_style: 'MM/DD/YYYY',
+        country: 'US',
+        anon: false
+      },
+      flow: null,
+      setFlowInfo: (info: FlowInfo) => {},
+      setFlowContents: (contents: FlowContents) => {},
+      setLanguageCode: (code: string) => {},
+      getLanguage: () => ({ name: languageNames[languageCode], code: languageCode }),
+      getFlowResults: () => results
+    };
+    return state;
+  });
+
+  mock(store, 'getApp', () => {
+    const app: App = {
+      subscribe: (callback: (state: any, prevState: any) => void) => {
+        // Mock implementation of subscribe
+        return () => {
+          // Mock unsubscribe function
+        };
+      }
+    };
+    return app;
+  });
 };

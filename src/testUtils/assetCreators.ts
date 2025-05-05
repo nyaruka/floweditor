@@ -60,6 +60,7 @@ import Localization from 'services/Localization';
 import { Asset, Assets, AssetType, RenderNode } from 'store/flowContext';
 import { assetListToMap } from 'store/helpers';
 import { ExclusionsCheckboxEntry } from 'store/nodeEditor';
+import { Language } from 'temba-components';
 import { EMPTY_TEST_ASSETS } from 'test/utils';
 import { mock } from 'testUtils';
 import * as utils from 'utils';
@@ -455,12 +456,10 @@ export const createOpenTicketNode = (subject: string, note: string): FlowNode =>
 
 export const getLocalizationFormProps = (
   action: AnyAction,
-  lang?: Asset,
+  language: Language,
   translations?: { [uuid: string]: any }
 ): LocalizationFormProps => {
-  const language = lang || { id: 'eng', name: 'English', type: AssetType.Language };
   return {
-    language,
     onClose: jest.fn(),
     updateLocalizations: jest.fn(),
     issues: [],
@@ -502,7 +501,6 @@ export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
   onTypeChange: jest.fn(),
   issues: [],
   typeConfig: getTypeConfig(action.type),
-  language: null,
   nodeSettings: {
     originalNode: createRenderNode({
       actions: [action],
@@ -783,7 +781,7 @@ export const createCategories = (names: string[]): { categories: Category[]; exi
   const exits = names.map((cat: string) => {
     return {
       uuid: utils.createUUID(),
-      destination_uuid: null
+      destination_uuid: null as string
     };
   });
 
@@ -998,9 +996,8 @@ export const createAddLabelsAction = (labels: Label[]) => ({
   labels
 });
 
-export const English = { name: 'English', id: 'eng', type: AssetType.Language };
-
-export const Spanish = { name: 'Spanish', id: 'spa', type: AssetType.Language };
+export const English = { name: 'English', code: 'eng' };
+export const Spanish = { name: 'Spanish', code: 'spa' };
 
 export const SubscribersGroup = {
   name: 'Subscriber',

@@ -38,6 +38,8 @@ import { Attachment, renderAttachments } from './attachments';
 import { TembaComponent } from 'temba/TembaComponent';
 import styles from './SendMsgForm.module.scss';
 import { MAX_TEXT_LEN } from 'config/interfaces';
+import { store } from 'store';
+import { TembaAppState } from 'temba-components';
 
 export interface SendMsgFormState extends FormState {
   message: StringEntry;
@@ -53,17 +55,36 @@ export interface SendMsgFormState extends FormState {
   // template uuid to dict of component key to array
   template: { uuid: string; name: string };
   templateVariables: string[];
+
+  languageCode: string;
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
   saveAttempted = false;
+  private unsubscribe: () => void;
 
   constructor(props: ActionFormProps) {
     super(props);
     this.state = stateToForm(this.props.nodeSettings);
+
     bindCallbacks(this, {
       include: [/^handle/, /^on/]
     });
+
+    // subscribe for changes
+    this.unsubscribe = store
+      .getApp()
+      .subscribe((state: TembaAppState, prevState: TembaAppState) => {
+        this.setState({
+          languageCode: state.languageCode
+        });
+      });
+  }
+
+  componentWillUnmount(): void {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
   }
 
   public static contextTypes = {
@@ -258,9 +279,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           url={this.props.assetStore.templates.endpoint}
           variables={JSON.stringify(this.state.templateVariables)}
           lang={
-            this.props.language
-              ? this.props.language.id !== 'base'
-                ? this.props.language.id
+            this.state.languageCode
+              ? this.state.languageCode !== 'base'
+                ? this.state.languageCode
                 : null
               : null
           }

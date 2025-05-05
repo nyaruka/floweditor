@@ -8,7 +8,7 @@ import {
 } from 'components/flow/actions/action/Action';
 import { FlowTypes } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
-import { composeComponentTestUtils, getSpecWrapper, setMock } from 'testUtils';
+import { composeComponentTestUtils, getSpecWrapper, setMock, setupStore } from 'testUtils';
 import {
   createExit,
   createRenderNode,
@@ -84,6 +84,7 @@ describe(ActionWrapper.name, () => {
     });
 
     it('should display translating style', () => {
+      setupStore({ isTranslating: true });
       const { wrapper } = setup(true, { translating: setTrue() });
 
       expect(getSpecWrapper(wrapper, actionContainerSpecId).hasClass('translating')).toBeTruthy();
@@ -103,6 +104,8 @@ describe(ActionWrapper.name, () => {
     });
 
     it('should display hybrid style', () => {
+      setupStore({ isTranslating: true });
+      setupStore({ isTranslating: false });
       const { wrapper, props } = setup(true, {
         renderNode: set(subflowNode)
       });
@@ -112,6 +115,7 @@ describe(ActionWrapper.name, () => {
     });
 
     it('should display missing_localization style', () => {
+      setupStore({ isTranslating: true });
       const { wrapper } = setup(true, {
         action: set(sendMsgAction1),
         translating: setTrue()

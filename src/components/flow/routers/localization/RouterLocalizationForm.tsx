@@ -18,6 +18,7 @@ import styles from './RouterLocalizationForm.module.scss';
 import i18n from 'config/i18n';
 import { renderIssues } from 'components/flow/actions/helpers';
 import { Operators } from 'config/interfaces';
+import { store } from 'store';
 
 export interface RouterLocalizationFormState extends FormState {
   categories: Category[];
@@ -98,7 +99,7 @@ export default class RouterLocalizationForm extends React.Component<
       })
     );
 
-    this.props.updateLocalizations(this.props.language.id, translations);
+    this.props.updateLocalizations(store.getState().languageCode, translations);
 
     // notify our modal we are done
     this.props.onClose(false);
@@ -155,7 +156,7 @@ export default class RouterLocalizationForm extends React.Component<
               <TextInputElement
                 data-spec="localize-case"
                 name={kase.uuid}
-                placeholder={`${this.props.language.name} ${translation}`}
+                placeholder={`${store.getState().getLanguage().name} ${translation}`}
                 showLabel={false}
                 onChange={(arg: string) => this.handleUpdateCaseArgument(kase, arg)}
                 entry={{ value: argument }}
@@ -172,8 +173,7 @@ export default class RouterLocalizationForm extends React.Component<
   public renderCategories(): JSX.Element[] {
     return this.state.categories.map((cat: Category) => {
       const originalCategory = getOriginalCategory(this.props.nodeSettings, cat.uuid);
-
-      const placeholder = `${this.props.language.name} Translation`;
+      const placeholder = `${store.getState().getLanguage().name} Translation`;
 
       if (!cat.name) {
         cat.name = '';
@@ -239,7 +239,7 @@ export default class RouterLocalizationForm extends React.Component<
 
     const categories = (
       <Dialog
-        title={`${this.props.language.name} Category Names`}
+        title={`${store.getState().getLanguage().name} Category Names`}
         headerClass={typeConfig.type}
         buttons={this.getButtons()}
         tabs={tabs}

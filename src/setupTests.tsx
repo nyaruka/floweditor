@@ -5,11 +5,12 @@ import { Console } from 'console';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
-import { mock } from 'testUtils';
+import { mock, setupStore } from 'testUtils';
 import * as utils from 'utils';
 import * as TextInput from 'components/form/textinput/helpers';
 import { TextInputProps } from 'components/form/textinput/TextInputElement';
 
+setupStore();
 mock(utils, 'createUUID', utils.seededUUIDs());
 
 // Declare custom matcher types

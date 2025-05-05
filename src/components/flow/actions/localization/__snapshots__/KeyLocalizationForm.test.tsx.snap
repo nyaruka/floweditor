@@ -2,14 +2,14 @@
 
 exports[`KeyLocalizationForm handles changes 1`] = `
 Array [
-  "eng",
+  "spa",
   Array [
     Object {
       "translations": Object {
         "body": "translated body",
         "subject": "translated subject",
       },
-      "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
     },
   ],
 ]
@@ -126,7 +126,7 @@ Array [
   Array [
     Object {
       "translations": Object {},
-      "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
     },
   ],
 ]
@@ -193,7 +193,7 @@ exports[`KeyLocalizationForm renders send email 1`] = `
               <input
                 data-testid="Subject"
                 name="Subject"
-                placeholder="English Translation"
+                placeholder="Spanish Translation"
                 value=""
               />
             </div>

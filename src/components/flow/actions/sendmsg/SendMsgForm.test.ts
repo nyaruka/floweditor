@@ -17,6 +17,10 @@ const { setup } = composeComponentTestUtils<ActionFormProps>(
 mock(utils, 'createUUID', utils.seededUUIDs());
 
 describe(SendMsgForm.name, () => {
+  beforeEach(() => {
+    mock(utils, 'createUUID', utils.seededUUIDs());
+  });
+
   describe('render', () => {
     it('should render', () => {
       const { wrapper } = setup(true);

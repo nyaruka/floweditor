@@ -9,8 +9,7 @@ import { Action, AnyAction, Endpoints, LocalizationMap, FlowIssue } from 'flowTy
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Asset, RenderNode, AssetStore } from 'store/flowContext';
-import AppState from 'store/state';
+import { RenderNode, AssetStore } from 'store/flowContext';
 import {
   ActionAC,
   DispatchWithState,
@@ -24,6 +23,9 @@ import { createClickHandler, getLocalization } from 'utils';
 import styles from './Action.module.scss';
 import { hasIssues } from 'components/flow/helpers';
 import MountScroll from 'components/mountscroll/MountScroll';
+import { store } from 'store';
+import { TembaAppState } from 'temba-components';
+import AppState from 'store/state';
 
 export interface ActionWrapperPassedProps {
   first: boolean;
@@ -37,12 +39,14 @@ export interface ActionWrapperPassedProps {
 export interface ActionWrapperStoreProps {
   assetStore: AssetStore;
   renderNode: RenderNode;
-  language: Asset;
-  translating: boolean;
   onOpenNodeEditor: OnOpenNodeEditor;
   removeAction: ActionAC;
   moveActionUp: ActionAC;
   scrollToAction: string;
+}
+
+export interface ActionWrapperState {
+  isTranslating: boolean;
 }
 
 export type ActionWrapperProps = ActionWrapperPassedProps & ActionWrapperStoreProps;
@@ -55,17 +59,47 @@ export const actionBodySpecId = 'action-body';
 const cx: any = classNames.bind({ ...shared, ...styles });
 
 // Note: this needs to be a ComponentClass in order to work w/ react-flip-move
-export class ActionWrapper extends React.Component<ActionWrapperProps> {
+export class ActionWrapper extends React.Component<ActionWrapperProps, ActionWrapperState> {
   public static contextTypes = {
     config: fakePropType
   };
 
+  private unsubscribe: () => void;
+
   constructor(props: ActionWrapperProps) {
     super(props);
+
+    const appState = store.getState();
+    this.mapState(appState);
+
+    // subscribe for changes
+    this.unsubscribe = store
+      .getApp()
+      .subscribe((state: TembaAppState, prevState: TembaAppState) => {
+        this.mapState(state);
+      });
 
     bindCallbacks(this, {
       include: [/^on/, /^handle/]
     });
+  }
+
+  public componentWillUnmount(): void {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
+
+  public mapState(state: any): void {
+    const changes = {
+      isTranslating: state.isTranslating
+    };
+    if (this.state) {
+      this.setState(changes);
+    } else {
+      // eslint-disable-next-line
+      this.state = changes;
+    }
   }
 
   public handleActionClicked(event: React.MouseEvent<HTMLElement>): void {
@@ -99,12 +133,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
   public getAction(): Action {
     // if we are translating, us our localized version
-    if (this.props.translating) {
-      const localization = getLocalization(
-        this.props.action,
-        this.props.localization,
-        this.props.language
-      );
+    if (this.state.isTranslating) {
+      const localization = getLocalization(this.props.action, this.props.localization);
       return localization.getObject() as AnyAction;
     }
 
@@ -115,7 +145,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     const localizedKeys = [];
     let missingLocalization = false;
 
-    if (this.props.translating) {
+    if (this.state.isTranslating) {
       if (
         this.props.action.type === Types.send_msg ||
         this.props.action.type === Types.send_broadcast ||
@@ -129,11 +159,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
       }
 
       if (localizedKeys.length !== 0) {
-        const localization = getLocalization(
-          this.props.action,
-          this.props.localization,
-          this.props.language
-        );
+        const localization = getLocalization(this.props.action, this.props.localization);
 
         if (localization.isLocalized()) {
           for (const key of localizedKeys) {
@@ -148,14 +174,14 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
       }
     }
 
-    const notLocalizable = this.props.translating && localizedKeys.length === 0;
+    const notLocalizable = this.state.isTranslating && localizedKeys.length === 0;
 
     return cx({
       [styles.action]: true,
       [styles.has_router]:
         this.props.renderNode.node.hasOwnProperty('router') &&
         this.props.renderNode.node.router !== null,
-      [styles.translating]: this.props.translating,
+      [styles.translating]: this.state.isTranslating,
       [styles.not_localizable]: notLocalizable,
       [styles.missing_localization]: missingLocalization,
       [styles.localized]: !notLocalizable && !missingLocalization
@@ -170,10 +196,10 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
     let titleBarClass = (shared as any)[this.props.action.type] || shared.missing;
     const actionClass = (styles as any)[this.props.action.type] || styles.missing;
-    const showRemoval = !this.props.translating;
-    const showMove = !this.props.first && !this.props.translating;
+    const showRemoval = !this.state.isTranslating;
+    const showMove = !this.props.first && !this.state.isTranslating;
 
-    if (hasIssues(this.props.issues, this.props.translating, this.props.language)) {
+    if (hasIssues(this.props.issues, this.state.isTranslating, store.getState().languageCode)) {
       titleBarClass = shared.missing;
     }
 
@@ -227,7 +253,6 @@ const mapStateToProps = ({
   scrollToAction,
   assetStore,
   language,
-  translating,
   localization
 });
 
@@ -242,11 +267,8 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     dispatch
   );
 
-const ConnectedActionWrapper = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  null,
-  { forwardRef: true }
-)(ActionWrapper);
+const ConnectedActionWrapper = connect(mapStateToProps, mapDispatchToProps, null, {
+  forwardRef: true
+})(ActionWrapper);
 
 export default ConnectedActionWrapper;

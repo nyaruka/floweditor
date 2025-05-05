@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './TranslatorTab.module.scss';
 import i18n from 'config/i18n';
 import { PopTab } from 'components/poptab/PopTab';
-import { AssetMap, Asset, RenderNodeMap } from 'store/flowContext';
+import { Asset, RenderNodeMap } from 'store/flowContext';
 import { PopTabType, Type } from 'config/interfaces';
 import { Action, Category } from 'flowTypes';
 import { getTypeConfig } from 'config';
@@ -20,6 +20,8 @@ import { OnUpdateLocalizations, UpdateTranslationFilters } from 'store/thunks';
 import { getType } from 'config/typeConfigs';
 import { fakePropType } from 'config/ConfigProvider';
 import TembaSelect from 'temba/TembaSelect';
+import { store } from 'store';
+import { TembaAppState } from 'temba-components';
 
 const cx: any = classNames.bind(styles);
 
@@ -48,8 +50,6 @@ export interface Translation {
 export interface TranslatorTabProps {
   localization: { [uuid: string]: any };
   baseLanguage: Asset;
-  language: Asset;
-  languages: AssetMap;
   translationFilters: { categories: boolean };
   nodes: RenderNodeMap;
   onToggled: (visible: boolean, tab: PopTabType) => void;
@@ -69,6 +69,8 @@ export interface TranslatorTabState {
   translationFilters: { categories: boolean };
   translationModel: any;
   autoTranslating: boolean;
+  language: string;
+  languageNames: { [key: string]: string };
 }
 
 export class TranslatorTab extends React.Component<TranslatorTabProps, TranslatorTabState> {
@@ -79,8 +81,12 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
   private autoTranslateDialog: any;
   private translationCache: { [text: string]: string } = {};
 
+  private unsubscribe: () => void;
+
   constructor(props: TranslatorTabProps, context: any) {
     super(props);
+    const appState = store.getState();
+
     this.state = {
       visible: false,
       selectedTranslation: null,
@@ -89,8 +95,20 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       pctComplete: 0,
       translationFilters: props.translationFilters || { categories: true },
       translationModel: null,
-      autoTranslating: false
+      autoTranslating: false,
+      language: appState.languageCode,
+      languageNames: appState.languageNames
     };
+
+    // subscribe for changes
+    this.unsubscribe = store
+      .getApp()
+      .subscribe((state: TembaAppState, prevState: TembaAppState) => {
+        this.setState({
+          language: state.languageCode,
+          languageNames: state.languageNames
+        });
+      });
 
     bindCallbacks(this, {
       include: [/^handle/, /^render/, /^toggle/]
@@ -101,13 +119,16 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     if (this.state.visible) {
       this.handleTabClicked();
     }
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
   }
 
   public componentDidUpdate(prevProps: TranslatorTabProps, prevState: TranslatorTabState): void {
     if (
       prevProps.translationFilters !== this.props.translationFilters ||
       prevProps.localization !== this.props.localization ||
-      prevProps.language !== this.props.language ||
+      prevState.language !== this.state.language ||
       !prevState.visible ||
       prevState.translationFilters !== this.state.translationFilters
     ) {
@@ -220,7 +241,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
   private renderMissing(key: string, from: string, summary: string) {
     if (from) {
       return (
-        <div key={this.props.language.id + key} className={styles.item}>
+        <div key={this.state.language + key} className={styles.item}>
           <div className={styles.text + ' ' + styles.from_text}>{from}</div>
           <div className={styles.text + ' ' + styles.attribute}>{summary}</div>
         </div>
@@ -237,7 +258,10 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
   private handleChangeLanguageClick(e: any): void {
     e.preventDefault();
     e.stopPropagation();
-    this.context.config.onChangeLanguage(this.props.language.id, this.props.language.name);
+    this.context.config.onChangeLanguage(
+      this.state.language,
+      this.state.languageNames[this.state.language]
+    );
   }
 
   private handleAutoTranslateClick(e: any): void {
@@ -297,7 +321,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
           text: translation.from,
           lang: {
             from: this.props.baseLanguage.id,
-            to: this.props.language.id
+            to: this.state.language
           }
         };
 
@@ -319,7 +343,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
           });
       }
 
-      this.props.onUpdateLocalizations(this.props.language.id, true, translationUpdate);
+      this.props.onUpdateLocalizations(this.state.language, true, translationUpdate);
 
       // if we've been told to stop, break out of the loop
       if (!this.state.autoTranslating) {
@@ -373,7 +397,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       [styles.complete]: this.state.translationBundles.length === 0
     });
 
-    let languageName = `${this.props.language.name}`;
+    let languageName = `${this.state.languageNames[this.state.language]}`;
 
     // truncate the name if it is too long
     const maxLength = 36;
@@ -400,7 +424,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
             {this.state.translationBundles.map((bundle: TranslationBundle) => {
               return (
                 <div
-                  key={this.props.language.id + getBundleKey(bundle)}
+                  key={this.state.language + getBundleKey(bundle)}
                   className={styles.translate_block}
                   onClick={() => {
                     this.handleTranslationClicked(bundle);
@@ -506,16 +530,16 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
                   {this.state.translationFilters.categories && (
                     <div>
                       Select an AI model to translate all of the remaining messages and categories
-                      into {this.props.language.name}. While this a great head start, remember to
-                      always review translations provided by AI for accuracy.
+                      into {this.state.languageNames[this.state.language]}. While this a great head
+                      start, remember to always review translations provided by AI for accuracy.
                     </div>
                   )}
 
                   {!this.state.translationFilters.categories && (
                     <div>
                       Select an AI model to translate all of the remaining messages into{' '}
-                      {this.props.language.name}. While this a great head start, remember to always
-                      review translations provided by AI for accuracy.
+                      {this.state.languageNames[this.state.language]}. While this a great head
+                      start, remember to always review translations provided by AI for accuracy.
                     </div>
                   )}
                 </div>

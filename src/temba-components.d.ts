@@ -31,16 +31,43 @@ export interface FlowContents {
   info: FlowInfo;
 }
 
+export interface EditorState {
+  flow: FlowContents;
+  activeLanguage: string;
+  fetching: boolean;
+  saving: boolean;
+}
+
+export interface Workspace {
+  uuid: string;
+  name: string;
+  country: string;
+  languages: string[];
+  timezone: string;
+  date_style: DateStyle;
+  anon: boolean;
+}
+
+export interface App {
+  subscribe(arg0: (state: any, prevState: any) => void): () => void;
+}
+
+export interface TembaAppState {
+  flow: FlowContents;
+  isTranslating: boolean;
+  languageNames: { [key: string]: string };
+  languageCode: string;
+  workspace: Workspace;
+  getLanguage(): Language;
+  setFlowContents(contents: FlowContents): void;
+  setFlowInfo(info: any): void;
+  setLanguageCode(code: string): void;
+  getFlowResults(): InfoResult[];
+}
+
 export interface TembaStore extends HTMLElement {
+  getApp: () => App;
+  getState: () => TembaAppState;
   setKeyedAssets: (key: string, assets: string[]) => void;
   getKeyedAssets: () => { [key: string]: string[] };
-  getLanguage(code: string): Language;
-
-  // flow specific cache
-  loadFlow: (uuid: string, revision: string = 'latest') => Promise<FlowContents>;
-  setFlowContents: (contents: FlowContents) => void;
-  setFlowInfo: (info: FlowInfo) => void;
-  getFlowContents(): FlowContents;
-  getFlowResults(): InfoResult[];
-  getFlowLanguages(): Language[];
 }

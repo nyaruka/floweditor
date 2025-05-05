@@ -134,7 +134,7 @@ exports[`SendMsgForm render should render 1`] = `
                 "temba-context-changed": [Function],
               }
             }
-            lang={null}
+            lang="eng"
             style={
               Object {
                 "--color-widget-border": "inherit",
@@ -204,7 +204,7 @@ Array [
     "quick_replies": Array [],
     "text": "What is your favorite color?",
     "type": "send_msg",
-    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+    "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
   },
 ]
 `;
@@ -212,6 +212,7 @@ Array [
 exports[`SendMsgForm updates should save changes 1`] = `
 Object {
   "attachments": Array [],
+  "languageCode": "eng",
   "message": Object {
     "validationFailures": Array [],
     "value": "What is your favorite color?",

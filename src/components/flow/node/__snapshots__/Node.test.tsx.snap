@@ -89,7 +89,7 @@ exports[`NodeComp renders a named random split 1`] = `
   <div>
     <div
       class="node_container plumb-drag flow_start"
-      id="2dc85899-0577-4f1b-a620-f12094e34b5e"
+      id="132de855-4042-4dc1-a18f-cc2e6a8f790a"
     >
       <div
         class="flow_node node"
@@ -179,7 +179,7 @@ exports[`NodeComp renders a named random split 1`] = `
               </div>
               <div
                 class="endpoint"
-                id="2dc85899-0577-4f1b-a620-f12094e34b5e:061fc171-8b79-4636-b892-bd0ea5aa9b42"
+                id="132de855-4042-4dc1-a18f-cc2e6a8f790a:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
               />
               <div
                 class="drag_helper "
@@ -217,7 +217,7 @@ exports[`NodeComp renders a named random split 1`] = `
               </div>
               <div
                 class="endpoint"
-                id="2dc85899-0577-4f1b-a620-f12094e34b5e:1dce2b34-9aab-4e20-81c4-3f0408dcb671"
+                id="132de855-4042-4dc1-a18f-cc2e6a8f790a:061fc171-8b79-4636-b892-bd0ea5aa9b42"
               />
             </div>
             <div
@@ -230,7 +230,7 @@ exports[`NodeComp renders a named random split 1`] = `
               </div>
               <div
                 class="endpoint"
-                id="2dc85899-0577-4f1b-a620-f12094e34b5e:763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+                id="132de855-4042-4dc1-a18f-cc2e6a8f790a:1dce2b34-9aab-4e20-81c4-3f0408dcb671"
               />
             </div>
           </div>

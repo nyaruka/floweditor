@@ -4,6 +4,8 @@ import React from 'react';
 import { render, TEST_DEFINITION, TEST_NODE } from 'test/utils';
 import { createRandomNode } from 'testUtils/assetCreators';
 import { createUUID } from 'utils';
+import { mock } from 'testUtils';
+import * as utils from 'utils';
 
 const baseProps: NodeProps = {
   languages: {},
@@ -40,6 +42,10 @@ const baseProps: NodeProps = {
 };
 
 describe(NodeComp.name, () => {
+  beforeEach(() => {
+    mock(utils, 'createUUID', utils.seededUUIDs());
+  });
+
   it('renders', () => {
     const { baseElement } = render(<NodeComp {...baseProps} />);
     expect(baseElement).toMatchSnapshot();

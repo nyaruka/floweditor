@@ -3,7 +3,6 @@ import Button, { ButtonTypes } from 'components/button/Button';
 import Dialog from 'components/dialog/Dialog';
 import ConnectedFlow from 'components/flow/Flow';
 import styles from 'components/index.module.scss';
-import ConnectedLanguageSelector from 'components/languageselector/LanguageSelector';
 import Loading from 'components/loading/Loading';
 import Modal from 'components/modal/Modal';
 import { RevisionExplorer } from 'components/revisions/RevisionExplorer';
@@ -18,7 +17,6 @@ import createStore from 'store/createStore';
 import { ModalMessage } from 'store/editor';
 import { Asset, Assets, AssetStore, RenderNodeMap, FlowIssueMap } from 'store/flowContext';
 import { getCurrentDefinition } from 'store/helpers';
-import AppState from 'store/state';
 import {
   CreateNewRevision,
   createNewRevision,
@@ -44,6 +42,9 @@ import { ACTIVITY_INTERVAL, downloadJSON, renderIf, onNextRender } from 'utils';
 import { PopTabType } from 'config/interfaces';
 import { TranslatorTab, TranslationBundle } from './translator/TranslatorTab';
 import i18n from 'config/i18n';
+import { LanguageSelector } from './languageselector/LanguageSelector';
+import { store } from 'store';
+import { TembaAppState } from 'temba-components';
 
 const { default: PageVisibility } = require('react-page-visibility');
 
@@ -57,7 +58,6 @@ export interface FlowEditorStoreProps {
   language: Asset;
   languages: Assets;
   simulating: boolean;
-  translating: boolean;
   fetchingFlow: boolean;
   definition: FlowDefinition;
   issues: FlowIssueMap;
@@ -76,6 +76,10 @@ export interface FlowEditorStoreProps {
   popped: string;
   updateTranslationFilters: UpdateTranslationFilters;
   onUpdateLocalizations: OnUpdateLocalizations;
+}
+
+export interface FlowEditorState {
+  isTranslating: boolean;
 }
 
 const hotStore = createStore();
@@ -105,14 +109,45 @@ export const editorSpecId = 'editor';
 /**
  * The main editor view for editing a flow
  */
-export class FlowEditor extends React.Component<FlowEditorStoreProps> {
+export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditorState> {
   public static contextTypes = contextTypes;
+
+  unsubscribe: () => void;
 
   constructor(props: FlowEditorStoreProps) {
     super(props);
     bindCallbacks(this, {
       include: [/^handle/]
     });
+
+    const appState = store.getState();
+    this.mapState(appState);
+
+    // subscribe for changes
+    this.unsubscribe = store
+      .getApp()
+      .subscribe((state: TembaAppState, prevState: TembaAppState) => {
+        this.mapState(state);
+      });
+  }
+
+  public mapState(state: any): void {
+    const changes = {
+      isTranslating: state.isTranslating
+    };
+
+    if (this.state) {
+      this.setState(changes);
+    } else {
+      // eslint-disable-next-line
+      this.state = changes;
+    }
+  }
+
+  componentWillUnmount(): void {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
   }
 
   public componentDidMount(): void {
@@ -267,7 +302,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
       <PageVisibility onChange={this.handleVisibilityChanged}>
         <div
           id={editorContainerSpecId}
-          className={this.props.translating ? styles.translating : undefined}
+          className={this.state.isTranslating ? styles.translating : undefined}
           data-spec={editorContainerSpecId}
         >
           {this.getFooter()}
@@ -277,7 +312,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
               Object.keys(this.props.nodes || {}).length > 0 &&
                 this.props.languages &&
                 Object.keys(this.props.languages.items).length > 0
-            )(<ConnectedLanguageSelector />)}
+            )(<LanguageSelector />)}
 
             {this.getSavingIndicator()}
 
@@ -285,11 +320,11 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
               <ConnectedFlow />
             )}
 
-            {renderIf(this.props.definition && this.props.translating && !this.props.fetchingFlow)(
+            {renderIf(
+              this.props.definition && this.state.isTranslating && !this.props.fetchingFlow
+            )(
               <TranslatorTab
                 baseLanguage={this.props.baseLanguage}
-                language={this.props.language}
-                languages={this.props.languages ? this.props.languages.items : {}}
                 localization={
                   this.props.definition && this.props.language
                     ? this.props.definition.localization[this.props.language.id]
@@ -339,7 +374,6 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 const mapStateToProps = ({
   flowContext: { definition, issues, nodes, assetStore, baseLanguage },
   editorState: {
-    translating,
     language,
     fetchingFlow,
     simulating,
@@ -349,7 +383,7 @@ const mapStateToProps = ({
     scrollToNode,
     popped
   }
-}: AppState) => {
+}: any) => {
   const languages = assetStore ? assetStore.languages : null;
 
   return {
@@ -359,7 +393,6 @@ const mapStateToProps = ({
     saving,
     simulating,
     assetStore,
-    translating,
     language,
     fetchingFlow,
     definition,

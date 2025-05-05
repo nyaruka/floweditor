@@ -23,6 +23,7 @@ import {
   FlowIssueType
 } from 'flowTypes';
 import Localization, { LocalizedObject } from 'services/Localization';
+import { store } from 'store';
 import { Activity, EditorState, Warnings } from 'store/editor';
 import { Asset, AssetMap, RenderNode, RenderNodeMap, FlowIssueMap } from 'store/flowContext';
 import { DispatchWithState, GetState, mergeEditorState } from 'store/thunks';
@@ -154,11 +155,11 @@ export const detectLoops = (
 export const getLocalizations = (
   node: FlowNode,
   action: AnyAction,
-  language: Asset,
   translations?: { [uuid: string]: any }
 ): LocalizedObject[] => {
   const localizations: LocalizedObject[] = [];
 
+  const language = store.getState().getLanguage();
   // Account for localized cases
   if (node.router && node.router.type === RouterTypes.switch) {
     const router = node.router as SwitchRouter;

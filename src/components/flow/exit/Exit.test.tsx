@@ -1,9 +1,13 @@
 import * as React from 'react';
-import { render, fireEvent, findByText, getByText } from 'test/utils';
+import { render, fireEvent } from 'test/utils';
 import { ExitComp, ExitProps } from './Exit';
 import { createUUID } from 'utils';
 import { Exit, FlowNode } from 'flowTypes';
-import { Spanish } from 'testUtils/assetCreators';
+
+import { setupStore, mock } from 'testUtils';
+import { FlowContents, FlowInfo } from 'temba-components';
+import { any } from 'core-js/fn/promise';
+import { isRelativeDate } from '../routers/helpers';
 
 const exit: Exit = {
   uuid: createUUID(),
@@ -17,9 +21,7 @@ const exitProps: ExitProps = {
   recentContacts: [],
   node: { uuid: createUUID(), actions: [], exits: [] },
   showDragHelper: false,
-  translating: false,
   dragging: false,
-  language: null,
   localization: null,
   segmentCount: 1000,
   plumberConnectExit: (node: FlowNode, exit: Exit) => {},
@@ -32,6 +34,10 @@ const exitProps: ExitProps = {
 jest.useFakeTimers();
 
 describe(ExitComp.name, () => {
+  beforeEach(() => {
+    setupStore();
+  });
+
   it('renders', () => {
     const { baseElement } = render(<ExitComp {...exitProps} />);
     expect(baseElement).toMatchSnapshot();
@@ -106,8 +112,9 @@ describe(ExitComp.name, () => {
   });
 
   it('shows missing localization', () => {
+    setupStore({ isTranslating: true, languageCode: 'spa' });
     const { baseElement, container } = render(
-      <ExitComp {...exitProps} translating={true} language={Spanish} localization={{ spa: {} }} />
+      <ExitComp {...exitProps} localization={{ spa: {} }} />
     );
 
     expect(container.querySelector('.missing_localization')).not.toBe(null);
@@ -115,11 +122,10 @@ describe(ExitComp.name, () => {
   });
 
   it('shows localization', () => {
+    setupStore({ isTranslating: true, languageCode: 'spa' });
     const { baseElement, getByText } = render(
       <ExitComp
         {...exitProps}
-        translating={true}
-        language={Spanish}
         localization={{ spa: { [categories[0].uuid]: { name: ['Hola!'] } } }}
       />
     );

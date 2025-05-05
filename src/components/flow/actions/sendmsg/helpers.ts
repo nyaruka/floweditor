@@ -7,6 +7,7 @@ import { SendMsg } from 'flowTypes';
 import { NodeEditorSettings } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { Attachment } from './attachments';
+import { store } from 'store';
 
 export const TOPIC_OPTIONS: SelectOption[] = [
   { value: 'event', name: 'Event' },
@@ -52,7 +53,8 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
       quickReplies: { value: action.quick_replies || [] },
       quickReplyEntry: { value: '' },
       sendAll: action.all_urns,
-      valid: true
+      valid: true,
+      languageCode: store.getState().languageCode
     };
   }
 
@@ -67,7 +69,8 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
     quickReplies: { value: [] },
     quickReplyEntry: { value: '' },
     sendAll: false,
-    valid: false
+    valid: false,
+    languageCode: store.getState().languageCode
   };
 };
 

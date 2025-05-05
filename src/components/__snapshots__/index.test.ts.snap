@@ -81,6 +81,7 @@ exports[`Root render should render flow if passed a definition, language 1`] = `
   onChange={[Function]}
 >
   <div
+    className="translating"
     data-spec="editor-container"
     id="editor-container"
   >
@@ -102,6 +103,14 @@ exports[`Root render should render flow if passed a definition, language 1`] = `
       data-spec="editor"
     >
       <Connect(Flow) />
+      <TranslatorTab
+        baseLanguage={null}
+        nodes={null}
+        onToggled={[Function]}
+        onTranslationClicked={[Function]}
+        onTranslationOpened={[Function]}
+        popped={null}
+      />
       <RevisionExplorer
         assetStore={null}
         createNewRevision={[MockFunction]}
