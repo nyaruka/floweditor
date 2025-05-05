@@ -64,8 +64,8 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
         });
         return (
           <div key={idx} className={className}>
-            <div className={styles.arrow_up} />
             <div>{failure.message}</div>
+            <div className={styles.arrow} />
           </div>
         );
       });
@@ -88,10 +88,10 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
 
     return (
       <div className={className}>
+        {errorsToDisplay}
         {name}
         {this.props.children}
         {helpText}
-        {errorsToDisplay}
       </div>
     );
   }
