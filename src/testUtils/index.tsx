@@ -216,7 +216,8 @@ export const setupStore = ({
         country: 'US',
         anon: false
       },
-      flow: null,
+      flowDefinition: null,
+      flowInfo: null,
       setFlowInfo: (info: FlowInfo) => {},
       setFlowContents: (contents: FlowContents) => {},
       setLanguageCode: (code: string) => {},

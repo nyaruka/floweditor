@@ -55,7 +55,8 @@ export interface App {
 }
 
 export interface TembaAppState {
-  flow: FlowContents;
+  flowDefinition: FlowDefinition;
+  flowInfo: FlowInfo;
   isTranslating: boolean;
   languageNames: { [key: string]: string };
   languageCode: string;

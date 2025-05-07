@@ -319,7 +319,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
         const payload = {
           text: translation.from,
           lang: {
-            from: state.flow.definition.language,
+            from: state.flowDefinition.language,
             to: this.state.language
           }
         };

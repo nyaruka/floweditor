@@ -1430,6 +1430,11 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@jsplumb/browser-ui@^6.2.10":
+  version "6.2.10"
+  resolved "https://registry.yarnpkg.com/@jsplumb/browser-ui/-/browser-ui-6.2.10.tgz#86b85ed42110563d2816e3712677cdbbbf33366f"
+  integrity sha512-trk++mK5q6hceJL79teemzcilJ+8DrZT/lMK0+B80AtHqZHr0YwMCf+so2JBb2Z/MDZ0fUEU9MbELY6OPhhs5g==
+
 "@lit-labs/ssr-dom-shim@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@lit-labs/ssr-dom-shim/-/ssr-dom-shim-1.2.0.tgz#353ce4a76c83fadec272ea5674ede767650762fd"
@@ -1462,11 +1467,12 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@nyaruka/temba-components@0.121.1":
-  version "0.121.1"
-  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.121.1.tgz#1139dcf26e2b794ef25d9c2b774b2f754c7c4921"
-  integrity sha512-jaSs8vt8jfRbZ6Lh3m7wo5w2HM8JgAL0UbiDiQoDbaQPIz1uKyppfv+mDsRoSKd5qv/s2qWISgiCe+qRUZJkjg==
+"@nyaruka/temba-components@0.121.4":
+  version "0.121.4"
+  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.121.4.tgz#767c247363159f4e84f811d0b663f1acf9c0925e"
+  integrity sha512-r//30MRt4LuWFIEe4gaMl8g15suF8QrJ38OmSpQvSGV5SBABi2FhSac2myInRUFWjWZacYhbavXtMOHmqp8D6g==
   dependencies:
+    "@jsplumb/browser-ui" "^6.2.10"
     "@lit/localize" "^0.12.1"
     color-hash "^2.0.2"
     croppie "^2.6.5"
