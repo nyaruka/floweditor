@@ -103,6 +103,28 @@
       }
     }
   }
+
+  &.disabled {
+    opacity: 0.5;
+    color: $red;
+    pointer-events: none;
+  }
+
+  &.disabled::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    cursor: not-allowed;
+  }
+
+  &.disabled::before {
+    pointer-events: all;
+  }
+
+  &.disabled > * {
+    pointer-events: none;
+  }
 }
 
 .activity {
@@ -167,7 +189,7 @@
     text-align: left;
     padding: 8px 10px;
     border-top: 1px solid $light_gray;
-    
+
     .operand {
       padding-top: 3px;
       font-size: 12px;
