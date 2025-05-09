@@ -1,7 +1,7 @@
 import { createRenderNode } from 'components/flow/routers/helpers';
 import { SubflowRouterFormState } from 'components/flow/routers/subflow/SubflowRouterForm';
 import { SUBFLOW_OPERAND } from 'components/nodeeditor/constants';
-import { FlowTypes, Operators, Types } from 'config/interfaces';
+import { Operators, Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import {
   Case,
@@ -106,23 +106,23 @@ export const stateToNode = (
       }
     ];
 
-    if (parentFlowType !== FlowTypes.VOICE) {
-      exits.push({
-        uuid: createUUID(),
-        destination_uuid: null
-      });
-      categories.push({
-        uuid: createUUID(),
-        name: StartFlowExitNames.Expired,
-        exit_uuid: exits[1].uuid
-      });
-      cases.push({
-        uuid: createUUID(),
-        arguments: ['expired'],
-        type: Operators.has_only_text,
-        category_uuid: categories[1].uuid
-      });
-    }
+    // if (parentFlowType !== FlowTypes.VOICE) {
+    //   exits.push({
+    //     uuid: createUUID(),
+    //     destination_uuid: null
+    //   });
+    //   categories.push({
+    //     uuid: createUUID(),
+    //     name: StartFlowExitNames.Expired,
+    //     exit_uuid: exits[1].uuid
+    //   });
+    //   cases.push({
+    //     uuid: createUUID(),
+    //     arguments: ['expired'],
+    //     type: Operators.has_only_text,
+    //     category_uuid: categories[1].uuid
+    //   });
+    // }
   }
 
   const actions = [];
