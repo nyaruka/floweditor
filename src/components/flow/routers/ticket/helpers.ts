@@ -32,15 +32,13 @@ export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState
   let assignee: FormEntry = { value: null };
   let topic: FormEntry = { value: null };
 
-  if (router) {
-    resultName = { value: router.result_name };
-  }
-
   if (getType(settings.originalNode) === Types.split_by_ticket) {
     const action = getOriginalAction(settings) as OpenTicket;
     topic = { value: action.topic };
     note = { value: action.note };
     assignee = { value: action.assignee };
+
+    resultName = { value: router.result_name };
   }
 
   const state: TicketRouterFormState = {

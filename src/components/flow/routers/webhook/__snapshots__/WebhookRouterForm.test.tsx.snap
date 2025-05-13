@@ -232,14 +232,14 @@ exports[`WebhookRouterForm should render 1`] = `
         <span
           className="example"
         >
-          @webhook.product
+          @webhook.json.product
         </span>
-         and
          
+        and 
         <span
           className="example"
         >
-          @(webhook["stock level"])
+          @(webhook.json["stock level"])
         </span>
          for use in the flow.
       </Trans>
@@ -498,13 +498,13 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
             <span
               class="example"
             >
-              @webhook.product
+              @webhook.json.product
             </span>
              and 
             <span
               class="example"
             >
-              @webhook["stock level"]
+              @(webhook.json["stock level"])
             </span>
              for use in the flow.
           </p>

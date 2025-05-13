@@ -339,7 +339,7 @@
     "variable": "Хувьсагч",
     "video_url": "Видео URL",
     "webhook_body_summary": "Таны webhook рүү илгээгдэх хүсэлтийн body [[method]] хэсгийг өөрчил.",
-    "webhook_example": "Энэ хариулт нь урсгалд ашиглагдахын тулд <1>@webhook.product</1> болон <4>@webhook[\"stock level\"]</4>-г нэмнэ.",
+    "webhook_example": "Энэ хариулт нь урсгалд ашиглагдахын тулд <1>@webhook.json.product</1> болон <4>@(webhook.json[\"stock level\"])</4>-г нэмнэ.",
     "webhook_header": "Header",
     "webhook_header_name": "Header Name",
     "webhook_header_summary": "Хүсэлтийн хамт илгээхийг хүсэж буй нэмэлт headersг доор нэмнэ үү. ",

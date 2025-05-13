@@ -16,10 +16,6 @@ export const nodeToState = (settings: NodeEditorSettings): AirtimeRouterFormStat
   let resultName = { value: '' };
   let valid = false;
 
-  if (router) {
-    resultName = { value: router.result_name };
-  }
-
   const amounts: AirtimeTransferEntry[] = [];
   if (originalAction && originalAction.type === Types.transfer_airtime) {
     Object.keys(originalAction.amounts).forEach((key: string) => {
@@ -27,6 +23,7 @@ export const nodeToState = (settings: NodeEditorSettings): AirtimeRouterFormStat
         value: { code: key, amount: '' + originalAction.amounts[key] }
       });
     });
+    resultName = { value: router.result_name };
     valid = true;
   }
 

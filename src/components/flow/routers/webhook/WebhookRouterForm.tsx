@@ -333,8 +333,9 @@ export default class WebhookRouterForm extends React.Component<
           </pre>
           <p>
             <Trans i18nKey="forms.webhook_example">
-              This response would add <span className={styles.example}>@webhook.product</span> and{' '}
-              <span className={styles.example}>@(webhook["stock level"])</span> for use in the flow.
+              This response would add <span className={styles.example}>@webhook.json.product</span>{' '}
+              and <span className={styles.example}>@(webhook.json["stock level"])</span> for use in
+              the flow.
             </Trans>
           </p>
         </div>
