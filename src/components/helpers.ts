@@ -16,13 +16,9 @@ export interface DragPoint {
 export const getDraggedFrom = (ghostNode: RenderNode): DragPoint => {
   if (ghostNode.ghost) {
     const exitUUIDs = Object.keys(ghostNode.inboundConnections);
-    console.log(exitUUIDs);
     if (exitUUIDs.length > 0) {
       const exitUUID = exitUUIDs[0];
-      console.log(exitUUIDs, ghostNode.inboundConnections[exitUUID]);
-
       const nodeUUID = ghostNode.inboundConnections[exitUUID];
-
       return { exitUUID, nodeUUID };
     }
   }
