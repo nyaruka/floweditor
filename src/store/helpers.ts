@@ -634,7 +634,9 @@ export const getFlowComponents = (definition: FlowDefinition): FlowComponents =>
 
   // store our pointers with their associated nodes
   for (const nodeUUID of Object.keys(pointerMap)) {
-    renderNodeMap[nodeUUID].inboundConnections = pointerMap[nodeUUID];
+    if (renderNodeMap[nodeUUID] && renderNodeMap[nodeUUID].inboundConnections) {
+      renderNodeMap[nodeUUID].inboundConnections = pointerMap[nodeUUID];
+    }
   }
 
   return { renderNodeMap, groups, fields, labels, results, warnings };
