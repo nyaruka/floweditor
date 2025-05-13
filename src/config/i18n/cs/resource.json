@@ -339,7 +339,7 @@
     "variable": "Proměnná",
     "video_url": "URL videa",
     "webhook_body_summary": "Upravte tělo požadavku [[method]], který bude odeslán do vašeho webhooku.",
-    "webhook_example": "Tato odpověď by přidala <1>@webhook.product</1> a <4>@webhook[\"stock level\"]</4> pro použití v toku.",
+    "webhook_example": "Tato odpověď by přidala <1>@webhook.json.product</1> a <4>@(webhook.json[\"stock level\"])</4> pro použití v toku.",
     "webhook_header": "Hlavička",
     "webhook_header_name": "Název hlavičky",
     "webhook_header_summary": "Níže přidejte další záhlaví, která chcete zaslat spolu s žádostí.",

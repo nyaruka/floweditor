@@ -339,7 +339,7 @@
     "variable": "Variable",
     "video_url": "Video URL",
     "webhook_body_summary": "Modify the body of the [[method]] request that will be sent to your webhook.",
-    "webhook_example": "This response would add <1>@webhook.product</1> and <4>@webhook[\"stock level\"]</4> for use in the flow.",
+    "webhook_example": "This response would add <1>@webhook.json.product</1> and <4>@(webhook.json[\"stock level\"])</4> for use in the flow.",
     "webhook_header": "Header",
     "webhook_header_name": "Header Name",
     "webhook_header_summary": "Add any additional headers below that you would like to send along with your request.",

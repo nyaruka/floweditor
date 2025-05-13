@@ -11,7 +11,7 @@ import TypeList from 'components/nodeeditor/TypeList';
 import mutate from 'immutability-helper';
 import * as React from 'react';
 import { FormEntry, FormState, StringEntry } from 'store/nodeEditor';
-import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
+import { Alphanumeric, StartIsNonNumeric, validate } from 'store/validators';
 
 import styles from './AirtimeRouterForm.module.scss';
 import { nodeToState, stateToNode } from './helpers';
@@ -76,7 +76,6 @@ export default class AirtimeRouterForm extends React.PureComponent<
 
   private handleUpdateResultName(result: string): void {
     const resultName = validate(i18n.t('forms.result_name', 'Result Name'), result, [
-      Required,
       Alphanumeric,
       StartIsNonNumeric
     ]);

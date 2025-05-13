@@ -339,7 +339,7 @@
     "variable": "Variable",
     "video_url": "URL de la vidéo",
     "webhook_body_summary": "Modifiez le corps de la requête [[method]] qui sera envoyée à votre webhook.",
-    "webhook_example": "Cette réponse ajouterait <1>@webhook.product</1> et <4>@webhook[\"stock level\"]</4> à utiliser dans le flux.",
+    "webhook_example": "Cette réponse ajouterait <1>@webhook.json.product</1> et <4>@(webhook.json[\"stock level\"])</4> à utiliser dans le flux.",
     "webhook_header": "Entête",
     "webhook_header_name": "Nom de l'en-tête",
     "webhook_header_summary": "Ajoutez ci-dessous les en-têtes supplémentaires que vous souhaitez envoyer avec votre demande.",
