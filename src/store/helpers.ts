@@ -426,7 +426,7 @@ export const guessNodeType = (node: FlowNode) => {
   // router based nodes
   if (node.router) {
     // hybrid nodes
-    if (node.actions.length === 1) {
+    if (node.actions?.length === 1) {
       if (node.actions[0].type === Types.call_webhook) {
         return Types.split_by_webhook;
       }
@@ -497,10 +497,6 @@ export const getFlowComponents = (definition: FlowDefinition): FlowComponents =>
   const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
 
   for (const node of nodes) {
-    if (!node.actions) {
-      node.actions = [];
-    }
-
     const ui = _ui.nodes[node.uuid];
     const renderNode: RenderNode = {
       node,

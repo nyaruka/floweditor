@@ -65,7 +65,7 @@ export const stateToNode = (
 export const getOriginalAction = (settings: NodeEditorSettings): CallResthook => {
   const action =
     settings.originalAction ||
-    (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
+    (settings.originalNode.node.actions?.length > 0 && settings.originalNode.node.actions[0]);
 
   if (action.type === Types.call_resthook) {
     return action as CallResthook;

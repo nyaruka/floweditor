@@ -546,7 +546,7 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
   }
 
   // If it's our last action, then nuke the node
-  if (renderNode.node.actions.length === 1) {
+  if (renderNode.node.actions?.length === 1) {
     const updated = dispatch(removeNode(renderNode.node));
     markDirty();
     return updated;
@@ -603,7 +603,7 @@ export const spliceInRouter = (
     actionIdx > 0 ? [...previousNode.node.actions.slice(0, actionIdx)] : [];
   const bottomActions: Action[] = previousNode.node.actions.slice(
     actionIdx + 1,
-    previousNode.node.actions.length
+    previousNode.node.actions?.length
   );
 
   // tslint:disable-next-line:prefer-const
@@ -1069,8 +1069,8 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
   }
 
   // Account for hybrids or clicking on the empty exit table
-  if (!action && node.actions.length > 0) {
-    action = node.actions[node.actions.length - 1];
+  if (!action && node.actions?.length > 0) {
+    action = node.actions[node.actions?.length - 1];
   }
 
   const typeConfig = determineTypeConfig(settings);

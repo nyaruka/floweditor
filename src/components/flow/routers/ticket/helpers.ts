@@ -17,7 +17,7 @@ export const getUserName = (user: User): string => {
 export const getOriginalAction = (settings: NodeEditorSettings): OpenTicket => {
   const action =
     settings.originalAction ||
-    (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
+    (settings.originalNode.node.actions?.length > 0 && settings.originalNode.node.actions[0]);
 
   if (action.type === Types.open_ticket) {
     return action as OpenTicket;

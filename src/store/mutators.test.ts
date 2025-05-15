@@ -131,7 +131,7 @@ describe('mutators', () => {
       updated = updateAction(updated, 'node0', newAction, originalAction);
 
       // we added one to get to four and then edited it
-      expect(updated.node0.node.actions.length).toBe(6);
+      expect(updated.node0.node.actions?.length).toBe(6);
 
       const action = updated.node0.node.actions[3] as SendMsg;
       expect(action.type).toBe(Types.send_msg);
@@ -155,7 +155,7 @@ describe('mutators', () => {
 
   it('should removeAction', () => {
     const updated = removeAction(nodes, 'node0', 'node0_action0');
-    expect(updated.node0.node.actions.length).toBe(4);
+    expect(updated.node0.node.actions?.length).toBe(4);
     expect(updated).toMatchSnapshot();
   });
 
@@ -198,7 +198,7 @@ describe('mutators', () => {
       inboundConnections: {}
     });
     expect(updated.node0.node.router.type).toBe('switch');
-    expect(updated.node0.node.actions.length).toBe(0);
+    expect(updated.node0.node.actions?.length).toBe(0);
     expect(updated.node0.ui.type).toBe('wait_for_response');
   });
 

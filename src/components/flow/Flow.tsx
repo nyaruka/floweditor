@@ -250,7 +250,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
       this.props.ghostNode.ui.position = { left, top };
 
       let originalAction = null;
-      if (ghostNode.node.actions && ghostNode.node.actions.length === 1) {
+      if (ghostNode.node.actions?.length === 1) {
         originalAction = ghostNode.node.actions[0];
       }
 

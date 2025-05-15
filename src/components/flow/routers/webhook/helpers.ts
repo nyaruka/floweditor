@@ -43,7 +43,7 @@ export const METHOD_OPTIONS: MethodOption[] = [
 export const getOriginalAction = (settings: NodeEditorSettings): CallWebhook => {
   const action =
     settings.originalAction ||
-    (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
+    (settings.originalNode.node.actions?.length > 0 && settings.originalNode.node.actions[0]);
 
   if (action.type === Types.call_webhook) {
     return action as CallWebhook;

@@ -19,7 +19,7 @@ import { getOperatorConfig } from 'config';
 export const getOriginalAction = (settings: NodeEditorSettings): CallClassifier => {
   const action =
     settings.originalAction ||
-    (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
+    (settings.originalNode.node.actions?.length > 0 && settings.originalNode.node.actions[0]);
 
   if (action.type === Types.call_classifier) {
     return action as CallClassifier;

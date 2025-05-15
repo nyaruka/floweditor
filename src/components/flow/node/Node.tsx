@@ -369,7 +369,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         title = config.name;
       }
 
-      if (!this.props.renderNode.node.actions || !this.props.renderNode.node.actions.length) {
+      if (!this.props.renderNode.node.actions?.length) {
         // Router headers are introduced here while action headers are introduced in ./Action/Action
         header = (
           // Wrap in a relative parent so it honors node clipping

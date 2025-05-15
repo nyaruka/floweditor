@@ -345,7 +345,7 @@ export const createServiceCallSplitNode = (
   // see if we are editing an existing router so we reuse exits
   if (
     originalNode &&
-    originalNode.node.actions.length === 1 &&
+    originalNode.node.actions?.length === 1 &&
     originalNode.node.actions[0].type === action.type
   ) {
     originalNode.node.exits.forEach((exit: Exit) => exits.push(exit));

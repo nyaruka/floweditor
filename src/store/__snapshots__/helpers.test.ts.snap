@@ -75,7 +75,6 @@ Array [
       "node0_exit0": "node0",
     },
     "node": Object {
-      "actions": Array [],
       "exits": Array [
         Object {
           "destination_uuid": "node2",

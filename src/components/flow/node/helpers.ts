@@ -46,7 +46,7 @@ export const getResultName = (node: FlowNode) => {
     return node.router.result_name;
   }
 
-  if (node.actions.length === 1) {
+  if (node.actions?.length === 1) {
     const action = node.actions[0];
     if (action.type === Types.call_webhook || action.type === Types.call_resthook) {
       const resultAction = action as CallWebhook | CallResthook;

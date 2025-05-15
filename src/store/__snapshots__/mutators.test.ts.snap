@@ -75,7 +75,6 @@ Object {
       "node0_exit0": "node0",
     },
     "node": Object {
-      "actions": Array [],
       "exits": Array [
         Object {
           "destination_uuid": "node2",
@@ -300,7 +299,6 @@ Object {
       "node0_exit0": "node0",
     },
     "node": Object {
-      "actions": Array [],
       "exits": Array [
         Object {
           "destination_uuid": "node2",
@@ -561,7 +559,6 @@ Object {
       "uuid": "node0",
     },
     Object {
-      "actions": Array [],
       "exits": Array [
         Object {
           "destination_uuid": "node2",
@@ -740,7 +737,6 @@ Object {
       "node0_exit0": "node0",
     },
     "node": Object {
-      "actions": Array [],
       "exits": Array [
         Object {
           "destination_uuid": "node2",
@@ -958,7 +954,6 @@ Object {
   "node1": Object {
     "inboundConnections": Object {},
     "node": Object {
-      "actions": Array [],
       "exits": Array [
         Object {
           "destination_uuid": "node2",
@@ -1214,7 +1209,6 @@ Object {
       "uuid": "node0",
     },
     Object {
-      "actions": Array [],
       "exits": Array [
         Object {
           "destination_uuid": "node2",
@@ -1428,7 +1422,6 @@ Object {
       "uuid": "node0",
     },
     Object {
-      "actions": Array [],
       "exits": Array [
         Object {
           "destination_uuid": "node2",
@@ -1608,7 +1601,6 @@ Object {
       "node0_exit0": "node0",
     },
     "node": Object {
-      "actions": Array [],
       "exits": Array [
         Object {
           "destination_uuid": "node2",
@@ -1826,7 +1818,6 @@ Object {
   "node1": Object {
     "inboundConnections": Object {},
     "node": Object {
-      "actions": Array [],
       "exits": Array [
         Object {
           "destination_uuid": "node2",
@@ -2044,7 +2035,6 @@ Object {
   "node1": Object {
     "inboundConnections": Object {},
     "node": Object {
-      "actions": Array [],
       "exits": Array [
         Object {
           "destination_uuid": "node2",
@@ -2267,7 +2257,6 @@ Object {
       "node0_exit0": "node0",
     },
     "node": Object {
-      "actions": Array [],
       "exits": Array [
         Object {
           "destination_uuid": "node2",

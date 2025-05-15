@@ -9,7 +9,7 @@ export const determineTypeConfig = (nodeSettings: NodeEditorSettings): Type => {
 
   if (nodeSettings.originalAction && nodeSettings.originalAction.type) {
     return getTypeConfig(nodeSettings.originalAction.type);
-  } else if (node && node.actions && node.actions.length > 0) {
+  } else if (node && node.actions && node.actions?.length > 0) {
     return getTypeConfig(node.actions[node.actions.length - 1].type);
   } else {
     try {

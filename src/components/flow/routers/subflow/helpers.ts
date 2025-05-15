@@ -57,7 +57,7 @@ export const stateToNode = (
 ): RenderNode => {
   const action =
     settings.originalAction ||
-    (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
+    (settings.originalNode.node.actions?.length > 0 && settings.originalNode.node.actions[0]);
 
   const startFlowAction: StartFlow = {
     uuid: action.uuid || createUUID(),

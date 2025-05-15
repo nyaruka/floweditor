@@ -10,7 +10,7 @@ import { createUUID } from 'utils';
 export const getOriginalAction = (settings: NodeEditorSettings): CallLLM => {
   const action =
     settings.originalAction ||
-    (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
+    (settings.originalNode.node.actions?.length > 0 && settings.originalNode.node.actions[0]);
 
   if (action.type === Types.call_llm) {
     return action as CallLLM;
