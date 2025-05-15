@@ -288,8 +288,6 @@
     "select_result": "Seleccionar Resultado",
     "select_what_to_update": "Seleccionar los datos a actualizar",
     "select_who_to_start": "Seleccionar quien debe ser iniciado en el flujo",
-    "send_msg_facebook_topic_placeholder": "Seleccione un tema para usar en Facebook",
-    "send_msg_facebook_warning": "El envío de mensajes masivos a través de un canal de Facebook requiere que se especifique un tema si el usuario no ha enviado un mensaje en las últimas 24 horas. Establecer un tema para usar en Facebook es especialmente importante para el primer mensaje de su flujo.",
     "send_msg_summary": "Agrega un archivo adjunto a cada mensaje. El archivo adjunto puede ser un archivo que cargue o una URL dinámica que use expresiones y variables de su flujo.",
     "send_msg_summary_plural": "Agrega un archivo adjunto a cada mensaje. El archivo adjunto puede ser un archivo que cargue o una URL dinámica que use expresiones y variables de su flujo.",
     "split_by_channel_placeholder": "Seleccione los canales para dividir",

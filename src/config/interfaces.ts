@@ -104,7 +104,6 @@ export enum FeatureFilter {
   HAS_WHATSAPP = 'whatsapp',
   HAS_AIRTIME = 'airtime',
   HAS_CLASSIFIER = 'classifier',
-  HAS_FACEBOOK = 'facebook',
   HAS_LOCATIONS = 'locations',
   HAS_OPTINS = 'optins'
 }

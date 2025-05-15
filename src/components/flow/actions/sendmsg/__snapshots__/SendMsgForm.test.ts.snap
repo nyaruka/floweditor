@@ -231,9 +231,6 @@ Object {
   "sendAll": true,
   "template": null,
   "templateVariables": Array [],
-  "topic": Object {
-    "value": undefined,
-  },
   "uploadError": "",
   "uploadInProgress": false,
   "valid": true,

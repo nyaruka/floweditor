@@ -387,7 +387,6 @@ export interface SendMsg extends Action {
   all_urns?: boolean;
   quick_replies?: string[];
   attachments?: string[];
-  topic?: string;
   template?: {
     uuid: string;
     name: string;
