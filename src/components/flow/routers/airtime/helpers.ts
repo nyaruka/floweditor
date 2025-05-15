@@ -70,7 +70,7 @@ export const stateToNode = (
 export const getOriginalAction = (settings: NodeEditorSettings): TransferAirtime => {
   const action =
     settings.originalAction ||
-    (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
+    (settings.originalNode.node.actions?.length > 0 && settings.originalNode.node.actions[0]);
 
   if (action.type === Types.transfer_airtime) {
     return action as TransferAirtime;

@@ -133,7 +133,7 @@ describe('helpers', () => {
           node1_case0: { arguments: ['espanol case'] }
         };
 
-        const localizations = getLocalizations(node, node.actions[0], translations);
+        const localizations = getLocalizations(node, null, translations);
 
         expect((localizations[0].getObject() as Case).arguments).toEqual(['espanol case']);
         expect((localizations[2].getObject() as Category).name).toEqual('this is espanols');

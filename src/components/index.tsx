@@ -256,7 +256,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
   private handleOpenTranslation(translation: TranslationBundle): void {
     const renderNode = this.props.nodes[translation.node_uuid];
     const action = translation.action_uuid
-      ? renderNode.node.actions.find(action => action.uuid === translation.action_uuid)
+      ? renderNode.node.actions?.find(action => action.uuid === translation.action_uuid)
       : null;
 
     this.props.onOpenNodeEditor({

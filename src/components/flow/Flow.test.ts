@@ -34,7 +34,6 @@ const { renderNodeMap: initialNodes } = getFlowComponents(definition);
 const baseProps: FlowStoreProps = {
   ghostNode: null,
   debug: null,
-  translating: false,
   popped: null,
   dragActive: false,
   mergeEditorState: jest.fn(),
