@@ -288,8 +288,6 @@
     "select_result": "Selecione o Resultado",
     "select_what_to_update": "Selecione o que irá atualizar",
     "select_who_to_start": "Selecione quem deve ser iniciado no fluxo",
-    "send_msg_facebook_topic_placeholder": "Selecione um tópico para usar no Facebook",
-    "send_msg_facebook_warning": "O envio de mensagens em massa por um canal do Facebook exige que um tópico seja especificado se o usuário não tiver enviado uma mensagem nas últimas 24 horas. Definir um tópico para usar no Facebook é especialmente importante para a primeira mensagem no seu fluxo.",
     "send_msg_summary": "Adicione um anexo a cada mensagem. O anexo pode ser um arquivo que você carrega ou uma URL dinâmica usando expressões e variáveis ​​do seu Fluxo.",
     "send_msg_summary_plural": "Adicione um anexo a cada mensagem. O anexo pode ser um arquivo que você carrega ou uma URL dinâmica usando expressões e variáveis ​​do seu Fluxo.",
     "split_by_channel_placeholder": "Selecione os canais para dividir por",

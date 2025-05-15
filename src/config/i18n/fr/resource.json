@@ -288,8 +288,6 @@
     "select_result": "Sélectionnez le résultat",
     "select_what_to_update": "Select what to update",
     "select_who_to_start": "Select who should be started in the flow",
-    "send_msg_facebook_topic_placeholder": "Sélectionnez un sujet à utiliser sur Facebook",
-    "send_msg_facebook_warning": "L'envoi de messages en masse sur un canal Facebook nécessite qu'un sujet soit spécifié si l'utilisateur n'a pas envoyé de message au cours des dernières 24 heures. Définir un sujet à utiliser sur Facebook est particulièrement important pour le premier message de votre flux.",
     "send_msg_summary": "Ajoutez une pièce jointe à chaque message. La pièce jointe peut être un fichier que vous téléchargez ou une URL dynamique utilisant des expressions et des variables de votre Flow.",
     "send_msg_summary_plural": "Ajoutez une pièce jointe à chaque message. La pièce jointe peut être un fichier que vous téléchargez ou une URL dynamique utilisant des expressions et des variables de votre Flow.",
     "split_by_channel_placeholder": "Sélectionnez les canaux à diviser par",
