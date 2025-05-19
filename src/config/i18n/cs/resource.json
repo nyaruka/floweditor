@@ -288,8 +288,6 @@
     "select_result": "Vyberte výsledek",
     "select_what_to_update": "Vyberte, co se má aktualizovat",
     "select_who_to_start": "Vyberte, kdo má být spuštěn v toku",
-    "send_msg_facebook_topic_placeholder": "Vyberte téma, které chcete použít na Facebooku",
-    "send_msg_facebook_warning": "Odesílání hromadných zpráv přes kanál Facebooku vyžaduje zadání tématu, pokud uživatel v posledních 24 hodinách žádnou zprávu neodeslal. Nastavení tématu pro použití přes Facebook je důležité zejména pro první zprávu v toku.",
     "send_msg_summary": "Ke každé zprávě přidejte přílohu. Přílohou může být soubor, který nahrajete, nebo dynamická adresa URL pomocí výrazů a proměnných z vašeho toku.",
     "send_msg_summary_plural": "Ke každé zprávě přidejte přílohu. Přílohou může být soubor, který nahrajete, nebo dynamická adresa URL pomocí výrazů a proměnných z vašeho toku.",
     "split_by_channel_placeholder": "Vyberte kanály, které chcete rozdělit podle",
