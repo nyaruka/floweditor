@@ -6,11 +6,7 @@ import { SetContactProfile } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
 
-import {
-  ContactProfileRouterFormState,
-  profileOptions,
-  profileOptionsWithName
-} from './ContactProfileRouterForm';
+import { ContactProfileRouterFormState, profileOptions } from './ContactProfileRouterForm';
 
 export const nodeToState = (settings: NodeEditorSettings): ContactProfileRouterFormState => {
   let resulNode: ContactProfileRouterFormState = {
@@ -24,8 +20,12 @@ export const nodeToState = (settings: NodeEditorSettings): ContactProfileRouterF
     const action = settings.originalAction as SetContactProfile;
 
     if (action.profile_type) {
+      const option = Object.values(profileOptions).find(
+        value => value.name === action.profile_type
+      );
+
       resulNode.optionType = {
-        value: profileOptionsWithName[action.profile_type]
+        value: option
       };
 
       if (typeof action.value === 'string') {

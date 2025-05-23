@@ -26,12 +26,6 @@ export const profileOptions = {
   '3': { id: '3', name: 'Deactivate Profile', type: AssetType.ContactProfile }
 };
 
-export const profileOptionsWithName: any = {
-  'Create Profile': { id: '1', name: 'Create Profile', type: AssetType.ContactProfile },
-  'Switch Profile': { id: '2', name: 'Switch Profile', type: AssetType.ContactProfile },
-  'Deactivate Profile': { id: '3', name: 'Deactivate Profile', type: AssetType.ContactProfile }
-};
-
 export default class ContactProfileRouterForm extends React.Component<
   RouterFormProps,
   ContactProfileRouterFormState
