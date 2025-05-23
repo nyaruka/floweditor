@@ -20,9 +20,9 @@ export const nodeToState = (settings: NodeEditorSettings): ContactProfileRouterF
     const action = settings.originalAction as SetContactProfile;
 
     if (action.profile_type) {
-      const option = Object.values(profileOptions).find(
-        value => value.name === action.profile_type
-      );
+      const option =
+        Object.values(profileOptions).find(value => value.name === action.profile_type) ||
+        profileOptions['1'];
 
       resulNode.optionType = {
         value: option
