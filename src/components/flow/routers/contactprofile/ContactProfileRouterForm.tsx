@@ -22,12 +22,8 @@ export interface ContactProfileRouterFormState extends FormState {
 
 export const profileOptions = {
   '1': { id: '1', name: 'Create Profile', type: AssetType.ContactProfile },
-  '2': { id: '2', name: 'Switch Profile', type: AssetType.ContactProfile }
-};
-
-export const profileOptionsWithName: any = {
-  'Create Profile': { id: '1', name: 'Create Profile', type: AssetType.ContactProfile },
-  'Switch Profile': { id: '2', name: 'Switch Profile', type: AssetType.ContactProfile }
+  '2': { id: '2', name: 'Switch Profile', type: AssetType.ContactProfile },
+  '3': { id: '3', name: 'Deactivate Profile', type: AssetType.ContactProfile }
 };
 
 export default class ContactProfileRouterForm extends React.Component<
@@ -79,7 +75,6 @@ export default class ContactProfileRouterForm extends React.Component<
 
   public renderEdit(): JSX.Element {
     const typeConfig = this.props.typeConfig;
-
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />

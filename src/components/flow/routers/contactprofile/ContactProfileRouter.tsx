@@ -20,6 +20,12 @@ const ContactProfileRouter: React.SFC<SetContactProfile> = (
         Switching profile to <strong>{value}</strong>
       </div>
     );
+  } else if (profile_type === 'Deactivate Profile') {
+    return (
+      <div>
+        Deactivating profile <strong>{value}</strong>
+      </div>
+    );
   }
   return <div>Manage profile</div>;
 };
