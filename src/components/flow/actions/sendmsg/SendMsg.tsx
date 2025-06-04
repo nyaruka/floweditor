@@ -36,9 +36,7 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
               {line}
             </div>
           ))}
-          {(action.attachments && action.attachments.length > 0) ||
-          action.template ||
-          action.topic ? (
+          {(action.attachments && action.attachments.length > 0) || action.template ? (
             <div style={{ display: 'inline-flex' }}>
               {action.attachments && action.attachments.length > 0 ? (
                 <temba-icon style={{ marginRight: 6, marginTop: 6 }} name="attachment"></temba-icon>
@@ -47,12 +45,6 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
                 <temba-icon
                   style={{ marginRight: 6, marginTop: 6 }}
                   name="channel_wac"
-                ></temba-icon>
-              ) : null}
-              {action.topic ? (
-                <temba-icon
-                  style={{ marginRight: 6, marginTop: 6 }}
-                  name="channel_fba"
                 ></temba-icon>
               ) : null}
             </div>

@@ -7,26 +7,18 @@ import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import {
   initializeForm as stateToForm,
-  stateToAction,
-  TOPIC_OPTIONS
+  stateToAction
 } from 'components/flow/actions/sendmsg/helpers';
 import { ActionFormProps } from 'components/flow/props';
 import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import MultiChoiceInput from 'components/form/multichoice/MultiChoice';
-import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import { TemplateTranslation } from 'flowTypes';
 import mutate from 'immutability-helper';
 import * as React from 'react';
-import {
-  FormState,
-  mergeForm,
-  StringArrayEntry,
-  StringEntry,
-  SelectOptionEntry
-} from 'store/nodeEditor';
+import { FormState, mergeForm, StringArrayEntry, StringEntry } from 'store/nodeEditor';
 import { MaxOfTenItems, shouldRequireIf, validate } from 'store/validators';
 
 import { hasFeature } from 'config/typeConfigs';
@@ -49,7 +41,6 @@ export interface SendMsgFormState extends FormState {
   attachments: Attachment[];
   uploadInProgress: boolean;
   uploadError: string;
-  topic: SelectOptionEntry;
   templateTranslation?: TemplateTranslation;
 
   // template uuid to dict of component key to array
@@ -222,37 +213,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
   private handleTemplateVariableChanged(event: any): void {
     this.setState({ templateVariables: event.detail.variables });
-  }
-
-  private renderTopicConfig(): JSX.Element {
-    return (
-      <>
-        <p>
-          <temba-alert level="error">
-            {i18n.t(
-              'forms.send_msg_facebook_warning',
-              'Using Facebook topics in flow messages is deprecated and will be removed on March 1, 2025. To message Facebook contacts outside of their 24 hour messaging window, use a Broadcast with a Facebook Opt-In instead of a Flow. Learn more about Facebook Opt-ins in our Help Center.'
-            )}
-          </temba-alert>
-        </p>
-        <SelectElement
-          key={'fb_method_select'}
-          name={i18n.t('forms.method', 'Method')}
-          entry={this.state.topic}
-          onChange={this.handleTopicUpdate}
-          options={TOPIC_OPTIONS}
-          placeholder={i18n.t(
-            'forms.send_msg_facebook_topic_placeholder',
-            'Select a topic to use over Facebook'
-          )}
-          clearable={true}
-        />
-      </>
-    );
-  }
-
-  private handleTopicUpdate(topic: SelectOption) {
-    this.setState({ topic: { value: topic } });
   }
 
   private renderTemplateConfig(): JSX.Element {
@@ -436,15 +396,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         body: this.renderTemplateConfig(),
         checked: this.state.template !== null,
         hasErrors: this.hasTemplateErrors()
-      };
-      tabs.splice(0, 0, templates);
-    }
-
-    if (hasFeature(this.context.config, FeatureFilter.HAS_FACEBOOK)) {
-      const templates: Tab = {
-        name: 'Facebook',
-        body: this.renderTopicConfig(),
-        checked: this.state.topic.value != null
       };
       tabs.splice(0, 0, templates);
     }
