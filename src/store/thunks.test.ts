@@ -74,7 +74,48 @@ const getActionFromStore = (store: any, type: string) => {
 };
 
 describe('fetch flows', () => {
-  const store = createMockStore({});
+  it('should reset language to base when loading a flow', () => {
+    // Mock setLanguageCode to track if it gets called
+    const setLanguageCodeSpy = jest.fn();
+    
+    // Mock the store module
+    const storeMock = { getState: () => ({ setLanguageCode: setLanguageCodeSpy }) };
+    mock(require('store'), 'store', storeMock);
+
+    // Create a proper mock store using the same pattern as other tests
+    const store = createMockStore({
+      flowContext: { issues: {} },
+      editorState: { fetchingFlow: false }
+    });
+
+    const emptyAssetStore: AssetStore = {
+      languages: { type: AssetType.Language, items: {} },
+      fields: { type: AssetType.Field, items: {} },
+      groups: { type: AssetType.Group, items: {} },
+      flows: { type: AssetType.Flow, items: {} },
+      labels: { type: AssetType.Label, items: {} },
+      channels: { type: AssetType.Channel, items: {} },
+      globals: { type: AssetType.Global, items: {} },
+      results: { type: AssetType.Result, items: {} },
+      templates: { type: AssetType.Template, items: {} },
+      optins: { type: AssetType.OptIn, items: {} },
+      classifiers: { type: AssetType.Classifier, items: {} },
+      resthooks: { type: AssetType.Resthook, items: {} },
+      revisions: { type: AssetType.Revision, items: {} }
+    };
+
+    const flowDetails: FlowDetails = {
+      definition: { ...boring, _ui: undefined as any },
+      metadata: null,
+      info: null,
+      issues: null
+    };
+    
+    store.dispatch(loadFlowDefinition(flowDetails, emptyAssetStore));
+    
+    // Verify that setLanguageCode was called with 'base'
+    expect(setLanguageCodeSpy).toHaveBeenCalledWith('base');
+  });
 });
 
 describe('Flow Manipulation', () => {

@@ -376,6 +376,9 @@ export const loadFlowDefinition = (details: FlowDetails, assetStore: AssetStore)
   // finally update our assets, and mark us as fetched
   dispatch(updateAssets(assetStore));
   dispatch(mergeEditorState({ fetchingFlow: false }));
+  
+  // reset language to base when loading a flow
+  store.getState().setLanguageCode('base');
 };
 
 /**
