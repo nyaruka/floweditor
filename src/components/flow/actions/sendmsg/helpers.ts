@@ -5,16 +5,8 @@ import { SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from 'config/interfaces';
 import { SendMsg } from 'flowTypes';
 import { NodeEditorSettings } from 'store/nodeEditor';
-import { SelectOption } from 'components/form/select/SelectElement';
 import { Attachment } from './attachments';
 import { store } from 'store';
-
-export const TOPIC_OPTIONS: SelectOption[] = [
-  { value: 'event', name: 'Event' },
-  { value: 'account', name: 'Account' },
-  { value: 'purchase', name: 'Purchase' },
-  { value: 'agent', name: 'Agent' }
-];
 
 export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState => {
   let template: { uuid: string; name: string } = null;
@@ -43,7 +35,6 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
     });
 
     return {
-      topic: { value: TOPIC_OPTIONS.find(option => option.value === action.topic) },
       template,
       templateVariables,
       attachments,
@@ -59,7 +50,6 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
   }
 
   return {
-    topic: { value: null },
     template,
     templateVariables,
     attachments: [],
@@ -91,10 +81,6 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
   if (state.template) {
     result.template = state.template;
     result.template_variables = state.templateVariables;
-  }
-
-  if (state.topic.value) {
-    result.topic = state.topic.value.value;
   }
 
   return result;
