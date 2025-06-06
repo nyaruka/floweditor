@@ -7,15 +7,11 @@
     --temba-select-selected-font-size: 12px;
     --search-input-height: 7px !important;
     --temba-select-min-height: 1em;
+    --temba-select-selected-padding: 4px;
   }
 }
 
-.normal {
-  temba-select {
-    --temba-select-selected-padding: 9px;
-    --temba-select-selected-font-size: 13px;
-  }
-}
+.normal {}
 
 .error {
   temba-select {
