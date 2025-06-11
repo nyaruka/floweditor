@@ -3,7 +3,7 @@ import { createOpenTicketNode, getRouterFormProps } from 'testUtils/assetCreator
 import { Types } from 'config/interfaces';
 import { RenderNode } from 'store/flowContext';
 import TicketRouterForm, { TicketRouterFormState } from './TicketRouterForm';
-import { stateToNode } from './helpers';
+import { stateToNode, nodeToState } from './helpers';
 import * as utils from 'utils';
 import * as React from 'react';
 import { render, fireEvent, fireChangeText, fireTembaSelect } from 'test/utils';
@@ -133,6 +133,52 @@ describe(TicketRouterForm.name, () => {
         uuid: 'user-uuid-123',
         name: 'New User'
       });
+    });
+
+    it('should demonstrate the valueKey issue with legacy assignees', () => {
+      // Create a proper mock with legacy assignee structure 
+      const legacyNode = createOpenTicketNode('Need help', 'Where are my cookies');
+      
+      // Add a legacy assignee to the action (email only, no UUID)
+      legacyNode.actions[0].assignee = { email: 'legacy.user@gmail.com', name: 'Legacy User' };
+      
+      const mockSettings: any = {
+        originalNode: {
+          node: legacyNode,
+          ui: { type: Types.split_by_ticket }
+        }
+      };
+
+      // Test what happens when we initialize the form state with a legacy assignee
+      const initialState = nodeToState(mockSettings);
+      
+      // The assignee should be loaded from the legacy format
+      expect(initialState.assignee.value).toEqual({
+        email: 'legacy.user@gmail.com', 
+        name: 'Legacy User'
+      });
+      
+      // When assignee has no UUID, the current logic sets valueKey to 'email'
+      // This is the source of the issue
+      const expectValueKey = initialState.assignee.value?.uuid ? 'uuid' : 'email';
+      expect(expectValueKey).toBe('email'); // This demonstrates the problem
+    });
+
+    it('should use uuid valueKey regardless of current assignee type', () => {
+      // Test that the TembaSelect always uses 'uuid' as valueKey now
+      const legacyNode = createOpenTicketNode('Need help', 'Where are my cookies');
+      legacyNode.actions[0].assignee = { email: 'legacy.user@gmail.com', name: 'Legacy User' };
+      
+      const legacyFormProps = getRouterFormProps({
+        node: legacyNode,
+        ui: { type: Types.split_by_ticket }
+      } as RenderNode);
+
+      const { getByTestId } = render(<TicketRouterForm {...legacyFormProps} />);
+      const assigneeSelect = getByTestId('temba_select_assignee');
+      
+      // The select should always use 'uuid' as valueKey, even when current assignee is email-only
+      expect(assigneeSelect.getAttribute('valuekey')).toBe('uuid');
     });
   });
 });
