@@ -69,9 +69,9 @@ export const stateToNode = (
     type: Types.open_ticket,
     topic: topic ? { uuid: topic.uuid, name: topic.name } : null,
     note: state.note.value,
-    assignee: assignee 
-      ? assignee.uuid 
-        ? { uuid: assignee.uuid, name: getUserName(assignee) } 
+    assignee: assignee
+      ? assignee.uuid
+        ? { uuid: assignee.uuid, name: getUserName(assignee) }
         : { email: assignee.email, name: getUserName(assignee) }
       : null
   };

@@ -247,9 +247,4 @@ const mapDispatchToProps = (dispatch: DispatchWithState) => {
   return bindActionCreators({ updateSticky }, dispatch);
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  null,
-  { forwardRef: false }
-)(Sticky);
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: false })(Sticky);

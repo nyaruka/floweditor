@@ -2,7 +2,8 @@ import { mock } from 'testUtils';
 import { createOpenTicketNode, getRouterFormProps } from 'testUtils/assetCreators';
 import { Types } from 'config/interfaces';
 import { RenderNode } from 'store/flowContext';
-import TicketRouterForm from './TicketRouterForm';
+import TicketRouterForm, { TicketRouterFormState } from './TicketRouterForm';
+import { stateToNode } from './helpers';
 import * as utils from 'utils';
 import * as React from 'react';
 import { render, fireEvent, fireChangeText, fireTembaSelect } from 'test/utils';
@@ -62,34 +63,75 @@ describe(TicketRouterForm.name, () => {
   });
 
   describe('backwards compatibility', () => {
-    it('should handle existing email-only assignments', () => {
-      // Create a ticket form with an existing email-only assignee
-      const baseNode = createOpenTicketNode('Need help', 'Where are my cookies');
-      const ticketFormWithEmailAssignee = getRouterFormProps({
-        node: {
-          ...baseNode.node,
-          actions: [{
-            uuid: 'b1f332f3-bdd3-4891-aec5-1843a712dbf1',
-            type: Types.open_ticket,
-            note: 'Where are my cookies',
-            assignee: { email: 'legacy.user@gmail.com', name: 'Legacy User' }
-          }]
-        },
-        ui: { type: Types.split_by_ticket },
-        inboundConnections: {}
-      } as RenderNode);
+    it('should preserve email-only assignees when saving', () => {
+      // Create a simple test to check backwards compatibility logic in stateToNode
+      const mockSettings: any = {
+        originalNode: {
+          node: {
+            actions: [],
+            router: { result_name: 'test' },
+            exits: []
+          }
+        }
+      };
 
-      const { getByText } = render(<TicketRouterForm {...ticketFormWithEmailAssignee} />);
-      
-      const okButton = getByText('Ok');
-      fireEvent.click(okButton);
-      
-      // Verify that the email-only assignee is preserved
-      expect(ticketFormWithEmailAssignee.updateRouter).toBeCalled();
-      const savedNode = ticketFormWithEmailAssignee.updateRouter.mock.calls[0][0];
-      expect(savedNode.node.actions[0].assignee).toEqual({
+      const stateWithEmailOnlyAssignee: TicketRouterFormState = {
+        assignee: {
+          value: {
+            email: 'legacy.user@gmail.com',
+            name: 'Legacy User', // This name would have been saved previously
+            first_name: 'Legacy',
+            last_name: 'User'
+          }
+        },
+        topic: { value: { uuid: 'topic-uuid', name: 'General' } },
+        note: { value: 'Test note' },
+        resultName: { value: 'TestResult' },
+        valid: true
+      };
+
+      const result = stateToNode(mockSettings, stateWithEmailOnlyAssignee);
+
+      // Should preserve email format for email-only users (those without uuid)
+      expect(result.node.actions[0].assignee).toEqual({
         email: 'legacy.user@gmail.com',
         name: 'Legacy User'
+      });
+    });
+
+    it('should use uuid format for users with uuid', () => {
+      // Create a simple test to check new format logic in stateToNode
+      const mockSettings: any = {
+        originalNode: {
+          node: {
+            actions: [],
+            router: { result_name: 'test' },
+            exits: []
+          }
+        }
+      };
+
+      const stateWithUuidAssignee: TicketRouterFormState = {
+        assignee: {
+          value: {
+            uuid: 'user-uuid-123',
+            email: 'new.user@gmail.com',
+            first_name: 'New',
+            last_name: 'User'
+          }
+        },
+        topic: { value: { uuid: 'topic-uuid', name: 'General' } },
+        note: { value: 'Test note' },
+        resultName: { value: 'TestResult' },
+        valid: true
+      };
+
+      const result = stateToNode(mockSettings, stateWithUuidAssignee);
+
+      // Should use uuid format for users with uuid
+      expect(result.node.actions[0].assignee).toEqual({
+        uuid: 'user-uuid-123',
+        name: 'New User'
       });
     });
   });

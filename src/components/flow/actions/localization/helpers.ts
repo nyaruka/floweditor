@@ -55,7 +55,7 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
       if (localized.isLocalized()) {
         const localizedObject = localized.getObject() as any;
         if (localizedObject.text) {
-          const action = localizedObject as (SendMsg & SayMsg);
+          const action = localizedObject as SendMsg & SayMsg;
           state.message.value = 'text' in localized.localizedKeys ? action.text : '';
           state.audio.value = 'audio_url' in localized.localizedKeys ? action.audio_url : null;
           state.quickReplies.value =
