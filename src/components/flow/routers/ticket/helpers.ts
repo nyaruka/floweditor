@@ -38,7 +38,7 @@ export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState
     note = { value: action.note };
     assignee = { value: action.assignee };
 
-    resultName = { value: router.result_name };
+    resultName = { value: router?.result_name || '' };
   }
 
   const state: TicketRouterFormState = {
@@ -69,7 +69,11 @@ export const stateToNode = (
     type: Types.open_ticket,
     topic: topic ? { uuid: topic.uuid, name: topic.name } : null,
     note: state.note.value,
-    assignee: assignee ? { email: assignee.email, name: getUserName(assignee) } : null
+    assignee: assignee 
+      ? assignee.uuid 
+        ? { uuid: assignee.uuid, name: getUserName(assignee) } 
+        : { email: assignee.email, name: getUserName(assignee) }
+      : null
   };
 
   return createServiceCallSplitNode(

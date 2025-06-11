@@ -34,6 +34,7 @@ describe(TicketRouterForm.name, () => {
 
       // select an assignee
       fireTembaSelect(getByTestId('temba_select_assignee'), {
+        uuid: 'agent-user-uuid',
         email: 'agent.user@gmail.com',
         first_name: 'Agent',
         last_name: 'User',
@@ -57,6 +58,39 @@ describe(TicketRouterForm.name, () => {
       fireEvent.click(okButton);
       expect(ticketForm.updateRouter).toBeCalled();
       expect(ticketForm.updateRouter).toMatchCallSnapshot();
+    });
+  });
+
+  describe('backwards compatibility', () => {
+    it('should handle existing email-only assignments', () => {
+      // Create a ticket form with an existing email-only assignee
+      const baseNode = createOpenTicketNode('Need help', 'Where are my cookies');
+      const ticketFormWithEmailAssignee = getRouterFormProps({
+        node: {
+          ...baseNode.node,
+          actions: [{
+            uuid: 'b1f332f3-bdd3-4891-aec5-1843a712dbf1',
+            type: Types.open_ticket,
+            note: 'Where are my cookies',
+            assignee: { email: 'legacy.user@gmail.com', name: 'Legacy User' }
+          }]
+        },
+        ui: { type: Types.split_by_ticket },
+        inboundConnections: {}
+      } as RenderNode);
+
+      const { getByText } = render(<TicketRouterForm {...ticketFormWithEmailAssignee} />);
+      
+      const okButton = getByText('Ok');
+      fireEvent.click(okButton);
+      
+      // Verify that the email-only assignee is preserved
+      expect(ticketFormWithEmailAssignee.updateRouter).toBeCalled();
+      const savedNode = ticketFormWithEmailAssignee.updateRouter.mock.calls[0][0];
+      expect(savedNode.node.actions[0].assignee).toEqual({
+        email: 'legacy.user@gmail.com',
+        name: 'Legacy User'
+      });
     });
   });
 });

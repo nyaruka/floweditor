@@ -334,8 +334,8 @@ Array [
       "actions": Array [
         Object {
           "assignee": Object {
-            "email": "agent.user@gmail.com",
             "name": "Agent User",
+            "uuid": "agent-user-uuid",
           },
           "note": "Where are my cookies",
           "topic": Object {
