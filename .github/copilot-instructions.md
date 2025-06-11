@@ -83,7 +83,7 @@ The project uses husky with lint-staged to automatically format code on commit.
   - `store/` - Redux store and state management
   - `utils/` - Utility functions
   - `testUtils/` - Testing utilities and setup
-- `lambda/` - AWS Lambda functions for the development server
+- `lambda/` - Netlify lambda functions, not currently used
 - `public/` - Static assets
 - `.github/` - GitHub workflows and templates
 
