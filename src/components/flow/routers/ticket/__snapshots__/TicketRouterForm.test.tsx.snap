@@ -90,7 +90,7 @@ exports[`TicketRouterForm render should render 1`] = `
                 name="Assignee"
                 namekey="name"
                 placeholder="Assign to (optional)"
-                valuekey="email"
+                valuekey="uuid"
                 values="[]"
               />
             </div>
@@ -253,7 +253,7 @@ exports[`TicketRouterForm updates should save changes 1`] = `
                 name="Assignee"
                 namekey="name"
                 placeholder="Assign to (optional)"
-                valuekey="email"
+                valuekey="uuid"
                 values="[]"
               />
             </div>
@@ -334,8 +334,8 @@ Array [
       "actions": Array [
         Object {
           "assignee": Object {
-            "email": "agent.user@gmail.com",
             "name": "Agent User",
+            "uuid": "agent-user-uuid",
           },
           "note": "Where are my cookies",
           "topic": Object {

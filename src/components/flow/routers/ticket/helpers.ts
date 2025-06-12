@@ -4,10 +4,15 @@ import { getType } from 'config/typeConfigs';
 import { OpenTicket, SwitchRouter, Topic, User } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, FormEntry } from 'store/nodeEditor';
-import { createUUID } from 'utils';
 import { TicketRouterFormState } from 'components/flow/routers/ticket/TicketRouterForm';
+import { store } from 'store';
+import { createUUID } from 'utils';
 
 export const getUserName = (user: User): string => {
+  if (user.name) {
+    return user.name;
+  }
+
   if (!user.first_name && !user.last_name) {
     return user.email || '';
   }
@@ -24,7 +29,7 @@ export const getOriginalAction = (settings: NodeEditorSettings): OpenTicket => {
   }
 };
 
-export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState => {
+export const nodeToState = async (settings: NodeEditorSettings): Promise<TicketRouterFormState> => {
   const router = settings.originalNode.node.router as SwitchRouter;
 
   let note = { value: '' };
@@ -38,7 +43,21 @@ export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState
     note = { value: action.note };
     assignee = { value: action.assignee };
 
-    resultName = { value: router.result_name };
+    if (!action.assignee?.uuid) {
+      // create a mutable shallow copy of the action and its assignee
+      const mutableAction: OpenTicket = {
+        ...action,
+        assignee: action.assignee ? { ...action.assignee } : null
+      };
+
+      await store.resolveUsers([mutableAction], ['assignee']);
+
+      if (mutableAction.assignee) {
+        assignee.value = mutableAction.assignee;
+      }
+    }
+
+    resultName = { value: router?.result_name || '' };
   }
 
   const state: TicketRouterFormState = {
@@ -46,7 +65,8 @@ export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState
     topic,
     note,
     resultName,
-    valid: true
+    valid: true,
+    loaded: true
   };
 
   return state;
@@ -69,7 +89,11 @@ export const stateToNode = (
     type: Types.open_ticket,
     topic: topic ? { uuid: topic.uuid, name: topic.name } : null,
     note: state.note.value,
-    assignee: assignee ? { email: assignee.email, name: getUserName(assignee) } : null
+    assignee: assignee
+      ? assignee.uuid
+        ? { uuid: assignee.uuid, name: getUserName(assignee) }
+        : { email: assignee.email, name: getUserName(assignee) }
+      : null
   };
 
   return createServiceCallSplitNode(

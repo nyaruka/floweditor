@@ -14,12 +14,14 @@ import TextInputElement from 'components/form/textinput/TextInputElement';
 import TembaSelect from 'temba/TembaSelect';
 import { fakePropType } from 'config/ConfigProvider';
 import { Topic, User } from 'flowTypes';
+import { isEqual } from 'lodash';
 
 export interface TicketRouterFormState extends FormState {
   assignee: FormEntry;
   topic: FormEntry;
   note: StringEntry;
   resultName: StringEntry;
+  loaded: boolean;
 }
 
 export default class TicketRouterForm extends React.Component<
@@ -32,19 +34,37 @@ export default class TicketRouterForm extends React.Component<
 
   constructor(props: RouterFormProps) {
     super(props);
+    this.state = {
+      assignee: { value: null },
+      topic: { value: null },
+      note: { value: '' },
+      resultName: { value: '' },
+      valid: false,
+      loaded: false
+    };
 
-    this.state = nodeToState(this.props.nodeSettings);
-
-    bindCallbacks(this, {
-      include: [/^handle/]
-    });
+    bindCallbacks(this, { include: [/^handle/] });
   }
 
-  componentDidMount(): void {
-    // set our default topic if we don't have one
-    if (!this.state.topic.value) {
-      this.handleTopicUpdate(this.context.config.defaultTopic);
+  async componentDidMount(): Promise<void> {
+    await this.setStateFromNodeSettings(this.props.nodeSettings);
+  }
+
+  async componentDidUpdate(prev: RouterFormProps): Promise<void> {
+    if (!isEqual(prev.nodeSettings, this.props.nodeSettings)) {
+      await this.setStateFromNodeSettings(this.props.nodeSettings);
     }
+  }
+
+  private async setStateFromNodeSettings(settings: RouterFormProps['nodeSettings']): Promise<void> {
+    const state = await nodeToState(settings);
+
+    this.setState(state, () => {
+      // ensure default topic after state is ready
+      if (!this.state.topic.value) {
+        this.handleTopicUpdate(this.context.config.defaultTopic);
+      }
+    });
   }
 
   private handleUpdate(
@@ -111,13 +131,6 @@ export default class TicketRouterForm extends React.Component<
   }
 
   private handleSave(): void {
-    // force our default topic if it's not set
-    // we have to do it here, because setState is async
-    // if (this.state.topic.value === null) {
-    // eslint-disable-next-line react/no-direct-mutation-state
-    // this.state.topic.value = this.context.config.defaultTopic;
-    // }
-
     // validate all fields in case they haven't interacted
     const valid = this.handleUpdate(
       {
@@ -150,12 +163,12 @@ export default class TicketRouterForm extends React.Component<
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-
         <div style={{ display: 'flex', width: '100%', marginTop: '0.5em' }}>
           <div style={{ flexBasis: 250 }}>
             <TembaSelect
               key="select_topic"
               valueKey="uuid"
+              nameKey="name"
               name={i18n.t('forms.topic', 'Topic')}
               endpoint={this.context.config.endpoints.topics}
               onChange={this.handleTopicUpdate}
@@ -171,7 +184,7 @@ export default class TicketRouterForm extends React.Component<
               key="select_assignee"
               name={i18n.t('forms.assignee', 'Assignee')}
               placeholder="Assign to (optional)"
-              valueKey="email"
+              valueKey="uuid"
               endpoint={this.context.config.endpoints.users}
               onChange={this.handleAssigneeUpdate}
               clearable={true}
@@ -198,6 +211,9 @@ export default class TicketRouterForm extends React.Component<
   }
 
   public render(): JSX.Element {
-    return this.renderEdit();
+    if (this.state.loaded) {
+      return this.renderEdit();
+    }
+    return null;
   }
 }

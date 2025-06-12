@@ -6,6 +6,7 @@ const users = {
   previous: null,
   results: [
     {
+      uuid: 'agent-user-uuid',
       email: 'agent.user@gmail.com',
       first_name: 'Agent',
       last_name: 'User',
@@ -13,6 +14,7 @@ const users = {
       created_on: '2021-06-10T21:44:30.971221Z'
     },
     {
+      uuid: 'viewer-user-uuid',
       email: 'viewr.user@gmail.com',
       first_name: 'Viewer',
       last_name: 'User',
@@ -20,6 +22,7 @@ const users = {
       created_on: '2020-11-09T23:02:10.095493Z'
     },
     {
+      uuid: 'admin-user-uuid',
       email: 'admin.user@gmail.com',
       first_name: 'Admin',
       last_name: 'User',

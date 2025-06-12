@@ -428,7 +428,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
           }
         }
         // if we are scrolling but given a clientY then user is mousing
-        else if (windowY !== 0 && (windowY > 100 && windowY + 100 < viewportHeight)) {
+        else if (windowY !== 0 && windowY > 100 && windowY + 100 < viewportHeight) {
           window.clearInterval(this.isScrolling);
           this.isScrolling = null;
         }
