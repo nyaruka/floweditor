@@ -124,8 +124,8 @@ export class FlowEditor extends React.Component<{}, FlowEditorState> {
   }
 
   public componentDidMount(): void {
-    const { endpoints, flow, forceSaveOnLoad } = this.context.config;
     // TODO: Convert thunk actions to work with TembaStore
+    // const { endpoints, flow, forceSaveOnLoad } = this.context.config;
     // this.props.fetchFlow(endpoints, flow, forceSaveOnLoad);
 
     // TODO: we want the store to be responsible for this eventually
