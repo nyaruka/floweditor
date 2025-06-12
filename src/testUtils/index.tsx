@@ -244,4 +244,16 @@ export const setupStore = ({
     };
     return app;
   });
+
+  mock(store, 'resolveUsers', async (objects: any[], fields: string[]) => {
+    // Mock implementation to add UUIDs to users that don't have them
+    objects.forEach(obj => {
+      fields.forEach(field => {
+        if (obj[field] && obj[field].email && !obj[field].uuid) {
+          // Add a mock UUID to users that only have email addresses
+          obj[field].uuid = `mock-uuid-${obj[field].email.replace('@', '-at-')}`;
+        }
+      });
+    });
+  });
 };

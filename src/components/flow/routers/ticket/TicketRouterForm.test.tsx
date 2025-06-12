@@ -18,17 +18,31 @@ const ticketForm = getRouterFormProps({
 
 describe(TicketRouterForm.name, () => {
   describe('render', () => {
-    it('should render', () => {
-      const { baseElement } = render(<TicketRouterForm {...ticketForm} />);
+    it('should render', async () => {
+      const { baseElement, rerender } = render(<TicketRouterForm {...ticketForm} />);
+      
+      // Wait for component to load
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Re-render to get the updated component state
+      rerender(<TicketRouterForm {...ticketForm} />);
+      
       expect(baseElement).toMatchSnapshot();
     });
   });
 
   describe('updates', () => {
-    it('should save changes', () => {
-      const { baseElement, getByText, getAllByTestId, getByTestId, getByLabelText } = render(
+    it('should save changes', async () => {
+      const { baseElement, getByText, getAllByTestId, getByTestId, getByLabelText, rerender } = render(
         <TicketRouterForm {...ticketForm} />
       );
+      
+      // Wait for component to load
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Re-render to get the updated component state
+      rerender(<TicketRouterForm {...ticketForm} />);
+      
       expect(baseElement).toMatchSnapshot();
 
       const okButton = getByText('Ok');
@@ -63,7 +77,7 @@ describe(TicketRouterForm.name, () => {
   });
 
   describe('backwards compatibility', () => {
-    it('should preserve email-only assignees when saving', () => {
+    it('should preserve email-only assignees when saving', async () => {
       // Create a simple test to check backwards compatibility logic in stateToNode
       const mockSettings: any = {
         originalNode: {
@@ -87,7 +101,8 @@ describe(TicketRouterForm.name, () => {
         topic: { value: { uuid: 'topic-uuid', name: 'General' } },
         note: { value: 'Test note' },
         resultName: { value: 'TestResult' },
-        valid: true
+        valid: true,
+        loaded: true
       };
 
       const result = stateToNode(mockSettings, stateWithEmailOnlyAssignee);
@@ -99,7 +114,7 @@ describe(TicketRouterForm.name, () => {
       });
     });
 
-    it('should use uuid format for users with uuid', () => {
+    it('should use uuid format for users with uuid', async () => {
       // Create a simple test to check new format logic in stateToNode
       const mockSettings: any = {
         originalNode: {
@@ -123,7 +138,8 @@ describe(TicketRouterForm.name, () => {
         topic: { value: { uuid: 'topic-uuid', name: 'General' } },
         note: { value: 'Test note' },
         resultName: { value: 'TestResult' },
-        valid: true
+        valid: true,
+        loaded: true
       };
 
       const result = stateToNode(mockSettings, stateWithUuidAssignee);
@@ -135,7 +151,7 @@ describe(TicketRouterForm.name, () => {
       });
     });
 
-    it('should demonstrate the valueKey issue with legacy assignees', () => {
+    it('should demonstrate the valueKey issue with legacy assignees', async () => {
       // Create a proper mock with legacy assignee structure 
       const legacyNode = createOpenTicketNode('Need help', 'Where are my cookies');
       
@@ -150,21 +166,23 @@ describe(TicketRouterForm.name, () => {
       };
 
       // Test what happens when we initialize the form state with a legacy assignee
-      const initialState = nodeToState(mockSettings);
+      const initialState = await nodeToState(mockSettings);
       
       // The assignee should be loaded from the legacy format
+      // Since we have our mock resolveUsers function, it should have been given a UUID
       expect(initialState.assignee.value).toEqual({
         email: 'legacy.user@gmail.com', 
-        name: 'Legacy User'
+        name: 'Legacy User',
+        uuid: 'mock-uuid-legacy.user-at-gmail.com'
       });
       
       // When assignee has no UUID, the current logic sets valueKey to 'email'
       // This is the source of the issue
       const expectValueKey = initialState.assignee.value?.uuid ? 'uuid' : 'email';
-      expect(expectValueKey).toBe('email'); // This demonstrates the problem
+      expect(expectValueKey).toBe('uuid'); // This should now be 'uuid' since we added one
     });
 
-    it('should use uuid valueKey regardless of current assignee type', () => {
+    it('should use uuid valueKey regardless of current assignee type', async () => {
       // Test that the TembaSelect always uses 'uuid' as valueKey now
       const legacyNode = createOpenTicketNode('Need help', 'Where are my cookies');
       legacyNode.actions[0].assignee = { email: 'legacy.user@gmail.com', name: 'Legacy User' };
@@ -174,7 +192,14 @@ describe(TicketRouterForm.name, () => {
         ui: { type: Types.split_by_ticket }
       } as RenderNode);
 
-      const { getByTestId } = render(<TicketRouterForm {...legacyFormProps} />);
+      const { getByTestId, rerender } = render(<TicketRouterForm {...legacyFormProps} />);
+      
+      // Wait for component to load by checking if it's no longer rendering an empty div
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Re-render to get the updated component state
+      rerender(<TicketRouterForm {...legacyFormProps} />);
+      
       const assigneeSelect = getByTestId('temba_select_assignee');
       
       // The select should always use 'uuid' as valueKey, even when current assignee is email-only
