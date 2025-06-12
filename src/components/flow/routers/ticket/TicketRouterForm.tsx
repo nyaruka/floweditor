@@ -50,7 +50,6 @@ export default class TicketRouterForm extends React.Component<
     await this.setStateFromNodeSettings(this.props.nodeSettings);
   }
 
-  /* 3️⃣  refresh if the node settings prop changes */
   async componentDidUpdate(prev: RouterFormProps): Promise<void> {
     if (!isEqual(prev.nodeSettings, this.props.nodeSettings)) {
       await this.setStateFromNodeSettings(this.props.nodeSettings);
@@ -132,13 +131,6 @@ export default class TicketRouterForm extends React.Component<
   }
 
   private handleSave(): void {
-    // force our default topic if it's not set
-    // we have to do it here, because setState is async
-    // if (this.state.topic.value === null) {
-    // eslint-disable-next-line react/no-direct-mutation-state
-    // this.state.topic.value = this.context.config.defaultTopic;
-    // }
-
     // validate all fields in case they haven't interacted
     const valid = this.handleUpdate(
       {
