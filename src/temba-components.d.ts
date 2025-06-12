@@ -84,4 +84,5 @@ export interface TembaStore extends HTMLElement {
   getState: () => TembaAppState;
   setKeyedAssets: (key: string, assets: string[]) => void;
   getKeyedAssets: () => { [key: string]: string[] };
+  resolveUsers: (objects: any[], fields: string[]) => Promise<void>;
 }

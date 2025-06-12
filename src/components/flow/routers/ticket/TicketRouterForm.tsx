@@ -14,12 +14,14 @@ import TextInputElement from 'components/form/textinput/TextInputElement';
 import TembaSelect from 'temba/TembaSelect';
 import { fakePropType } from 'config/ConfigProvider';
 import { Topic, User } from 'flowTypes';
+import { isEqual } from 'lodash';
 
 export interface TicketRouterFormState extends FormState {
   assignee: FormEntry;
   topic: FormEntry;
   note: StringEntry;
   resultName: StringEntry;
+  loaded: boolean;
 }
 
 export default class TicketRouterForm extends React.Component<
@@ -32,19 +34,38 @@ export default class TicketRouterForm extends React.Component<
 
   constructor(props: RouterFormProps) {
     super(props);
+    this.state = {
+      assignee: { value: null },
+      topic: { value: null },
+      note: { value: '' },
+      resultName: { value: '' },
+      valid: false,
+      loaded: false
+    };
 
-    this.state = nodeToState(this.props.nodeSettings);
-
-    bindCallbacks(this, {
-      include: [/^handle/]
-    });
+    bindCallbacks(this, { include: [/^handle/] });
   }
 
-  componentDidMount(): void {
-    // set our default topic if we don't have one
-    if (!this.state.topic.value) {
-      this.handleTopicUpdate(this.context.config.defaultTopic);
+  async componentDidMount(): Promise<void> {
+    await this.setStateFromNodeSettings(this.props.nodeSettings);
+  }
+
+  /* 3️⃣  refresh if the node settings prop changes */
+  async componentDidUpdate(prev: RouterFormProps): Promise<void> {
+    if (!isEqual(prev.nodeSettings, this.props.nodeSettings)) {
+      await this.setStateFromNodeSettings(this.props.nodeSettings);
     }
+  }
+
+  private async setStateFromNodeSettings(settings: RouterFormProps['nodeSettings']): Promise<void> {
+    const state = await nodeToState(settings);
+
+    this.setState(state, () => {
+      // ensure default topic after state is ready
+      if (!this.state.topic.value) {
+        this.handleTopicUpdate(this.context.config.defaultTopic);
+      }
+    });
   }
 
   private handleUpdate(
@@ -150,12 +171,12 @@ export default class TicketRouterForm extends React.Component<
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-
         <div style={{ display: 'flex', width: '100%', marginTop: '0.5em' }}>
           <div style={{ flexBasis: 250 }}>
             <TembaSelect
               key="select_topic"
               valueKey="uuid"
+              nameKey="name"
               name={i18n.t('forms.topic', 'Topic')}
               endpoint={this.context.config.endpoints.topics}
               onChange={this.handleTopicUpdate}
@@ -198,6 +219,9 @@ export default class TicketRouterForm extends React.Component<
   }
 
   public render(): JSX.Element {
-    return this.renderEdit();
+    if (this.state.loaded) {
+      return this.renderEdit();
+    }
+    return null;
   }
 }
