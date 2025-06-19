@@ -12,10 +12,5 @@ Array [
     "name": "Language",
     "type": "property",
   },
-  Object {
-    "id": "status",
-    "name": "Status",
-    "type": "property",
-  },
 ]
 `;

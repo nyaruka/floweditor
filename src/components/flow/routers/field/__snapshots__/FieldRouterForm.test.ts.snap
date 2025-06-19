@@ -55,11 +55,6 @@ exports[`FieldRouterForm initializes 1`] = `
               "type": "property",
             },
             Object {
-              "id": "status",
-              "name": "Status",
-              "type": "property",
-            },
-            Object {
               "id": "tel",
               "name": "Phone Number",
               "type": "scheme",
@@ -280,11 +275,6 @@ exports[`FieldRouterForm should render 1`] = `
             Object {
               "id": "channel",
               "name": "Channel",
-              "type": "property",
-            },
-            Object {
-              "id": "status",
-              "name": "Status",
               "type": "property",
             },
             Object {
