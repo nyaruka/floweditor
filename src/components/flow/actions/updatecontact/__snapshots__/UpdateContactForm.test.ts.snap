@@ -52,11 +52,6 @@ exports[`UpdateContactForm render should render an empty form with different act
           "name": "Channel",
           "type": "property",
         },
-        Object {
-          "id": "status",
-          "name": "Status",
-          "type": "property",
-        },
       ]
     }
     assets={
@@ -149,11 +144,6 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
         Object {
           "id": "channel",
           "name": "Channel",
-          "type": "property",
-        },
-        Object {
-          "id": "status",
-          "name": "Status",
           "type": "property",
         },
       ]

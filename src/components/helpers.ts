@@ -27,8 +27,8 @@ export const getDraggedFrom = (ghostNode: RenderNode): DragPoint => {
 const ONLINE_PROPERTIES: Asset[] = [
   // NAME_PROPERTY, // Removing name property as we don't use it in glific
   LANGUAGE_PROPERTY,
-  CHANNEL_PROPERTY,
-  STATUS_PROPERTY
+  CHANNEL_PROPERTY
+  // STATUS_PROPERTY // Removing status property as we don't support it in glific
 ];
 const OFFLINE_PROPERTIES: Asset[] = [NAME_PROPERTY, LANGUAGE_PROPERTY, STATUS_PROPERTY];
 
