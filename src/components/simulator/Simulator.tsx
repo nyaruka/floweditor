@@ -529,7 +529,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         session: this.state.session,
         resume: {
           type: 'msg',
-          msg,
+          event: {
+            type: 'msg_received',
+            created_on: now,
+            msg: msg
+          },
           resumed_on: now,
           contact: this.state.session.contact
         }
