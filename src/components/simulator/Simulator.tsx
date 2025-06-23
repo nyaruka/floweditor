@@ -527,6 +527,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       const body: any = {
         flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
         session: this.state.session,
+        contact: this.state.contact,
         resume: {
           type: 'msg',
           event: {
