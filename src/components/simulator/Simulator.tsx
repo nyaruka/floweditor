@@ -123,6 +123,7 @@ interface Contact {
   urns: string[];
   fields: {};
   groups: Group[];
+  created_on: string;
 }
 
 interface Step {
@@ -192,7 +193,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         uuid: SIMULATOR_CONTACT_UUID,
         urns: SIMULATOR_CONTACT_URNS,
         fields: {},
-        groups: []
+        groups: [],
+        created_on: '2020-01-01T00:00:00Z'
       },
       keypadEntry: '',
       drawerHeight: 0,
@@ -421,6 +423,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             active: waiting,
             context: runContext.context,
             sprinting: false,
+            contact: runContext.contact,
             session: runContext.session,
             events: newEvents,
             segments: this.state.segments.concat(runContext.segments || []),
@@ -520,7 +523,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       const msg: PostMessage = {
         text,
         uuid: createUUID(),
-        urn: this.state.session.contact.urns[0],
+        urn: this.state.contact.urns[0],
         attachments: attachment ? [attachment] : []
       };
 
@@ -536,7 +539,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             msg: msg
           },
           resumed_on: now,
-          contact: this.state.session.contact
+          contact: this.state.contact
         }
       };
 
