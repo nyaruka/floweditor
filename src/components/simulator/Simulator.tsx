@@ -40,18 +40,6 @@ const VIDEO_A = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/s
 const VIDEO_A_THUMB =
   'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a_thumb.jpg';
 
-interface PostMessage {
-  text: string;
-  uuid: string;
-  urn: string;
-  attachments: string[];
-}
-
-interface Message {
-  text: string;
-  inbound: boolean;
-}
-
 export interface SimulatorStoreProps {
   nodes: RenderNodeMap;
   definition: FlowDefinition;
@@ -334,29 +322,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
   }
 
-  private updateRunContext(runContext: RunContext, msg?: PostMessage): void {
+  private updateRunContext(runContext: RunContext, msgEvt?: any): void {
     const wasJustActive = this.state.active || (runContext.events && runContext.events.length > 0);
     this.setState({ quickReplies: [] }, () => {
-      if (!runContext.events || (runContext.events.length === 0 && msg)) {
-        const runs = runContext.session.runs;
-        const run = runs[runs.length - 1];
-        const step = run.path[run.path.length - 1];
-
-        runContext.events = [
-          {
-            msg: {
-              uuid: createUUID(),
-              urn: this.state.contact.urns[0],
-              text: msg.text,
-              attachments: msg.attachments
-            },
-            type: 'msg_created',
-            created_on: new Date().toISOString(),
-            step_uuid: step.uuid
-          }
-        ];
-      }
-
       // if session is waiting, find the wait event
       let waiting = runContext.session.status === 'waiting';
       let waitEvent: EventProps = null;
@@ -366,6 +334,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             waitEvent = evt;
           }
         }
+      }
+
+      // add msg we sent in as first event in sprint
+      if (msgEvt) {
+        runContext.events.unshift(msgEvt);
       }
 
       this.updateEvents(runContext.events, runContext.session, () => {
@@ -520,11 +493,15 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     this.setState({ sprinting: true, attachmentOptionsVisible: false, drawerOpen: false }, () => {
       const now = new Date().toISOString();
 
-      const msg: PostMessage = {
-        text,
-        uuid: createUUID(),
-        urn: this.state.contact.urns[0],
-        attachments: attachment ? [attachment] : []
+      const msgInEvt: any = {
+        type: 'msg_received',
+        created_on: now,
+        msg: {
+          text,
+          uuid: createUUID(),
+          urn: this.state.contact.urns[0],
+          attachments: attachment ? [attachment] : []
+        }
       };
 
       const body: any = {
@@ -533,11 +510,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         contact: this.state.contact,
         resume: {
           type: 'msg',
-          event: {
-            type: 'msg_received',
-            created_on: now,
-            msg: msg
-          },
+          event: msgInEvt,
           resumed_on: now,
           contact: this.state.contact
         }
@@ -546,7 +519,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       axios.default
         .post(getURL(this.context.config.endpoints.simulateResume), JSON.stringify(body, null, 2))
         .then((response: axios.AxiosResponse) => {
-          this.updateRunContext(response.data as RunContext, msg);
+          this.updateRunContext(response.data as RunContext, msgInEvt);
         })
         .catch(error => {
           if (error.response.status) {
