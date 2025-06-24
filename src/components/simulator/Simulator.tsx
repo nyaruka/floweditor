@@ -109,6 +109,7 @@ interface SimulatorState {
 interface Contact {
   uuid: string;
   urns: string[];
+  status: string;
   fields: {};
   groups: Group[];
   created_on: string;
@@ -180,6 +181,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       contact: {
         uuid: SIMULATOR_CONTACT_UUID,
         urns: SIMULATOR_CONTACT_URNS,
+        status: 'active',
         fields: {},
         groups: [],
         created_on: '2020-01-01T00:00:00Z'
@@ -418,6 +420,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     const contact: any = {
       uuid: SIMULATOR_CONTACT_UUID,
       urns: SIMULATOR_CONTACT_URNS,
+      status: 'active',
       fields: {},
       groups: [],
       created_on: now
@@ -441,13 +444,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
           trigger: {
             type: 'manual',
-            environment: {
-              date_format: 'DD-MM-YYYY',
-              time_format: 'hh:mm',
-              timezone: 'America/New_York',
-              languages: []
-            },
-            contact,
             flow: {
               uuid: this.props.definition.uuid,
               name: this.props.definition.name
@@ -511,8 +507,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         resume: {
           type: 'msg',
           event: msgInEvt,
-          resumed_on: now,
-          contact: this.state.contact
+          resumed_on: now
         }
       };
 
