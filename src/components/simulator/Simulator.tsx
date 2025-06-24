@@ -441,13 +441,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
           trigger: {
             type: 'manual',
-            environment: {
-              date_format: 'DD-MM-YYYY',
-              time_format: 'hh:mm',
-              timezone: 'America/New_York',
-              languages: []
-            },
-            contact,
             flow: {
               uuid: this.props.definition.uuid,
               name: this.props.definition.name
@@ -511,8 +504,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         resume: {
           type: 'msg',
           event: msgInEvt,
-          resumed_on: now,
-          contact: this.state.contact
+          resumed_on: now
         }
       };
 
