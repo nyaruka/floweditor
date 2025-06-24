@@ -6,43 +6,19 @@ import { CanvasDraggableProps } from 'components/canvas/CanvasDraggable';
 import Node from 'components/flow/node/Node';
 import { getDraggedFrom } from 'components/helpers';
 import NodeEditor from 'components/nodeeditor/NodeEditor';
-import Simulator from 'components/simulator/Simulator';
-import Sticky, { STICKY_BODY, STICKY_TITLE } from 'components/sticky/Sticky';
+import Sticky from 'components/sticky/Sticky';
 import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';
 import { FlowDefinition, FlowMetadata, FlowPosition } from 'flowTypes';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Plumber from 'services/Plumber';
 import { DragSelection, DebugState, CanvasPositions } from 'store/editor';
 import { RenderNode } from 'store/flowContext';
 import { createEmptyNode, detectLoops, getOrderedNodes } from 'store/helpers';
 import { NodeEditorSettings } from 'store/nodeEditor';
-import AppState from 'store/state';
-import {
-  ConnectionEvent,
-  DispatchWithState,
-  mergeEditorState,
-  MergeEditorState,
-  NoParamsAC,
-  onConnectionDrag,
-  OnConnectionDrag,
-  OnOpenNodeEditor,
-  onOpenNodeEditor,
-  onRemoveNodes,
-  OnRemoveNodes,
-  OnUpdateCanvasPositions,
-  onUpdateCanvasPositions,
-  resetNodeEditingState,
-  UpdateConnection,
-  updateConnection,
-  updateSticky,
-  UpdateSticky
-} from 'store/thunks';
+import { ConnectionEvent } from 'store/thunks';
 import {
   createUUID,
   isRealValue,
-  NODE_PADDING,
   renderIf,
   snapToGrid,
   timeEnd,
@@ -52,7 +28,6 @@ import Debug from 'utils/debug';
 
 import styles from './Flow.module.scss';
 import { Trans } from 'react-i18next';
-import { PopTabType } from 'config/interfaces';
 import i18n from 'config/i18n';
 import { store } from 'store';
 import { TembaAppState } from 'temba-components';
@@ -69,20 +44,10 @@ export interface FlowStoreProps {
   popped: string;
   dragActive: boolean;
 
-  mergeEditorState: MergeEditorState;
-
   definition: FlowDefinition;
   nodes: { [uuid: string]: RenderNode };
   metadata: FlowMetadata;
   nodeEditorSettings: NodeEditorSettings;
-
-  updateConnection: UpdateConnection;
-  onOpenNodeEditor: OnOpenNodeEditor;
-  onUpdateCanvasPositions: OnUpdateCanvasPositions;
-  onRemoveNodes: OnRemoveNodes;
-  resetNodeEditingState: NoParamsAC;
-  onConnectionDrag: OnConnectionDrag;
-  updateSticky: UpdateSticky;
 }
 
 export interface Translations {
@@ -118,9 +83,18 @@ export const getDragStyle = (drag: DragSelection) => {
 interface FlowState {
   isTranslating: boolean;
   languageCode: string;
+  // Data from TembaStore
+  ghostNode: RenderNode;
+  debug: DebugState;
+  popped: string;
+  dragActive: boolean;
+  definition: FlowDefinition;
+  nodes: { [uuid: string]: RenderNode };
+  metadata: FlowMetadata;
+  nodeEditorSettings: NodeEditorSettings;
 }
 
-export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
+export class Flow extends React.PureComponent<{}, FlowState> {
   private Plumber: Plumber;
   private nodeContainerUUID: string;
 
@@ -133,7 +107,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
 
   private unsubscribe: () => void;
 
-  constructor(props: FlowStoreProps, context: ConfigProviderContext) {
+  constructor(props: {}, context: ConfigProviderContext) {
     super(props, context);
 
     this.nodeContainerUUID = createUUID();
@@ -141,7 +115,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
 
     /* istanbul ignore next */
     if (context.config.debug) {
-      window.fe = new Debug(props, this.props.debug);
+      window.fe = new Debug({}, null);
     }
 
     this.unsubscribe = store.getApp().subscribe((state: TembaAppState) => {
@@ -157,10 +131,18 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
     timeStart('Loaded Flow');
   }
 
-  public mapState(state: any): void {
+  public mapState(state: TembaAppState): void {
     const changes = {
       isTranslating: state.isTranslating,
-      languageCode: state.languageCode
+      languageCode: state.languageCode,
+      ghostNode: state.editorState ? state.editorState.ghostNode : null,
+      debug: state.editorState ? state.editorState.debug : null,
+      popped: state.editorState ? state.editorState.popped : null,
+      dragActive: state.editorState ? state.editorState.dragActive : false,
+      definition: state.flowDefinition,
+      nodes: state.flowNodes,
+      metadata: state.flowMetadata,
+      nodeEditorSettings: state.nodeEditorSettings
     };
 
     if (this.state) {
@@ -182,14 +164,16 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
 
   public componentDidMount(): void {
     this.Plumber.bind('connection', (event: ConnectionEvent) =>
-      this.props.updateConnection(event.sourceId, event.targetId)
+      // TODO: Convert updateConnection thunk to TembaStore
+      this.handleUpdateConnection(event.sourceId, event.targetId)
     );
     this.Plumber.bind('beforeDrag', (event: ConnectionEvent) => {
       this.beforeConnectionDrag(event);
     });
 
     this.Plumber.bind('connectionDrag', (event: ConnectionEvent) => {
-      this.props.onConnectionDrag(event, this.context.config.flowType);
+      // TODO: Convert onConnectionDrag thunk to TembaStore
+      this.handleConnectionDrag(event, this.context.config.flowType);
     });
 
     this.Plumber.bind('connectionDragStop', (event: ConnectionEvent) =>
@@ -214,14 +198,25 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
     }
   }
 
+  private handleUpdateConnection(sourceId: string, targetId: string): void {
+    // TODO: Convert updateConnection thunk to TembaStore
+    // This would update the flow definition with new connections
+  }
+  
+  private handleConnectionDrag(event: ConnectionEvent, flowType: any): void {
+    // TODO: Convert onConnectionDrag thunk to TembaStore
+    // This handles connection drag events
+  }
+
   /**
    * Called right before a connector is dropped onto a new node
    */
   private onBeforeConnectorDrop(event: ConnectionEvent): boolean {
-    this.props.resetNodeEditingState();
+    // Reset node editor settings via TembaStore
+    store.getState().updateNodeEditorSettings(null);
     const fromNodeUUID = event.sourceId.split(':')[0];
     try {
-      detectLoops(this.props.nodes, fromNodeUUID, event.targetId);
+      detectLoops(this.state?.nodes || {}, fromNodeUUID, event.targetId);
     } catch {
       return false;
     }
@@ -233,7 +228,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
    * existing node or on to empty space.
    */
   private onConnectorDrop(event: ConnectionEvent): boolean {
-    const ghostNode = this.props.ghostNode;
+    const ghostNode = this.state?.ghostNode;
     // Don't show the node editor if we a dragging back to where we were
     if (isRealValue(ghostNode) && !isDraggingBack(event)) {
       // Wire up the drag from to our ghost node
@@ -247,7 +242,15 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
       const { left, top } = (this.ghost &&
         snapToGrid(this.ghost.ele.offsetLeft, this.ghost.ele.offsetTop)) || { left: 0, top: 0 };
 
-      this.props.ghostNode.ui.position = { left, top };
+      // Update ghost node position via TembaStore
+      const updatedGhostNode = { ...ghostNode };
+      updatedGhostNode.ui.position = { left, top };
+      
+      const currentEditorState = store.getState().editorState;
+      store.getState().updateEditorState({
+        ...currentEditorState,
+        ghostNode: updatedGhostNode
+      });
 
       let originalAction = null;
       if (ghostNode.node.actions?.length === 1) {
@@ -255,14 +258,18 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
       }
 
       // Bring up the node editor
-      this.props.onOpenNodeEditor({
+      store.getState().updateNodeEditorSettings({
         originalNode: ghostNode,
         originalAction
       });
     }
 
     if (isDraggingBack(event)) {
-      this.props.mergeEditorState({ ghostNode: null });
+      const currentEditorState = store.getState().editorState;
+      store.getState().updateEditorState({
+        ...currentEditorState,
+        ghostNode: null
+      });
     }
 
     /* istanbul ignore next */
@@ -279,13 +286,13 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
   }
 
   private handleStickyCreation(props: CanvasDraggableProps) {
-    const stickyMap = this.props.definition._ui.stickies || {};
+    const stickyMap = this.state?.definition?._ui.stickies || {};
     const uuid = props.uuid;
     return <Sticky key={uuid} uuid={uuid} sticky={stickyMap[uuid]} selected={props.selected} />;
   }
 
   private handleNodeCreation(props: CanvasDraggableProps) {
-    const onlyNode = Object.keys(this.props.nodes).length === 1;
+    const onlyNode = Object.keys(this.state?.nodes || {}).length === 1;
     return (
       <Node
         onlyNode={onlyNode}
@@ -305,7 +312,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
   }
 
   private getNodes(): CanvasDraggableProps[] {
-    return getOrderedNodes(this.props.nodes).map((renderNode: RenderNode, idx: number) => {
+    return getOrderedNodes(this.state?.nodes || {}).map((renderNode: RenderNode, idx: number) => {
       return {
         uuid: renderNode.node.uuid,
         position: renderNode.ui.position,
@@ -317,7 +324,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
   }
 
   private getStickies(): CanvasDraggableProps[] {
-    const stickyMap = this.props.definition._ui.stickies || {};
+    const stickyMap = this.state?.definition?._ui.stickies || {};
     return Object.keys(stickyMap).map((uuid: string, idx: number) => {
       return {
         uuid,
@@ -329,10 +336,10 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
   }
 
   private getDragNode(): JSX.Element {
-    return isRealValue(this.props.ghostNode) ? (
+    return isRealValue(this.state?.ghostNode) ? (
       <div
         data-spec={ghostNodeSpecId}
-        key={this.props.ghostNode.node.uuid}
+        key={this.state.ghostNode.node.uuid}
         style={{ position: 'absolute', display: 'block', visibility: 'hidden' }}
       >
         <Node
@@ -341,7 +348,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
           startingNode={false}
           ref={this.ghostRef}
           ghost={true}
-          nodeUUID={this.props.ghostNode.node.uuid}
+          nodeUUID={this.state.ghostNode.node.uuid}
           plumberMakeTarget={this.Plumber.makeTarget}
           plumberRemove={this.Plumber.remove}
           plumberRecalculate={this.Plumber.recalculate}
@@ -354,22 +361,27 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
   }
 
   private getSimulator(): JSX.Element {
+    // TODO: Convert Simulator component to use TembaStore instead of Redux
+    return null;
+    /*
     return renderIf(this.context.config.endpoints && this.context.config.endpoints.simulateStart)(
       <Simulator
         key="simulator"
-        popped={this.props.popped}
-        mergeEditorState={this.props.mergeEditorState}
+        popped={this.state?.popped}
         onToggled={(visible: boolean, tab: PopTabType) => {
-          this.props.mergeEditorState({
+          const currentEditorState = store.getState().editorState;
+          store.getState().updateEditorState({
+            ...currentEditorState,
             popped: visible ? tab : null
           });
         }}
       />
     );
+    */
   }
 
   private getNodeEditor(): JSX.Element {
-    return renderIf(this.props.nodeEditorSettings !== null)(
+    return renderIf(this.state?.nodeEditorSettings !== null)(
       <NodeEditor
         key="node-editor"
         helpArticles={this.context.config.help}
@@ -380,12 +392,13 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
 
   // TODO: this should be a callback from the canvas
   private handleDoubleClick(position: FlowPosition): void {
-    const { left, top } = position;
-    this.props.updateSticky(createUUID(), {
-      position: snapToGrid(left - 90 + NODE_PADDING, top - 40),
-      title: STICKY_TITLE,
-      body: STICKY_BODY
-    });
+    // TODO: Convert updateSticky thunk to TembaStore
+    // const { left, top } = position;
+    // this.props.updateSticky(createUUID(), {
+    //   position: snapToGrid(left - 90 + NODE_PADDING, top - 40),
+    //   title: STICKY_TITLE,
+    //   body: STICKY_BODY
+    // });
   }
 
   private getEmptyFlow(): JSX.Element {
@@ -404,7 +417,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
           name={i18n.t('buttons.create_message', 'Create Message')}
           onClick={() => {
             const emptyNode = createEmptyNode(null, null, 1, this.context.config.flowType);
-            this.props.onOpenNodeEditor({
+            store.getState().updateNodeEditorSettings({
               originalNode: emptyNode,
               originalAction: emptyNode.node.actions[0]
             });
@@ -446,12 +459,12 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
 
         <Canvas
           mutable={!this.isMobile() && this.context.config.mutable}
-          draggingNew={!!this.props.ghostNode && !this.props.nodeEditorSettings}
+          draggingNew={!!this.state?.ghostNode && !this.state?.nodeEditorSettings}
           newDragElement={this.getDragNode()}
           onDragging={this.handleDragging}
           uuid={this.nodeContainerUUID}
-          dragActive={this.props.dragActive}
-          mergeEditorState={this.props.mergeEditorState}
+          dragActive={this.state?.dragActive || false}
+          mergeEditorState={null} // TODO: Convert Canvas to work without Redux
           onRemoveNodes={this.handleRemoveNodes}
           draggables={draggables}
           onDoubleClick={this.handleDoubleClick}
@@ -465,52 +478,11 @@ export class Flow extends React.PureComponent<FlowStoreProps, FlowState> {
 
   private handleRemoveNodes(uuids: string[]): void {
     store.getState().removeNodes(uuids);
-
-    // todo: for now update our redux store as well
-    this.props.onRemoveNodes(uuids);
   }
 
   private handleUpdatePositions(positions: CanvasPositions) {
     store.getState().updateCanvasPositions(positions);
-
-    // todo: for now update our redux store as well
-    this.props.onUpdateCanvasPositions(positions);
   }
 }
 
-/* istanbul ignore next */
-const mapStateToProps = ({
-  flowContext: { definition, metadata, nodes },
-  editorState: { ghostNode, debug, popped, dragActive },
-  // tslint:disable-next-line: no-shadowed-variable
-  nodeEditor: { settings }
-}: AppState) => {
-  return {
-    nodeEditorSettings: settings,
-    definition,
-    nodes,
-    metadata,
-    ghostNode,
-    debug,
-    popped,
-    dragActive
-  };
-};
-
-/* istanbul ignore next */
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-  bindActionCreators(
-    {
-      mergeEditorState,
-      resetNodeEditingState,
-      onConnectionDrag,
-      onOpenNodeEditor,
-      onUpdateCanvasPositions,
-      onRemoveNodes,
-      updateConnection,
-      updateSticky
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(Flow);
+export default Flow;
