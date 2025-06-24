@@ -109,6 +109,7 @@ interface SimulatorState {
 interface Contact {
   uuid: string;
   urns: string[];
+  status: string;
   fields: {};
   groups: Group[];
   created_on: string;
@@ -180,6 +181,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       contact: {
         uuid: SIMULATOR_CONTACT_UUID,
         urns: SIMULATOR_CONTACT_URNS,
+        status: 'active',
         fields: {},
         groups: [],
         created_on: '2020-01-01T00:00:00Z'
@@ -418,6 +420,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     const contact: any = {
       uuid: SIMULATOR_CONTACT_UUID,
       urns: SIMULATOR_CONTACT_URNS,
+      status: 'active',
       fields: {},
       groups: [],
       created_on: now
