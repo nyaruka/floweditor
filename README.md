@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/nyaruka/floweditor/workflows/Build/badge.svg)](https://github.com/nyaruka/floweditor/actions?workflow=Build)
 [![codecov](https://codecov.io/gh/nyaruka/floweditor/branch/master/graph/badge.svg)](https://codecov.io/gh/nyaruka/floweditor)
 
-This is flow editing tool for [RapidPro/TextIt](https://github.com/nyaruka/rapidpro). The editor is a React component built with TypeScript and bundled with Webpack. It is open-sourced under the AGPL-3.0 license.
+This is the visual flow editing tool for [RapidPro/TextIt](https://github.com/nyaruka/rapidpro). It's a React component built with TypeScript and bundled with Webpack.
 
 ### Prerequisites
 
