@@ -1,7 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Button, { ButtonTypes } from 'components/button/Button';
 import Dialog from 'components/dialog/Dialog';
-import ConnectedFlow from 'components/flow/Flow';
+import Flow from 'components/flow/Flow';
 import styles from 'components/index.module.scss';
 import Loading from 'components/loading/Loading';
 import Modal from 'components/modal/Modal';
@@ -11,31 +11,9 @@ import ConfigProvider from 'config';
 import { fakePropType } from 'config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig, AnyAction } from 'flowTypes';
 import * as React from 'react';
-import { connect, Provider as ReduxProvider } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import createStore from 'store/createStore';
 import { ModalMessage } from 'store/editor';
 import { Assets, AssetStore, RenderNodeMap, FlowIssueMap } from 'store/flowContext';
 import { getCurrentDefinition } from 'store/helpers';
-import {
-  CreateNewRevision,
-  createNewRevision,
-  DispatchWithState,
-  FetchFlow,
-  fetchFlow,
-  LoadFlowDefinition,
-  loadFlowDefinition,
-  MergeEditorState,
-  mergeEditorState,
-  onOpenNodeEditor,
-  OnOpenNodeEditor,
-  UpdateTranslationFilters,
-  updateTranslationFilters,
-  reset,
-  Reset,
-  OnUpdateLocalizations,
-  onUpdateLocalizations
-} from 'store/thunks';
 import { ACTIVITY_INTERVAL, downloadJSON, renderIf, onNextRender } from 'utils';
 import { PopTabType } from 'config/interfaces';
 import { TranslatorTab, TranslationBundle } from './translator/TranslatorTab';
@@ -50,34 +28,22 @@ export interface FlowEditorContainerProps {
   config: FlowEditorConfig;
 }
 
-export interface FlowEditorStoreProps {
+export interface FlowEditorState {
+  isTranslating: boolean;
+  // State from TembaAppState
   assetStore: AssetStore;
   languages: Assets;
   simulating: boolean;
   fetchingFlow: boolean;
   definition: FlowDefinition;
   issues: FlowIssueMap;
-  fetchFlow: FetchFlow;
-  loadFlowDefinition: LoadFlowDefinition;
-  createNewRevision: CreateNewRevision;
-  mergeEditorState: MergeEditorState;
-  onOpenNodeEditor: OnOpenNodeEditor;
-  reset: Reset;
   nodes: RenderNodeMap;
   modalMessage: ModalMessage;
   saving: boolean;
   scrollToNode: string;
   scrollToAction: string;
   popped: string;
-  updateTranslationFilters: UpdateTranslationFilters;
-  onUpdateLocalizations: OnUpdateLocalizations;
 }
-
-export interface FlowEditorState {
-  isTranslating: boolean;
-}
-
-const hotStore = createStore();
 
 export const getLabel = (): JSX.Element => {
   return <div>testing</div>;
@@ -87,9 +53,7 @@ export const getLabel = (): JSX.Element => {
 export const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
   return (
     <ConfigProvider config={{ ...config }}>
-      <ReduxProvider store={hotStore as any}>
-        <ConnectedFlowEditor />
-      </ReduxProvider>
+      <FlowEditor />
     </ConfigProvider>
   );
 };
@@ -104,12 +68,12 @@ export const editorSpecId = 'editor';
 /**
  * The main editor view for editing a flow
  */
-export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditorState> {
+export class FlowEditor extends React.Component<{}, FlowEditorState> {
   public static contextTypes = contextTypes;
 
   unsubscribe: () => void;
 
-  constructor(props: FlowEditorStoreProps) {
+  constructor(props: {}) {
     super(props);
     bindCallbacks(this, {
       include: [/^handle/]
@@ -126,9 +90,23 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
       });
   }
 
-  public mapState(state: any): void {
+  public mapState(state: TembaAppState): void {
+    const languages = state.assetStore ? state.assetStore.languages : null;
+    
     const changes = {
-      isTranslating: state.isTranslating
+      isTranslating: state.isTranslating,
+      assetStore: state.assetStore,
+      languages,
+      simulating: state.editorState ? state.editorState.simulating : false,
+      fetchingFlow: state.editorState ? state.editorState.fetchingFlow : false,
+      definition: state.flowDefinition,
+      issues: state.flowIssues,
+      nodes: state.flowNodes,
+      modalMessage: state.editorState ? state.editorState.modalMessage : null,
+      saving: state.editorState ? state.editorState.saving : false,
+      scrollToNode: state.editorState ? state.editorState.scrollToNode : null,
+      scrollToAction: state.editorState ? state.editorState.scrollToAction : null,
+      popped: state.editorState ? state.editorState.popped : null
     };
 
     if (this.state) {
@@ -146,8 +124,9 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
   }
 
   public componentDidMount(): void {
-    const { endpoints, flow, forceSaveOnLoad } = this.context.config;
-    this.props.fetchFlow(endpoints, flow, forceSaveOnLoad);
+    // TODO: Convert thunk actions to work with TembaStore
+    // const { endpoints, flow, forceSaveOnLoad } = this.context.config;
+    // this.props.fetchFlow(endpoints, flow, forceSaveOnLoad);
 
     // TODO: we want the store to be responsible for this eventually
     // store.loadFlow(flow);
@@ -156,22 +135,27 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
   }
 
   public reset(): void {
-    this.props.reset();
+    // TODO: Convert to TembaStore
+    // this.props.reset();
   }
 
   private handleDownloadClicked(): void {
-    downloadJSON(getCurrentDefinition(this.props.definition, this.props.nodes), 'definition');
+    if (this.state?.definition && this.state?.nodes) {
+      downloadJSON(getCurrentDefinition(this.state.definition, this.state.nodes), 'definition');
+    }
   }
 
   private handleVisibilityChanged(visible: boolean): void {
-    this.props.mergeEditorState({
+    const currentEditorState = store.getState().editorState;
+    store.getState().updateEditorState({
+      ...currentEditorState,
       visible,
       activityInterval: ACTIVITY_INTERVAL
     });
   }
 
   public getAlertModal(): JSX.Element {
-    if (!this.props.modalMessage) {
+    if (!this.state || !this.state.modalMessage) {
       return null;
     }
 
@@ -179,25 +163,30 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
       <Modal width="600px" show={true}>
         <Dialog
           className={styles.alert_modal}
-          title={this.props.modalMessage.title}
+          title={this.state.modalMessage.title}
           headerClass="alert"
           buttons={{
             primary: {
               name: 'Ok',
               onClick: () => {
-                this.props.mergeEditorState({ modalMessage: null });
+                // Update editor state through TembaStore
+                const currentEditorState = store.getState().editorState;
+                store.getState().updateEditorState({ 
+                  ...currentEditorState,
+                  modalMessage: null 
+                });
               }
             }
           }}
         >
-          <div className={styles.alert_body}>{this.props.modalMessage.body}</div>
+          <div className={styles.alert_body}>{this.state.modalMessage.body}</div>
         </Dialog>
       </Modal>
     );
   }
 
   public getSavingIndicator(): JSX.Element {
-    if (!this.props.saving) {
+    if (!this.state || !this.state.saving) {
       return null;
     }
 
@@ -211,7 +200,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
   }
 
   public getFooter(): JSX.Element {
-    return !this.props.fetchingFlow && this.context.config.showDownload ? (
+    return !this.state?.fetchingFlow && this.context.config.showDownload ? (
       <div className={styles.footer}>
         <div className={styles.download_button}>
           <Button
@@ -225,7 +214,8 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
   }
 
   public handleOpenIssue(issueDetail: IssueDetail): void {
-    this.props.onOpenNodeEditor({
+    // Update node editor settings through TembaStore
+    store.getState().updateNodeEditorSettings({
       originalNode: issueDetail.renderObjects.renderNode,
       originalAction: issueDetail.renderObjects.renderAction
         ? (issueDetail.renderObjects.renderAction.action as AnyAction)
@@ -234,15 +224,20 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
   }
 
   private handleScrollToNode(node_uuid: string, action_uuid: string): void {
-    if (this.props.scrollToNode === node_uuid && this.props.scrollToAction === action_uuid) {
-      this.props.mergeEditorState({
+    const currentEditorState = store.getState().editorState;
+    
+    if (this.state?.scrollToNode === node_uuid && this.state?.scrollToAction === action_uuid) {
+      store.getState().updateEditorState({
+        ...currentEditorState,
         scrollToNode: null,
         scrollToAction: null
       });
     }
 
     onNextRender(() => {
-      this.props.mergeEditorState({
+      const currentEditorState = store.getState().editorState;
+      store.getState().updateEditorState({
+        ...currentEditorState,
         scrollToNode: node_uuid,
         scrollToAction: action_uuid
       });
@@ -254,12 +249,12 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
   }
 
   private handleOpenTranslation(translation: TranslationBundle): void {
-    const renderNode = this.props.nodes[translation.node_uuid];
+    const renderNode = this.state?.nodes[translation.node_uuid];
     const action = translation.action_uuid
-      ? renderNode.node.actions?.find(action => action.uuid === translation.action_uuid)
+      ? renderNode?.node.actions?.find(action => action.uuid === translation.action_uuid)
       : null;
 
-    this.props.onOpenNodeEditor({
+    store.getState().updateNodeEditorSettings({
       originalNode: renderNode,
       originalAction: action
     });
@@ -271,18 +266,29 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
   }
 
   private handleTabPopped(visible: boolean, tab: PopTabType): void {
+    const currentEditorState = store.getState().editorState;
     if (visible) {
-      this.props.mergeEditorState({ popped: tab });
+      store.getState().updateEditorState({ 
+        ...currentEditorState,
+        popped: tab 
+      });
     } else {
-      this.props.mergeEditorState({ popped: null });
+      store.getState().updateEditorState({ 
+        ...currentEditorState,
+        popped: null 
+      });
     }
   }
 
-  public componentDidUpdate(prevProps: FlowEditorStoreProps): void {
-    // traceUpdate(this, prevProps);
+  public componentDidUpdate(prevState: FlowEditorState): void {
+    // traceUpdate(this, prevState);
   }
 
   public render(): JSX.Element {
+    if (!this.state) {
+      return null;
+    }
+
     return (
       <PageVisibility onChange={this.handleVisibilityChanged}>
         <div
@@ -294,54 +300,54 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
           {this.getAlertModal()}
           <div className={styles.editor} data-spec={editorSpecId}>
             {renderIf(
-              Object.keys(this.props.nodes || {}).length > 0 &&
-                this.props.languages &&
-                Object.keys(this.props.languages.items).length > 0
+              Object.keys(this.state.nodes || {}).length > 0 &&
+                this.state.languages &&
+                Object.keys(this.state.languages.items).length > 0
             )(<LanguageSelector />)}
 
             {this.getSavingIndicator()}
 
-            {renderIf(this.props.definition && !this.props.fetchingFlow)(<ConnectedFlow />)}
+            {renderIf(this.state.definition && !this.state.fetchingFlow)(<Flow />)}
 
             {renderIf(
-              this.props.definition && this.state.isTranslating && !this.props.fetchingFlow
+              this.state.definition && this.state.isTranslating && !this.state.fetchingFlow
             )(
               <TranslatorTab
                 localization={
-                  this.props.definition
-                    ? this.props.definition.localization[store.getState().languageCode]
+                  this.state.definition
+                    ? this.state.definition.localization[store.getState().languageCode]
                     : {}
                 }
                 onTranslationClicked={this.handleScrollToTranslation}
                 onTranslationOpened={this.handleOpenTranslation}
-                onTranslationFilterChanged={this.props.updateTranslationFilters}
-                onUpdateLocalizations={this.props.onUpdateLocalizations}
+                onTranslationFilterChanged={null} // TODO: Convert to TembaStore
+                onUpdateLocalizations={null} // TODO: Convert to TembaStore
                 translationFilters={
-                  this.props.definition ? this.props.definition._ui.translation_filters : null
+                  this.state.definition ? this.state.definition._ui.translation_filters : null
                 }
-                nodes={this.props.nodes}
+                nodes={this.state.nodes}
                 onToggled={this.handleTabPopped}
-                popped={this.props.popped}
+                popped={this.state.popped}
               />
             )}
 
             <RevisionExplorer
-              loadFlowDefinition={this.props.loadFlowDefinition}
-              createNewRevision={this.props.createNewRevision}
-              assetStore={this.props.assetStore}
+              loadFlowDefinition={null} // TODO: Convert to TembaStore
+              createNewRevision={null} // TODO: Convert to TembaStore
+              assetStore={this.state.assetStore}
               onToggled={this.handleTabPopped}
-              popped={this.props.popped}
+              popped={this.state.popped}
             />
 
-            {renderIf(Object.keys(this.props.issues).length > 0)(
+            {renderIf(Object.keys(this.state.issues).length > 0)(
               <IssuesTab
-                issues={this.props.issues}
+                issues={this.state.issues}
                 onIssueClicked={this.handleScrollToIssue}
                 onIssueOpened={this.handleOpenIssue}
-                languages={this.props.languages ? this.props.languages.items : {}}
-                nodes={this.props.nodes}
+                languages={this.state.languages ? this.state.languages.items : {}}
+                nodes={this.state.nodes}
                 onToggled={this.handleTabPopped}
-                popped={this.props.popped}
+                popped={this.state.popped}
               />
             )}
             <div id="portal-root" />
@@ -352,54 +358,5 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps, FlowEditor
     );
   }
 }
-
-const mapStateToProps = ({
-  flowContext: { definition, issues, nodes, assetStore },
-  editorState: {
-    language,
-    fetchingFlow,
-    simulating,
-    modalMessage,
-    saving,
-    scrollToAction,
-    scrollToNode,
-    popped
-  }
-}: any) => {
-  const languages = assetStore ? assetStore.languages : null;
-
-  return {
-    popped,
-    modalMessage,
-    saving,
-    simulating,
-    assetStore,
-    language,
-    fetchingFlow,
-    definition,
-    issues,
-    nodes,
-    languages,
-    scrollToAction,
-    scrollToNode
-  };
-};
-
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-  bindActionCreators(
-    {
-      fetchFlow,
-      loadFlowDefinition,
-      createNewRevision,
-      mergeEditorState,
-      onOpenNodeEditor,
-      updateTranslationFilters,
-      onUpdateLocalizations,
-      reset
-    },
-    dispatch
-  );
-
-export const ConnectedFlowEditor = connect(mapStateToProps, mapDispatchToProps)(FlowEditor);
 
 export default FlowEditorContainer;
