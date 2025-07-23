@@ -14,7 +14,7 @@
 		"--hostname=floweditor"
 	],
 	"remoteUser": "node",
-	"postCreateCommand": "sudo chown node /workspaces/floweditor && sudo rm -R node_modules && yarn install",
+	"postCreateCommand": "sudo chown node /workspaces/floweditor && sudo rm -Rf node_modules && yarn install",
 	"customizations": {
 		"vscode": {
 			"settings": {
