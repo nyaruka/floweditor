@@ -16,7 +16,6 @@ interface QuickReply {
 
 interface MsgProps {
   text: string;
-  uuid: string;
   urn: string;
   attachments?: string[];
   quick_replies?: QuickReply[];
@@ -39,10 +38,10 @@ interface ClassifierEntity {
 }
 
 export interface EventProps {
-  step_uuid: string;
-  uuid?: string;
-  created_on?: string;
-  type?: string;
+  uuid: string;
+  type: string;
+  created_on: string;
+  step_uuid?: string;
   field?: { key: string; name: string };
   field_uuid?: string;
   result_name?: string;
@@ -79,8 +78,10 @@ export interface EventProps {
 }
 
 interface FlowEvent {
-  step_uuid: string;
+  uuid: string;
   type: string;
+  created_on: string;
+  step_uuid?: string;
 }
 
 interface AirtimeTransferEvent extends FlowEvent {

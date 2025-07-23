@@ -3,7 +3,7 @@ import * as React from 'react';
 import LogEvent, { EventProps } from './LogEvent';
 
 const commonEventProps: EventProps = {
-  uuid: '51e6f864-a16f-4be7-839f-945afc857559',
+  uuid: '019838b3-c982-7adc-a11b-c39e57005264',
   step_uuid: '6de81ff6-f541-4099-8ad7-03214d15b07d',
   created_on: '2020-01-29T10:43:30.123456789Z'
 };
@@ -124,6 +124,7 @@ describe(LogEvent.name, () => {
   });
   it('should render input_labels_added event', () => {
     testEventRender({
+      uuid: '019838b3-c982-7adc-a11b-c39e57005264',
       type: 'input_labels_added',
       labels: [
         { uuid: '3a3e061e-dad5-4454-88e4-ccbd0ef0e475', name: 'Spam' },
@@ -136,7 +137,6 @@ describe(LogEvent.name, () => {
     testEventRender({
       type: 'ivr_created',
       msg: {
-        uuid: 'c166c2cb-290c-4805-a5af-052ad2858288',
         urn: 'tel:+1123456789',
         text: 'Thanks for getting in touch',
         attachments: ['image/jpeg:http://temba.io/test.wav']
@@ -148,7 +148,6 @@ describe(LogEvent.name, () => {
     testEventRender({
       type: 'msg_created',
       msg: {
-        uuid: 'c166c2cb-290c-4805-a5af-052ad2858288',
         urn: 'tel:+1123456789',
         text: 'Hi there',
         attachments: ['image/jpeg:http://temba.io/test.jpg']
@@ -160,7 +159,6 @@ describe(LogEvent.name, () => {
     testEventRender({
       type: 'msg_received',
       msg: {
-        uuid: 'c166c2cb-290c-4805-a5af-052ad2858288',
         urn: 'tel:+1123456789',
         text: 'Thanks for getting in touch',
         attachments: ['image/jpeg:http://temba.io/test.jpg']
