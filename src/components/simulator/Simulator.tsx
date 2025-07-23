@@ -490,11 +490,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       const now = new Date().toISOString();
 
       const msgInEvt: any = {
+        uuid: createUUID(),
         type: 'msg_received',
         created_on: now,
         msg: {
           text,
-          uuid: createUUID(),
           urn: this.state.contact.urns[0],
           attachments: attachment ? [attachment] : []
         }
