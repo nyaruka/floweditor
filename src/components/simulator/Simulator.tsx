@@ -440,7 +440,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       },
       () => {
         const body: any = {
-          contact: this.state.contact,
+          contact: contact,
           flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
           trigger: {
             type: 'manual',
