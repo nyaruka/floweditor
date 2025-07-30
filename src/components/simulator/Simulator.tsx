@@ -436,11 +436,12 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         drawerOpen: false,
         attachmentOptionsVisible: false,
         events: [],
-        segments: []
+        segments: [],
+        contact: contact
       },
       () => {
         const body: any = {
-          contact: contact,
+          contact: this.state.contact,
           flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
           trigger: {
             type: 'manual',
