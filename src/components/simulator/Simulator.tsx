@@ -325,6 +325,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
   }
 
   private updateRunContext(runContext: RunContext, msgEvt?: any): void {
+    // Ensure events is always an array to prevent null/undefined errors
+    if (!runContext.events) {
+      runContext.events = [];
+    }
+    
     const wasJustActive = this.state.active || (runContext.events && runContext.events.length > 0);
     this.setState({ quickReplies: [] }, () => {
       // if session is waiting, find the wait event
@@ -518,16 +523,18 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           this.updateRunContext(response.data as RunContext, msgInEvt);
         })
         .catch(error => {
-          if (error.response.status) {
+          if (error.response && error.response.status) {
           }
           const events = update(this.state.events, {
             $push: [
               {
                 type: 'error',
                 text:
-                  error.response.status > 499
+                  error.response && error.response.status > 499
                     ? 'Server error, try again later'
-                    : error.response.data.error
+                    : error.response && error.response.data && error.response.data.error
+                    ? error.response.data.error
+                    : 'An error occurred'
               } as any
             ]
           }) as EventProps[];
