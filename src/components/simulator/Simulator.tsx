@@ -350,7 +350,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             $push: [
               {
                 type: 'info',
-                text: i18n.t('simulator.flow_exited', 'Exited flow'),
+                text: i18n.t('simulator.run_ended', 'Exited flow'),
                 created_on: new Date()
               } as any
             ]
