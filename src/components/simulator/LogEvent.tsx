@@ -457,10 +457,15 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         break;
       case 'webhook_called':
         return this.renderWebhook(Types.call_webhook);
-      case 'flow_entered': // deprecated
       case 'run_started':
         return renderInfo(
           i18n.t('simulator.run_started', 'Entered flow "[[flow]]"', {
+            flow: this.props.flow.name
+          })
+        );
+      case 'run_ended':
+        return renderInfo(
+          i18n.t('simulator.run_ended', 'Exited flow "[[flow]]"', {
             flow: this.props.flow.name
           })
         );

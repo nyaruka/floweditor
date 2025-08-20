@@ -471,7 +471,7 @@
     "contact_name_changed": "Définir le nom du contact sur \"[[name]]\"",
     "contact_status_changed": "Définir le statut sur \"[[status]]\"",
     "run_started": "Flux entré \"[[flow]]\"",
-    "run_ended": "Exited flow",
+    "run_ended": "Exited flow \"[[flow]]\"",
     "httplog_dialog": "Détails de la requête HTTP",
     "input_labels_added": "Message labeled with",
     "label": "Run in Simulator",

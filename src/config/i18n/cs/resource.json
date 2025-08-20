@@ -471,7 +471,7 @@
     "contact_name_changed": "Nastavit jméno kontaktu na \"[[name]]\".",
     "contact_status_changed": "Nastavit stav na \"[[status]]\"",
     "run_started": "Zadaný tok \"[[flow]]\"",
-    "run_ended": "Zadaný tok",
+    "run_ended": "Ukončený tok \"[[flow]]\"",
     "httplog_dialog": "Podrobnosti požadavku HTTP",
     "input_labels_added": "Zpráva označená",
     "label": "Spustit v simulátoru",
