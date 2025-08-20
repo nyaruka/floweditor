@@ -325,7 +325,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
   }
 
   private updateRunContext(runContext: RunContext, msgEvt?: any): void {
-    const wasJustActive = this.state.active || (runContext.events && runContext.events.length > 0);
     this.setState({ quickReplies: [] }, () => {
       // if session is waiting, find the wait event
       let waiting = runContext.session.status === 'waiting';
@@ -345,17 +344,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
       this.updateEvents(runContext.events, runContext.session, () => {
         let newEvents = this.state.events;
-        if (!waiting && wasJustActive) {
-          newEvents = update(this.state.events, {
-            $push: [
-              {
-                type: 'info',
-                text: i18n.t('simulator.run_ended', 'Exited flow'),
-                created_on: new Date()
-              } as any
-            ]
-          }) as EventProps[];
-        }
 
         const waitingForHint = waitEvent && waitEvent.hint !== undefined;
 

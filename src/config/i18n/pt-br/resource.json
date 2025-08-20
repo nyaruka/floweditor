@@ -471,7 +471,7 @@
     "contact_name_changed": "Configurar nome do contato para \"[[name]]\"",
     "contact_status_changed": "Configurar status para \"[[status]]\"",
     "run_started": "Entrou no fluxo \"[[flow]]\"",
-    "run_ended": "Saiu do fluxo",
+    "run_ended": "Saiu do fluxo \"[[flow]]\"",
     "httplog_dialog": "Detalhes da solicitação HTTP",
     "input_labels_added": "Mensagem marcada com",
     "label": "Rodar no Simulador",
