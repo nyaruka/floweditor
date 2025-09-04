@@ -53,6 +53,12 @@ export default class RequestOptInForm extends React.PureComponent<
     };
 
     const updated = mergeForm(this.state, updates);
+
+    // don't allow unresolved arbitrary options
+    if (selected && (selected as any).arbitrary) {
+      updated.valid = false;
+    }
+
     this.setState(updated);
     return updated.valid;
   }

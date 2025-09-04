@@ -106,8 +106,14 @@ export default class UpdateContactForm extends React.Component<
       updates.status = { value: keys.status };
     }
 
+    let unresolved = false;
     if (keys.hasOwnProperty('field')) {
-      updates.field = { value: keys.field };
+      if ((keys.field as any).arbitrary) {
+        unresolved = true;
+      }
+      updates.field = validate(i18n.t('forms.contact_field', 'Contact Field'), keys.field, [
+        shouldRequireIf(submitting)
+      ]);
     }
 
     if (keys.hasOwnProperty('fieldValue')) {
@@ -115,6 +121,8 @@ export default class UpdateContactForm extends React.Component<
     }
 
     const updated = mergeForm(this.state, updates);
+    updated.valid = updated.valid && !unresolved;
+
     this.setState(updated);
     return updated.valid;
   }

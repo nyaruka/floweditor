@@ -45,6 +45,10 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
     };
 
     const updated = mergeForm(this.state, updates);
+
+    // make sure we don't have any unresolved arbitrary options
+    updated.valid = updated.valid && !groups.find(group => (group as any).arbitrary);
+
     this.setState(updated);
     return updated.valid;
   }

@@ -52,7 +52,9 @@ export default class AddLabelsForm extends React.PureComponent<
       labels: validate(i18n.t('forms.labels', 'Labels'), selected, [shouldRequireIf(submitting)])
     };
 
+    const unresolved = selected.find(label => (label as any).arbitrary);
     const updated = mergeForm(this.state, updates);
+    updated.valid = updated.valid && !unresolved;
     this.setState(updated);
     return updated.valid;
   }
