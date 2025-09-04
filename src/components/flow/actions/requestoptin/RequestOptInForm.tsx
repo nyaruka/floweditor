@@ -13,6 +13,7 @@ import { Trans } from 'react-i18next';
 import { renderIssues } from '../helpers';
 import { initializeForm, stateToAction } from './helpers';
 import TembaSelectElement from 'temba/TembaSelectElement';
+import { createUUID } from 'utils';
 
 export interface RequestOptInFormState extends FormState {
   optin: any;
@@ -68,7 +69,7 @@ export default class RequestOptInForm extends React.PureComponent<
   }
 
   public handleCreateAssetFromInput(input: string): any {
-    return { name: input };
+    return { name: input, uuid: createUUID() };
   }
 
   public render(): JSX.Element {
