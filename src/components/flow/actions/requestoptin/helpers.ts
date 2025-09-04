@@ -26,7 +26,7 @@ export const stateToAction = (
   const result = {
     type: Types.request_optin,
     optin: formState.optin.value,
-    uuid: getActionUUID(settings, Types.add_input_labels)
+    uuid: getActionUUID(settings, Types.request_optin)
   };
   return result;
 };
