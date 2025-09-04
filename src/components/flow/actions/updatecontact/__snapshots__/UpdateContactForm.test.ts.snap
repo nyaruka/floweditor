@@ -217,6 +217,7 @@ Object {
     },
   },
   "field": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "channel",
       "name": "Channel",
@@ -272,6 +273,7 @@ Object {
     "value": null,
   },
   "field": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "birthday",
       "name": "Birthday",
@@ -319,6 +321,7 @@ Object {
     "value": null,
   },
   "field": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "language",
       "name": "Language",
@@ -362,6 +365,7 @@ Object {
     "value": null,
   },
   "field": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "status",
       "name": "Status",
@@ -413,6 +417,7 @@ Object {
     },
   },
   "field": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "channel",
       "name": "Channel",
@@ -455,6 +460,7 @@ Object {
     "value": null,
   },
   "field": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "birthday",
       "name": "Birthday",
@@ -498,6 +504,7 @@ Object {
     "value": null,
   },
   "field": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "language",
       "name": "Language",
@@ -541,6 +548,7 @@ Object {
     "value": null,
   },
   "field": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "name",
       "name": "Name",
@@ -584,6 +592,7 @@ Object {
     "value": null,
   },
   "field": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "status",
       "name": "Status",
@@ -632,6 +641,7 @@ Object {
     "value": null,
   },
   "field": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "channel",
       "name": "Channel",
