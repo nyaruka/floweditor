@@ -218,6 +218,21 @@ export const setupStore = ({
       },
       flowDefinition: null,
       flowInfo: null,
+      
+      // Editor state from Redux
+      editorState: null,
+      
+      // Flow context from Redux  
+      flowNodes: {},
+      flowMetadata: null,
+      assetStore: null,
+      flowIssues: {},
+      
+      // Node editor state from Redux
+      nodeEditorSettings: null,
+      nodeEditorTypeConfig: null,
+      userAddingAction: false,
+      
       setFlowInfo: (info: FlowInfo) => {},
       setFlowContents: (contents: FlowContents) => {},
       setLanguageCode: (code: string) => {},
@@ -228,7 +243,22 @@ export const setupStore = ({
         return result || null;
       },
       updateCanvasPositions: (positions: any) => {},
-      removeNodes: (uuids: string[]) => {}
+      removeNodes: (uuids: string[]) => {},
+      
+      // Editor state management
+      updateEditorState: (changes: any) => {},
+      
+      // Flow context management
+      updateFlowDefinition: (definition: any) => {},
+      updateFlowNodes: (nodes: any) => {},
+      updateAssetStore: (assetStore: any) => {},
+      updateFlowIssues: (issues: any) => {},
+      updateFlowMetadata: (metadata: any) => {},
+      
+      // Node editor management
+      updateNodeEditorSettings: (settings: any) => {},
+      updateNodeEditorTypeConfig: (typeConfig: any) => {},
+      updateUserAddingAction: (userAddingAction: boolean) => {}
     };
     return state;
   });
