@@ -142,7 +142,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       const renderNode = this.props.nodes[node_uuid];
 
       // check for router level translations
-      if (renderNode.node.router && this.state.translationFilters.categories) {
+      if (renderNode.node.router) {
         const typeConfig = getTypeConfig(getType(renderNode));
 
         let translations: Translation[] = [];
