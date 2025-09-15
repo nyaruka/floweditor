@@ -142,35 +142,37 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       const renderNode = this.props.nodes[node_uuid];
 
       // check for router level translations
-      if (renderNode.node.router && this.state.translationFilters.categories) {
-        const typeConfig = getTypeConfig(getType(renderNode));
-
-        let translations: Translation[] = [];
+      if (renderNode.node.router) {
         if (this.state.translationFilters.categories) {
-          const localizeableKeys = ['name'];
-          renderNode.node.router.categories.forEach((category: Category) => {
-            translations.push(
-              ...findTranslations(
-                TranslationType.CATEGORY,
-                category.uuid,
-                localizeableKeys,
-                category,
-                this.props.localization
-              )
-            );
-          });
-        }
+          const typeConfig = getTypeConfig(getType(renderNode));
 
-        if (translations.length > 0) {
-          translationBundles.push({
-            typeConfig,
-            node_uuid,
-            translations,
-            translated: translations.filter((translation: Translation) => !!translation.to).length
-          });
+          let translations: Translation[] = [];
+          if (this.state.translationFilters.categories) {
+            const localizeableKeys = ['name'];
+            renderNode.node.router.categories.forEach((category: Category) => {
+              translations.push(
+                ...findTranslations(
+                  TranslationType.CATEGORY,
+                  category.uuid,
+                  localizeableKeys,
+                  category,
+                  this.props.localization
+                )
+              );
+            });
+          }
+
+          if (translations.length > 0) {
+            translationBundles.push({
+              typeConfig,
+              node_uuid,
+              translations,
+              translated: translations.filter((translation: Translation) => !!translation.to).length
+            });
+          }
         }
       } else {
-        // find attributes from each action
+        // if no router, find attributes from each action
         renderNode.node.actions.forEach((action: Action) => {
           const typeConfig = getTypeConfig(action.type);
           const translations = findTranslations(
