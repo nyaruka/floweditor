@@ -170,27 +170,29 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
           });
         }
       } else {
-        // find attributes from each action
-        renderNode.node.actions.forEach((action: Action) => {
-          const typeConfig = getTypeConfig(action.type);
-          const translations = findTranslations(
-            TranslationType.PROPERTY,
-            action.uuid,
-            typeConfig.localizeableKeys || [],
-            action,
-            this.props.localization
-          );
+        if (renderNode.node.actions && renderNode.node.actions.length > 0) {
+          // find attributes from each action
+          renderNode.node.actions.forEach((action: Action) => {
+            const typeConfig = getTypeConfig(action.type);
+            const translations = findTranslations(
+              TranslationType.PROPERTY,
+              action.uuid,
+              typeConfig.localizeableKeys || [],
+              action,
+              this.props.localization
+            );
 
-          if (translations.length > 0) {
-            translationBundles.push({
-              typeConfig,
-              node_uuid,
-              action_uuid: action.uuid,
-              translations,
-              translated: translations.filter((translation: Translation) => !!translation.to).length
-            });
-          }
-        });
+            if (translations.length > 0) {
+              translationBundles.push({
+                typeConfig,
+                node_uuid,
+                action_uuid: action.uuid,
+                translations,
+                translated: translations.filter((translation: Translation) => !!translation.to).length
+              });
+            }
+          });
+        }
       }
     });
 
