@@ -147,20 +147,19 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
           const typeConfig = getTypeConfig(getType(renderNode));
 
           let translations: Translation[] = [];
-          if (this.state.translationFilters.categories) {
-            const localizeableKeys = ['name'];
-            renderNode.node.router.categories.forEach((category: Category) => {
-              translations.push(
-                ...findTranslations(
-                  TranslationType.CATEGORY,
-                  category.uuid,
-                  localizeableKeys,
-                  category,
-                  this.props.localization
-                )
-              );
-            });
-          }
+
+          const localizeableKeys = ['name'];
+          renderNode.node.router.categories.forEach((category: Category) => {
+            translations.push(
+              ...findTranslations(
+                TranslationType.CATEGORY,
+                category.uuid,
+                localizeableKeys,
+                category,
+                this.props.localization
+              )
+            );
+          });
 
           if (translations.length > 0) {
             translationBundles.push({
