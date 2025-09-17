@@ -18,22 +18,8 @@ import { getType, getTypeConfig } from 'config/typeConfigs';
 import { AnyAction, Exit, FlowNode, FlowIssue } from 'flowTypes';
 import * as React from 'react';
 import FlipMove from 'react-flip-move';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { DebugState } from 'store/editor';
 import { RenderNode } from 'store/flowContext';
-import AppState from 'store/state';
-import {
-  DispatchWithState,
-  MergeEditorState,
-  mergeEditorState,
-  OnAddToNode,
-  onAddToNode,
-  OnOpenNodeEditor,
-  onOpenNodeEditor,
-  RemoveNode,
-  removeNode
-} from 'store/thunks';
 import { ClickHandler, createClickHandler } from 'utils';
 
 import styles from './Node.module.scss';
@@ -70,10 +56,6 @@ export interface NodeStoreProps {
   debug: DebugState;
   renderNode: RenderNode;
   issues: FlowIssue[];
-  onAddToNode: OnAddToNode;
-  onOpenNodeEditor: OnOpenNodeEditor;
-  removeNode: RemoveNode;
-  mergeEditorState: MergeEditorState;
   scrollToNode: string;
   scrollToAction: string;
 }
@@ -81,13 +63,19 @@ export interface NodeStoreProps {
 export interface NodeState {
   isTranslating: boolean;
   languageCode: string;
+  // Data from TembaStore
+  activeCount: number;
+  simulating: boolean;
+  debug: DebugState;
+  renderNode: RenderNode;
+  issues: FlowIssue[];
+  scrollToNode: string;
+  scrollToAction: string;
 }
 
-export type NodeProps = NodePassedProps & NodeStoreProps;
+export type NodeProps = NodePassedProps;
 
 const cx: any = classNames.bind({ ...shared, ...styles });
-
-const EMPTY: any[] = [];
 /**
  * A single node in the rendered flow
  */
@@ -121,10 +109,34 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
       : {};
   }
 
-  public mapState(state: any): void {
+  public mapState(state: TembaAppState): void {
+    // Get render node - check ghost node first, then normal nodes
+    let renderNode: RenderNode = null;
+    
+    if (state.editorState?.ghostNode && state.editorState.ghostNode.node.uuid === this.props.nodeUUID) {
+      renderNode = state.editorState.ghostNode;
+    } else if (this.props.nodeUUID in (state.flowNodes || {})) {
+      renderNode = state.flowNodes[this.props.nodeUUID];
+    }
+
+    if (!renderNode) {
+      console.warn("Couldn't find node for " + this.props.nodeUUID);
+      return;
+    }
+
+    // Calculate activity count
+    const activeCount = state.editorState?.activity?.nodes[this.props.nodeUUID] || 0;
+    
     const changes = {
       isTranslating: state.isTranslating,
-      languageCode: state.languageCode
+      languageCode: state.languageCode,
+      activeCount,
+      simulating: state.editorState?.simulating || false,
+      debug: state.editorState?.debug,
+      renderNode,
+      issues: (state.flowIssues || {})[this.props.nodeUUID] || [],
+      scrollToNode: state.editorState?.scrollToNode,
+      scrollToAction: state.editorState?.scrollToAction
     };
 
     if (this.state) {
@@ -169,7 +181,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
   public componentDidMount(): void {
     // Make ourselves a target
-    this.props.plumberMakeTarget(this.props.renderNode.node.uuid);
+    this.props.plumberMakeTarget(this.state?.renderNode?.node.uuid || this.props.nodeUUID);
 
     // Move our drag node around as necessary
     if (this.props.ghost) {
@@ -186,11 +198,11 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     // traceUpdate(this, prevProps);
 
     // when our exits change, we need to recalculate the endpoints
-    if (!this.props.ghost) {
+    if (!this.props.ghost && this.state?.renderNode) {
       try {
-        this.props.plumberRecalculate(this.props.renderNode.node.uuid);
-        for (const exit of this.props.renderNode.node.exits) {
-          this.props.plumberRecalculate(this.props.renderNode.node.uuid + ':' + exit.uuid);
+        this.props.plumberRecalculate(this.state.renderNode?.node.uuid);
+        for (const exit of this.state.renderNode?.node.exits) {
+          this.props.plumberRecalculate(this.state.renderNode?.node.uuid + ':' + exit.uuid);
         }
       } catch (error) {
         // console.log(error);
@@ -199,7 +211,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
   }
 
   public componentWillUnmount(): void {
-    this.props.plumberRemove(this.props.renderNode.node.uuid);
+    this.props.plumberRemove(this.state?.renderNode?.node.uuid || this.props.nodeUUID);
     this.unsubscribe();
   }
 
@@ -216,30 +228,34 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
   }
 
   private handleAddToNode(): void {
-    this.props.onAddToNode(this.props.renderNode.node);
+    // TODO: Convert onAddToNode thunk to TembaStore
+    store.getState().updateNodeEditorSettings({
+      originalNode: this.state?.renderNode
+    });
   }
 
   // Applies only to router nodes;
   // ./Action/Action handles click logic for Action nodes.
   private onClick(event: React.MouseEvent<HTMLElement>): void {
-    this.props.onOpenNodeEditor({
-      originalNode: this.props.renderNode
+    store.getState().updateNodeEditorSettings({
+      originalNode: this.state?.renderNode
     });
   }
 
   private handleRemoval(event: React.MouseEvent<HTMLElement>): void {
     event.preventDefault();
     event.stopPropagation();
-    this.props.removeNode(this.props.renderNode.node);
+    // TODO: Convert removeNode thunk to TembaStore
+    store.getState().removeNodes([this.state?.renderNode?.node.uuid || this.props.nodeUUID]);
   }
 
   private getExits(): JSX.Element[] {
-    if (this.props.renderNode.node.exits) {
-      return this.props.renderNode.node.exits.map((exit: Exit, idx: number) => (
+    if (this.state?.renderNode?.node.exits) {
+      return this.state.renderNode?.node.exits.map((exit: Exit, idx: number) => (
         <ExitComp
           key={exit.uuid}
-          node={this.props.renderNode.node}
-          categories={getCategoriesForExit(this.props.renderNode, exit)}
+          node={this.state.renderNode?.node}
+          categories={getCategoriesForExit(this.state.renderNode, exit)}
           exit={exit}
           showDragHelper={this.props.onlyNode && idx === 0}
           plumberMakeSource={this.props.plumberMakeSource}
@@ -262,15 +278,15 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
   /* istanbul ignore next */
   private renderDebug(): JSX.Element {
-    if (this.props.debug) {
-      if (this.props.debug.showUUIDs) {
+    if (this.state?.debug) {
+      if (this.state.debug.showUUIDs) {
         return (
           <span
-            id={`uuid-${this.props.renderNode.node.uuid}`}
+            id={`uuid-${this.state.renderNode?.node.uuid}`}
             onClick={this.handleUUIDClicked}
             className={styles.uuid}
           >
-            {this.props.renderNode.node.uuid}
+            {this.state.renderNode?.node.uuid}
           </span>
         );
       }
@@ -281,19 +297,19 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     const actions: JSX.Element[] = [];
 
     let actionList: JSX.Element = null;
-    if (this.props.renderNode.node.actions) {
+    if (this.state.renderNode?.node.actions) {
       // Save the first reference off to manage our clicks
       let firstRef: { ref: (ref: any) => any } | {} = {
         ref: (ref: any) => (this.firstAction = ref)
       };
 
-      getVisibleActions(this.props.renderNode).forEach((action: AnyAction, idx: number) => {
+      getVisibleActions(this.state.renderNode).forEach((action: AnyAction, idx: number) => {
         const actionConfig = getTypeConfig(action.type);
 
         const issues: FlowIssue[] = filterIssuesForAction(
           this.props.nodeUUID,
           action,
-          this.props.issues
+          this.state.issues
         );
 
         if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
@@ -306,7 +322,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
             <ActionWrapper
               {...firstRef}
               key={action.uuid}
-              renderNode={this.props.renderNode}
+              renderNode={this.state.renderNode}
               selected={this.props.selected}
               action={action}
               first={idx === 0}
@@ -334,19 +350,19 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     let summary: JSX.Element = null;
 
     // Router node display logic
-    const type = getType(this.props.renderNode);
+    const type = getType(this.state.renderNode);
     if (type !== Types.execute_actions) {
       const config = getTypeConfig(type);
       let title: string = config.name;
 
-      const switchRouter = getSwitchRouter(this.props.renderNode.node);
+      const switchRouter = getSwitchRouter(this.state.renderNode?.node);
       if (switchRouter) {
-        if (type === Types.split_by_contact_field && this.props.renderNode.ui.config.operand.name) {
-          title = `Split by ${this.props.renderNode.ui.config.operand.name}`;
+        if (type === Types.split_by_contact_field && this.state.renderNode?.ui.config.operand.name) {
+          title = `Split by ${this.state.renderNode?.ui.config.operand.name}`;
         }
       }
 
-      const resultName = getResultName(this.props.renderNode.node);
+      const resultName = getResultName(this.state.renderNode?.node);
       if (resultName) {
         summary = (
           <div {...this.events} className={styles.save_result}>
@@ -361,7 +377,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         (type === Types.split_by_run_result || type === Types.split_by_run_result_delimited)
       ) {
         title = `Split by ${
-          store.getState().getResultByKey(this.props.renderNode.ui.config.operand.id).name
+          store.getState().getResultByKey(this.state.renderNode?.ui.config.operand.id).name
         }`;
       }
 
@@ -369,7 +385,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         title = config.name;
       }
 
-      if (!this.props.renderNode.node.actions?.length) {
+      if (!this.state.renderNode?.node.actions?.length) {
         // Router headers are introduced here while action headers are introduced in ./Action/Action
         header = (
           // Wrap in a relative parent so it honors node clipping
@@ -378,7 +394,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
               <TitleBar
                 __className={
                   (shared as any)[
-                    hasIssues(this.props.issues, this.state.isTranslating, this.state.languageCode)
+                    hasIssues(this.state.issues, this.state.isTranslating, this.state.languageCode)
                       ? 'missing'
                       : config.type
                   ]
@@ -426,13 +442,13 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
         {uuid}
         <Counter
-          count={this.props.activeCount}
+          count={this.state.activeCount}
           containerStyle={styles.active}
           countStyle={''}
-          keepVisible={this.props.simulating}
+          keepVisible={this.state.simulating}
           onClick={() => {
             if (this.context.config.onActivityClicked) {
-              this.context.config.onActivityClicked(this.props.nodeUUID, this.props.activeCount);
+              this.context.config.onActivityClicked(this.props.nodeUUID, this.state.activeCount);
             }
           }}
         />
@@ -454,13 +470,13 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
     const renderedNode = (
       <div
-        id={this.props.renderNode.node.uuid}
+        id={this.state.renderNode?.node.uuid}
         className={`${styles.node_container} ${classes}`}
         ref={this.eleRef}
       >
-        {!this.props.scrollToAction &&
-        this.props.scrollToNode &&
-        this.props.scrollToNode === this.props.nodeUUID ? (
+        {!this.state.scrollToAction &&
+        this.state.scrollToNode &&
+        this.state.scrollToNode === this.props.nodeUUID ? (
           <MountScroll pulseAfterScroll={true}>{body}</MountScroll>
         ) : (
           body
@@ -471,55 +487,6 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
   }
 }
 
-const mapStateToProps = (
-  {
-    flowContext: { nodes, issues },
-    editorState: { debug, ghostNode, simulating, activity, scrollToAction, scrollToNode }
-  }: AppState,
-  props: NodePassedProps
-) => {
-  let renderNode: RenderNode = null;
-
-  // if we match our ghost node use that
-  if (ghostNode && ghostNode.node.uuid === props.nodeUUID) {
-    renderNode = ghostNode;
-  }
-
-  // otherwise look up our node from the list
-  else if (props.nodeUUID in nodes) {
-    renderNode = nodes[props.nodeUUID];
-  }
-
-  if (!renderNode) {
-    throw Error("Couldn't find node for " + props.nodeUUID);
-  }
-
-  const activeCount = activity.nodes[props.nodeUUID] || 0;
-
-  // only set our scroll flags if they affect us
-  const scrollNode = scrollToNode && scrollToNode === props.nodeUUID ? scrollToNode : null;
-  const scrollAction = scrollToAction && scrollNode ? scrollToAction : null;
-
-  return {
-    issues: (issues || {})[props.nodeUUID] || EMPTY,
-    activeCount,
-    debug,
-    renderNode,
-    simulating,
-    scrollToNode: scrollNode,
-    scrollToAction: scrollAction
-  };
-};
-
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-  bindActionCreators(
-    {
-      onAddToNode,
-      onOpenNodeEditor,
-      removeNode,
-      mergeEditorState
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(NodeComp);
+export default React.forwardRef<any, NodePassedProps>((props, ref) => (
+  <NodeComp {...props} ref={ref} />
+));
