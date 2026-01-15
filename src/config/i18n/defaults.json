@@ -182,7 +182,7 @@
     "add_groups_summary": "Select the groups to add the contact to.",
     "add_labels_summary": "Select the labels to apply to the incoming message.",
     "add_quick_reply": "Add a new Quick Reply and press enter.",
-    "add_urn_summary": "Add a new URN to reach the contact such as a phone number.",
+    "add_urn_summary": "Add a new URN to reach the contact such as a phone number. As long as it isn't already used by another contact, it will be added.",
     "advanced": "Advanced",
     "all_destinations": "All Destinations",
     "all_destinations_description": "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked.",

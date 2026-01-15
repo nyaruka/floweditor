@@ -75,7 +75,8 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <p data-spec={controlLabelSpecId}>
           <Trans i18nKey="forms.add_urn_summary">
-            Add a new URN to reach the contact such as a phone number.
+            Add a new URN to reach the contact such as a phone number. As long as it isn't already
+            used by another contact, it will be added.
           </Trans>
         </p>
         <div style={{ display: 'flex', alignItems: 'flex-end' }}>
