@@ -27,10 +27,16 @@ jobs:
         yarn test
       env:
         CI: true
-    - name: Publish
+    - name: Setup Node.js and upgrade npm
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - name: Upgrade npm to latest (requires 9.5.0+ for provenance)
       run: |
-        npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
-        npm publish
-      env:
-        CI: true
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        echo "Current npm version:"
+        npm --version
+        npm install -g npm@latest
+        echo "Updated npm version:"
+        npm --version
+    - name: Publish to NPM
+      run: npm publish --provenance --access public
