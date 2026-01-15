@@ -55,7 +55,7 @@ exports[`AddURNForm renders 1`] = `
         <p
           data-spec="label"
         >
-          Add a new URN to reach the contact such as a phone number.
+          Add a new URN to reach the contact such as a phone number. As long as it isn't already used by another contact, it will be added.
         </p>
         <div
           style="display: flex; align-items: flex-end;"
