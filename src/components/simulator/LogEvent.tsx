@@ -114,10 +114,10 @@ const renderWarning = (warning: string): JSX.Element => {
   );
 };
 
-const renderError = (error: string): JSX.Element => {
+const renderError = (text: string): JSX.Element => {
   return (
     <div className={styles.error}>
-      <span>Error: {error}</span>
+      <span>{text}</span>
     </div>
   );
 };

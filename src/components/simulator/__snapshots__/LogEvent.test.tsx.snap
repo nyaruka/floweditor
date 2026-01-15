@@ -183,7 +183,6 @@ exports[`LogEvent should render error event 1`] = `
         class="error"
       >
         <span>
-          Error: 
           I'm an error
         </span>
       </div>
@@ -202,7 +201,6 @@ exports[`LogEvent should render failure event 1`] = `
         class="error"
       >
         <span>
-          Error: 
           I'm a failure
         </span>
       </div>
